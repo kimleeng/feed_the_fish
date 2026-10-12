@@ -1,0 +1,21 @@
+{
+  "name": "feed-the-fish",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --experimental-strip-types --test tests/simulation.test.ts",
+    "test:browser": "playwright test",
+    "check:running": "node scripts/check-running-game.mjs"
+  },
+  "dependencies": { "phaser": "3.90.0" },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "@types/node": "24.19.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.4"
+  }
+}
