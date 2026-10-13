@@ -1,6 +1,7 @@
 import './styles.css';
 import { createPond, type PondScene, type PondState } from './game.ts';
 import { SPECIES } from './simulation.ts';
+import { animalAtlas, animalFrame } from './appearance.ts';
 import { COIN_PRICE, THROWS_PER_COIN, type VendingPhase } from './vending.ts';
 
 const element = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -18,8 +19,7 @@ function updateBest(): void { element('best-score').textContent = best > 0 ? 'Mo
 updateBest();
 
 element('species-grid').innerHTML = SPECIES.map(profile =>
-  '<article class="species-card"><div class="species-art ' + profile.texture + '" style="--sprite-row:' +
-  ['koi', 'carp', 'duck', 'gull'].indexOf(profile.texture) + '"></div><div class="species-kind">' +
+  '<article class="species-card"><img class="species-art" data-species="' + profile.id + '" alt=""><div class="species-kind">' +
   (profile.kind === 'fish' ? 'LISTENS FOR THE SPLASH' : 'WATCHES THE THROW') +
   '</div><h3>' + profile.name + '</h3><p>' + profile.description +
   '</p><div class="species-traits"><span>PACE <strong>' +
@@ -44,6 +44,13 @@ element('close-machine').addEventListener('click', closeMachine);
 element('insert-coin').addEventListener('click', () => { pond.buyPellets(); });
 machine.addEventListener('cancel', event => { if (pond.world.machine.busy) event.preventDefault(); });
 document.addEventListener('pond:ready', openMachine);
+document.addEventListener('pond:ready', event => {
+  const scene = (event as CustomEvent<PondScene>).detail;
+  for (const profile of SPECIES) {
+    const portrait = document.querySelector<HTMLImageElement>('[data-species="' + profile.id + '"]')!;
+    portrait.src = scene.textures.getBase64(animalAtlas(profile.kind), animalFrame(profile.texture, 'e'));
+  }
+});
 document.addEventListener('pond:needs-food', openMachine);
 document.addEventListener('pond:dispensed', () => {
   machine.close();

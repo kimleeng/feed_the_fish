@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import { PondSimulation, THROW_ORIGIN, inPond, type Point } from './simulation.ts';
+import { PondSimulation, POND, THROW_ORIGIN, inPond, type Point } from './simulation.ts';
+import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
 import type { VendingPhase } from './vending.ts';
 
 export interface PondState {
@@ -11,7 +12,12 @@ export interface PondState {
 export class PondScene extends Phaser.Scene {
   world = new PondSimulation();
   private creatures = new Map<number, Phaser.GameObjects.Sprite>();
+  private directions = new Map<number, Direction>();
   private pellets = new Map<number, Phaser.GameObjects.Rectangle>();
+  private waterMask!: Phaser.Display.Masks.GeometryMask;
+  private fishLayer!: Phaser.GameObjects.Container;
+  private birdWakes!: Phaser.GameObjects.Graphics;
+  private waterShimmer!: Phaser.GameObjects.Graphics;
   private cursor!: Phaser.GameObjects.Arc;
   private throwHand!: Phaser.GameObjects.Image;
   private lastPoint: Point = { x: 600, y: 389 };
@@ -24,7 +30,8 @@ export class PondScene extends Phaser.Scene {
   preload(): void {
     this.load.image('pond-art', '/art/pond.png');
     this.load.image('hand-art', '/art/hand.png');
-    this.load.atlas('animals', '/art/animals.png', '/art/animals.json');
+    this.load.atlas('fish-swimmers', '/art/fish-swimmers.png', '/art/fish-swimmers.json');
+    this.load.atlas('bird-swimmers', '/art/bird-swimmers.png', '/art/bird-swimmers.json');
     this.load.on('loaderror', () => {
       document.querySelector('#loading p')!.textContent = 'The artwork could not load. Please refresh to try again.';
     });
@@ -32,9 +39,7 @@ export class PondScene extends Phaser.Scene {
 
   create(): void {
     this.add.image(600, 400, 'pond-art').setDisplaySize(1200, 800);
-    for (const texture of ['koi', 'carp', 'duck', 'gull']) {
-      this.anims.create({ key: texture + '-swim', frames: [0, 1, 2, 1].map(i => ({ key: 'animals', frame: texture + '-' + i })), frameRate: 4, repeat: -1 });
-    }
+    this.createWaterSurface();
     this.spawnCreatures();
     this.throwHand = this.add.image(THROW_ORIGIN.x, 806, 'hand-art').setOrigin(0.5, 1).setDisplaySize(100, 150).setDepth(55);
     this.cursor = this.add.circle(600, 390, 16).setStrokeStyle(1, 0xfff7d4, 0.6).setDepth(80).setVisible(false);
@@ -47,18 +52,34 @@ export class PondScene extends Phaser.Scene {
     this.ready = true;
     document.querySelector('#loading')!.setAttribute('hidden', '');
     this.publishHud();
-    document.dispatchEvent(new CustomEvent('pond:ready'));
+    document.dispatchEvent(new CustomEvent('pond:ready', { detail: this }));
+  }
+
+  private createWaterSurface(): void {
+    const bounds = this.add.graphics().setVisible(false);
+    bounds.fillStyle(0xffffff).fillEllipse(POND.x, POND.y, POND.rx * 2, POND.ry * 2);
+    this.waterMask = bounds.createGeometryMask();
+    // Mask containers so Canvas clipping preserves the individual sprites' opacity.
+    this.fishLayer = this.add.container(0, 0).setName('fish-layer').setDepth(10).setMask(this.waterMask);
+    // Repaint the pond's own reflections over the fish, keeping the banks untouched.
+    const reflections = this.add.image(600, 400, 'pond-art').setDisplaySize(1200, 800);
+    this.add.container(0, 0, [reflections])
+      .setName('water-surface').setDepth(20).setAlpha(0.33).setMask(this.waterMask);
+    this.waterShimmer = this.add.graphics().setName('water-shimmer').setDepth(20.1).setMask(this.waterMask);
+    this.birdWakes = this.add.graphics().setName('bird-wakes').setDepth(26).setMask(this.waterMask);
   }
 
   private spawnCreatures(): void {
     for (const animal of this.world.animals) {
       const profile = animal.profile;
-      const sprite = this.add.sprite(animal.x, animal.y, 'animals', profile.texture + '-0')
+      const direction = directionForHeading(animal.heading);
+      const sprite = this.add.sprite(animal.x, animal.y, animalAtlas(profile.kind), animalFrame(profile.texture, direction))
+        .setName('animal-' + animal.id)
         .setDisplaySize(profile.size, profile.size).setTint(profile.tint)
-        .setDepth(profile.kind === 'fish' ? 10 : 30).setAlpha(profile.kind === 'fish' ? 0.78 : 1);
-      sprite.play(profile.texture + '-swim');
-      sprite.anims.timeScale = profile.kind === 'fish' ? profile.speed / 60 : 0.65;
+        .setDepth(profile.kind === 'fish' ? 10 : 30).setAlpha(profile.kind === 'fish' ? 0.83 + animal.id % 4 * 0.025 : 1);
+      if (profile.kind === 'fish') this.fishLayer.add(sprite);
       this.creatures.set(animal.id, sprite);
+      this.directions.set(animal.id, direction);
     }
   }
 
@@ -91,7 +112,7 @@ export class PondScene extends Phaser.Scene {
   restart(): void {
     this.creatures.forEach(sprite => sprite.destroy());
     this.pellets.forEach(pellet => pellet.destroy());
-    this.creatures.clear(); this.pellets.clear();
+    this.creatures.clear(); this.directions.clear(); this.pellets.clear();
     this.world = new PondSimulation();
     this.lastServings = 0;
     this.spawnCreatures();
@@ -123,22 +144,41 @@ export class PondScene extends Phaser.Scene {
   update(time: number, delta: number): void {
     if (!this.ready) return;
     this.world.step(delta / 1000);
+    this.birdWakes.clear();
+    this.waterShimmer.clear();
+    for (let i = 0; i < 18; i++) {
+      const wave = this.world.elapsed * 0.6 + i * 2.4;
+      const x = 210 + i * 137 % 790 + Math.sin(wave) * 4;
+      const y = 220 + i * 67 % 330;
+      this.waterShimmer.fillStyle(0xc0daba, 0.08 + Math.sin(wave) * 0.025);
+      this.waterShimmer.fillRect(x, y, 13, 1.5).fillRect(x + 4, y + 4, 6, 1);
+    }
     for (const animal of this.world.animals) {
       const sprite = this.creatures.get(animal.id)!;
-      const hop = animal.profile.movement === 'hop' && !this.world.paused && animal.state !== 'chewing'
-        ? Math.max(0, Math.sin(this.world.elapsed * 3 + animal.phase)) * 3 : 0;
-      sprite.setPosition(animal.x, animal.y - hop).setFlipX(animal.facing < 0);
-      if (this.world.paused) { sprite.anims.pause(); continue; }
-      if (animal.state === 'chewing') {
-        sprite.anims.pause();
-        sprite.setFrame(animal.profile.texture + '-3');
-        sprite.setAngle(Math.sin(time / 180 + animal.id) * 1.5);
-      } else {
-        sprite.anims.resume();
-        const bank = animal.profile.movement === 'swoop' ? Math.sin(animal.heading) * 7 : 0;
-        sprite.setAngle(bank);
+      const bird = animal.profile.kind === 'bird';
+      const direction = directionForHeading(animal.heading, this.directions.get(animal.id));
+      this.directions.set(animal.id, direction);
+      const rate = animal.state === 'chewing' ? 0.6 : bird ? 1.4 : animal.profile.speed / 24;
+      const stroke = animal.moving || animal.state === 'chewing'
+        ? Math.floor(this.world.elapsed * rate + animal.phase) % 2 : 0;
+      sprite.setFrame(animalFrame(animal.profile.texture, direction, stroke));
+      const bob = bird ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
+      sprite.setPosition(animal.x, animal.y + bob).setDepth((bird ? 30 : 10) + animal.y / 1000);
+      if (bird) {
+        const size = animal.profile.size;
+        this.birdWakes.lineStyle(1, 0xc5ddc1, 0.2)
+          .strokeEllipse(animal.x, animal.y + size * 0.2, size * 0.55, size * 0.13);
+        if (animal.moving) {
+          const dx = Math.cos(animal.heading); const dy = Math.sin(animal.heading);
+          const tail = { x: animal.x - dx * size * 0.28, y: animal.y + size * 0.17 - dy * size * 0.2 };
+          for (const side of [-1, 1]) {
+            this.birdWakes.lineStyle(1.2, 0xb3d4bb, 0.17).lineBetween(tail.x, tail.y,
+              tail.x - dx * 15 - dy * side * 7, tail.y - dy * 10 + dx * side * 5);
+          }
+        }
       }
     }
+    this.fishLayer.sort('depth');
     const foodIds = new Set(this.world.food.map(food => food.id));
     this.pellets.forEach((pellet, id) => { if (!foodIds.has(id)) { pellet.destroy(); this.pellets.delete(id); } });
     for (const food of this.world.food) {

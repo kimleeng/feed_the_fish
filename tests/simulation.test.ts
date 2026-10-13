@@ -2,6 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PondSimulation, FLOAT_SECONDS, THROW_ORIGIN, flightPosition, inPond, type Food } from '../src/simulation.ts';
 import { PelletMachine } from '../src/vending.ts';
+import { DIRECTIONS, directionForHeading } from '../src/appearance.ts';
+
+test('all eight headings select a distinct view, wrap correctly, and stay stable at turn boundaries', () => {
+  for (let i = 0; i < 8; i++) {
+    assert.equal(directionForHeading(i * Math.PI / 4), DIRECTIONS[i]);
+    assert.equal(directionForHeading(i * Math.PI / 4 - Math.PI * 4), DIRECTIONS[i]);
+  }
+  assert.equal(directionForHeading(Math.PI / 8 + 0.02, 'e'), 'e');
+  assert.equal(directionForHeading(Math.PI / 8 + 0.12, 'e'), 'se');
+  assert.equal(directionForHeading(-Math.PI / 8 - 0.12, 'e'), 'ne');
+});
 
 function advance(pond: PondSimulation, seconds: number): void {
   for (let i = 0; i < Math.ceil(seconds / 0.05); i++) pond.step(0.05);
@@ -96,11 +107,26 @@ test('fish ignore nearby airborne pellets and react when those pellets land', ()
   assert.ok(pond.fishFood > 0);
 });
 
-test('a gull notices and catches an airborne pellet before any water splash', () => {
+test('swimming birds notice high airborne food and paddle toward its landing point without eating it', () => {
   const pond = new PondSimulation(5);
   const gull = pond.animals.find(animal => animal.profile.id === 'gull')!;
   const food = airFood();
-  Object.assign(gull, flightPosition(food, food.flightTime + 0.05));
+  gull.x = food.target.x - 80; gull.y = food.target.y; gull.heading = 0;
+  pond.animals = [gull]; pond.food = [food];
+  const before = gull.x;
+  pond.step(0.05);
+  assert.equal(gull.state, 'approaching');
+  assert.ok(gull.x > before);
+  assert.equal(pond.birdFood, 0);
+  assert.equal(pond.splashes.length, 0);
+});
+
+test('a swimming gull catches a low airborne pellet before any water splash', () => {
+  const pond = new PondSimulation(5);
+  const gull = pond.animals.find(animal => animal.profile.id === 'gull')!;
+  const food = airFood();
+  food.flightTime = 2.9;
+  Object.assign(gull, food.target);
   pond.animals = [gull]; pond.food = [food];
   pond.step(0.05);
   assert.equal(pond.birdFood, 1);
@@ -153,24 +179,24 @@ test('pause freezes animals and airborne food, and long visits still allow feedi
   assert.equal(pond.handfuls, 18);
 });
 
-test('koi glide, carp meander, and doves alternate hops with resting', () => {
+test('koi glide, carp meander, and coots ease between paddle strokes and continuous drifts', () => {
   const pond = new PondSimulation(9);
   const koi = pond.animals.find(animal => animal.profile.id === 'koi')!;
   const carp = pond.animals.find(animal => animal.profile.id === 'carp')!;
-  const dove = pond.animals.find(animal => animal.profile.id === 'dove')!;
-  pond.animals = [koi, carp, dove];
+  const coot = pond.animals.find(animal => animal.profile.id === 'coot')!;
+  pond.animals = [koi, carp, coot];
   for (const animal of pond.animals) { animal.x = 600; animal.y = 389; animal.heading = 0; animal.phase = 0; animal.destination = { x: 900, y: 389 }; }
-  let rests = 0; let hops = 0; let carpDeviation = 0;
+  let slowest = Infinity; let fastest = 0; let carpDeviation = 0;
   for (let i = 0; i < 160; i++) {
-    const previous = { x: dove.x, y: dove.y };
+    const previous = { x: coot.x, y: coot.y };
     pond.step(0.05);
-    if (Math.hypot(dove.x - previous.x, dove.y - previous.y) < 0.001) rests++;
-    else hops++;
+    const speed = Math.hypot(coot.x - previous.x, coot.y - previous.y) / 0.05;
+    slowest = Math.min(slowest, speed); fastest = Math.max(fastest, speed);
     carpDeviation = Math.max(carpDeviation, Math.abs(carp.y - 389));
   }
   assert.ok(Math.abs(koi.y - 389) < 0.001);
   assert.ok(carpDeviation > 3);
-  assert.ok(rests > 5 && hops > 5);
+  assert.ok(slowest > 0 && slowest < 4 && fastest > 12);
 });
 
 test('minnows stay in small moving shoals while gulls roam in broad sweeps', () => {
@@ -185,7 +211,7 @@ test('minnows stay in small moving shoals while gulls roam in broad sweeps', () 
     minX = Math.min(minX, gull.x); maxX = Math.max(maxX, gull.x);
     minY = Math.min(minY, gull.y); maxY = Math.max(maxY, gull.y);
   }
-  // A circular flight may finish close to where it started.
+  // A swimming loop may finish close to where it started.
   assert.ok(travelled > 1000 && maxX - minX > 300 && maxY - minY > 100);
   for (const school of new Set(pond.animals.filter(a => a.school >= 0).map(a => a.school))) {
     const members = pond.animals.filter(a => a.school === school);
@@ -194,7 +220,7 @@ test('minnows stay in small moving shoals while gulls roam in broad sweeps', () 
   }
 });
 
-test('repeated refills conserve food and keep fish and ducks inside the pond', () => {
+test('repeated refills conserve food and keep every swimming animal inside the pond', () => {
   const pond = new PondSimulation(11);
   for (let batch = 0; batch < 3; batch++) {
     refill(pond);
@@ -205,6 +231,6 @@ test('repeated refills conserve food and keep fish and ducks inside the pond', (
   assert.equal(pond.machine.moneyUsed, 15);
   assert.ok(pond.fishFood > 0);
   assert.ok(pond.fishFood + pond.birdFood <= 240.000001);
-  assert.ok(pond.animals.filter(a => a.profile.kind === 'fish' || a.profile.movement === 'paddle').every(inPond));
+  assert.ok(pond.animals.every(inPond));
   assert.ok(pond.fishShare >= 0 && pond.fishShare <= 1);
 });

@@ -1,4 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
+import type Phaser from 'phaser';
+import type { PondScene } from '../../src/game.ts';
+
+type InspectedWindow = Window & { inspectedPond: PondScene };
 
 async function arrive(page: Page): Promise<void> {
   await page.goto('/');
@@ -10,6 +14,106 @@ async function buy(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Insert 5 kr coin' }).click();
   await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
 }
+
+test('swimmers turn through eight views, and visible fish sit beneath the water surface', async ({ page }, testInfo) => {
+  await page.addInitScript(() => {
+    document.addEventListener('pond:ready', event => {
+      (window as InspectedWindow).inspectedPond = (event as CustomEvent<PondScene>).detail;
+    });
+  });
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  await page.waitForTimeout(500);
+  await page.screenshot({ path: testInfo.outputPath('swimming-pond.png'), fullPage: true });
+
+  const pixels = await page.evaluate(async () => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.world.paused = true;
+    const fish = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+    const water = scene.children.getByName('water-surface') as Phaser.GameObjects.Container;
+    const snapshot = async () => {
+      // Let Phaser paint the requested visibility before reading the actual canvas.
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      const canvas = scene.game.canvas;
+      return canvas.getContext('2d')!.getImageData(0, 0, canvas.width, canvas.height).data;
+    };
+    const submerged = await snapshot();
+    fish.setVisible(false);
+    const withoutFish = await snapshot();
+    fish.setVisible(true); water.setVisible(false);
+    const uncovered = await snapshot();
+    water.setVisible(true);
+    const changedPixels = (first: Uint8ClampedArray, second: Uint8ClampedArray) => {
+      let count = 0;
+      for (let i = 0; i < first.length; i += 4) {
+        if (Math.abs(first[i] - second[i]) + Math.abs(first[i + 1] - second[i + 1]) + Math.abs(first[i + 2] - second[i + 2]) > 30) count++;
+      }
+      return count;
+    };
+    return { visibleFish: changedPixels(submerged, withoutFish), waterObscuresFish: changedPixels(submerged, uncovered) };
+  });
+  expect(pixels.visibleFish).toBeGreaterThan(500);
+  expect(pixels.waterObscuresFish).toBeGreaterThan(500);
+
+  const directions = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'];
+  for (let heading = 0; heading < 8; heading++) {
+    const rendered = await page.evaluate(index => {
+      const scene = (window as InspectedWindow).inspectedPond;
+      scene.world.paused = true;
+      for (const animal of scene.world.animals) animal.heading = index * Math.PI / 4;
+      scene.update(1000, 0);
+      const surface = scene.children.getByName('water-surface') as Phaser.GameObjects.Container;
+      const fishLayer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+      return {
+        waterAlpha: surface.alpha,
+        animals: scene.world.animals.map(animal => {
+          const sprite = (animal.profile.kind === 'fish' ? fishLayer.getByName('animal-' + animal.id)
+            : scene.children.getByName('animal-' + animal.id)) as Phaser.GameObjects.Sprite;
+          return {
+            species: animal.profile.id, kind: animal.profile.kind, frame: sprite.frame.name,
+            atlas: sprite.texture.key, depth: sprite.parentContainer?.depth ?? sprite.depth, waterDepth: surface.depth,
+            alpha: sprite.alpha, masked: !!sprite.parentContainer?.mask, flipped: sprite.flipX,
+            frameExists: sprite.texture.has(sprite.frame.name),
+          };
+        }),
+      };
+    }, heading);
+    expect(rendered.waterAlpha).toBeGreaterThan(0.2);
+    expect(rendered.waterAlpha).toBeLessThan(0.5);
+    for (const animal of rendered.animals) {
+      expect(animal.frame).toMatch(new RegExp(`^${animal.species}-${directions[heading]}-[01]$`));
+      expect(animal.frameExists).toBe(true);
+      expect(animal.flipped).toBe(false);
+      if (animal.kind === 'fish') {
+        expect(animal.atlas).toBe('fish-swimmers');
+        expect(animal.depth).toBeLessThan(animal.waterDepth);
+        expect(animal.alpha).toBeGreaterThan(0.6);
+        expect(animal.masked).toBe(true);
+      } else {
+        expect(animal.atlas).toBe('bird-swimmers');
+        expect(animal.depth).toBeGreaterThan(animal.waterDepth);
+      }
+    }
+  }
+  await page.evaluate(() => { (window as InspectedWindow).inspectedPond.world.paused = false; });
+  const birdPoses = new Set<string>();
+  await expect.poll(async () => {
+    const pose = await page.evaluate(() => {
+      const scene = (window as InspectedWindow).inspectedPond;
+      const bird = scene.world.animals.find(animal => animal.profile.id === 'duck')!;
+      const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
+      return sprite.frame.name.split('-').at(-1)!;
+    });
+    birdPoses.add(pose);
+    return birdPoses.size;
+  }, { timeout: 5000 }).toBe(2);
+  await page.getByRole('button', { name: 'Field guide' }).click();
+  await expect(page.getByRole('heading', { name: 'Little coot' })).toBeVisible();
+  expect(await page.locator('.species-art').evaluateAll(images =>
+    images.every(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0))).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('swimming-field-guide.png'), fullPage: true });
+});
 
 test('the opening animates the coin and crank, grants twenty throws, and feeds an untimed pond', async ({ page }, testInfo) => {
   const errors: string[] = [];

@@ -1,7 +1,7 @@
 import { PelletMachine } from './vending.ts';
 
 export type AnimalKind = 'fish' | 'bird';
-export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'swoop' | 'hop';
+export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift';
 export interface AnimalProfile {
   id: string; name: string; kind: AnimalKind; texture: string;
   speed: number; vision: number; bite: number; chew: number; turnRate: number;
@@ -11,10 +11,10 @@ export const ANIMAL_BASELINE = { speed: 42, vision: 160, bite: 0.6, chew: 1.5, t
 export const SPECIES: AnimalProfile[] = [
   { ...ANIMAL_BASELINE, id: 'koi', name: 'Golden koi', kind: 'fish', texture: 'koi', movement: 'glide', speed: 30, bite: 1, chew: 2.6, turnRate: 1.3, size: 54, count: 12, description: 'Slow, sweeping glides. A big bite, followed by a long, contented chew.' },
   { ...ANIMAL_BASELINE, id: 'carp', name: 'Silver carp', kind: 'fish', texture: 'carp', movement: 'meander', speed: 52, vision: 190, bite: 0.65, chew: 1.5, size: 46, count: 14, description: 'Meanders in soft curves, then follows the ripples of a landing pellet.' },
-  { ...ANIMAL_BASELINE, id: 'minnow', name: 'Little minnow', kind: 'fish', texture: 'carp', movement: 'shoal', speed: 78, vision: 120, bite: 0.3, chew: 0.65, turnRate: 8, size: 30, count: 20, tint: 0xb8dfcd, description: 'Darts in little shoals. Tiny, quick, and happy with a small nibble.' },
+  { ...ANIMAL_BASELINE, id: 'minnow', name: 'Little minnow', kind: 'fish', texture: 'minnow', movement: 'shoal', speed: 78, vision: 120, bite: 0.3, chew: 0.65, turnRate: 8, size: 30, count: 20, description: 'Darts in little shoals. Tiny, quick, and happy with a small nibble.' },
   { ...ANIMAL_BASELINE, id: 'duck', name: 'Mallard', kind: 'bird', texture: 'duck', movement: 'paddle', speed: 48, vision: 230, bite: 1, chew: 2.2, size: 62, count: 6, description: 'Paddles in gentle curves and watches where the airborne crumbs will land.' },
-  { ...ANIMAL_BASELINE, id: 'gull', name: 'Cheeky gull', kind: 'bird', texture: 'gull', movement: 'swoop', speed: 115, vision: 310, bite: 1, chew: 0.9, turnRate: 5, size: 50, count: 4, description: 'Sweeps in wide circles, then swoops in to catch a pellet in the air.' },
-  { ...ANIMAL_BASELINE, id: 'dove', name: 'Garden dove', kind: 'bird', texture: 'gull', movement: 'hop', speed: 44, vision: 150, bite: 0.45, chew: 1.8, size: 38, count: 5, tint: 0xc6b3cc, description: 'Little hops and quiet pauses along the edge. Keeps an eye on every throw.' },
+  { ...ANIMAL_BASELINE, id: 'gull', name: 'Cheeky gull', kind: 'bird', texture: 'gull', movement: 'sweep', speed: 68, vision: 310, bite: 1, chew: 0.9, turnRate: 3, size: 50, count: 4, description: 'Swims in broad loops and snatches low-flying pellets as they reach the water.' },
+  { ...ANIMAL_BASELINE, id: 'coot', name: 'Little coot', kind: 'bird', texture: 'coot', movement: 'drift', speed: 38, vision: 150, bite: 0.45, chew: 1.8, size: 42, count: 5, description: 'A few quiet paddle strokes, then a gentle drift near the edge of the pond.' },
 ];
 export const POND = { x: 600, y: 389, rx: 498, ry: 230 };
 export const THROW_ORIGIN = { x: 600, y: 695 };
@@ -22,7 +22,7 @@ export const FLOAT_SECONDS = 1.7;
 export interface Point { x: number; y: number }
 export interface Animal extends Point {
   id: number; profile: AnimalProfile; destination: Point; heading: number;
-  chewLeft: number; state: 'roaming' | 'approaching' | 'chewing'; facing: number;
+  chewLeft: number; state: 'roaming' | 'approaching' | 'chewing'; moving: boolean;
   school: number; phase: number;
 }
 export interface Food extends Point {
@@ -74,7 +74,7 @@ export class PondSimulation {
         const point = school >= 0
           ? { x: schoolCenter.x + (this.random() - 0.5) * 50, y: schoolCenter.y + (this.random() - 0.5) * 30 }
           : this.randomPoint(profile.kind === 'bird' ? 0.65 : 0, 0.92);
-        this.animals.push({ ...point, id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, state: 'roaming', facing: 1, school, phase: this.random() * Math.PI * 2 });
+        this.animals.push({ ...point, id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2 });
         if (school >= 0 && !this.schools.has(school)) this.schools.set(school, this.randomPoint());
       }
     }
@@ -111,9 +111,9 @@ export class PondSimulation {
   private roam(animal: Animal): { destination: Point; pace: number; bend: number } {
     const pattern = animal.profile.movement;
     const t = this.elapsed;
-    if (pattern === 'swoop') {
-      const angle = animal.phase + t * 0.19;
-      return { destination: { x: POND.x + Math.cos(angle) * 380, y: POND.y + Math.sin(angle) * 180 }, pace: 0.52, bend: 0 };
+    if (pattern === 'sweep') {
+      const angle = animal.phase + t * 0.12;
+      return { destination: { x: POND.x + Math.cos(angle) * 380, y: POND.y + Math.sin(angle) * 160 }, pace: 0.6, bend: 0 };
     }
     if (pattern === 'shoal') {
       const goal = this.schools.get(animal.school) ?? this.randomPoint();
@@ -126,9 +126,9 @@ export class PondSimulation {
       };
     }
     if (distance(animal, animal.destination) < 28 || !inPond(animal.destination)) {
-      animal.destination = pattern === 'hop' ? this.randomPoint(0.8, 0.94) : this.randomPoint();
+      animal.destination = pattern === 'drift' ? this.randomPoint(0.72, 0.9) : this.randomPoint();
     }
-    if (pattern === 'hop') return { destination: animal.destination, pace: Math.sin(t * 3 + animal.phase) > 0.25 ? 0.8 : 0, bend: 0 };
+    if (pattern === 'drift') return { destination: animal.destination, pace: 0.08 + Math.max(0, Math.sin(t * 0.8 + animal.phase)) * 0.28, bend: Math.sin(t * 0.6 + animal.phase) * 0.12 };
     if (pattern === 'paddle') return { destination: animal.destination, pace: 0.38, bend: Math.sin(t * 1.1 + animal.phase) * 0.3 };
     if (pattern === 'meander') return { destination: animal.destination, pace: 0.38, bend: Math.sin(t * 0.75 + animal.phase) * 0.5 };
     return { destination: animal.destination, pace: 0.26, bend: 0 };
@@ -155,6 +155,7 @@ export class PondSimulation {
     }
     this.updateSchools();
     for (const animal of this.animals) {
+      animal.moving = false;
       if (animal.chewLeft > 0) {
         animal.chewLeft = Math.max(0, animal.chewLeft - dt);
         animal.state = animal.chewLeft > 0 ? 'chewing' : 'roaming';
@@ -167,7 +168,8 @@ export class PondSimulation {
         if (food.amount <= 0 || food.age > 13) continue;
         if (profile.kind === 'fish' && food.phase !== 'water') continue;
         if (profile.kind === 'bird' && food.phase === 'water' && food.age > FLOAT_SECONDS) continue;
-        const d = distance(animal, food);
+        // Swimming birds watch the landing point while food is high in the air.
+        const d = distance(animal, food.phase === 'air' ? food.target : food);
         if (d < nearest) { target = food; nearest = d; }
       }
       let destination: Point;
@@ -175,11 +177,10 @@ export class PondSimulation {
       let bend = 0;
       if (target) {
         animal.state = 'approaching';
-        destination = target.phase === 'air'
-          ? profile.movement === 'swoop' ? flightPosition(target, target.flightTime + 0.18) : target.target
-          : target;
+        destination = target.phase === 'air' ? target.target : target;
         pace = 1;
-        if (nearest < Math.max(9, profile.size * 0.2)) {
+        const reachable = target.phase === 'water' || (target.height <= 22 && distance(animal, target) < Math.max(9, profile.size * 0.2));
+        if (reachable && nearest < Math.max(9, profile.size * 0.2)) {
           const amount = Math.min(profile.bite, target.amount);
           target.amount = Math.max(0, target.amount - amount);
           animal.chewLeft = profile.chew;
@@ -199,14 +200,8 @@ export class PondSimulation {
       animal.heading += Math.max(-turn, Math.min(turn, angleDelta(animal.heading, desired)));
       const travel = Math.min(distance(animal, destination), profile.speed * pace * dt);
       const next = { x: animal.x + Math.cos(animal.heading) * travel, y: animal.y + Math.sin(animal.heading) * travel };
-      if (profile.kind === 'fish' || profile.movement === 'paddle') {
-        if (inPond(next)) { animal.x = next.x; animal.y = next.y; }
-        else { animal.heading = Math.atan2(POND.y - animal.y, POND.x - animal.x); animal.destination = this.randomPoint(0, 0.7); }
-      } else {
-        animal.x = Math.max(55, Math.min(1145, next.x));
-        animal.y = Math.max(85, Math.min(735, next.y));
-      }
-      if (Math.abs(Math.cos(animal.heading)) > 0.1) animal.facing = Math.cos(animal.heading) > 0 ? 1 : -1;
+      if (inPond(next)) { animal.x = next.x; animal.y = next.y; animal.moving = travel > 0.001; }
+      else { animal.heading = Math.atan2(POND.y - animal.y, POND.x - animal.x); animal.destination = this.randomPoint(0, 0.7); }
     }
     this.food = this.food.filter(food => food.amount > 0.001 && (food.phase === 'air' || food.age < 13));
   }

@@ -25,8 +25,10 @@ The pond has 46 fish and 15 birds across six profiles. Every animal inherits a c
 - Silver carp meander in soft curves.
 - Minnows move together in small, darting shoals.
 - Mallards paddle with a gentle side-to-side rhythm.
-- Gulls sweep in wide circles and pursue airborne pellets.
-- Garden doves alternate little hops with rests near the edge.
+- Gulls swim in wide loops and watch for pellets arriving at the water.
+- Little coots alternate quiet paddle strokes with slower drifts near the edge.
+
+Every species has eight directional views and two swimming poses per view. Birds float low in the water, bob gently, and leave little wakes; they watch airborne food but can only catch it near the surface. Fish turn toward their swimming direction beneath a translucent layer of the pond's reflections and moving glints, so their shapes remain visible through the water.
 
 ## Validate
 
@@ -43,10 +45,13 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 
 - `public/art/pond.png`: original garden scenery.
 - `public/art/animals.png` and `animals.json`: transparent animal sprite sheet and explicit frame rectangles.
+- `public/art/fish-swimmers.png` and `fish-swimmers.json`: original koi, carp, and minnow swimming atlas, with eight headings and two tail strokes each.
+- `public/art/bird-swimmers.png` and `bird-swimmers.json`: original floating mallard, gull, and coot atlas, with eight headings and two paddling poses each.
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
 - `public/art/hand.png`: original hand used for collecting pellets and throwing from the dock.
 - `src/vending.ts`: coin price, twenty-throw servings, and the guarded dispenser cycle.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
 - `src/game.ts`: rendering, throws, hand motion, and landing ripples.
+- `src/appearance.ts`: directional frame names and stable heading selection while turning.
 
-Sprites use nearest-neighbor scaling. Minnows and doves reuse smaller/tinted carp and gull art. The supplied vending-machine reference page was blocked by the cloud network policy, so the machine art uses the described classic round-globe form. Repository wiki notes were unavailable during initial setup.
+Sprites use nearest-neighbor scaling. The original side-view animal sheet is retained as an art source; the game and field guide use the new swimming atlases. Explicit trimmed rectangles and a shared frame size preserve transparent padding around every pose. The supplied vending-machine reference page was blocked by the cloud network policy, so the machine art uses the described classic round-globe form. Repository wiki notes were unavailable during initial setup.
