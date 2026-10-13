@@ -15,6 +15,10 @@ npm run dev
 
 Click or tap the water, press **Space**, or use **Throw pellets**. Every throw travels in an arc from the same dock position toward your chosen point. Birds see the pellets while airborne and may intercept them; fish only react after they land on the water. Floating food is available to birds for a short time, while fish can still eat it after it sinks.
 
+The longer throwing arm has three motions: a gentle toss (60%), a side sweep (30%), and a higher lob (10%). Each motion winds up, releases from the same dock point, and follows through; the pellet flight matches its motion. Rapid clicks reserve throws in a queue, so every hand animation plays rather than cutting off the previous one. Pause also freezes the throwing hand and queued releases.
+
+Each throw has an independent 2% chance of containing one lucky pellet. A gold star and **LUCKY PELLET** label appear over the palm before a lucky throw, and the golden pellet glints as it travels. The first fish to nibble that pellet earns **+50 bonus points**, golden ripples, a small star celebration, and an optional soft chime. The bonus is awarded once per pellet, even when fish share it. Birds can eat lucky pellets but earn no bonus. The score includes ordinary feeding points and lucky bonuses; the food-share meter still measures food amounts.
+
 Use **Pellet machine** for another twenty throws. **P** and the pause button pause the pond. The field guide pauses while open. Sound is optional. **Begin a new visit** clears the current food, spending, and score and returns to the machine; the best saved score remains.
 
 ## Animal movement
@@ -48,10 +52,12 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/fish-swimmers.png` and `fish-swimmers.json`: original koi, carp, and minnow swimming atlas, with eight headings and two tail strokes each.
 - `public/art/bird-swimmers.png` and `bird-swimmers.json`: original floating mallard, gull, and coot atlas, with eight headings and two paddling poses each.
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
-- `public/art/hand.png`: original hand used for collecting pellets and throwing from the dock.
+- `public/art/hand.png`: original hand used for collecting pellets at the machine.
+- `public/art/throw-hand.png`: original extended throwing-arm cutout; its sleeve continues below the viewport throughout every motion.
 - `src/vending.ts`: coin price, twenty-throw servings, and the guarded dispenser cycle.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
 - `src/game.ts`: rendering, throws, hand motion, and landing ripples.
 - `src/appearance.ts`: directional frame names and stable heading selection while turning.
+- `src/throws.ts`: weighted throw choices, hand motion keyframes, and lucky-pellet chance and bonus.
 
 Sprites use nearest-neighbor scaling. The original side-view animal sheet is retained as an art source; the game and field guide use the new swimming atlases. Explicit trimmed rectangles and a shared frame size preserve transparent padding around every pose. The supplied vending-machine reference page was blocked by the cloud network policy, so the machine art uses the described classic round-globe form. Repository wiki notes were unavailable during initial setup.

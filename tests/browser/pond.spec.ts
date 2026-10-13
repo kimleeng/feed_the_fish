@@ -1,10 +1,16 @@
 import { test, expect, type Page } from '@playwright/test';
 import type Phaser from 'phaser';
 import type { PondScene } from '../../src/game.ts';
+import type { PondSimulation } from '../../src/simulation.ts';
 
 type InspectedWindow = Window & { inspectedPond: PondScene };
 
 async function arrive(page: Page): Promise<void> {
+  await page.addInitScript(() => {
+    document.addEventListener('pond:ready', event => {
+      (window as InspectedWindow).inspectedPond = (event as CustomEvent<PondScene>).detail;
+    });
+  });
   await page.goto('/');
   await expect(page.locator('#loading')).toBeHidden();
   await expect(page.locator('#machine-dialog')).toBeVisible();
@@ -16,11 +22,6 @@ async function buy(page: Page): Promise<void> {
 }
 
 test('swimmers turn through eight views, and visible fish sit beneath the water surface', async ({ page }, testInfo) => {
-  await page.addInitScript(() => {
-    document.addEventListener('pond:ready', event => {
-      (window as InspectedWindow).inspectedPond = (event as CustomEvent<PondScene>).detail;
-    });
-  });
   await arrive(page);
   await page.locator('#machine-watch').click();
   await page.waitForTimeout(500);
@@ -115,6 +116,75 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
   await page.screenshot({ path: testInfo.outputPath('swimming-field-guide.png'), fullPage: true });
 });
 
+test('three hand motions keep the sleeve edge off-screen, and a lucky fish bite celebrates its bonus', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const Simulation = scene.world.constructor as new (seed: number, roll?: () => number) => PondSimulation;
+    const rolls = [0.1, 0.5, 0.75, 0.5, 0.95, 0.01, 0.1, 0.5];
+    scene.world = new Simulation(1234, () => rolls.shift() ?? 0.5);
+  });
+  await buy(page);
+
+  for (const animation of ['toss', 'sweep', 'lob']) {
+    if (animation === 'lob') {
+      await expect.poll(() => page.evaluate(() => {
+        const rig = (window as InspectedWindow).inspectedPond.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
+        return rig.getByName('lucky-hand-indicator').visible;
+      })).toBe(true);
+      await expect(page.locator('#visit-note')).toContainText('golden pellet');
+      await page.screenshot({ path: testInfo.outputPath('lucky-pellet-in-hand.png'), fullPage: true });
+    }
+    await page.getByRole('button', { name: 'Throw pellets' }).click();
+    const frames = await page.evaluate(async expected => {
+      const scene = (window as InspectedWindow).inspectedPond;
+      const rig = scene.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
+      const image = rig.getByName('hand-art') as Phaser.GameObjects.Image;
+      const action = scene.world.currentThrow!;
+      if (action.animation !== expected) throw new Error('Wrong throw animation');
+      const result: { x: number; y: number; leftBottom: number; rightBottom: number; canvasHeight: number }[] = [];
+      await new Promise<void>(resolve => {
+        const sample = () => {
+          if (scene.world.currentThrow?.id !== action.id) { resolve(); return; }
+          const transform = image.getWorldTransformMatrix();
+          const left = transform.transformPoint(-image.displayOriginX, image.height - image.displayOriginY);
+          const right = transform.transformPoint(image.width - image.displayOriginX, image.height - image.displayOriginY);
+          result.push({ x: rig.x, y: rig.y, leftBottom: left.y, rightBottom: right.y, canvasHeight: scene.game.canvas.height });
+          requestAnimationFrame(sample);
+        };
+        sample();
+      });
+      return result;
+    }, animation);
+    expect(frames.length).toBeGreaterThan(5);
+    for (const frame of frames) {
+      expect(frame.leftBottom).toBeGreaterThan(frame.canvasHeight);
+      expect(frame.rightBottom).toBeGreaterThan(frame.canvasHeight);
+    }
+    if (animation === 'toss') expect(frames.every(frame => Math.abs(frame.x - 600) < 0.01)).toBe(true);
+    if (animation === 'sweep') expect(Math.max(...frames.map(frame => Math.abs(frame.x - 600)))).toBeGreaterThan(15);
+    if (animation === 'lob') expect(Math.min(...frames.map(frame => frame.y))).toBeLessThan(678);
+  }
+  await expect(page.locator('#food-count')).toHaveText('17');
+  await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const pellet = scene.world.food.find(food => food.lucky)!;
+    scene.world.food = [pellet];
+    const fish = scene.world.animals.find(animal => animal.profile.id === 'minnow')!;
+    for (const animal of scene.world.animals) { animal.chewLeft = 5; animal.state = 'chewing'; }
+    fish.x = pellet.target.x; fish.y = pellet.target.y; fish.chewLeft = 0;
+  });
+  await expect.poll(() => page.evaluate(() => (window as InspectedWindow).inspectedPond.world.luckyBonus)).toBe(50);
+  await expect(page.locator('#lucky-bonus')).toBeVisible();
+  await expect(page.locator('#lucky-bonus')).toContainText('+50');
+  await expect.poll(() => page.evaluate(() => !!(window as InspectedWindow).inspectedPond.children.getByName('lucky-celebration'))).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('lucky-fish-bonus.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Begin a new visit' }).click();
+  await expect(page.locator('#lucky-bonus')).toBeHidden();
+  expect(await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.pendingThrows)).toBe(0);
+  expect(await page.evaluate(() => !!(window as InspectedWindow).inspectedPond.children.getByName('lucky-celebration'))).toBe(false);
+});
+
 test('the opening animates the coin and crank, grants twenty throws, and feeds an untimed pond', async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -187,10 +257,20 @@ test.describe('mobile touch controls', () => {
 
   test('the coin machine, touch throwing, and field guide work on a phone', async ({ page }, testInfo) => {
     await arrive(page);
+    await page.evaluate(() => {
+      const scene = (window as InspectedWindow).inspectedPond;
+      const Simulation = scene.world.constructor as new (seed: number, roll?: () => number) => PondSimulation;
+      scene.world = new Simulation(2345, () => 0.01);
+    });
     await page.screenshot({ path: testInfo.outputPath('pellet-machine-mobile.png'), fullPage: true });
     await page.getByRole('button', { name: 'Insert 5 kr coin' }).tap();
     await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
     await expect(page.locator('#food-count')).toHaveText('20');
+    await expect.poll(() => page.evaluate(() => {
+      const rig = (window as InspectedWindow).inspectedPond.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
+      return rig.getByName('lucky-hand-indicator').visible;
+    })).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath('lucky-hand-mobile.png'), fullPage: true });
     await page.getByRole('button', { name: 'Field guide' }).tap();
     await expect(page.locator('#guide-dialog')).toBeVisible();
     await expect(page.locator('.species-card')).toHaveCount(6);
@@ -199,6 +279,15 @@ test.describe('mobile touch controls', () => {
     await page.locator('#pond').tap();
     await page.getByRole('button', { name: 'Throw pellets' }).tap();
     await expect(page.locator('#food-count')).toHaveText('18');
+    expect(await page.evaluate(() => {
+      const scene = (window as InspectedWindow).inspectedPond;
+      const rig = scene.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
+      const image = rig.getByName('hand-art') as Phaser.GameObjects.Image;
+      const transform = image.getWorldTransformMatrix();
+      const left = transform.transformPoint(-image.displayOriginX, image.height - image.displayOriginY);
+      const right = transform.transformPoint(image.width - image.displayOriginX, image.height - image.displayOriginY);
+      return Math.min(left.y, right.y) > scene.game.canvas.height;
+    })).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await page.screenshot({ path: testInfo.outputPath('zen-pond-mobile.png'), fullPage: true });
   });

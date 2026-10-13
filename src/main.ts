@@ -3,6 +3,7 @@ import { createPond, type PondScene, type PondState } from './game.ts';
 import { SPECIES } from './simulation.ts';
 import { animalAtlas, animalFrame } from './appearance.ts';
 import { COIN_PRICE, THROWS_PER_COIN, type VendingPhase } from './vending.ts';
+import { LUCKY_BONUS_POINTS } from './throws.ts';
 
 const element = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const guide = element<HTMLDialogElement>('guide-dialog');
@@ -108,6 +109,7 @@ function tone(frequency: number, duration = 0.12): void {
 document.addEventListener('pond:toss', () => tone(480, 0.16));
 document.addEventListener('pond:coin', () => tone(1000, 0.08));
 document.addEventListener('pond:bite', event => tone((event as CustomEvent).detail === 'fish' ? 750 : 320, 0.08));
+document.addEventListener('pond:lucky', () => tone(1046, 0.22));
 
 const phaseText: Record<VendingPhase, string> = {
   ready: 'Click the coin to begin.',
@@ -122,6 +124,8 @@ document.addEventListener('pond:state', event => {
   element('food-bar').style.width = Math.min(100, state.handfuls / THROWS_PER_COIN * 100) + '%';
   element('fish-count').textContent = String(state.fish);
   element('score').textContent = String(state.score);
+  element('lucky-bonus').hidden = state.luckyBonus === 0;
+  element('lucky-bonus').textContent = '✦ Lucky kindness +' + state.luckyBonus;
   element('money-used').textContent = money(state.moneyUsed);
   element('machine-total').textContent = money(state.moneyUsed);
   element('machine-coins').textContent = String(state.coinsUsed);
@@ -143,7 +147,8 @@ document.addEventListener('pond:state', event => {
     if (state.machinePhase === 'turning') tone(230, 0.2);
     lastPhase = state.machinePhase;
   }
-  const visitNote = state.paused ? 'Take a breather. The pond will wait.' : state.handfuls === 0
+  const visitNote = state.paused ? 'Take a breather. The pond will wait.' : state.luckyInHand
+    ? 'A golden pellet in your hand. A fish’s nibble brings +' + LUCKY_BONUS_POINTS + ' points.' : state.handfuls === 0
     ? state.coinsUsed === 0 ? 'First, a coin and a little ritual at the pellet machine.' : 'Your hand is empty. Enjoy the ripples, or visit the machine for a little more.'
     : 'Every throw leaves the dock. Aim where you like; there is no hurry.';
   if (element('visit-note').textContent !== visitNote) element('visit-note').textContent = visitNote;

@@ -42,6 +42,7 @@ h1 em { color: #859775; font-weight: normal; }
 .hud-quiet button svg { display: block; width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.5; fill: none; }
 .hud-score { width: 160px; }
 .best-score { font-size: 8px; color: #89907e; display: block; margin-top: 10px; }
+.lucky-bonus { display: block; margin-top: 8px; font-size: 8px; color: #9a773f; }
 .pond-location { position: absolute; bottom: 18px; left: 20px; display: flex; align-items: center; gap: 7px; color: #fff9e3; text-shadow: 0 1px 3px #1d3c25; font: 7px ui-monospace, monospace; letter-spacing: 1px; pointer-events: none; }
 .live-dot, .instruction-dot { width: 5px; height: 5px; background: #b8d994; border-radius: 50%; display: inline-block; flex-shrink: 0; }
 .location-weather { margin-left: 15px; opacity: .75; }

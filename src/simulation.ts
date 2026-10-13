@@ -1,4 +1,5 @@
 import { PelletMachine } from './vending.ts';
+import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, type ThrowPlan, type ThrowEvent } from './throws.ts';
 
 export type AnimalKind = 'fish' | 'bird';
 export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift';
@@ -28,8 +29,9 @@ export interface Animal extends Point {
 export interface Food extends Point {
   id: number; amount: number; age: number; phase: 'air' | 'water';
   target: Point; flightTime: number; flightDuration: number; height: number;
+  releaseAt: number; arcScale: number; lucky: boolean; bonusClaimed: boolean;
 }
-export interface BiteEvent extends Point { kind: AnimalKind; animal: number; amount: number; phase: 'air' | 'water' }
+export interface BiteEvent extends Point { kind: AnimalKind; animal: number; amount: number; phase: 'air' | 'water'; bonus: number }
 export interface Splash extends Point { food: number }
 export function inPond(point: Point): boolean {
   return ((point.x - POND.x) / POND.rx) ** 2 + ((point.y - POND.y) / POND.ry) ** 2 < 1;
@@ -38,7 +40,7 @@ function distance(a: Point, b: Point): number { return Math.hypot(a.x - b.x, a.y
 function angleDelta(from: number, to: number): number { return Math.atan2(Math.sin(to - from), Math.cos(to - from)); }
 export function flightPosition(food: Food, time = food.flightTime): Point & { height: number } {
   const t = Math.min(1, Math.max(0, time / food.flightDuration));
-  const height = Math.sin(Math.PI * t) * (85 + distance(THROW_ORIGIN, food.target) * 0.12);
+  const height = Math.sin(Math.PI * t) * (85 + distance(THROW_ORIGIN, food.target) * 0.12) * food.arcScale;
   return { x: THROW_ORIGIN.x + (food.target.x - THROW_ORIGIN.x) * t, y: THROW_ORIGIN.y + (food.target.y - THROW_ORIGIN.y) * t - height, height };
 }
 
@@ -51,14 +53,20 @@ export class PondSimulation {
   fedFish = new Set<number>();
   fishFood = 0;
   birdFood = 0;
+  luckyBonus = 0;
+  nextThrow: ThrowPlan | null = null;
+  lastThrow: ThrowEvent | null = null;
   handfuls = 0;
   elapsed = 0;
   paused = false;
   private nextFood = 0;
   private random: () => number;
+  private throwRandom: () => number;
+  private throwQueue: ThrowEvent[] = [];
+  private nextThrowId = 0;
   private schools = new Map<number, Point>();
 
-  constructor(seed = Date.now()) {
+  constructor(seed = Date.now(), throwRandom?: () => number) {
     let value = seed >>> 0;
     this.random = () => {
       value += 0x6d2b79f5;
@@ -66,6 +74,7 @@ export class PondSimulation {
       t ^= t + Math.imul(t ^ t >>> 7, 61 | t);
       return ((t ^ t >>> 14) >>> 0) / 4294967296;
     };
+    this.throwRandom = throwRandom ?? this.random;
     for (const profile of SPECIES) {
       let schoolCenter = this.randomPoint(0, 0.7);
       for (let i = 0; i < profile.count; i++) {
@@ -88,16 +97,34 @@ export class PondSimulation {
   buyPellets(): boolean { return this.machine.insertCoin(); }
   scatter(point: Point): boolean {
     if (this.paused || this.machine.busy || this.handfuls <= 0 || !inPond(point)) return false;
+    const plan = this.nextThrow ?? planThrow(this.throwRandom);
+    const motion = THROW_MOTIONS[plan.animation];
+    const queued = this.throwQueue.at(-1);
+    const startedAt = queued ? Math.max(this.elapsed, queued.startedAt + THROW_MOTIONS[queued.animation].duration) : this.elapsed;
+    const action = { ...plan, id: this.nextThrowId++, startedAt };
+    this.throwQueue.push(action);
+    this.lastThrow = action;
     this.handfuls -= 1;
     for (let i = 0; i < 4; i++) {
       const offset = { x: point.x + (this.random() - 0.5) * 36, y: point.y + (this.random() - 0.5) * 24 };
       const target = inPond(offset) ? offset : { ...point };
-      this.food.push({ ...THROW_ORIGIN, id: this.nextFood++, amount: 1, age: 0, phase: 'air', target, flightTime: 0, flightDuration: 0.65 + distance(THROW_ORIGIN, target) / 700, height: 0 });
+      this.food.push({
+        ...THROW_ORIGIN, id: this.nextFood++, amount: 1, age: 0, phase: 'air', target,
+        flightTime: 0, flightDuration: (0.65 + distance(THROW_ORIGIN, target) / 700) * motion.flightScale,
+        height: 0, releaseAt: startedAt + motion.releaseDelay, arcScale: motion.arcScale,
+        lucky: plan.lucky && i === 0, bonusClaimed: false,
+      });
     }
+    this.nextThrow = this.handfuls > 0 ? planThrow(this.throwRandom) : null;
     return true;
   }
   get fishShare(): number { return this.fishFood + this.birdFood > 0 ? this.fishFood / (this.fishFood + this.birdFood) : 0; }
-  get score(): number { return Math.round(this.fishFood * 10); }
+  get score(): number { return Math.round(this.fishFood * 10) + this.luckyBonus; }
+  get currentThrow(): ThrowEvent | null {
+    const action = this.throwQueue[0];
+    return action && action.startedAt <= this.elapsed ? action : null;
+  }
+  get pendingThrows(): number { return this.throwQueue.length; }
 
   private updateSchools(): void {
     for (const [school, destination] of this.schools) {
@@ -137,11 +164,15 @@ export class PondSimulation {
   step(seconds: number): void {
     const dt = Math.max(0, Math.min(seconds, 0.1));
     this.handfuls += this.machine.step(dt);
+    if (this.handfuls > 0 && !this.nextThrow) this.nextThrow = planThrow(this.throwRandom);
     if (this.paused) return;
     this.elapsed += dt;
+    this.throwQueue = this.throwQueue.filter(action => this.elapsed < action.startedAt + THROW_MOTIONS[action.animation].duration);
     for (const food of this.food) {
       if (food.phase === 'air') {
-        food.flightTime = Math.min(food.flightDuration, food.flightTime + dt);
+        const flightDt = Math.min(dt, Math.max(0, this.elapsed - food.releaseAt));
+        if (flightDt <= 0) continue;
+        food.flightTime = Math.min(food.flightDuration, food.flightTime + flightDt);
         Object.assign(food, flightPosition(food));
         if (food.flightTime >= food.flightDuration) {
           food.phase = 'water'; food.x = food.target.x; food.y = food.target.y; food.height = 0; food.age = 0;
@@ -165,7 +196,7 @@ export class PondSimulation {
       let target: Food | undefined;
       let nearest = profile.vision;
       for (const food of this.food) {
-        if (food.amount <= 0 || food.age > 13) continue;
+        if (food.amount <= 0 || food.age > 13 || this.elapsed < food.releaseAt) continue;
         if (profile.kind === 'fish' && food.phase !== 'water') continue;
         if (profile.kind === 'bird' && food.phase === 'water' && food.age > FLOAT_SECONDS) continue;
         // Swimming birds watch the landing point while food is high in the air.
@@ -185,9 +216,15 @@ export class PondSimulation {
           target.amount = Math.max(0, target.amount - amount);
           animal.chewLeft = profile.chew;
           animal.state = 'chewing';
+          let bonus = 0;
           if (profile.kind === 'fish') { this.fishFood += amount; this.fedFish.add(animal.id); }
           else this.birdFood += amount;
-          this.bites.push({ x: target.x, y: target.y, kind: profile.kind, animal: animal.id, amount, phase: target.phase });
+          if (profile.kind === 'fish' && target.lucky && !target.bonusClaimed) {
+            target.bonusClaimed = true;
+            bonus = LUCKY_BONUS_POINTS;
+            this.luckyBonus += bonus;
+          }
+          this.bites.push({ x: target.x, y: target.y, kind: profile.kind, animal: animal.id, amount, phase: target.phase, bonus });
           continue;
         }
       } else {

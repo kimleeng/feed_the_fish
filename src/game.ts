@@ -2,24 +2,31 @@ import Phaser from 'phaser';
 import { PondSimulation, POND, THROW_ORIGIN, inPond, type Point } from './simulation.ts';
 import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
 import type { VendingPhase } from './vending.ts';
+import { handPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; share: number;
   paused: boolean; score: number; moneyUsed: number; coinsUsed: number; servings: number;
   machinePhase: VendingPhase;
+  luckyBonus: number; luckyInHand: boolean;
 }
 
 export class PondScene extends Phaser.Scene {
   world = new PondSimulation();
   private creatures = new Map<number, Phaser.GameObjects.Sprite>();
   private directions = new Map<number, Direction>();
-  private pellets = new Map<number, Phaser.GameObjects.Rectangle>();
+  private pellets = new Map<number, Phaser.GameObjects.Container>();
   private waterMask!: Phaser.Display.Masks.GeometryMask;
   private fishLayer!: Phaser.GameObjects.Container;
   private birdWakes!: Phaser.GameObjects.Graphics;
   private waterShimmer!: Phaser.GameObjects.Graphics;
   private cursor!: Phaser.GameObjects.Arc;
-  private throwHand!: Phaser.GameObjects.Image;
+  private throwHand!: Phaser.GameObjects.Container;
+  private handPellets!: Phaser.GameObjects.Container;
+  private luckyIndicator!: Phaser.GameObjects.Container;
+  private luckyLabel!: Phaser.GameObjects.Text;
+  private effects!: Phaser.GameObjects.Group;
+  private lastRelease = -1;
   private lastPoint: Point = { x: 600, y: 389 };
   private lastHud = 0;
   private lastServings = 0;
@@ -29,7 +36,7 @@ export class PondScene extends Phaser.Scene {
 
   preload(): void {
     this.load.image('pond-art', '/art/pond.png');
-    this.load.image('hand-art', '/art/hand.png');
+    this.load.image('throw-hand-art', '/art/throw-hand.png');
     this.load.atlas('fish-swimmers', '/art/fish-swimmers.png', '/art/fish-swimmers.json');
     this.load.atlas('bird-swimmers', '/art/bird-swimmers.png', '/art/bird-swimmers.json');
     this.load.on('loaderror', () => {
@@ -39,9 +46,10 @@ export class PondScene extends Phaser.Scene {
 
   create(): void {
     this.add.image(600, 400, 'pond-art').setDisplaySize(1200, 800);
+    this.effects = this.add.group();
     this.createWaterSurface();
     this.spawnCreatures();
-    this.throwHand = this.add.image(THROW_ORIGIN.x, 806, 'hand-art').setOrigin(0.5, 1).setDisplaySize(100, 150).setDepth(55);
+    this.createThrowHand();
     this.cursor = this.add.circle(600, 390, 16).setStrokeStyle(1, 0xfff7d4, 0.6).setDepth(80).setVisible(false);
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       this.lastPoint = { x: pointer.x, y: pointer.y };
@@ -53,6 +61,46 @@ export class PondScene extends Phaser.Scene {
     document.querySelector('#loading')!.setAttribute('hidden', '');
     this.publishHud();
     document.dispatchEvent(new CustomEvent('pond:ready', { detail: this }));
+  }
+
+  private createThrowHand(): void {
+    this.throwHand = this.add.container(THROW_ORIGIN.x, THROW_ORIGIN.y).setName('throwing-hand').setDepth(55);
+    const image = this.add.image(0, 0, 'throw-hand-art').setName('hand-art').setOrigin(0.55, 0.225).setScale(0.15);
+    this.handPellets = this.add.container(0, -4, [
+      this.add.rectangle(-5, 1, 4, 3, 0xa97942), this.add.rectangle(3, 3, 4, 3, 0xb98b4c),
+      this.add.rectangle(0, -3, 4, 3, 0x96663d),
+    ]);
+    this.luckyIndicator = this.add.container(0, -5, [
+      this.add.ellipse(0, 0, 34, 24, 0xffdb77, 0.23),
+      this.add.star(0, 0, 5, 2.4, 5.5, 0xffe494).setStrokeStyle(1, 0xd6a247),
+    ]).setName('lucky-hand-indicator').setVisible(false);
+    this.luckyLabel = this.add.text(0, -43, 'LUCKY PELLET', {
+      fontFamily: 'monospace', fontSize: '8px', color: '#ffebae',
+      backgroundColor: '#345a48', padding: { x: 5, y: 3 },
+    }).setOrigin(0.5).setName('lucky-hand-label').setVisible(false);
+    this.throwHand.add([image, this.handPellets, this.luckyIndicator, this.luckyLabel]);
+  }
+
+  private isLuckyInHand(): boolean {
+    const action = this.world.currentThrow;
+    if (action) return action.lucky && this.world.elapsed - action.startedAt < THROW_MOTIONS[action.animation].releaseDelay;
+    return !this.world.machine.busy && this.world.handfuls > 0 && !!this.world.nextThrow?.lucky;
+  }
+
+  private updateThrowHand(): void {
+    const action = this.world.currentThrow;
+    const age = action ? this.world.elapsed - action.startedAt : 0;
+    const pose = action ? handPose(action.animation, age) : { x: 0, y: 0, angle: 0 };
+    const holding = action ? age < THROW_MOTIONS[action.animation].releaseDelay : this.world.handfuls > 0 && !this.world.machine.busy;
+    const lucky = this.isLuckyInHand();
+    this.throwHand.setPosition(THROW_ORIGIN.x + pose.x, THROW_ORIGIN.y + pose.y).setAngle(pose.angle);
+    this.handPellets.setVisible(holding);
+    this.luckyIndicator.setVisible(lucky).setScale(1 + Math.sin(this.world.elapsed * 4) * 0.07);
+    this.luckyLabel.setVisible(lucky || !!action?.lucky).setText(holding ? 'LUCKY PELLET' : 'LUCKY THROW');
+    if (action && !holding && action.id !== this.lastRelease) {
+      this.lastRelease = action.id;
+      document.dispatchEvent(new CustomEvent<ThrowEvent>('pond:toss', { detail: action }));
+    }
   }
 
   private createWaterSurface(): void {
@@ -90,10 +138,7 @@ export class PondScene extends Phaser.Scene {
       if (this.world.handfuls === 0 && !this.world.machine.busy) document.dispatchEvent(new CustomEvent('pond:needs-food'));
       return;
     }
-    this.tweens.killTweensOf(this.throwHand);
-    this.throwHand.setY(806).setAngle(0);
-    this.tweens.add({ targets: this.throwHand, y: 796, angle: -5, duration: 140, yoyo: true, ease: 'Sine.easeInOut' });
-    document.dispatchEvent(new CustomEvent('pond:toss'));
+    this.updateThrowHand();
     this.publishHud();
   }
 
@@ -113,16 +158,40 @@ export class PondScene extends Phaser.Scene {
     this.creatures.forEach(sprite => sprite.destroy());
     this.pellets.forEach(pellet => pellet.destroy());
     this.creatures.clear(); this.directions.clear(); this.pellets.clear();
+    this.tweens.killAll(); this.effects.clear(true, true);
     this.world = new PondSimulation();
     this.lastServings = 0;
+    this.lastRelease = -1;
     this.spawnCreatures();
+    this.updateThrowHand();
     this.publishHud();
     document.dispatchEvent(new CustomEvent('pond:needs-food'));
   }
 
   private ripple(x: number, y: number, color: number, alpha = 0.3, radius = 23): void {
     const ripple = this.add.ellipse(x, y, 8, 4).setStrokeStyle(1, color, alpha).setDepth(22);
+    this.effects.add(ripple);
     this.tweens.add({ targets: ripple, displayWidth: radius * 2, displayHeight: radius, alpha: 0, duration: 1500, onComplete: () => ripple.destroy() });
+  }
+
+  private celebrateLucky(x: number, y: number, bonus: number): void {
+    this.ripple(x, y, 0xffd575, 0.65, 44);
+    this.ripple(x, y, 0xffefb9, 0.4, 62);
+    const celebration = this.add.container(x, y).setName('lucky-celebration').setDepth(65);
+    const label = this.add.text(0, -26, `+${bonus} lucky`, {
+      fontFamily: 'Georgia', fontSize: '15px', color: '#fff0b0',
+      stroke: '#527462', strokeThickness: 2,
+    }).setOrigin(0.5);
+    celebration.add(label);
+    for (let i = 0; i < 8; i++) {
+      const angle = i * Math.PI / 4;
+      const star = this.add.star(0, -5, 4, 1.8, 4, i % 2 ? 0xffd27a : 0xfff1bf);
+      celebration.add(star);
+      this.tweens.add({ targets: star, x: Math.cos(angle) * 32, y: Math.sin(angle) * 20 - 12, alpha: 0, duration: 1100, ease: 'Sine.easeOut' });
+    }
+    this.effects.add(celebration);
+    this.tweens.add({ targets: celebration, y: y - 20, alpha: 0, duration: 1800, onComplete: () => celebration.destroy() });
+    document.dispatchEvent(new CustomEvent('pond:lucky', { detail: bonus }));
   }
 
   private message(text: string): void {
@@ -137,6 +206,7 @@ export class PondScene extends Phaser.Scene {
       share: this.world.fishShare, paused: this.world.paused, score: this.world.score,
       moneyUsed: this.world.machine.moneyUsed, coinsUsed: this.world.machine.coinsUsed,
       servings: this.world.machine.servings, machinePhase: this.world.machine.phase,
+      luckyBonus: this.world.luckyBonus, luckyInHand: this.isLuckyInHand(),
     };
     document.dispatchEvent(new CustomEvent('pond:state', { detail }));
   }
@@ -144,6 +214,7 @@ export class PondScene extends Phaser.Scene {
   update(time: number, delta: number): void {
     if (!this.ready) return;
     this.world.step(delta / 1000);
+    this.updateThrowHand();
     this.birdWakes.clear();
     this.waterShimmer.clear();
     for (let i = 0; i < 18; i++) {
@@ -184,20 +255,30 @@ export class PondScene extends Phaser.Scene {
     for (const food of this.world.food) {
       let pellet = this.pellets.get(food.id);
       if (!pellet) {
-        pellet = this.add.rectangle(food.x, food.y, 4.5, 3.2, 0xbc8b53).setStrokeStyle(0.5, 0x845933).setRotation(food.id * 2.3);
+        const body = food.lucky
+          ? this.add.star(0, 0, 5, 2.1, 4.5, 0xffdf83).setStrokeStyle(0.7, 0xba8d3e)
+          : this.add.rectangle(0, 0, 4.5, 3.2, 0xbc8b53).setStrokeStyle(0.5, 0x845933).setRotation(food.id * 2.3);
+        pellet = this.add.container(food.x, food.y).setName('pellet-' + food.id);
+        if (food.lucky) pellet.add(this.add.ellipse(0, 0, 14, 10, 0xffd77c, 0.22));
+        pellet.add(body);
         this.pellets.set(food.id, pellet);
       }
       const airborne = food.phase === 'air';
-      pellet.setPosition(food.x, food.y).setDepth(airborne ? 45 : 21)
-        .setScale(airborne ? 1.1 : Math.max(0.5, food.amount))
-        .setAlpha(airborne || food.age <= 1.7 ? 1 : 0.4);
+      const pulse = food.lucky ? 1 + Math.sin(this.world.elapsed * 5 + food.id) * 0.06 : 1;
+      pellet.setPosition(food.x, food.y).setDepth(airborne ? 45 : 21).setVisible(this.world.elapsed >= food.releaseAt)
+        .setScale((airborne ? 1.1 : Math.max(0.5, food.amount)) * pulse)
+        .setAlpha(airborne || food.age <= 1.7 ? 1 : food.lucky ? 0.65 : 0.4);
     }
     for (const splash of this.world.splashes.splice(0)) this.ripple(splash.x, splash.y, 0xe4efcc, 0.45, 35);
     for (const bite of this.world.bites.splice(0)) {
       if (bite.phase === 'water') this.ripple(bite.x, bite.y, bite.kind === 'fish' ? 0xe4f5ba : 0xf7c187);
       if (bite.kind === 'fish') {
-        const heart = this.add.text(bite.x, bite.y - 15, '♥', { fontFamily: 'Georgia', fontSize: '10px', color: '#fff2b9' }).setDepth(60);
-        this.tweens.add({ targets: heart, y: heart.y - 20, alpha: 0, duration: 1600, onComplete: () => heart.destroy() });
+        if (bite.bonus > 0) this.celebrateLucky(bite.x, bite.y, bite.bonus);
+        else {
+          const heart = this.add.text(bite.x, bite.y - 15, '♥', { fontFamily: 'Georgia', fontSize: '10px', color: '#fff2b9' }).setDepth(60);
+          this.effects.add(heart);
+          this.tweens.add({ targets: heart, y: heart.y - 20, alpha: 0, duration: 1600, onComplete: () => heart.destroy() });
+        }
       }
       document.dispatchEvent(new CustomEvent('pond:bite', { detail: bite.kind }));
     }
