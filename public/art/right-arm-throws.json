@@ -1,0 +1,351 @@
+{
+  "textures": [
+    {
+      "image": "right-hand-cup.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "scale": "1",
+      "frames": [
+        {
+          "filename": "rest",
+          "frame": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        },
+        {
+          "filename": "toss-windup",
+          "frame": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        },
+        {
+          "filename": "overhand-windup",
+          "frame": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        },
+        {
+          "filename": "spread-ready",
+          "frame": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        },
+        {
+          "filename": "spread-windup",
+          "frame": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        },
+        {
+          "filename": "recover",
+          "frame": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        },
+        {
+          "filename": "empty",
+          "frame": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 141,
+            "y": 107,
+            "w": 883,
+            "h": 1429
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        }
+      ]
+    },
+    {
+      "image": "right-hand-quick.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "scale": "1",
+      "frames": [
+        {
+          "filename": "toss-release",
+          "frame": {
+            "x": 149,
+            "y": 89,
+            "w": 871,
+            "h": 1433
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 149,
+            "y": 89,
+            "w": 871,
+            "h": 1433
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        }
+      ]
+    },
+    {
+      "image": "right-hand-overhand.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "scale": "1",
+      "frames": [
+        {
+          "filename": "overhand-release",
+          "frame": {
+            "x": 72,
+            "y": 126,
+            "w": 952,
+            "h": 1410
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 72,
+            "y": 126,
+            "w": 952,
+            "h": 1410
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        },
+        {
+          "filename": "overhand-follow",
+          "frame": {
+            "x": 72,
+            "y": 126,
+            "w": 952,
+            "h": 1410
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 72,
+            "y": 126,
+            "w": 952,
+            "h": 1410
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        }
+      ]
+    },
+    {
+      "image": "right-hand-spread.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "scale": "1",
+      "frames": [
+        {
+          "filename": "spread-release",
+          "frame": {
+            "x": 109,
+            "y": 66,
+            "w": 915,
+            "h": 1470
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 109,
+            "y": 66,
+            "w": 915,
+            "h": 1470
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        },
+        {
+          "filename": "spread-follow",
+          "frame": {
+            "x": 109,
+            "y": 66,
+            "w": 915,
+            "h": 1470
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 109,
+            "y": 66,
+            "w": 915,
+            "h": 1470
+          },
+          "sourceSize": {
+            "w": 1024,
+            "h": 1536
+          },
+          "pivot": {
+            "x": 0.42,
+            "y": 0.24
+          }
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "handedness": "right"
+  }
+}

@@ -18,7 +18,7 @@ export const SPECIES: AnimalProfile[] = [
   { ...ANIMAL_BASELINE, id: 'coot', name: 'Little coot', kind: 'bird', texture: 'coot', movement: 'drift', speed: 38, vision: 150, bite: 0.45, chew: 1.8, size: 42, count: 5, description: 'A few quiet paddle strokes, then a gentle drift near the edge of the pond.' },
 ];
 export const POND = { x: 600, y: 389, rx: 498, ry: 230 };
-export const THROW_ORIGIN = { x: 600, y: 695 };
+export const THROW_ORIGIN = { x: 640, y: 694 };
 export const FLOAT_SECONDS = 1.7;
 export interface Point { x: number; y: number }
 export interface Animal extends Point {
@@ -105,8 +105,16 @@ export class PondSimulation {
     this.throwQueue.push(action);
     this.lastThrow = action;
     this.handfuls -= 1;
+    const aimDistance = Math.max(1, distance(THROW_ORIGIN, point));
+    const forward = { x: (point.x - THROW_ORIGIN.x) / aimDistance, y: (point.y - THROW_ORIGIN.y) / aimDistance };
     for (let i = 0; i < 4; i++) {
-      const offset = { x: point.x + (this.random() - 0.5) * 36, y: point.y + (this.random() - 0.5) * 24 };
+      const sideJitter = this.random() - 0.5;
+      const forwardJitter = this.random() - 0.5;
+      const across = (i - 1.5) * 32 + sideJitter * 6;
+      const along = forwardJitter * 18;
+      const offset = plan.animation === 'spread'
+        ? { x: point.x - forward.y * across + forward.x * along, y: point.y + forward.x * across + forward.y * along }
+        : { x: point.x + sideJitter * 36, y: point.y + forwardJitter * 24 };
       const target = inPond(offset) ? offset : { ...point };
       this.food.push({
         ...THROW_ORIGIN, id: this.nextFood++, amount: 1, age: 0, phase: 'air', target,

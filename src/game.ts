@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { PondSimulation, POND, THROW_ORIGIN, inPond, type Point } from './simulation.ts';
 import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
 import { COIN_PRICE, type VendingPhase } from './vending.ts';
-import { handPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
+import { handPose, REST_HAND, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; share: number;
@@ -22,6 +22,7 @@ export class PondScene extends Phaser.Scene {
   private waterShimmer!: Phaser.GameObjects.Graphics;
   private cursor!: Phaser.GameObjects.Arc;
   private throwHand!: Phaser.GameObjects.Container;
+  private handArt!: Phaser.GameObjects.Image;
   private handPellets!: Phaser.GameObjects.Container;
   private luckyIndicator!: Phaser.GameObjects.Container;
   private luckyLabel!: Phaser.GameObjects.Text;
@@ -36,7 +37,7 @@ export class PondScene extends Phaser.Scene {
 
   preload(): void {
     this.load.image('pond-art', '/art/pond.png');
-    this.load.image('throw-hand-art', '/art/throw-hand.png');
+    this.load.multiatlas('throw-hand-art', '/art/right-arm-throws.json', '/art/');
     this.load.atlas('scene-machine', '/art/scene-machine.png', '/art/scene-machine.json');
     this.load.atlas('fish-swimmers', '/art/fish-swimmers.png', '/art/fish-swimmers.json');
     this.load.atlas('bird-swimmers', '/art/bird-swimmers.png', '/art/bird-swimmers.json');
@@ -89,7 +90,7 @@ export class PondScene extends Phaser.Scene {
 
   private createThrowHand(): void {
     this.throwHand = this.add.container(THROW_ORIGIN.x, THROW_ORIGIN.y).setName('throwing-hand').setDepth(55);
-    const image = this.add.image(0, 0, 'throw-hand-art').setName('hand-art').setOrigin(0.55, 0.225).setScale(0.15);
+    this.handArt = this.add.image(0, 0, 'throw-hand-art', 'rest').setName('hand-art').setScale(0.18);
     this.handPellets = this.add.container(0, -4, [
       this.add.rectangle(-5, 1, 4, 3, 0xa97942), this.add.rectangle(3, 3, 4, 3, 0xb98b4c),
       this.add.rectangle(0, -3, 4, 3, 0x96663d),
@@ -102,7 +103,8 @@ export class PondScene extends Phaser.Scene {
       fontFamily: 'monospace', fontSize: '8px', color: '#ffebae',
       backgroundColor: '#345a48', padding: { x: 5, y: 3 },
     }).setOrigin(0.5).setName('lucky-hand-label').setVisible(false);
-    this.throwHand.add([image, this.handPellets, this.luckyIndicator, this.luckyLabel]);
+    this.throwHand.add([this.handArt, this.handPellets, this.luckyIndicator, this.luckyLabel]);
+    this.updateThrowHand();
   }
 
   private isLuckyInHand(): boolean {
@@ -114,10 +116,11 @@ export class PondScene extends Phaser.Scene {
   private updateThrowHand(): void {
     const action = this.world.currentThrow;
     const age = action ? this.world.elapsed - action.startedAt : 0;
-    const pose = action ? handPose(action.animation, age) : { x: 0, y: 0, angle: 0 };
+    const pose = action ? handPose(action.animation, age) : { ...REST_HAND, frame: this.world.handfuls > 0 ? 'rest' as const : 'empty' as const };
     const holding = action ? age < THROW_MOTIONS[action.animation].releaseDelay : this.world.handfuls > 0 && !this.world.machine.busy;
     const lucky = this.isLuckyInHand();
-    this.throwHand.setPosition(THROW_ORIGIN.x + pose.x, THROW_ORIGIN.y + pose.y).setAngle(pose.angle);
+    this.throwHand.setPosition(THROW_ORIGIN.x + pose.x, THROW_ORIGIN.y + pose.y);
+    this.handArt.setFrame(pose.frame);
     this.handPellets.setVisible(holding);
     this.luckyIndicator.setVisible(lucky).setScale(1 + Math.sin(this.world.elapsed * 4) * 0.07);
     this.luckyLabel.setVisible(lucky || !!action?.lucky).setText(holding ? 'LUCKY PELLET' : 'LUCKY THROW');

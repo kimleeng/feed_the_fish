@@ -10,7 +10,8 @@
     "test": "node --experimental-strip-types --test tests/simulation.test.ts",
     "test:browser": "playwright test",
     "check:running": "node scripts/check-running-game.mjs",
-    "review:art": "node scripts/review-art.mjs"
+    "review:art": "node scripts/review-art.mjs",
+    "review:hands": "node scripts/review-hands.mjs"
   },
   "dependencies": { "phaser": "3.90.0" },
   "devDependencies": {

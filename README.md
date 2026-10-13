@@ -15,7 +15,7 @@ npm run dev
 
 Click or tap the water, press **Space**, or use **Throw pellets**. Every throw travels in an arc from the same dock position toward your chosen point. Birds see the pellets while airborne and may intercept them; fish only react after they land on the water. Floating food is available to birds for a short time, while fish can still eat it after it sinks.
 
-The longer throwing arm has three motions: a gentle toss (60%), a side sweep (30%), and a higher lob (10%). Each motion winds up, releases from the same dock point, and follows through; the pellet flight matches its motion. Rapid clicks reserve throws in a queue, so every hand animation plays rather than cutting off the previous one. Pause also freezes the throwing hand and queued releases.
+The right forearm enters from the lower right. Three motions use a quick underhand toss (60%), a raised overhand throw (30%), and a sideways spread throw (10%). The hand opens into a different release pose for each motion, with four fingers and one thumb. Every motion releases from the same point on the right side of the dock and follows through before returning to rest. The quick toss has a short flick; the overhand throw sends pellets on a higher arc; the spread throw fans four pellets across a wider patch centered on your aim. Targets remain inside the pond. Rapid clicks reserve throws in a queue, so every hand animation plays. Pause also freezes the throwing hand and queued releases.
 
 Each throw has an independent 2% chance of containing one lucky pellet. A gold star and **LUCKY PELLET** label appear over the palm before a lucky throw, and the golden pellet glints as it travels. The first fish to nibble that pellet earns **+50 bonus points**, golden ripples, a small star celebration, and an optional soft chime. The bonus is awarded once per pellet, even when fish share it. Birds can eat lucky pellets but earn no bonus. The score includes ordinary feeding points and lucky bonuses; the food-share meter still measures food amounts.
 
@@ -54,7 +54,8 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
 - `public/art/scene-machine.png` and `scene-machine.json`: separate garden machine on an iron pedestal, grounded on the path and clickable without throwing pellets.
 - `public/art/hand.png`: original hand used for collecting pellets at the machine.
-- `public/art/throw-hand.png`: original extended throwing-arm cutout; its sleeve continues below the viewport throughout every motion.
+- `public/art/right-hand-cup.png`, `right-hand-quick.png`, `right-hand-overhand.png`, and `right-hand-spread.png`: four right-hand/long-forearm cutouts for holding, quick release, pronated overhand release, and a fanned spread release.
+- `public/art/right-arm-throws.json`: a multi-texture atlas with twelve named motion stages, reusing the four checked drawings with grip pivots. The earlier `throw-hand.png` is retained as an art source.
 - `src/vending.ts`: coin price, twenty-throw servings, and the guarded dispenser cycle.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
 - `src/game.ts`: rendering, throws, hand motion, and landing ripples.
@@ -70,3 +71,5 @@ npm run review:art
 ```
 
 The review command rejects missing directions, out-of-bounds cuts, overlapping rectangles, and PNG/atlas size mismatches before saving images under ignored `test-results/art-review`. When replacing generated source art, `node scripts/build-art-atlas.mjs fish` or `node scripts/build-art-atlas.mjs machine` reads alpha to rebuild frame metadata without altering PNG pixels. Inspect every resulting pose before committing the art; the bounds checks cannot judge anatomy or perspective.
+
+Use `npm run review:hands` for close-ups of every actual throw stage and a full-forearm sheet under ignored `test-results/hand-review`. The hand review validates frame names, source bounds and dimensions; finger counts and wrist anatomy require visual inspection. `node scripts/build-art-atlas.mjs hand` packages the four individual cutouts without editing their pixels. See [the throw review](docs/throw-review.md) for the animation and anatomy checks.

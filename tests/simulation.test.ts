@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { PondSimulation, FLOAT_SECONDS, THROW_ORIGIN, flightPosition, inPond, type Food } from '../src/simulation.ts';
 import { PelletMachine } from '../src/vending.ts';
 import { DIRECTIONS, directionForHeading } from '../src/appearance.ts';
-import { THROW_MOTIONS, LUCKY_BONUS_POINTS } from '../src/throws.ts';
+import { THROW_MOTIONS, LUCKY_BONUS_POINTS, handPose } from '../src/throws.ts';
 
 test('all eight headings select a distinct view, wrap correctly, and stay stable at turn boundaries', () => {
   for (let i = 0; i < 8; i++) {
@@ -239,7 +239,7 @@ test('repeated refills conserve food and keep every swimming animal inside the p
 test('accepted throws follow the 60/30/10 mix and independently contain one lucky pellet about 2% of the time', () => {
   const pond = new PondSimulation(43210);
   pond.animals = []; pond.handfuls = 10_000;
-  const counts = { toss: 0, sweep: 0, lob: 0 }; let lucky = 0;
+  const counts = { toss: 0, overhand: 0, spread: 0 }; let lucky = 0;
   for (let i = 0; i < 10_000; i++) {
     assert.equal(pond.scatter({ x: 600, y: 389 }), true);
     const action = pond.lastThrow!;
@@ -250,8 +250,8 @@ test('accepted throws follow the 60/30/10 mix and independently contain one luck
     pond.food = [];
   }
   assert.ok(Math.abs(counts.toss / 10_000 - 0.6) < 0.015);
-  assert.ok(Math.abs(counts.sweep / 10_000 - 0.3) < 0.015);
-  assert.ok(Math.abs(counts.lob / 10_000 - 0.1) < 0.015);
+  assert.ok(Math.abs(counts.overhand / 10_000 - 0.3) < 0.015);
+  assert.ok(Math.abs(counts.spread / 10_000 - 0.1) < 0.015);
   assert.ok(Math.abs(lucky / 10_000 - 0.02) < 0.004);
 });
 
@@ -280,6 +280,11 @@ test('invalid input and refills preserve the lucky preview, while an accepted th
 });
 
 test('rapid throws queue all three motions and launch food only when each hand reaches the fixed release point', () => {
+  for (const animation of ['toss', 'overhand', 'spread'] as const) {
+    const pose = handPose(animation, THROW_MOTIONS[animation].releaseDelay);
+    assert.equal(pose.x, 0); assert.equal(pose.y, 0);
+    assert.equal(pose.frame, `${animation}-release`);
+  }
   const rolls = [0.1, 0.5, 0.75, 0.5, 0.95, 0.01]; let index = 0;
   const pond = new PondSimulation(23, () => rolls[index++ % rolls.length]);
   pond.animals = []; pond.handfuls = 3;
@@ -288,22 +293,42 @@ test('rapid throws queue all three motions and launch food only when each hand r
   assert.equal(pond.currentThrow?.animation, 'toss');
   const first = pond.food[0]; const second = pond.food[4]; const third = pond.food[8];
   assert.equal(first.releaseAt, THROW_MOTIONS.toss.releaseDelay);
-  assert.equal(second.releaseAt, THROW_MOTIONS.toss.duration + THROW_MOTIONS.sweep.releaseDelay);
-  advance(pond, 0.1);
+  assert.equal(second.releaseAt, THROW_MOTIONS.toss.duration + THROW_MOTIONS.overhand.releaseDelay);
+  advance(pond, first.releaseAt / 2);
   assert.ok(pond.food.every(food => food.x === THROW_ORIGIN.x && food.y === THROW_ORIGIN.y && food.flightTime === 0));
-  advance(pond, 0.2);
+  advance(pond, first.releaseAt - pond.elapsed + 0.02);
   assert.ok(first.flightTime > 0);
   assert.equal(second.flightTime, 0); assert.equal(third.flightTime, 0);
-  advance(pond, 0.6);
-  assert.equal(pond.currentThrow?.animation, 'sweep');
+  advance(pond, second.releaseAt - pond.elapsed + 0.02);
+  assert.equal(pond.currentThrow?.animation, 'overhand');
   assert.ok(second.flightTime > 0); assert.equal(third.flightTime, 0);
-  advance(pond, 1.2);
-  assert.equal(pond.currentThrow?.animation, 'lob');
+  advance(pond, third.releaseAt - pond.elapsed + 0.02);
+  assert.equal(pond.currentThrow?.animation, 'spread');
   assert.ok(third.flightTime > 0 && third.lucky);
   pond.paused = true;
   const frozen = JSON.stringify({ elapsed: pond.elapsed, current: pond.currentThrow, food: pond.food });
   advance(pond, 1);
   assert.equal(JSON.stringify({ elapsed: pond.elapsed, current: pond.currentThrow, food: pond.food }), frozen);
+});
+
+test('spread throws fan food across the aim point, stay inside the shoreline, and overhand food takes a higher arc', () => {
+  const target = { x: THROW_ORIGIN.x, y: 389 };
+  const throwFood = (roll: number, point = target) => {
+    const pond = new PondSimulation(777, () => roll);
+    pond.handfuls = 1; pond.animals = [];
+    assert.equal(pond.scatter(point), true);
+    return pond.food;
+  };
+  const tossed = throwFood(0.1); const overhand = throwFood(0.75); const spread = throwFood(0.95);
+  const span = (food: Food[]) => Math.max(...food.map(pellet => pellet.target.x)) - Math.min(...food.map(pellet => pellet.target.x));
+  assert.ok(span(spread) > 85);
+  assert.ok(span(spread) > span(tossed) * 2);
+  assert.ok(spread[0].target.x < target.x && spread[3].target.x > target.x);
+  const height = (food: Food) => flightPosition(food, food.flightDuration / 2).height;
+  assert.ok(height(overhand[0]) > height(tossed[0]) * 1.4);
+  for (const point of [{ x: 600, y: 161 }, { x: 104, y: 389 }, { x: 1096, y: 389 }]) {
+    assert.ok(throwFood(0.95, point).every(food => inPond(food.target)));
+  }
 });
 
 test('a lucky pellet grants one fish-only bonus even when several fish share its small bites', () => {

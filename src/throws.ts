@@ -1,7 +1,11 @@
-export type ThrowAnimation = 'toss' | 'sweep' | 'lob';
+export type ThrowAnimation = 'toss' | 'overhand' | 'spread';
 export interface ThrowPlan { animation: ThrowAnimation; lucky: boolean }
 export interface ThrowEvent extends ThrowPlan { id: number; startedAt: number }
-export interface HandPose { x: number; y: number; angle: number }
+export const HAND_FRAMES = ['rest', 'toss-windup', 'toss-release', 'overhand-windup', 'overhand-release',
+  'overhand-follow', 'spread-ready', 'spread-windup', 'spread-release', 'spread-follow', 'recover', 'empty'] as const;
+export type HandFrame = typeof HAND_FRAMES[number];
+export interface HandPose { x: number; y: number; frame: HandFrame }
+export const REST_HAND: HandPose = { x: 26, y: 18, frame: 'rest' };
 interface Keyframe extends HandPose { at: number }
 interface ThrowMotion {
   weight: number; releaseDelay: number; duration: number; flightScale: number; arcScale: number;
@@ -12,27 +16,28 @@ export const LUCKY_CHANCE = 0.02;
 export const LUCKY_BONUS_POINTS = 50;
 export const THROW_MOTIONS: Record<ThrowAnimation, ThrowMotion> = {
   toss: {
-    weight: 0.6, releaseDelay: 0.2, duration: 0.56, flightScale: 1, arcScale: 1,
+    weight: 0.6, releaseDelay: 0.11, duration: 0.4, flightScale: 0.82, arcScale: 0.85,
     frames: [
-      { at: 0, x: 0, y: 0, angle: 0 }, { at: 0.08, x: 0, y: 12, angle: 8 },
-      { at: 0.2, x: 0, y: 0, angle: 0 }, { at: 0.32, x: 0, y: -12, angle: -5 },
-      { at: 0.56, x: 0, y: 0, angle: 0 },
+      { at: 0, ...REST_HAND }, { at: 0.045, x: 30, y: 26, frame: 'toss-windup' },
+      { at: 0.11, x: 0, y: 0, frame: 'toss-release' }, { at: 0.185, x: -10, y: -12, frame: 'toss-release' },
+      { at: 0.27, x: 5, y: 7, frame: 'recover' }, { at: 0.4, ...REST_HAND },
     ],
   },
-  sweep: {
-    weight: 0.3, releaseDelay: 0.3, duration: 0.84, flightScale: 0.84, arcScale: 0.8,
+  overhand: {
+    weight: 0.3, releaseDelay: 0.3, duration: 0.72, flightScale: 1.08, arcScale: 1.35,
     frames: [
-      { at: 0, x: 0, y: 0, angle: 0 }, { at: 0.13, x: -27, y: 12, angle: 14 },
-      { at: 0.3, x: 0, y: 0, angle: 0 }, { at: 0.48, x: 24, y: -7, angle: -12 },
-      { at: 0.84, x: 0, y: 0, angle: 0 },
+      { at: 0, ...REST_HAND }, { at: 0.09, x: 54, y: -12, frame: 'overhand-windup' },
+      { at: 0.19, x: 46, y: -64, frame: 'overhand-windup' }, { at: 0.3, x: 0, y: 0, frame: 'overhand-release' },
+      { at: 0.4, x: -14, y: -24, frame: 'overhand-follow' },
+      { at: 0.54, x: 10, y: 2, frame: 'recover' }, { at: 0.72, ...REST_HAND },
     ],
   },
-  lob: {
-    weight: 0.1, releaseDelay: 0.4, duration: 1.05, flightScale: 1.2, arcScale: 1.3,
+  spread: {
+    weight: 0.1, releaseDelay: 0.19, duration: 0.56, flightScale: 0.9, arcScale: 0.65,
     frames: [
-      { at: 0, x: 0, y: 0, angle: 0 }, { at: 0.2, x: 14, y: 26, angle: -10 },
-      { at: 0.4, x: 0, y: 0, angle: 0 }, { at: 0.64, x: 0, y: -22, angle: 8 },
-      { at: 1.05, x: 0, y: 0, angle: 0 },
+      { at: 0, ...REST_HAND, frame: 'spread-ready' }, { at: 0.07, x: 50, y: 20, frame: 'spread-windup' },
+      { at: 0.19, x: 0, y: 0, frame: 'spread-release' }, { at: 0.29, x: -30, y: -8, frame: 'spread-follow' },
+      { at: 0.41, x: 3, y: 10, frame: 'recover' }, { at: 0.56, ...REST_HAND },
     ],
   },
 };
@@ -40,7 +45,7 @@ export const THROW_MOTIONS: Record<ThrowAnimation, ThrowMotion> = {
 export function planThrow(random: () => number): ThrowPlan {
   const motion = random();
   let remaining = motion;
-  let animation: ThrowAnimation = 'lob';
+  let animation: ThrowAnimation = 'spread';
   for (const name of Object.keys(THROW_MOTIONS) as ThrowAnimation[]) {
     if (remaining < THROW_MOTIONS[name].weight) { animation = name; break; }
     remaining -= THROW_MOTIONS[name].weight;
@@ -50,12 +55,13 @@ export function planThrow(random: () => number): ThrowPlan {
 
 export function handPose(animation: ThrowAnimation, age: number): HandPose {
   const frames = THROW_MOTIONS[animation].frames;
+  const elapsed = Math.max(0, age);
   for (let i = 1; i < frames.length; i++) {
     const from = frames[i - 1]; const to = frames[i];
-    if (age > to.at) continue;
-    const progress = Math.max(0, (age - from.at) / (to.at - from.at));
+    if (elapsed >= to.at) continue;
+    const progress = Math.max(0, (elapsed - from.at) / (to.at - from.at));
     const eased = progress * progress * (3 - 2 * progress);
-    return { x: from.x + (to.x - from.x) * eased, y: from.y + (to.y - from.y) * eased, angle: from.angle + (to.angle - from.angle) * eased };
+    return { x: from.x + (to.x - from.x) * eased, y: from.y + (to.y - from.y) * eased, frame: from.frame };
   }
-  return { x: 0, y: 0, angle: 0 };
+  return { ...REST_HAND };
 }

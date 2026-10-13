@@ -152,8 +152,8 @@ test('three hand motions keep the sleeve edge off-screen, and a lucky fish bite 
   });
   await buy(page);
 
-  for (const animation of ['toss', 'sweep', 'lob']) {
-    if (animation === 'lob') {
+  for (const animation of ['toss', 'overhand', 'spread']) {
+    if (animation === 'spread') {
       await expect.poll(() => page.evaluate(() => {
         const rig = (window as InspectedWindow).inspectedPond.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
         return rig.getByName('lucky-hand-indicator').visible;
@@ -168,14 +168,16 @@ test('three hand motions keep the sleeve edge off-screen, and a lucky fish bite 
       const image = rig.getByName('hand-art') as Phaser.GameObjects.Image;
       const action = scene.world.currentThrow!;
       if (action.animation !== expected) throw new Error('Wrong throw animation');
-      const result: { x: number; y: number; leftBottom: number; rightBottom: number; canvasHeight: number }[] = [];
+      const result: { x: number; y: number; leftBottom: number; rightBottom: number; canvasHeight: number; frame: string; flipped: boolean }[] = [];
       await new Promise<void>(resolve => {
         const sample = () => {
           if (scene.world.currentThrow?.id !== action.id) { resolve(); return; }
           const transform = image.getWorldTransformMatrix();
-          const left = transform.transformPoint(-image.displayOriginX, image.height - image.displayOriginY);
-          const right = transform.transformPoint(image.width - image.displayOriginX, image.height - image.displayOriginY);
-          result.push({ x: rig.x, y: rig.y, leftBottom: left.y, rightBottom: right.y, canvasHeight: scene.game.canvas.height });
+          const cut = image.frame;
+          const left = transform.transformPoint(cut.x - image.displayOriginX, cut.y + cut.height - image.displayOriginY);
+          const right = transform.transformPoint(cut.x + cut.width - image.displayOriginX, cut.y + cut.height - image.displayOriginY);
+          result.push({ x: rig.x, y: rig.y, leftBottom: left.y, rightBottom: right.y, canvasHeight: scene.game.canvas.height,
+            frame: cut.name, flipped: image.flipX });
           requestAnimationFrame(sample);
         };
         sample();
@@ -186,10 +188,18 @@ test('three hand motions keep the sleeve edge off-screen, and a lucky fish bite 
     for (const frame of frames) {
       expect(frame.leftBottom).toBeGreaterThan(frame.canvasHeight);
       expect(frame.rightBottom).toBeGreaterThan(frame.canvasHeight);
+      expect(frame.flipped).toBe(false);
     }
-    if (animation === 'toss') expect(frames.every(frame => Math.abs(frame.x - 600) < 0.01)).toBe(true);
-    if (animation === 'sweep') expect(Math.max(...frames.map(frame => Math.abs(frame.x - 600)))).toBeGreaterThan(15);
-    if (animation === 'lob') expect(Math.min(...frames.map(frame => frame.y))).toBeLessThan(678);
+    expect(frames.some(frame => frame.frame === `${animation}-release`)).toBe(true);
+    if (animation === 'toss') expect(frames.some(frame => frame.frame === 'toss-windup')).toBe(true);
+    if (animation === 'overhand') {
+      expect(Math.min(...frames.map(frame => frame.y))).toBeLessThan(640);
+      expect(frames.some(frame => frame.frame === 'overhand-windup')).toBe(true);
+    }
+    if (animation === 'spread') {
+      expect(Math.max(...frames.map(frame => frame.x)) - Math.min(...frames.map(frame => frame.x))).toBeGreaterThan(65);
+      expect(frames.some(frame => frame.frame === 'spread-follow')).toBe(true);
+    }
   }
   await expect(page.locator('#food-count')).toHaveText('17');
   await page.evaluate(() => {
@@ -310,8 +320,9 @@ test.describe('mobile touch controls', () => {
       const rig = scene.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
       const image = rig.getByName('hand-art') as Phaser.GameObjects.Image;
       const transform = image.getWorldTransformMatrix();
-      const left = transform.transformPoint(-image.displayOriginX, image.height - image.displayOriginY);
-      const right = transform.transformPoint(image.width - image.displayOriginX, image.height - image.displayOriginY);
+      const cut = image.frame;
+      const left = transform.transformPoint(cut.x - image.displayOriginX, cut.y + cut.height - image.displayOriginY);
+      const right = transform.transformPoint(cut.x + cut.width - image.displayOriginX, cut.y + cut.height - image.displayOriginY);
       return Math.min(left.y, right.y) > scene.game.canvas.height;
     })).toBe(true);
     const machinePoint = await gardenMachinePoint(page);
