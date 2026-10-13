@@ -37,10 +37,9 @@ h1 em { color: #859775; font-weight: normal; }
 .food-icon { font-size: 20px; color: #b59563; align-self: center; }
 .food-track { height: 3px; margin-top: 12px; border-radius: 8px; overflow: hidden; background: #dedfcb; }
 .food-track span { width: 100%; height: 100%; background: #9dba84; transition: width .2s; }
-.hud-clock { display: flex; align-items: center; gap: 9px; padding: 10px 13px; border: 1px solid #fdf7e9aa; border-radius: 25px; background: #fffcf0ed; font: 12px ui-monospace, monospace; }
-.clock-icon { font-size: 17px; color: #828d74; }
-.hud-clock button { pointer-events: auto; background: transparent; border-left: 1px solid #d8ddcb; padding: 0 0 0 9px; font-weight: 600; font-size: 15px; }
-.hud-clock button svg { display: block; width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.5; fill: none; }
+.hud-quiet { display: flex; align-items: center; gap: 9px; padding: 10px 13px; border: 1px solid #fdf7e9aa; border-radius: 25px; background: #fffcf0ed; font: 12px ui-monospace, monospace; }
+.hud-quiet button { pointer-events: auto; background: transparent; border-left: 1px solid #d8ddcb; padding: 0 0 0 9px; font-weight: 600; font-size: 15px; }
+.hud-quiet button svg { display: block; width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.5; fill: none; }
 .hud-score { width: 160px; }
 .best-score { font-size: 8px; color: #89907e; display: block; margin-top: 10px; }
 .pond-location { position: absolute; bottom: 18px; left: 20px; display: flex; align-items: center; gap: 7px; color: #fff9e3; text-shadow: 0 1px 3px #1d3c25; font: 7px ui-monospace, monospace; letter-spacing: 1px; pointer-events: none; }
@@ -65,7 +64,7 @@ kbd { margin-left: 5px; color: #89907e; font: 8px ui-monospace, monospace; borde
 .small-button span { margin-left: 18px; color: #7d9168; }
 .small-button svg { width: 11px; height: 11px; stroke: currentColor; stroke-width: 1.2; fill: none; vertical-align: -2px; }
 .icon-button { background: transparent; font-size: 22px; line-height: 1; padding: 4px; color: #828d76; }
-.round-note { margin: 8px 0 0; font-size: 10px; color: #949789; }
+.visit-note { margin: 8px 0 0; font-size: 10px; color: #949789; }
 .tips { margin: 31px 0 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding-top: 25px; border-top: 1px solid #e2e3d6; }
 .tips article { display: flex; align-items: baseline; gap: 13px; }
 .tip-number { font: 10px ui-monospace, monospace; color: #b4ad91; }
@@ -89,14 +88,6 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
 .species-traits { border-top: 1px solid #dde0d0; margin-top: 15px; padding-top: 12px; display: flex; justify-content: space-between; font: 7px ui-monospace, monospace; color: #9a9e8c; }
 .species-traits strong { display: block; font: 10px "Segoe UI", sans-serif; margin-top: 5px; color: #6e805b; }
 .guide-footnote { text-align: center; font-style: italic; margin-bottom: 0; }
-.results-dialog { width: min(440px, 92vw); text-align: center; padding: 35px; }
-.results-dialog .eyebrow { font-size: 8px; }
-.result-stats { display: flex; justify-content: center; gap: 60px; margin: 30px 0; }
-.result-stats strong { font: 45px Georgia, serif; display: block; }
-.result-stats span { color: #87947b; font-size: 11px; }
-.results-dialog > p:not(.eyebrow) { font-size: 12px; line-height: 1.7; color: #849279; }
-.primary-button { width: 100%; margin: 18px 0 12px; background: #355e47; color: #f3f0e1; padding: 14px; border-radius: 6px; font-size: 12px; }
-.primary-button span { margin-left: 15px; }
 .text-button { background: transparent; color: #909981; font-size: 10px; padding: 7px; }
 @media (min-width: 1450px) { .site-shell { max-width: 1330px; } }
 @media (max-width: 800px) {
@@ -142,8 +133,8 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
   .hud-food > div, .hud-score > div { gap: 4px; }
   .food-icon { display: none; }
   .best-score { font-size: 6px; }
-  .hud-clock { font-size: 9px; padding: 8px; gap: 5px; }
-  .hud-clock button { font-size: 12px; padding-left: 5px; }
+  .hud-quiet { font-size: 9px; padding: 8px; gap: 5px; }
+  .hud-quiet button { font-size: 12px; padding-left: 5px; }
   .clock-icon { font-size: 13px; }
   .pond-instruction { bottom: 26px; padding: 8px; font-size: 8px; gap: 6px; max-width: 90%; white-space: normal; }
   .pond-instruction kbd { display: none; }
@@ -155,7 +146,7 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
   .small-button { font-size: 9px; padding: 8px; }
   .small-button span { margin-left: 6px; }
   .pond-actions { gap: 8px; }
-  .round-note { font-size: 9px; line-height: 1.5; }
+  .visit-note { font-size: 9px; line-height: 1.5; }
   .tips { grid-template-columns: 1fr; gap: 18px; margin-top: 22px; padding-top: 20px; }
   .tips h2 { font-size: 17px; }
   .tips p { max-width: none; font-size: 11px; }
@@ -169,3 +160,104 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
   .species-card p { font-size: 9px; min-height: 58px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+
+
+.hud-score { width: 180px; }
+.fish-total { display: block; font-size: 8px; color: #83917b; margin-top: 8px; }
+.fish-total strong { font: inherit; color: #6b815b; }
+.hud-quiet { font: 10px "Avenir Next", "Segoe UI", sans-serif; color: #859178; }
+.pond-bottom-bar { flex-wrap: wrap; }
+.pond-actions { gap: 10px; }
+.refill-button { background: #dfe8d8; border-color: #cfdac7; }
+.refill-button span { margin-left: 10px; font: 9px ui-monospace, monospace; }
+.visit-line { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
+.spend-note { white-space: nowrap; font-size: 9px; color: #929783; }
+.spend-note strong { color: #708362; margin-left: 8px; font-weight: 500; }
+.machine-dialog { width: min(760px, 94vw); padding: 26px 30px; overflow: auto; }
+.machine-body { display: grid; grid-template-columns: 260px 1fr; gap: 42px; align-items: center; margin-top: 15px; }
+.vending-stage { position: relative; width: 260px; height: 435px; margin: auto; }
+.machine-apparatus { position: relative; width: 240px; height: 360px; margin: 0 auto; overflow: hidden; }
+.machine-picture { display: block; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.coin-slot { position: absolute; width: 23px; height: 5px; top: 64%; left: 50%; transform: translateX(-50%); background: #3d4944; border: 1px solid #9da89a; box-shadow: 0 1px #eeecd8; }
+.machine-handle { position: absolute; width: 45px; height: 45px; left: calc(50% - 22.5px); top: calc(70% - 22.5px); shape-rendering: crispEdges; filter: drop-shadow(1px 2px 1px #242f4060); }
+.coin-button { position: absolute; left: calc(50% - 31px); bottom: 8px; width: 62px; height: 62px; border-radius: 50%; border: 3px solid #c39c53; background: #e8c778; box-shadow: inset 0 0 0 3px #f4dfab, 0 4px 0 #ab894d; color: #92642d; font: 26px/1 Georgia, serif; z-index: 5; }
+.coin-button small { display: block; font: 8px ui-monospace, monospace; margin-top: 2px; }
+.coin-button:hover:not(:disabled) { background: #f0d58d; }
+.coin-button:disabled { opacity: 0; cursor: default; }
+.vending-stage[data-phase="inserting"] .coin-button { opacity: 1; animation: insert-coin .45s ease-in forwards; }
+.vending-stage[data-phase="turning"] .machine-handle { animation: crank-turn .9s cubic-bezier(.4,.05,.25,1) forwards; }
+.machine-stream { position: absolute; width: 28px; height: 50px; top: 81%; left: calc(50% - 14px); opacity: 0; pointer-events: none; }
+.machine-stream i { position: absolute; width: 4px; height: 4px; background: #ab753e; border: 1px solid #81522d; left: 10px; opacity: 0; }
+.machine-stream i:nth-child(2) { left: 17px; animation-delay: .05s !important; }
+.machine-stream i:nth-child(3) { left: 5px; animation-delay: .1s !important; }
+.machine-stream i:nth-child(4) { left: 12px; animation-delay: .15s !important; }
+.machine-stream i:nth-child(5) { left: 22px; animation-delay: .2s !important; }
+.machine-stream i:nth-child(6) { left: 2px; animation-delay: .25s !important; }
+.vending-stage[data-phase="dispensing"] .machine-stream { opacity: 1; }
+.vending-stage[data-phase="dispensing"] .machine-stream i { animation: pellet-fall .3s ease-in forwards; }
+.machine-pile, .collected-pellets { width: 20px; height: 7px; background: #b68348; border: 1px solid #8c6136; box-shadow: 4px -3px 0 -1px #bb9456, -3px -3px 0 -1px #8c6438, 9px 1px 0 -1px #c49b58; opacity: 0; }
+.machine-pile, .collected-pellets { width: 4px; height: 4px; border-radius: 1px; box-shadow: 5px 1px #986d3f, -5px 2px #a8814c, 2px -4px #c69754, -3px -4px #b28548, 9px -2px #9a6e3d, -9px -2px #bb965b, 0 4px #c29f68; }
+.machine-pile { position: absolute; left: calc(50% - 10px); top: 88%; pointer-events: none; }
+.vending-stage[data-phase="dispensing"] .machine-pile { opacity: 1; }
+.vending-stage[data-phase="collecting"] .machine-pile { animation: tray-empty 1.05s linear forwards; }
+.collection-hand { position: absolute; width: 150px; height: 225px; left: 50%; top: 62%; transform: translate(-50%, 120%); opacity: 0; pointer-events: none; }
+.collection-hand img { width: 100%; height: 100%; image-rendering: pixelated; }
+.collected-pellets { position: absolute; top: 34%; left: 50%; transform: translateX(-50%); }
+.vending-stage[data-phase="collecting"] .collection-hand { animation: collect-hand 1.05s ease-in-out forwards; }
+.vending-stage[data-phase="collecting"] .collected-pellets { animation: take-pellets 1.05s linear forwards; }
+.machine-copy h2 { font-size: 35px; line-height: 1.1; margin: 12px 0 16px; }
+.machine-description { font-size: 12px; line-height: 1.9; color: #859078; max-width: 270px; }
+.machine-offer { display: flex; align-items: baseline; gap: 12px; margin: 24px 0 20px; }
+.machine-offer > strong { font: 27px Georgia, serif; color: #5d7850; }
+.machine-offer span { font-size: 11px; color: #8e997f; }
+.machine-offer span strong { font-weight: 500; color: #678057; }
+.machine-status { min-height: 32px; font: italic 14px/1.5 Georgia, serif; color: #799166; margin: 0 0 15px; }
+.machine-receipt { display: flex; gap: 28px; padding: 15px 0; border-top: 1px solid #e0e4d3; border-bottom: 1px solid #e0e4d3; font: 8px ui-monospace, monospace; color: #959c88; }
+.machine-receipt strong { display: block; color: #6c805d; font: 15px Georgia, serif; margin-top: 8px; }
+.machine-copy .text-button { padding: 18px 0 0; text-align: left; }
+@keyframes insert-coin { 0% { transform: translateY(0) rotateY(0); } 75% { opacity: 1; } 100% { transform: translateY(-168px) rotateY(75deg) scale(.25); opacity: 0; } }
+@keyframes crank-turn { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+@keyframes pellet-fall { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(24px); opacity: 1; } }
+@keyframes collect-hand { 0% { transform: translate(-50%, 120%); opacity: 0; } 30%, 68% { transform: translate(-50%, 0); opacity: 1; } 100% { transform: translate(-50%, 100%); opacity: 0; } }
+@keyframes tray-empty { 0%, 28% { opacity: 1; } 38%, 100% { opacity: 0; } }
+@keyframes take-pellets { 0%, 28% { opacity: 0; } 38%, 100% { opacity: 1; } }
+@media (max-width: 800px) {
+  .hud-score { width: 145px; }
+  .machine-body { gap: 22px; grid-template-columns: 245px 1fr; }
+  .vending-stage { width: 245px; }
+}
+@media (max-width: 600px) {
+  .machine-dialog { padding: 20px; }
+  .machine-body { grid-template-columns: 1fr; gap: 0; margin-top: 8px; }
+  .vending-stage { width: 240px; height: 370px; }
+  .machine-apparatus { width: 205px; height: 307px; }
+  .coin-button { width: 54px; height: 54px; left: calc(50% - 27px); bottom: 3px; font-size: 22px; }
+  .machine-handle { width: 38px; height: 38px; left: calc(50% - 19px); top: calc(70% - 19px); }
+  .collection-hand { width: 130px; height: 195px; }
+  .machine-copy { text-align: center; }
+  .machine-copy .eyebrow, .machine-description { display: none; }
+  .machine-copy h2 { font-size: 27px; margin: 8px 0 10px; }
+  .machine-offer { justify-content: center; margin: 12px 0; }
+  .machine-status { min-height: 22px; margin-bottom: 10px; font-size: 12px; }
+  .machine-receipt { justify-content: center; padding: 10px 0; }
+  .machine-copy .text-button { text-align: center; padding-top: 14px; font-size: 9px; }
+  @keyframes insert-coin { 0% { transform: translateY(0) rotateY(0); } 75% { opacity: 1; } 100% { transform: translateY(-142px) rotateY(75deg) scale(.25); opacity: 0; } }
+}
+@media (max-width: 540px) {
+  .hud-score { width: 108px; }
+  .hud-quiet { font-size: 8px; }
+  .fish-total { font-size: 6px; }
+  .share-block { width: 100%; }
+  .pond-actions { width: 100%; justify-content: flex-end; }
+  .visit-line { align-items: flex-start; gap: 14px; }
+  .spend-note { font-size: 8px; margin-top: 8px; }
+  .spend-note strong { display: block; margin: 4px 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .coin-button, .machine-handle, .machine-stream i { animation-duration: .01ms !important; }
+  .vending-stage[data-phase="collecting"] .collection-hand { animation: none; opacity: 1; transform: translate(-50%,0); }
+  .vending-stage[data-phase="collecting"] .collected-pellets { animation: none; opacity: 1; }
+}
+.pond-instruction { left: auto; right: 20px; bottom: 25px; transform: none; max-width: 38%; white-space: normal; font-size: 10px; }
+@media (max-width: 800px) { .pond-instruction { right: 14px; bottom: 16px; font-size: 9px; } }
+@media (max-width: 540px) { .pond-instruction { right: 10px; bottom: 10px; max-width: 38%; font-size: 8px; } }

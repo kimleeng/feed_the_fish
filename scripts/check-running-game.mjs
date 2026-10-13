@@ -12,11 +12,15 @@ try {
   const response = await page.goto(process.argv[2] || 'http://127.0.0.1:5173');
   assert.equal(response.status(), 200);
   await page.locator('#loading').waitFor({ state: 'hidden' });
-  await page.locator('#pond canvas').waitFor({ state: 'visible' });
-  await page.getByRole('button', { name: 'Scatter food' }).click();
-  await page.waitForFunction(() => document.querySelector('#food-count').textContent === '59');
+  await page.locator('#machine-dialog').waitFor({ state: 'visible' });
+  await page.getByRole('button', { name: 'Insert 5 kr coin' }).click();
+  await page.locator('#machine-dialog').waitFor({ state: 'hidden' });
+  assert.equal(await page.locator('#food-count').textContent(), '20');
+  await page.getByRole('button', { name: 'Throw pellets' }).click();
+  await page.waitForFunction(() => document.querySelector('#food-count').textContent === '19');
+  assert.equal(await page.locator('#money-used').textContent(), '5 kr');
   assert.deepEqual(errors, []);
-  console.log('Game readiness passed: original art loaded, canvas rendered, and feeding input worked.');
+  console.log('Game readiness passed: machine animation, twenty-throw refill, spending, and pond throwing worked.');
 } finally {
   await browser.close();
 }
