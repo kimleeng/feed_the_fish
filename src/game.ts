@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { PondSimulation, POND, THROW_ORIGIN, inPond, type Point } from './simulation.ts';
 import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
-import type { VendingPhase } from './vending.ts';
+import { COIN_PRICE, type VendingPhase } from './vending.ts';
 import { handPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 
 export interface PondState {
@@ -37,6 +37,7 @@ export class PondScene extends Phaser.Scene {
   preload(): void {
     this.load.image('pond-art', '/art/pond.png');
     this.load.image('throw-hand-art', '/art/throw-hand.png');
+    this.load.atlas('scene-machine', '/art/scene-machine.png', '/art/scene-machine.json');
     this.load.atlas('fish-swimmers', '/art/fish-swimmers.png', '/art/fish-swimmers.json');
     this.load.atlas('bird-swimmers', '/art/bird-swimmers.png', '/art/bird-swimmers.json');
     this.load.on('loaderror', () => {
@@ -49,6 +50,7 @@ export class PondScene extends Phaser.Scene {
     this.effects = this.add.group();
     this.createWaterSurface();
     this.spawnCreatures();
+    this.createPelletMachine();
     this.createThrowHand();
     this.cursor = this.add.circle(600, 390, 16).setStrokeStyle(1, 0xfff7d4, 0.6).setDepth(80).setVisible(false);
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
@@ -61,6 +63,28 @@ export class PondScene extends Phaser.Scene {
     document.querySelector('#loading')!.setAttribute('hidden', '');
     this.publishHud();
     document.dispatchEvent(new CustomEvent('pond:ready', { detail: this }));
+  }
+
+  private createPelletMachine(): void {
+    const machine = this.add.container(410, 746).setName('garden-pellet-machine').setDepth(50);
+    const image = this.add.image(0, 0, 'scene-machine', 'machine').setName('machine-art').setOrigin(0.5, 1);
+    image.setScale(154 / image.height);
+    // Include the narrow pedestal in the touch target, with a little extra width.
+    const touchWidth = 110 / image.scaleX;
+    image.setInteractive(new Phaser.Geom.Rectangle((image.width - touchWidth) / 2, 0, touchWidth, image.height), Phaser.Geom.Rectangle.Contains);
+    image.input!.cursor = 'pointer';
+    image.on('pointerdown', (_pointer: Phaser.Input.Pointer, _x: number, _y: number, event: Phaser.Types.Input.EventData) => {
+      event.stopPropagation();
+    });
+    image.on('pointerup', (_pointer: Phaser.Input.Pointer, _x: number, _y: number, event: Phaser.Types.Input.EventData) => {
+      event.stopPropagation();
+      document.dispatchEvent(new CustomEvent('pond:machine'));
+    });
+    const plaque = this.add.rectangle(0, -68, 22, 11, 0xe5d8b4).setStrokeStyle(1, 0x746b50);
+    const price = this.add.text(0, -68, `${COIN_PRICE} kr`, {
+      fontFamily: 'monospace', fontSize: '8px', color: '#344a3d',
+    }).setOrigin(0.5);
+    machine.add([image, plaque, price]);
   }
 
   private createThrowHand(): void {

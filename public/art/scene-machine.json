@@ -1,0 +1,33 @@
+{
+  "frames": {
+    "machine": {
+      "frame": {
+        "x": 305,
+        "y": 56,
+        "w": 407,
+        "h": 1434
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 407,
+        "h": 1434
+      },
+      "sourceSize": {
+        "w": 407,
+        "h": 1434
+      }
+    }
+  },
+  "meta": {
+    "image": "scene-machine.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 1536
+    },
+    "scale": "1"
+  }
+}

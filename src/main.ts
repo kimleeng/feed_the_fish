@@ -51,7 +51,15 @@ document.addEventListener('pond:ready', event => {
     const portrait = document.querySelector<HTMLImageElement>('[data-species="' + profile.id + '"]')!;
     portrait.src = scene.textures.getBase64(animalAtlas(profile.kind), animalFrame(profile.texture, 'e'));
   }
+  const carpPortrait = scene.textures.getBase64('fish-swimmers', animalFrame('koi', 'e'));
+  for (const icon of document.querySelectorAll<HTMLElement>('.brand-fish')) {
+    icon.style.backgroundImage = `url(${carpPortrait})`;
+    icon.style.backgroundSize = 'contain';
+    icon.style.backgroundPosition = 'center';
+    icon.style.backgroundRepeat = 'no-repeat';
+  }
 });
+document.addEventListener('pond:machine', openMachine);
 document.addEventListener('pond:needs-food', openMachine);
 document.addEventListener('pond:dispensed', () => {
   machine.close();
@@ -149,7 +157,7 @@ document.addEventListener('pond:state', event => {
   }
   const visitNote = state.paused ? 'Take a breather. The pond will wait.' : state.luckyInHand
     ? 'A golden pellet in your hand. A fish’s nibble brings +' + LUCKY_BONUS_POINTS + ' points.' : state.handfuls === 0
-    ? state.coinsUsed === 0 ? 'First, a coin and a little ritual at the pellet machine.' : 'Your hand is empty. Enjoy the ripples, or visit the machine for a little more.'
+    ? state.coinsUsed === 0 ? 'First, a coin and a little ritual at the pellet machine.' : 'Your hand is empty. Visit the red machine beside the dock for a little more.'
     : 'Every throw leaves the dock. Aim where you like; there is no hurry.';
   if (element('visit-note').textContent !== visitNote) element('visit-note').textContent = visitNote;
   if (state.score > best) {

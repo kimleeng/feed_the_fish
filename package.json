@@ -9,7 +9,8 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "node --experimental-strip-types --test tests/simulation.test.ts",
     "test:browser": "playwright test",
-    "check:running": "node scripts/check-running-game.mjs"
+    "check:running": "node scripts/check-running-game.mjs",
+    "review:art": "node scripts/review-art.mjs"
   },
   "dependencies": { "phaser": "3.90.0" },
   "devDependencies": {

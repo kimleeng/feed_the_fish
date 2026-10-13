@@ -21,6 +21,32 @@ async function buy(page: Page): Promise<void> {
   await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
 }
 
+async function gardenMachinePoint(page: Page): Promise<{ x: number; y: number }> {
+  const point = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const machine = scene.children.getByName('garden-pellet-machine') as Phaser.GameObjects.Container;
+    const art = machine.getByName('machine-art') as Phaser.GameObjects.Image;
+    return { x: machine.x, y: machine.y - art.displayHeight * 0.65 };
+  });
+  const bounds = (await page.locator('#pond canvas').boundingBox())!;
+  return { x: bounds.x + point.x / 1200 * bounds.width, y: bounds.y + point.y / 800 * bounds.height };
+}
+
+test('the machine on the garden path opens its coin ritual without throwing food', async ({ page }, testInfo) => {
+  await arrive(page);
+  await buy(page);
+  const point = await gardenMachinePoint(page);
+  await page.mouse.click(point.x, point.y);
+  await expect(page.locator('#machine-dialog')).toBeVisible();
+  await expect(page.locator('#food-count')).toHaveText('20');
+  expect(await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.pendingThrows)).toBe(0);
+  await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeFocused();
+  await buy(page);
+  await expect(page.locator('#food-count')).toHaveText('40');
+  await expect(page.locator('#money-used')).toHaveText('10 kr');
+  await page.screenshot({ path: testInfo.outputPath('tivoli-garden-machine.png'), fullPage: true });
+});
+
 test('swimmers turn through eight views, and visible fish sit beneath the water surface', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();
@@ -288,6 +314,11 @@ test.describe('mobile touch controls', () => {
       const right = transform.transformPoint(image.width - image.displayOriginX, image.height - image.displayOriginY);
       return Math.min(left.y, right.y) > scene.game.canvas.height;
     })).toBe(true);
+    const machinePoint = await gardenMachinePoint(page);
+    await page.touchscreen.tap(machinePoint.x, machinePoint.y);
+    await expect(page.locator('#machine-dialog')).toBeVisible();
+    await expect(page.locator('#food-count')).toHaveText('18');
+    await page.getByRole('button', { name: 'Close pellet machine' }).tap();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await page.screenshot({ path: testInfo.outputPath('zen-pond-mobile.png'), fullPage: true });
   });
