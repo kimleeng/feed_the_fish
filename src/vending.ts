@@ -1,4 +1,4 @@
-export const THROWS_PER_COIN = 20;
+export const THROWS_PER_COIN = 10;
 export const COIN_PRICE = 5;
 export type VendingPhase = 'ready' | 'inserting' | 'turning' | 'dispensing' | 'collecting';
 

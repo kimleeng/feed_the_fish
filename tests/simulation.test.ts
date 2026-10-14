@@ -47,12 +47,12 @@ test('one coin plays every vending stage and credits food only after collection,
     granted += machine.step(0.05);
   }
   assert.deepEqual([...phases], ['inserting', 'turning', 'dispensing', 'collecting']);
-  assert.equal(granted, 20);
+  assert.equal(granted, 10);
   assert.equal(machine.servings, 1);
   assert.equal(machine.step(100), 0);
 });
 
-test('a visit starts empty, and refills add twenty throws while preserving unused food and spending', () => {
+test('a visit starts empty, and refills add ten throws while preserving unused food and spending', () => {
   const pond = new PondSimulation(2);
   assert.equal(pond.handfuls, 0);
   assert.equal(pond.scatter({ x: 600, y: 389 }), false);
@@ -60,11 +60,11 @@ test('a visit starts empty, and refills add twenty throws while preserving unuse
   assert.equal(pond.handfuls, 0);
   assert.equal(pond.buyPellets(), false);
   advance(pond, 3.5);
-  assert.equal(pond.handfuls, 20);
+  assert.equal(pond.handfuls, 10);
   assert.equal(pond.scatter({ x: 600, y: 389 }), true);
-  assert.equal(pond.handfuls, 19);
+  assert.equal(pond.handfuls, 9);
   refill(pond);
-  assert.equal(pond.handfuls, 39);
+  assert.equal(pond.handfuls, 19);
   assert.equal(pond.machine.coinsUsed, 2);
   assert.equal(pond.machine.moneyUsed, 10);
 });
@@ -74,9 +74,9 @@ test('throws start at the dock character’s hand, follow an arc, and splash onc
   pond.animals = [];
   refill(pond);
   assert.equal(pond.scatter({ x: 10, y: 10 }), false);
-  assert.equal(pond.handfuls, 20);
+  assert.equal(pond.handfuls, 10);
   pond.scatter({ x: 690, y: 320 });
-  assert.equal(pond.handfuls, 19);
+  assert.equal(pond.handfuls, 9);
   assert.ok(pond.food.every(food => food.x === food.origin.x && food.y === food.origin.y && food.phase === 'air'));
   const pellet = pond.food[0];
   advance(pond, pellet.releaseAt - pond.elapsed + 0.35);
@@ -177,7 +177,7 @@ test('pause freezes animals and airborne food, and long visits still allow feedi
   pond.paused = false;
   advance(pond, 180);
   assert.equal(pond.scatter({ x: 600, y: 389 }), true);
-  assert.equal(pond.handfuls, 18);
+  assert.equal(pond.handfuls, 8);
 });
 
 test('koi glide, carp meander, and coots ease between paddle strokes and continuous drifts', () => {
@@ -186,7 +186,10 @@ test('koi glide, carp meander, and coots ease between paddle strokes and continu
   const carp = pond.animals.find(animal => animal.profile.id === 'carp')!;
   const coot = pond.animals.find(animal => animal.profile.id === 'coot')!;
   pond.animals = [koi, carp, coot];
-  for (const animal of pond.animals) { animal.x = 600; animal.y = 389; animal.heading = 0; animal.phase = 0; animal.destination = { x: 900, y: 389 }; }
+  for (const [index, animal] of pond.animals.entries()) {
+    animal.x = 600; animal.y = 320 + index * 69; animal.heading = 0; animal.phase = 0;
+    animal.destination = { x: 900, y: animal.y };
+  }
   let slowest = Infinity; let fastest = 0; let carpDeviation = 0;
   for (let i = 0; i < 160; i++) {
     const previous = { x: coot.x, y: coot.y };
@@ -195,7 +198,7 @@ test('koi glide, carp meander, and coots ease between paddle strokes and continu
     slowest = Math.min(slowest, speed); fastest = Math.max(fastest, speed);
     carpDeviation = Math.max(carpDeviation, Math.abs(carp.y - 389));
   }
-  assert.ok(Math.abs(koi.y - 389) < 0.001);
+  assert.ok(Math.abs(koi.y - 320) < 0.001);
   assert.ok(carpDeviation > 3);
   assert.ok(slowest > 0 && slowest < 4 && fastest > 12);
 });
@@ -225,13 +228,13 @@ test('repeated refills conserve food and keep every swimming animal inside the p
   const pond = new PondSimulation(11);
   for (let batch = 0; batch < 3; batch++) {
     refill(pond);
-    for (let i = 0; i < 20; i++) pond.scatter(i % 2 ? { x: 1097, y: 389 } : { x: 600, y: 389 });
+    for (let i = 0; i < 10; i++) pond.scatter(i % 2 ? { x: 1097, y: 389 } : { x: 600, y: 389 });
     advance(pond, 20);
   }
   assert.equal(pond.handfuls, 0);
   assert.equal(pond.machine.moneyUsed, 15);
   assert.ok(pond.fishFood > 0);
-  assert.ok(pond.fishFood + pond.birdFood <= 240.000001);
+  assert.ok(pond.fishFood + pond.birdFood <= 120.000001);
   assert.ok(pond.animals.every(inPond));
   assert.ok(pond.fishShare >= 0 && pond.fishShare <= 1);
 });

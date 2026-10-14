@@ -27,6 +27,10 @@ export interface Animal extends Point {
   chewLeft: number; state: 'roaming' | 'approaching' | 'chewing'; moving: boolean;
   school: number; phase: number;
 }
+// Small body cores leave fins, tails, and feathers free to overlap naturally.
+export function animalCollisionRadius(animal: Animal): number {
+  return animal.profile.size * (animal.profile.kind === 'fish' ? 0.14 : 0.2);
+}
 export interface Food extends Point {
   origin: Point; launchHeight: number;
   id: number; amount: number; age: number; phase: 'air' | 'water';
@@ -95,6 +99,7 @@ export class PondSimulation {
         if (school >= 0 && !this.schools.has(school)) this.schools.set(school, this.randomPoint());
       }
     }
+    this.separateAnimals();
   }
 
   randomPoint(minRadius = 0, maxRadius = 0.9): Point {
@@ -179,11 +184,77 @@ export class PondSimulation {
     return { destination: animal.destination, pace: 0.26, bend: 0 };
   }
 
+  private swimmingHeading(animal: Animal, destination: Point, bend: number): number {
+    const heading = Math.atan2(destination.y - animal.y, destination.x - animal.x) + bend;
+    const forward = { x: Math.cos(heading), y: Math.sin(heading) };
+    let x = forward.x, y = forward.y;
+    for (const other of this.animals) {
+      // Birds float above the submerged fish, so their bodies do not collide.
+      if (other === animal || other.profile.kind !== animal.profile.kind) continue;
+      const dx = other.x - animal.x, dy = other.y - animal.y;
+      const gap = Math.hypot(dx, dy);
+      const room = (animalCollisionRadius(animal) + animalCollisionRadius(other)) * 1.8;
+      if (gap >= room || gap < 0.0001) continue;
+      const toward = { x: dx / gap, y: dy / gap };
+      const pressure = 1 - gap / room;
+      x -= toward.x * pressure * 0.8;
+      y -= toward.y * pressure * 0.8;
+      // A small turn to the right prevents two animals meeting head-on from stalling.
+      if (forward.x * toward.x + forward.y * toward.y > 0.35) {
+        x -= forward.y * pressure * 0.45;
+        y += forward.x * pressure * 0.45;
+      }
+    }
+    return Math.atan2(y, x);
+  }
+
+  private keepBodyInPond(animal: Animal): void {
+    const radius = animalCollisionRadius(animal);
+    const x = animal.x - POND.x, y = animal.y - POND.y;
+    const squared = (x / POND.rx) ** 2 + (y / POND.ry) ** 2;
+    const slope = Math.hypot(x / POND.rx ** 2, y / POND.ry ** 2);
+    const rim = (radius / Math.min(POND.rx, POND.ry)) ** 2;
+    // Bound the entire circle against the ellipse, including its curved banks.
+    if (squared + 2 * radius * slope + rim >= 1) {
+      const scale = (Math.sqrt((radius * slope) ** 2 + squared * (1 - rim)) - radius * slope) / squared * 0.9999;
+      animal.x = POND.x + x * scale;
+      animal.y = POND.y + y * scale;
+    }
+  }
+
+  private separateAnimals(iterations = 16): void {
+    for (const animal of this.animals) this.keepBodyInPond(animal);
+    for (let pass = 0; pass < iterations; pass++) {
+      let separated = false;
+      for (let i = 0; i < this.animals.length; i++) for (let j = i + 1; j < this.animals.length; j++) {
+        const first = this.animals[i], second = this.animals[j];
+        if (first.profile.kind !== second.profile.kind) continue;
+        const firstRadius = animalCollisionRadius(first), secondRadius = animalCollisionRadius(second);
+        const dx = second.x - first.x, dy = second.y - first.y;
+        const squared = dx * dx + dy * dy;
+        const touching = firstRadius + secondRadius;
+        if (squared >= touching * touching) continue;
+        const gap = Math.sqrt(squared);
+        const overlap = touching - gap;
+        if (overlap <= 0.01) continue;
+        separated = true;
+        // Stable fallback for coincident centers, without consuming gameplay randomness.
+        const angle = (first.id * 31 + second.id * 17 + 1) * 2.399963229728653;
+        const normal = gap > 0.0001 ? { x: dx / gap, y: dy / gap } : { x: Math.cos(angle), y: Math.sin(angle) };
+        const firstShare = secondRadius ** 2 / (firstRadius ** 2 + secondRadius ** 2);
+        first.x -= normal.x * overlap * firstShare; first.y -= normal.y * overlap * firstShare;
+        second.x += normal.x * overlap * (1 - firstShare); second.y += normal.y * overlap * (1 - firstShare);
+        this.keepBodyInPond(first); this.keepBodyInPond(second);
+      }
+      if (!separated) break;
+    }
+  }
+
   step(seconds: number): void {
     const dt = Math.max(0, Math.min(seconds, 0.1));
     this.handfuls += this.machine.step(dt);
     if (this.handfuls > 0 && !this.nextThrow) this.nextThrow = planThrow(this.throwRandom);
-    if (this.paused) return;
+    if (this.paused || dt === 0) return;
     this.elapsed += dt;
     this.crowd.step(dt);
     this.throwQueue = this.throwQueue.filter(action => this.elapsed < action.startedAt + THROW_MOTIONS[action.animation].duration);
@@ -258,7 +329,7 @@ export class PondSimulation {
         const motion = this.roam(animal);
         destination = motion.destination; pace = motion.pace; bend = motion.bend;
       }
-      const desired = Math.atan2(destination.y - animal.y, destination.x - animal.x) + bend;
+      const desired = this.swimmingHeading(animal, destination, bend);
       const turn = profile.turnRate * (target ? 1.8 : 1) * dt;
       animal.heading += Math.max(-turn, Math.min(turn, angleDelta(animal.heading, desired)));
       const travel = Math.min(distance(animal, destination), profile.speed * pace * dt);
@@ -266,6 +337,7 @@ export class PondSimulation {
       if (inPond(next)) { animal.x = next.x; animal.y = next.y; animal.moving = travel > 0.001; }
       else { animal.heading = Math.atan2(POND.y - animal.y, POND.x - animal.x); animal.destination = this.randomPoint(0, 0.7); }
     }
+    this.separateAnimals();
     this.food = this.food.filter(food => food.amount > 0.001 && (food.phase === 'air' || food.age < 13));
   }
 }

@@ -154,11 +154,11 @@ test('the machine on the garden path opens its coin ritual without throwing food
   const point = await gardenMachinePoint(page);
   await page.mouse.click(point.x, point.y);
   await expect(page.locator('#machine-dialog')).toBeVisible();
-  await expect(page.locator('#food-count')).toHaveText('20');
+  await expect(page.locator('#food-count')).toHaveText('10');
   expect(await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.pendingThrows)).toBe(0);
   await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeFocused();
   await buy(page);
-  await expect(page.locator('#food-count')).toHaveText('40');
+  await expect(page.locator('#food-count')).toHaveText('20');
   await expect(page.locator('#money-used')).toHaveText('10 kr');
   await page.screenshot({ path: testInfo.outputPath('tivoli-garden-machine.png'), fullPage: true });
 });
@@ -322,7 +322,7 @@ test('the dock character keeps planted feet through three throws, releases from 
       expect(origin.y).toBeCloseTo(release.hand.y, 3);
     }
   }
-  await expect(page.locator('#food-count')).toHaveText('17');
+  await expect(page.locator('#food-count')).toHaveText('7');
   await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
     const pellet = scene.world.food.find(food => food.lucky)!;
@@ -342,7 +342,7 @@ test('the dock character keeps planted feet through three throws, releases from 
   expect(await page.evaluate(() => !!(window as InspectedWindow).inspectedPond.children.getByName('lucky-celebration'))).toBe(false);
 });
 
-test('the opening animates the coin and crank, grants twenty throws, and feeds an untimed pond', async ({ page }, testInfo) => {
+test('the opening animates the coin and crank, grants ten throws, and feeds an untimed pond', async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await arrive(page);
@@ -356,7 +356,7 @@ test('the opening animates the coin and crank, grants twenty throws, and feeds a
   await expect(page.locator('#machine-coins')).toHaveText('1');
   await expect(page.locator('#food-count')).toHaveText('0');
   await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
-  await expect(page.locator('#food-count')).toHaveText('20');
+  await expect(page.locator('#food-count')).toHaveText('10');
   await expect(page.locator('#money-used')).toHaveText('5 kr');
 
   const pond = page.locator('#pond');
@@ -364,7 +364,7 @@ test('the opening animates the coin and crank, grants twenty throws, and feeds a
   await pond.click({ position: { x: bounds!.width / 2, y: bounds!.height / 2 } });
   await pond.press('Space');
   for (let i = 0; i < 2; i++) await page.getByRole('button', { name: 'Throw pellets' }).click();
-  await expect(page.locator('#food-count')).toHaveText('16');
+  await expect(page.locator('#food-count')).toHaveText('6');
   await expect.poll(async () => Number(await page.locator('#score').textContent()), { timeout: 20_000 }).toBeGreaterThan(0);
   await page.getByRole('button', { name: 'Pause game' }).click();
   await expect(page.locator('#paused-overlay')).toBeVisible();
@@ -388,7 +388,7 @@ test('the opening animates the coin and crank, grants twenty throws, and feeds a
 test('empty hands can be refilled, collection is visible, and each coin is counted once', async ({ page }, testInfo) => {
   await arrive(page);
   await buy(page);
-  for (let i = 0; i < 20; i++) await page.getByRole('button', { name: 'Throw pellets' }).click();
+  for (let i = 0; i < 10; i++) await page.getByRole('button', { name: 'Throw pellets' }).click();
   await expect(page.locator('#food-count')).toHaveText('0');
   await expect(page.locator('#machine-dialog')).toBeHidden();
   await page.getByRole('button', { name: 'Pellet machine' }).click();
@@ -402,7 +402,7 @@ test('empty hands can be refilled, collection is visible, and each coin is count
   await expect.poll(() => page.locator('.collection-hand').evaluate(hand => Number(getComputedStyle(hand).opacity)), { intervals: [50] }).toBeGreaterThan(0.5);
   await page.screenshot({ path: testInfo.outputPath('collecting-pellets.png'), fullPage: true });
   await expect(page.locator('#machine-dialog')).toBeHidden();
-  await expect(page.locator('#food-count')).toHaveText('20');
+  await expect(page.locator('#food-count')).toHaveText('10');
   await expect(page.locator('#money-used')).toHaveText('10 kr');
   await page.getByRole('button', { name: 'Pellet machine' }).click();
   await expect(page.locator('#machine-coins')).toHaveText('2');
@@ -422,7 +422,7 @@ test.describe('mobile touch controls', () => {
     await page.screenshot({ path: testInfo.outputPath('pellet-machine-mobile.png'), fullPage: true });
     await page.getByRole('button', { name: 'Insert 5 kr coin' }).tap();
     await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
-    await expect(page.locator('#food-count')).toHaveText('20');
+    await expect(page.locator('#food-count')).toHaveText('10');
     await expect.poll(() => page.evaluate(() => {
       const rig = (window as InspectedWindow).inspectedPond.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
       return rig.getByName('lucky-pellet-indicator').visible;
@@ -435,7 +435,7 @@ test.describe('mobile touch controls', () => {
     await expect(page.locator('#paused-overlay')).toBeHidden();
     await page.locator('#pond').tap();
     await page.getByRole('button', { name: 'Throw pellets' }).tap();
-    await expect(page.locator('#food-count')).toHaveText('18');
+    await expect(page.locator('#food-count')).toHaveText('8');
     expect(await page.evaluate(() => {
       const scene = (window as InspectedWindow).inspectedPond;
       const rig = scene.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
@@ -446,7 +446,7 @@ test.describe('mobile touch controls', () => {
     const machinePoint = await gardenMachinePoint(page);
     await page.touchscreen.tap(machinePoint.x, machinePoint.y);
     await expect(page.locator('#machine-dialog')).toBeVisible();
-    await expect(page.locator('#food-count')).toHaveText('18');
+    await expect(page.locator('#food-count')).toHaveText('8');
     await page.getByRole('button', { name: 'Close pellet machine' }).tap();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await page.screenshot({ path: testInfo.outputPath('zen-pond-mobile.png'), fullPage: true });
@@ -459,7 +459,7 @@ test.describe('reduced motion', () => {
     await arrive(page);
     await page.keyboard.press('Enter');
     await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
-    await expect(page.locator('#food-count')).toHaveText('20');
+    await expect(page.locator('#food-count')).toHaveText('10');
     await expect(page.locator('#money-used')).toHaveText('5 kr');
   });
 });

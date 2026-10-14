@@ -1,6 +1,6 @@
 # Feed the fish
 
-An untimed, cozy browser game inspired by feeding fish at Tivoli Gardens in Copenhagen. The garden has an ivory Moorish facade, a Chinese-style pavilion, green ironwork, and benches facing the lake. A red round-globe pellet machine stands on the path beside the dock: click a 5 kr game coin, watch the chrome handle spin, and hold out a hand for twenty throws. The money counter records pretend spending during this visit; the game has no payment service.
+An untimed, cozy browser game inspired by feeding fish at Tivoli Gardens in Copenhagen. The garden has an ivory Moorish facade, a Chinese-style pavilion, green ironwork, and benches facing the lake. A red round-globe pellet machine stands on the path beside the dock: click a 5 kr game coin, watch the chrome handle spin, and hold out a hand for ten throws. The money counter records pretend spending during this visit; the game has no payment service.
 
 There is no countdown or game-over screen. Throw a little food, watch the pond, and refill whenever you like. Unused throws carry over when you buy another serving. Points credit the amount fish actually eat, and the food-share meter shows how much went to fish versus birds. Your best kindness score is saved in this browser.
 
@@ -19,7 +19,7 @@ The dock character keeps their feet planted and a pellet pouch in the other hand
 
 Each throw has an independent 2% chance of containing one lucky pellet. A gold star and **LUCKY PELLET** label appear over the palm before a lucky throw, and the golden pellet glints as it travels. The first fish to nibble that pellet earns **+50 bonus points**, golden ripples, a small star celebration, and an optional soft chime. The bonus is awarded once per pellet, even when fish share it. Birds can eat lucky pellets but earn no bonus. The score includes ordinary feeding points and lucky bonuses; the food-share meter still measures food amounts.
 
-Click or tap the **red machine beside the dock** for another twenty throws. The **Pellet machine** button provides the same interaction for keyboard users. **P** and the pause button pause the pond. The field guide pauses while open. Sound is optional. **Begin a new visit** clears the current food, spending, and score and returns to the machine; the best saved score remains.
+Click or tap the **red machine beside the dock** for another ten throws. The **Pellet machine** button provides the same interaction for keyboard users. **P** and the pause button pause the pond. The field guide pauses while open. Sound is optional. **Begin a new visit** clears the current food, spending, and score and returns to the machine; the best saved score remains.
 
 ## Animal movement
 
@@ -33,6 +33,8 @@ The pond has 46 fish and 15 birds across six profiles. Every animal inherits a c
 - Little coots alternate quiet paddle strokes with slower drifts near the edge.
 
 Every species has eight directional views and two swimming poses per view. Birds float low in the water, bob gently, and leave little wakes; they watch airborne food but can only catch it near the surface. Fish turn toward their swimming direction beneath a translucent layer of the pond's reflections and moving glints, so their shapes remain visible through the water.
+
+Animals steer around nearby bodies and gently separate when they touch. Collision circles are smaller than the artwork: their diameters are 28% of the fish's sprite size and 40% of a bird's. Fins, tails, and feathers can overlap, while body centers keep some space, including around food. Smaller animals yield more to larger ones. Fish avoid other fish and birds avoid other birds; submerged fish can swim beneath a bird. Collision bodies stay inside the shoreline, and pause freezes collision handling along with movement.
 
 ## Garden visitors
 
@@ -68,7 +70,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/dock-thrower-pins.json`: source-image hand annotations used to generate atlas hand pins and release offsets.
 - `public/art/hand.png`: original hand used for collecting pellets at the machine.
 - `public/art/right-hand-*.png`, `right-arm-throws.json`, and `throw-hand.png`: retained artwork from the earlier foreground-arm version.
-- `src/vending.ts`: coin price, twenty-throw servings, and the guarded dispenser cycle.
+- `src/vending.ts`: coin price, servings of ten throws, and the guarded dispenser cycle.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
 - `src/game.ts`: rendering, dock-character motion, and landing ripples.
 - `src/appearance.ts`: directional frame names and stable heading selection while turning.

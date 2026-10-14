@@ -15,12 +15,12 @@ try {
   await page.locator('#machine-dialog').waitFor({ state: 'visible' });
   await page.getByRole('button', { name: 'Insert 5 kr coin' }).click();
   await page.locator('#machine-dialog').waitFor({ state: 'hidden' });
-  assert.equal(await page.locator('#food-count').textContent(), '20');
+  assert.equal(await page.locator('#food-count').textContent(), '10');
   await page.getByRole('button', { name: 'Throw pellets' }).click();
-  await page.waitForFunction(() => document.querySelector('#food-count').textContent === '19');
+  await page.waitForFunction(() => document.querySelector('#food-count').textContent === '9');
   assert.equal(await page.locator('#money-used').textContent(), '5 kr');
   assert.deepEqual(errors, []);
-  console.log('Game readiness passed: machine animation, twenty-throw refill, spending, and pond throwing worked.');
+  console.log('Game readiness passed: machine animation, ten-throw refill, spending, and pond throwing worked.');
 } finally {
   await browser.close();
 }
