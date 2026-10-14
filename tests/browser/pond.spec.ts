@@ -47,7 +47,8 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
       const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
       return { id: person.id, age: person.age, state: person.state, direction: person.direction,
         x: person.x, y: person.y, remaining: person.watchRemaining, frame: sprite.frame.name,
-        atlas: sprite.texture.key, flipped: sprite.flipX, interactive: !!sprite.input };
+        atlas: sprite.texture.key, flipped: sprite.flipX, interactive: !!sprite.input,
+        height: sprite.frame.cutHeight * sprite.scaleY };
     });
   });
   expect(initial).toHaveLength(4);
@@ -58,6 +59,8 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
     expect(person.atlas).toBe('garden-observers');
     expect(person.interactive).toBe(false);
     expect(person.frame).toContain('observer-' + person.age);
+    expect(person.height).toBeGreaterThan(person.age === 'adult' ? 130 : 80);
+    expect(person.height).toBeLessThan(person.age === 'adult' ? 180 : 130);
     expect(person.flipped).toBe(person.state !== 'watching' && person.direction === -1);
     if (person.state === 'watching') expect(person.frame).toMatch(/-watch$/);
   }
@@ -88,11 +91,21 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
 
   const moved = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
-    for (let i = 0; i < 5; i++) scene.update(i * 100, 100);
+    const poses = new Map<number, Set<string>>();
+    for (let i = 0; i < 5; i++) {
+      scene.update(i * 100, 100);
+      for (const person of scene.world.crowd.people) {
+        const visitor = scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container;
+        const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
+        if (!poses.has(person.id)) poses.set(person.id, new Set());
+        poses.get(person.id)!.add(sprite.frame.name);
+      }
+    }
     return scene.world.crowd.people.map(person => {
       const visitor = scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container;
       const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
-      return { id: person.id, x: person.x, y: person.y, remaining: person.watchRemaining, frame: sprite.frame.name };
+      return { id: person.id, x: person.x, y: person.y, remaining: person.watchRemaining, frame: sprite.frame.name,
+        poses: [...poses.get(person.id)!] };
     });
   });
   for (const person of initial) {
@@ -102,7 +115,7 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
       expect(after.remaining).toBeLessThan(person.remaining);
     } else {
       expect(Math.abs(after.x - person.x)).toBeGreaterThan(10);
-      expect(after.frame).not.toBe(person.frame);
+      expect(new Set([person.frame, ...after.poses]).size).toBeGreaterThan(1);
     }
   }
   await page.getByRole('button', { name: 'Pause game' }).click();

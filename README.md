@@ -36,11 +36,13 @@ Every species has eight directional views and two swimming poses per view. Birds
 
 ## Garden visitors
 
-Kids and adults walk across the near garden path in either direction. Many turn toward the pond for a brief look, while a few linger: adults have a 70% chance of stopping and kids a 90% chance. Of those who stop, 16% of adults and 52% of kids choose a long watch. Brief stops last 4–11 seconds for adults and 6–15 seconds for kids; longer watches last 25–60 seconds and 40–90 seconds respectively.
+Kids and adults walk across the near garden path in either direction. Many turn toward the pond for a brief look, while a few linger. Baseline stopping chances are 70% for adults and 90% for kids; of those who stop, 16% of adults and 52% of kids choose a long watch. Brief stops last 4–11 seconds for adults and 6–15 seconds for kids; longer watches last 25–60 seconds and 40–90 seconds respectively.
+
+Actual pellet releases and food eaten by fish or birds gently increase interest, making a stop a little more likely and slowing the remaining watching time. Interest starts decreasing after each visitor's own 5–10 second threshold without a throw. Nibbles increase interest in proportion to food eaten, and boosts are capped so regular feeding cannot keep anyone indefinitely. Queued clicks, unsuccessful throws, and refills do not count as visible throws. Kids remain more likely to watch for longer in both active and quiet periods.
 
 Uneven arrivals keep about three visitors visible on average, usually two to four. Busy periods reduce the chance of another arrival, making more than eight unusual; ten is the absolute limit. Visitors reserve separate watching places on dry paving and resume their original route afterward. Pause and the field guide freeze their movement and watching time, and a new visit starts with a fresh small crowd. Foot traffic has its own random stream so it does not affect fish behavior or lucky throws.
 
-The visitors use an original pixel atlas made at startup, with eight appearances per age, four walking poses, a back view for watching, and grounded shadows.
+The path has open cobblestone entrances at both image edges. Six shaded, detailed visitor designs (three adults and three kids) match the warm garden artwork, with walking poses, back views for watching, and grounded shadows. Adult heights are based on the existing benches; children are shorter, and both age groups vary in height and scale slightly with depth along the path.
 
 ## Validate
 
@@ -61,6 +63,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/bird-swimmers.png` and `bird-swimmers.json`: original floating mallard, gull, and coot atlas, with eight headings and two paddling poses each.
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
 - `public/art/scene-machine.png` and `scene-machine.json`: separate garden machine on an iron pedestal, grounded on the path and clickable without throwing pellets.
+- `public/art/garden-observers.png` and `garden-observers.json`: transparent visitor atlas with 24 trimmed walking and watching cuts and a shared foot baseline.
 - `public/art/hand.png`: original hand used for collecting pellets at the machine.
 - `public/art/right-hand-cup.png`, `right-hand-quick.png`, `right-hand-overhand.png`, and `right-hand-spread.png`: four right-hand/long-forearm cutouts for holding, quick release, pronated overhand release, and a fanned spread release.
 - `public/art/right-arm-throws.json`: a multi-texture atlas with twelve named motion stages, reusing the four checked drawings with grip pivots. The earlier `throw-hand.png` is retained as an art source.
@@ -70,7 +73,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `src/appearance.ts`: directional frame names and stable heading selection while turning.
 - `src/throws.ts`: weighted throw choices, hand motion keyframes, and lucky-pellet chance and bonus.
 - `src/observers.ts`: visitor routes, age-dependent watching time, and variable foot traffic.
-- `src/observer-art.ts`: original adult and kid pixel sprites, baked once into an atlas.
+- `src/observer-art.ts`: visitor pose selection and height relative to the garden benches.
 
 Sprites use nearest-neighbor scaling. The original side-view animal sheet is retained as an art source; the game and field guide use the new swimming atlases. Explicit trimmed rectangles and a shared frame size preserve transparent padding around every pose. The supplied vending-machine reference page was blocked by the cloud network policy, so the machine art uses the described classic round-globe form. Repository wiki notes were unavailable during initial setup.
 
@@ -80,6 +83,6 @@ For the image audit and decisions, see [the art review](docs/art-review.md). Gen
 npm run review:art
 ```
 
-The review command rejects missing directions, out-of-bounds cuts, overlapping rectangles, and PNG/atlas size mismatches before saving images under ignored `test-results/art-review`. When replacing generated source art, `node scripts/build-art-atlas.mjs fish` or `node scripts/build-art-atlas.mjs machine` reads alpha to rebuild frame metadata without altering PNG pixels. Inspect every resulting pose before committing the art; the bounds checks cannot judge anatomy or perspective.
+The review command rejects missing directions or visitor poses, out-of-bounds cuts, overlapping rectangles, and PNG/atlas size mismatches before saving images under ignored `test-results/art-review`. It also renders all 24 actual visitor cuts and checks their common foot baseline. When replacing generated source art, `node scripts/build-art-atlas.mjs fish`, `machine`, or `observers` reads alpha to rebuild frame metadata without altering PNG pixels. Inspect every resulting pose before committing the art; the bounds checks cannot judge anatomy or perspective.
 
 Use `npm run review:hands` for close-ups of every actual throw stage and a full-forearm sheet under ignored `test-results/hand-review`. The hand review validates frame names, source bounds and dimensions; finger counts and wrist anatomy require visual inspection. `node scripts/build-art-atlas.mjs hand` packages the four individual cutouts without editing their pixels. See [the throw review](docs/throw-review.md) for the animation and anatomy checks.

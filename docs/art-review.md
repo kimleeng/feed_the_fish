@@ -15,6 +15,16 @@ The review covered every rendered fish atlas cut (three profiles × eight headin
 
 The final fish contact sheet has 48 complete single-tail silhouettes and no neighboring-frame marks. The new garden was reviewed for support connections, ground contact, perspective, shore continuity, lily pads, reflections, and consistent warm lighting. The moving fish still render beneath the translucent water reflections; birds remain above them.
 
+## Visitors and open path, 14 October 2026
+
+The original flat 32×48 visitor drawings were replaced with six detailed shaded designs: three adults and three children. Clothing folds, hair, skin shading, and natural proportions now follow the warm garden artwork. Each character has three side-view walking cuts and a back view for watching the pond. The source PNG has real transparency; the cut review composites every actual frame over pale green to reveal background residue and clipped anatomy.
+
+Adult heights use the existing bench dimensions as the reference, with children shorter and modest individual and path-depth variation. Desktop and phone scenes were reviewed for feet on paving, shadows, separation from the machine, and human scale beside the benches. The foreground cobblestones now extend through both side edges, with the blocking bottom-border plants removed from the walking corridor. The benches retain their established size and position; the pond, rail, dock, and garden composition are preserved.
+
+The visitor atlas contains 24 non-overlapping cuts with a shared foot baseline. `node scripts/build-art-atlas.mjs observers` packages the artwork by reading alpha without editing the PNG. `npm run review:art` now also produces `observer-frames.png` alongside the fish and garden sheets.
+
+Watching interest rises modestly on actual releases and in proportion to food eaten, then decreases after each observer's own 5–10 second quiet threshold. Checks cover delayed and queued releases, fish and bird nibbles, bounded interest, shorter quiet watches, and pause. Across twelve half-hour visits per condition, visible crowds averaged 2.70 during quiet periods and 3.25 with regular feeding; neither condition exceeded eight in that sample.
+
 ## Reproduce the review
 
 ```bash

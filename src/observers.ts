@@ -15,6 +15,10 @@ export interface Observer extends Point {
   stop: Point | null;
   watchDuration: number;
   watchRemaining: number;
+  interest: number;
+  quietAfter: number;
+  stopRoll: number;
+  hasWatched: boolean;
 }
 
 export const OBSERVER_PATH = { start: -50, end: 1250, lanes: [760, 773, 784] };
@@ -38,6 +42,8 @@ export class ObserverCrowd {
   private random: () => number;
   private nextId = 0;
   private arrivalIn = 0;
+  private lastThrowAt = 0;
+  private sceneInterest = 1;
 
   constructor(seed = Date.now()) {
     let value = seed >>> 0;
@@ -62,29 +68,60 @@ export class ObserverCrowd {
     return 2.5 - Math.log(1 - this.random()) * 13;
   }
 
+  private stopChance(person: Observer): number {
+    return OBSERVER_INTEREST[person.age].stopChance + (person.interest - 1) * 0.3;
+  }
+
+  private inviteToWatch(person: Observer): void {
+    if (person.state !== 'walking' || person.hasWatched || person.stopRoll >= this.stopChance(person)) return;
+    const available = WATCH_SPOTS.filter(spot => (spot.x - person.x) * person.direction > 50 &&
+      !this.people.some(other => other.stop === spot));
+    if (!available.length) return;
+    const interest = OBSERVER_INTEREST[person.age];
+    const longChance = interest.longWatchChance + (person.interest - 1) * 0.3;
+    const range = this.random() < longChance ? interest.long : interest.short;
+    person.stop = available[Math.floor(this.random() * available.length)];
+    person.state = 'approaching';
+    person.watchDuration = this.between(range[0], range[1]);
+    person.watchRemaining = person.watchDuration;
+  }
+
+  private noticeFeeding(boost: number): void {
+    this.sceneInterest = Math.min(1.15, this.sceneInterest + boost);
+    for (const person of this.people) {
+      person.interest = Math.min(1.15, person.interest + boost);
+      this.inviteToWatch(person);
+    }
+  }
+
+  noticeThrow(): void {
+    this.lastThrowAt = this.elapsed;
+    this.noticeFeeding(0.04);
+  }
+
+  noticeEating(amount: number): void {
+    // Nibbles scale with the food eaten, so splitting a pellet does not multiply interest.
+    this.noticeFeeding(Math.max(0, amount) * 0.01);
+  }
+
   private arrive(progress = 0, age: ObserverAge = this.random() < 0.35 ? 'kid' : 'adult'): void {
     const direction = this.random() < 0.5 ? 1 : -1;
     const x = direction === 1
       ? OBSERVER_PATH.start + (OBSERVER_PATH.end - OBSERVER_PATH.start) * progress
       : OBSERVER_PATH.end - (OBSERVER_PATH.end - OBSERVER_PATH.start) * progress;
     const lane = OBSERVER_PATH.lanes[Math.floor(this.random() * OBSERVER_PATH.lanes.length)];
-    const interest = OBSERVER_INTEREST[age];
-    const available = WATCH_SPOTS.filter(spot => (spot.x - x) * direction > 50 &&
-      !this.people.some(person => person.stop === spot));
-    const stop = this.random() < interest.stopChance && available.length
-      ? available[Math.floor(this.random() * available.length)] : null;
-    const range = this.random() < interest.longWatchChance ? interest.long : interest.short;
-    const watchDuration = stop ? this.between(range[0], range[1]) : 0;
     const person: Observer = {
-      id: this.nextId++, age, x, y: pathY(x, lane), lane, direction, stop,
-      state: stop ? 'approaching' : 'walking',
+      id: this.nextId++, age, x, y: pathY(x, lane), lane, direction, stop: null,
+      state: 'walking',
       speed: age === 'kid' ? this.between(37, 51) : this.between(32, 46),
-      look: Math.floor(this.random() * 8), scale: this.between(0.94, 1.06),
-      stride: this.random() * 4, watchDuration, watchRemaining: watchDuration,
+      look: Math.floor(this.random() * 3), scale: this.between(0.92, 1.1),
+      stride: this.random() * 4, watchDuration: 0, watchRemaining: 0,
+      interest: this.sceneInterest, quietAfter: this.between(5, 10), stopRoll: this.random(), hasWatched: false,
     };
+    this.inviteToWatch(person);
     // Arrive into an already lived-in garden, including someone quietly watching.
-    if (progress > 0 && stop && this.random() < 0.45) {
-      person.x = stop.x; person.y = stop.y; person.state = 'watching';
+    if (progress > 0 && person.stop && this.random() < 0.45) {
+      person.x = person.stop.x; person.y = person.stop.y; person.state = 'watching'; person.hasWatched = true;
       person.watchRemaining *= this.between(0.3, 1);
     }
     this.people.push(person);
@@ -94,17 +131,25 @@ export class ObserverCrowd {
     const dt = Math.max(0, Math.min(seconds, 0.1));
     if (dt === 0) return;
     this.elapsed += dt;
+    const quietFor = this.elapsed - this.lastThrowAt;
+    if (quietFor > 7.5) this.sceneInterest = Math.max(0.8, this.sceneInterest - dt * 0.018);
     for (const person of this.people) {
+      if (quietFor > person.quietAfter) person.interest = Math.max(0.8, person.interest - dt * 0.018);
       if (person.state === 'watching') {
-        person.watchRemaining = Math.max(0, person.watchRemaining - dt);
+        const watchRate = 1 + (1 - person.interest) * 0.6;
+        person.watchRemaining = Math.max(0, person.watchRemaining - dt * watchRate);
         if (person.watchRemaining === 0) person.state = 'leaving';
         continue;
       }
       const before = person.x;
+      if (person.state === 'approaching' && person.stop && Math.abs(person.x - person.stop.x) > 80 &&
+        person.stopRoll >= this.stopChance(person)) {
+        person.state = 'walking'; person.stop = null; person.watchDuration = 0; person.watchRemaining = 0;
+      }
       person.x += person.direction * person.speed * dt;
       if (person.state === 'approaching' && person.stop) {
         if ((person.stop.x - person.x) * person.direction <= 0) {
-          person.x = person.stop.x; person.y = person.stop.y; person.state = 'watching';
+          person.x = person.stop.x; person.y = person.stop.y; person.state = 'watching'; person.hasWatched = true;
         } else {
           const approach = Math.max(0, 1 - Math.abs(person.x - person.stop.x) / 80);
           person.y = pathY(person.x, person.lane) * (1 - approach) + person.stop.y * approach;

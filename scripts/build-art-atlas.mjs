@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 
 // Inspect alpha to package generated art. The PNG is read without editing its pixels.
 const type = process.argv[2];
-if (!['fish', 'machine', 'hand'].includes(type)) throw new Error('Usage: node scripts/build-art-atlas.mjs fish|machine|hand');
+if (!['fish', 'machine', 'hand', 'observers'].includes(type)) throw new Error('Usage: node scripts/build-art-atlas.mjs fish|machine|hand|observers');
 if (type === 'hand') {
   const sources = [
     { image: 'right-hand-cup.png', names: ['rest', 'toss-windup', 'overhand-windup', 'spread-ready', 'spread-windup', 'recover', 'empty'] },
@@ -46,7 +46,7 @@ if (type === 'hand') {
   console.log('Packaged 12 named right-arm poses from four source cutouts without changing PNG pixels.');
   process.exit(0);
 }
-const basename = { fish: 'fish-swimmers', machine: 'scene-machine' }[type];
+const basename = { fish: 'fish-swimmers', machine: 'scene-machine', observers: 'garden-observers' }[type];
 const filename = `public/art/${basename}.png`;
 const src = 'data:image/png;base64,' + (await fs.readFile(filename)).toString('base64');
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium', headless: true });
@@ -83,10 +83,10 @@ try {
         }
         if (count > 700) boxes.push({ left, top, right, bottom });
       }
-      const expected = 48;
+      const expected = type === 'observers' ? 24 : 48;
       if (boxes.length !== expected) throw new Error(`Expected ${expected} ${type} silhouettes; found ${boxes.length}. Inspect the generated art before packaging.`);
       boxes.sort((a, b) => a.top + a.bottom - b.top - b.bottom);
-      const columns = 8;
+      const columns = type === 'observers' ? 4 : 8;
       for (let row = 0; row < expected / columns; row++) {
         const ordered = boxes.slice(row * columns, row * columns + columns).sort((a, b) => a.left + a.right - b.left - b.right);
         boxes.splice(row * columns, columns, ...ordered);
@@ -98,6 +98,8 @@ try {
 
 const frames = {};
 const directions = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'];
+const observerSize = { w: Math.max(...inspected.boxes.map(box => box.right - box.left)) + 8,
+  h: Math.max(...inspected.boxes.map(box => box.bottom - box.top)) + 8 };
 for (let index = 0; index < inspected.boxes.length; index++) {
   const box = inspected.boxes[index];
   const x = Math.max(0, box.left - 2); const y = Math.max(0, box.top - 2);
@@ -108,9 +110,10 @@ for (let index = 0; index < inspected.boxes.length; index++) {
     if (Math.min(x + w, previous.x + previous.w) > Math.max(x, previous.x) &&
         Math.min(y + h, previous.y + previous.h) > Math.max(y, previous.y)) throw new Error('Generated frames overlap; inspect spacing before packaging.');
   }
-  const name = type === 'fish' ? `${['koi', 'carp', 'minnow'][Math.floor(index / 16)]}-${directions[index % 8]}-${Math.floor(index / 8) % 2}` : 'machine';
-  const size = type === 'fish' ? { w: 224, h: 224 } : { w, h };
-  const source = { x: Math.floor((size.w - w) / 2), y: Math.floor((size.h - h) / 2) };
+  const name = type === 'fish' ? `${['koi', 'carp', 'minnow'][Math.floor(index / 16)]}-${directions[index % 8]}-${Math.floor(index / 8) % 2}`
+    : type === 'observers' ? `observer-${index < 12 ? 'adult' : 'kid'}-${Math.floor(index / 4) % 3}-${['walk-0', 'walk-1', 'walk-2', 'watch'][index % 4]}` : 'machine';
+  const size = type === 'fish' ? { w: 224, h: 224 } : type === 'observers' ? observerSize : { w, h };
+  const source = { x: Math.floor((size.w - w) / 2), y: type === 'observers' ? size.h - h : Math.floor((size.h - h) / 2) };
   if (source.x < 0 || source.y < 0 || source.x + w > size.w || source.y + h > size.h) {
     throw new Error(`${name} crosses its grid cell. Correct sprite spacing before packaging.`);
   }

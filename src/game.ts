@@ -3,7 +3,7 @@ import { PondSimulation, POND, THROW_ORIGIN, inPond, type Point } from './simula
 import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
 import { COIN_PRICE, type VendingPhase } from './vending.ts';
 import { handPose, REST_HAND, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
-import { createObserverAtlas, observerFrame } from './observer-art.ts';
+import { observerFrame, observerHeight } from './observer-art.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; share: number;
@@ -43,6 +43,7 @@ export class PondScene extends Phaser.Scene {
     this.load.atlas('scene-machine', '/art/scene-machine.png', '/art/scene-machine.json');
     this.load.atlas('fish-swimmers', '/art/fish-swimmers.png', '/art/fish-swimmers.json');
     this.load.atlas('bird-swimmers', '/art/bird-swimmers.png', '/art/bird-swimmers.json');
+    this.load.atlas('garden-observers', '/art/garden-observers.png', '/art/garden-observers.json');
     this.load.on('loaderror', () => {
       document.querySelector('#loading p')!.textContent = 'The artwork could not load. Please refresh to try again.';
     });
@@ -53,7 +54,6 @@ export class PondScene extends Phaser.Scene {
     this.effects = this.add.group();
     this.createWaterSurface();
     this.spawnCreatures();
-    createObserverAtlas(this.textures);
     this.updateObservers();
     this.createPelletMachine();
     this.createThrowHand();
@@ -171,7 +171,7 @@ export class PondScene extends Phaser.Scene {
     for (const person of crowd.people) {
       let visitor = this.observers.get(person.id);
       if (!visitor) {
-        const shadow = this.add.ellipse(1, -1, 24, 7, 0x493f32, 0.2).setName('observer-shadow');
+        const shadow = this.add.ellipse(0, -1, 44, 8, 0x493f32, 0.2).setName('observer-shadow');
         const sprite = this.add.sprite(0, 0, 'garden-observers', observerFrame(person))
           .setName('observer-art').setOrigin(0.5, 1);
         visitor = this.add.container(person.x, person.y, [shadow, sprite]).setName('observer-' + person.id);
@@ -179,9 +179,13 @@ export class PondScene extends Phaser.Scene {
       }
       const watching = person.state === 'watching';
       const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
+      const shadow = visitor.getByName('observer-shadow') as Phaser.GameObjects.Ellipse;
+      const reference = this.textures.getFrame('garden-observers', `observer-${person.age}-${person.look}-walk-0`)!;
+      const scale = observerHeight(person) / reference.cutHeight;
       const bob = watching ? Math.sin(crowd.elapsed * 1.3 + person.id) * 0.3 : 0;
-      sprite.setFrame(observerFrame(person)).setFlipX(!watching && person.direction === -1).setY(bob);
-      visitor.setPosition(person.x, person.y).setScale(1.75 * person.scale).setDepth(40 + person.y / 1000);
+      sprite.setFrame(observerFrame(person)).setFlipX(!watching && person.direction === -1).setY(bob).setScale(scale);
+      shadow.setDisplaySize((person.age === 'adult' ? 44 : 30) * person.scale, person.age === 'adult' ? 8 : 6);
+      visitor.setPosition(person.x, person.y).setDepth(40 + person.y / 1000);
     }
   }
 

@@ -66,6 +66,7 @@ export class PondSimulation {
   private throwRandom: () => number;
   private throwQueue: ThrowEvent[] = [];
   private nextThrowId = 0;
+  private lastObservedThrow = -1;
   private schools = new Map<number, Point>();
 
   constructor(seed = Date.now(), throwRandom?: () => number) {
@@ -181,6 +182,12 @@ export class PondSimulation {
     this.elapsed += dt;
     this.crowd.step(dt);
     this.throwQueue = this.throwQueue.filter(action => this.elapsed < action.startedAt + THROW_MOTIONS[action.animation].duration);
+    const released = this.currentThrow;
+    if (released && released.id !== this.lastObservedThrow &&
+      this.elapsed >= released.startedAt + THROW_MOTIONS[released.animation].releaseDelay) {
+      this.lastObservedThrow = released.id;
+      this.crowd.noticeThrow();
+    }
     for (const food of this.food) {
       if (food.phase === 'air') {
         const flightDt = Math.min(dt, Math.max(0, this.elapsed - food.releaseAt));
@@ -238,6 +245,7 @@ export class PondSimulation {
             this.luckyBonus += bonus;
           }
           this.bites.push({ x: target.x, y: target.y, kind: profile.kind, animal: animal.id, amount, phase: target.phase, bonus });
+          this.crowd.noticeEating(amount);
           continue;
         }
       } else {
