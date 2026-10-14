@@ -34,6 +34,21 @@ The pond has 46 fish and 15 birds across six profiles. Every animal inherits a c
 
 Every species has eight directional views and two swimming poses per view. Birds float low in the water, bob gently, and leave little wakes; they watch airborne food but can only catch it near the surface. Fish turn toward their swimming direction beneath a translucent layer of the pond's reflections and moving glints, so their shapes remain visible through the water.
 
+## Wind and water
+
+A gentle breeze changes direction and strength over time. Small surface particles drift with it, fade in and out, and recycle within the pond mask. Stronger moments make the glints slightly longer and brighter. The particles freeze on pause, restart for a new visit, and are hidden when reduced motion is preferred, including changes to that preference during play. Wind itself continues to update and record when decorative motion is reduced.
+
+Wind is shared simulation state for future effects, independent of animal and throw randomness:
+
+```ts
+scene.world.wind.current;       // { time, direction, strength, x, y }
+scene.world.wind.history;       // Timestamped snapshots at 0, 1, 2, ... seconds
+scene.world.wind.sampleAt(12.5); // Reproduce any instant without changing state
+scene.world.wind.seed;          // Seed for replaying this visit's weather
+```
+
+`time` counts unpaused simulation seconds. `direction` is radians clockwise from screen-right, and `strength` is normalized from 0 to 1. `x` and `y` are the direction vector multiplied by strength; each effect can apply its own movement scale. The `pond:state` event also carries the current snapshot as `detail.wind`. History lasts for the current visit and resets with **Begin a new visit**; it is not saved across reloads. Weather is evaluated from the seed and absolute simulation time, so the same seed and time reproduce the same wind at different frame rates.
+
 ## Validate
 
 ```bash
@@ -47,7 +62,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 
 ## Art and simulation
 
-- `public/art/pond.png`: original Tivoli-inspired garden scenery, with corrected benches, paving, ironwork, and architecture reflections.
+- `public/art/pond.png`: original Tivoli-inspired garden scenery, with corrected benches, paving, ironwork, and architecture and broadleaf-tree reflections.
 - `public/art/animals.png` and `animals.json`: transparent animal sprite sheet and explicit frame rectangles.
 - `public/art/fish-swimmers.png` and `fish-swimmers.json`: golden, common, and young carp swimming atlas, with eight headings and two tail strokes each. Natural carp snouts, scales, low dorsal fins, and one attached forked tail replace the ornate goldfish shapes. Internal frame IDs remain `koi`, `carp`, and `minnow`.
 - `public/art/bird-swimmers.png` and `bird-swimmers.json`: original floating mallard, gull, and coot atlas, with eight headings and two paddling poses each.
@@ -58,6 +73,8 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `src/vending.ts`: coin price, twenty-throw servings, and the guarded dispenser cycle.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
 - `src/game.ts`: rendering, throws, hand motion, and landing ripples.
+- `src/wind.ts`: shared seeded breeze, current state, per-second visit history, and replay.
+- `src/water.ts`: the wind-driven surface shimmer particle pool.
 - `src/appearance.ts`: directional frame names and stable heading selection while turning.
 - `src/throws.ts`: weighted throw choices, hand motion keyframes, and lucky-pellet chance and bonus.
 

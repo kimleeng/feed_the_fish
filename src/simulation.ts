@@ -1,5 +1,6 @@
 import { PelletMachine } from './vending.ts';
 import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, type ThrowPlan, type ThrowEvent } from './throws.ts';
+import { WindSimulation } from './wind.ts';
 
 export type AnimalKind = 'fish' | 'bird';
 export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift';
@@ -45,6 +46,7 @@ export function flightPosition(food: Food, time = food.flightTime): Point & { he
 }
 
 export class PondSimulation {
+  readonly wind: WindSimulation;
   animals: Animal[] = [];
   food: Food[] = [];
   bites: BiteEvent[] = [];
@@ -67,6 +69,7 @@ export class PondSimulation {
   private schools = new Map<number, Point>();
 
   constructor(seed = Date.now(), throwRandom?: () => number) {
+    this.wind = new WindSimulation(seed);
     let value = seed >>> 0;
     this.random = () => {
       value += 0x6d2b79f5;
@@ -167,6 +170,7 @@ export class PondSimulation {
     if (this.handfuls > 0 && !this.nextThrow) this.nextThrow = planThrow(this.throwRandom);
     if (this.paused) return;
     this.elapsed += dt;
+    this.wind.advanceTo(this.elapsed);
     this.throwQueue = this.throwQueue.filter(action => this.elapsed < action.startedAt + THROW_MOTIONS[action.animation].duration);
     for (const food of this.food) {
       if (food.phase === 'air') {
