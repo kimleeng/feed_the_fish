@@ -43,6 +43,18 @@ The employee matches the existing adult visitors in height and shaded pixel-art 
 
 All 25 populated states and the empty globe were visually reviewed in both machine views. Browser checks verify 26 distinct canvas results, matching garden frames, and no stock-dependent cropping. Validation also covers 25 purchases without overselling, dispatch at four remaining, purchases during arrival, waiting for a paid serving, gradual refill to 25, continued use of food already purchased, repeated service, pause, and new visits. The build, 47 unit tests, and 11 production browser scenarios passed. The throw-animation test now holds animals in their chewing state until its intended fish is positioned, preventing another animal from eating its lucky pellet during frame inspection.
 
+## Denser animation cycles and throw direction, 14 October 2026
+
+The runtime now loads 330 distinct animation drawings across six multi-image atlases, including 160 new intermediate poses. Every visitor and the employee has an eight-pose walking cycle. All fish, birds, and the turtle have four swimming poses in each of eight directions. The dock character has 24 drawings across its three throws, and the employee has additional reaching, lifting, and closing transitions. The original PNGs are retained alongside the new sheets.
+
+Cycle duration, movement speed, and measured walking distances are preserved. Frame metadata calibrates the new drawings to the established character sizes and foot baselines. Swimmer sizes are matched to the original silhouette in each direction, keeping their water layers and collision cores unchanged. The turtle's body and head still appear only during its feeding peek.
+
+Throw direction is stored with each queued action. The character faces the selected side when the action starts and keeps that direction afterward. Hand food, lucky indicators, and actual pellet origins use the matching mirrored hand coordinates. Center throws retain the preceding direction; rejected input and pointer motion do not turn the character.
+
+`node scripts/build-animation-atlases.mjs` packages the original and supplementary images without repainting or resampling their pixels. Its output includes per-frame scale, sole, hand, and sack-opening metadata. `npm run review:art` checks the expanded atlases for missing frames, bounds, overlaps, and ground contacts, and produces six `*-cycles.png` sheets in animation order. The supplementary young-carp sheet and visitor sheet have clear gutters so neighboring pixels stay outside the atlas cuts.
+
+Validation passed: all 330 animation cuts, 48 unit tests, the TypeScript/production build, and all 12 production browser scenarios. Visitor and swimmer scenarios passed again after the final spacing corrections. The cycle sheets and assembled desktop and phone scenes were visually inspected, including the character continuing to look right with an empty hand.
+
 ## Reproduce the review
 
 ```bash

@@ -4,13 +4,13 @@ import { animalAtlas, animalFrame, directionForHeading, type Direction } from '.
 import { COIN_PRICE, type VendingPhase } from './vending.ts';
 import { MACHINE_POSITION, EMPLOYEE_HEIGHT, type EmployeePhase } from './restocking.ts';
 import { employeeFrame } from './employee-art.ts';
-import { EMPLOYEE_POUR_OFFSET } from './employee-pins.ts';
 import { pelletStockLevel } from './pellet-stock-art.ts';
 import { throwerPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 import { DOCK_POSITION, THROWER_HEIGHT, throwerHand } from './thrower-art.ts';
 import { observerFrame, observerHeight } from './observer-art.ts';
 import { SHOW_TURTLE_UNDERWATER, turtleSurfaceAmount } from './turtle.ts';
 import { TURTLE_HEAD_OFFSETS } from './turtle-pins.ts';
+import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-frames.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; turtleFood: number; share: number;
@@ -54,14 +54,9 @@ export class PondScene extends Phaser.Scene {
 
   preload(): void {
     this.load.image('pond-art', '/art/pond.png');
-    this.load.atlas('dock-thrower', '/art/dock-thrower.png', '/art/dock-thrower.json');
+    for (const atlas of ANIMATED_ATLASES) this.load.multiatlas(atlas, `/art/${atlas}-animation.json`, '/art');
     this.load.atlas('pellet-stock', '/art/pellet-stock.png', '/art/pellet-stock.json');
     this.load.atlas('scene-machine-empty', '/art/scene-machine-empty.png', '/art/scene-machine-empty.json');
-    this.load.atlas('garden-employee', '/art/garden-employee.png', '/art/garden-employee.json');
-    this.load.atlas('fish-swimmers', '/art/fish-swimmers.png', '/art/fish-swimmers.json');
-    this.load.atlas('bird-swimmers', '/art/bird-swimmers.png', '/art/bird-swimmers.json');
-    this.load.atlas('turtle-swimmer', '/art/turtle-swimmer.png', '/art/turtle-swimmer.json');
-    this.load.atlas('garden-observers', '/art/garden-observers.png', '/art/garden-observers.json');
     this.load.on('loaderror', () => {
       document.querySelector('#loading p')!.textContent = 'The artwork could not load. Please refresh to try again.';
     });
@@ -141,10 +136,13 @@ export class PondScene extends Phaser.Scene {
     const person = this.world.employee;
     this.employee.setVisible(person.visible).setPosition(person.x, person.y).setDepth(40 + person.y / 1000);
     this.employeeArt.setFrame(employeeFrame(person)).setFlipX(person.direction === -1);
+    const frame = animationFrameData(this.employeeArt.frame);
+    this.employeeArt.setScale(EMPLOYEE_HEIGHT / frame.referenceHeight);
     this.refillStream.clear();
     if (person.pouring) {
-      const origin = { x: person.x + EMPLOYEE_POUR_OFFSET.x * EMPLOYEE_HEIGHT,
-        y: person.y + EMPLOYEE_POUR_OFFSET.y * EMPLOYEE_HEIGHT };
+      const pin = frame.pour!;
+      const origin = { x: person.x + (pin.x - this.employeeArt.displayOriginX) * this.employeeArt.scaleX,
+        y: person.y + (pin.y - this.employeeArt.displayOriginY) * this.employeeArt.scaleY };
       for (let i = 0; i < 8; i++) {
         const t = (person.phaseTime * 2.4 + i / 8) % 1;
         const x = origin.x + (MACHINE_POSITION.x - origin.x) * t + Math.sin(i * 2.3) * 1.5;
@@ -186,10 +184,12 @@ export class PondScene extends Phaser.Scene {
     const action = this.world.currentThrow;
     const age = action ? this.world.elapsed - action.startedAt : 0;
     const frame = this.world.handfuls > 0 ? 'rest' as const : 'empty' as const;
-    const pose = action ? throwerPose(action.animation, age) : { frame, hand: throwerHand(frame) };
+    const facing = this.world.throwFacing;
+    const pose = action ? throwerPose(action.animation, age, facing) : { frame, hand: throwerHand(frame, facing) };
     const holding = action ? age < THROW_MOTIONS[action.animation].releaseDelay : this.world.handfuls > 0 && !this.world.machine.busy;
     const lucky = this.isLuckyInHand();
-    this.throwerArt.setFrame(pose.frame);
+    this.throwerArt.setFrame(pose.frame).setFlipX(facing === 1);
+    this.throwerArt.setScale(THROWER_HEIGHT / animationFrameData(this.throwerArt.frame).referenceHeight);
     const hand = { x: pose.hand.x - DOCK_POSITION.x, y: pose.hand.y - DOCK_POSITION.y };
     this.handPellets.setPosition(hand.x, hand.y).setVisible(holding);
     this.luckyIndicator.setPosition(hand.x, hand.y - 4).setVisible(lucky).setScale(1 + Math.sin(this.world.elapsed * 4) * 0.07);
@@ -253,10 +253,9 @@ export class PondScene extends Phaser.Scene {
       const watching = person.state === 'watching';
       const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
       const shadow = visitor.getByName('observer-shadow') as Phaser.GameObjects.Ellipse;
-      const reference = this.textures.getFrame('garden-observers', `observer-${person.age}-${person.look}-walk-0`)!;
-      const scale = observerHeight(person) / reference.cutHeight;
       const bob = watching ? Math.sin(crowd.elapsed * 1.3 + person.id) * 0.3 : 0;
-      sprite.setFrame(observerFrame(person)).setFlipX(!watching && person.direction === -1).setY(bob).setScale(scale);
+      sprite.setFrame(observerFrame(person)).setFlipX(!watching && person.direction === -1).setY(bob);
+      sprite.setScale(observerHeight(person) / animationFrameData(sprite.frame).referenceHeight);
       shadow.setDisplaySize((person.age === 'adult' ? 44 : 30) * person.scale, person.age === 'adult' ? 8 : 6);
       visitor.setPosition(person.x, person.y).setDepth(40 + person.y / 1000);
     }
@@ -374,8 +373,9 @@ export class PondScene extends Phaser.Scene {
       this.directions.set(animal.id, direction);
       const rate = animal.state === 'chewing' ? 0.6 : bird ? 1.4 : animal.profile.speed / 24;
       const stroke = animal.moving || animal.state === 'chewing'
-        ? Math.floor(this.world.elapsed * rate + animal.phase) % 2 : 0;
+        ? SWIM_CYCLE[Math.floor((this.world.elapsed * rate + animal.phase) * 2) % SWIM_CYCLE.length] : 0;
       sprite.setFrame(animalFrame(animal.profile.texture, direction, stroke));
+      sprite.setScale(animal.profile.size / animationFrameData(sprite.frame).referenceHeight);
       const bob = bird ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
       sprite.setPosition(animal.x, animal.y + bob).setDepth((bird ? 30 : 10) + animal.y / 1000);
       if (animal.profile.kind === 'turtle') {

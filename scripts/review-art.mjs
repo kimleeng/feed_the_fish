@@ -1,6 +1,7 @@
 import { chromium } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { reviewAnimations } from './review-animations.mjs';
 
 // Render the actual atlas cuts for visual review; do not alter the source artwork.
 const output = path.resolve(process.argv[2] || 'test-results/art-review');
@@ -179,3 +180,4 @@ try {
 } finally {
   await browser.close();
 }
+await reviewAnimations(output);

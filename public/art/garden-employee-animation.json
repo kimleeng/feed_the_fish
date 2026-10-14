@@ -1,0 +1,614 @@
+{
+  "textures": [
+    {
+      "image": "garden-employee.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "walk-0",
+          "frame": {
+            "x": 95,
+            "y": 28,
+            "w": 279,
+            "h": 456
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 66,
+            "y": 36,
+            "w": 279,
+            "h": 456
+          },
+          "sourceSize": {
+            "w": 414,
+            "h": 492
+          },
+          "referenceHeight": 456,
+          "feet": [
+            {
+              "x": 112.5,
+              "y": 488
+            },
+            {
+              "x": 299,
+              "y": 492
+            }
+          ]
+        },
+        {
+          "filename": "walk-1",
+          "frame": {
+            "x": 476,
+            "y": 28,
+            "w": 195,
+            "h": 455
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 103,
+            "y": 37,
+            "w": 195,
+            "h": 455
+          },
+          "sourceSize": {
+            "w": 414,
+            "h": 492
+          },
+          "referenceHeight": 456,
+          "feet": [
+            {
+              "x": 154,
+              "y": 464
+            },
+            {
+              "x": 240,
+              "y": 492
+            }
+          ]
+        },
+        {
+          "filename": "walk-2",
+          "frame": {
+            "x": 789,
+            "y": 27,
+            "w": 284,
+            "h": 457
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 68,
+            "y": 35,
+            "w": 284,
+            "h": 457
+          },
+          "sourceSize": {
+            "w": 414,
+            "h": 492
+          },
+          "referenceHeight": 456,
+          "feet": [
+            {
+              "x": 116,
+              "y": 487
+            },
+            {
+              "x": 302.5,
+              "y": 492
+            }
+          ]
+        },
+        {
+          "filename": "walk-3",
+          "frame": {
+            "x": 1189,
+            "y": 28,
+            "w": 194,
+            "h": 455
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 107,
+            "y": 37,
+            "w": 194,
+            "h": 455
+          },
+          "sourceSize": {
+            "w": 414,
+            "h": 492
+          },
+          "referenceHeight": 456,
+          "feet": [
+            {
+              "x": 157,
+              "y": 464
+            },
+            {
+              "x": 243,
+              "y": 492
+            }
+          ]
+        },
+        {
+          "filename": "open",
+          "frame": {
+            "x": 87,
+            "y": 513,
+            "w": 275,
+            "h": 476
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 119,
+            "y": 16,
+            "w": 275,
+            "h": 476
+          },
+          "sourceSize": {
+            "w": 414,
+            "h": 492
+          },
+          "referenceHeight": 456,
+          "feet": [
+            {
+              "x": 216.5,
+              "y": 492
+            }
+          ]
+        },
+        {
+          "filename": "lift",
+          "frame": {
+            "x": 485,
+            "y": 506,
+            "w": 232,
+            "h": 484
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 130,
+            "y": 8,
+            "w": 232,
+            "h": 484
+          },
+          "sourceSize": {
+            "w": 414,
+            "h": 492
+          },
+          "referenceHeight": 456,
+          "feet": [
+            {
+              "x": 213,
+              "y": 492
+            }
+          ]
+        },
+        {
+          "filename": "pour",
+          "frame": {
+            "x": 833,
+            "y": 508,
+            "w": 273,
+            "h": 482
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 135,
+            "y": 10,
+            "w": 273,
+            "h": 482
+          },
+          "sourceSize": {
+            "w": 414,
+            "h": 492
+          },
+          "referenceHeight": 456,
+          "feet": [
+            {
+              "x": 216,
+              "y": 492
+            }
+          ],
+          "pour": {
+            "x": 397,
+            "y": 108
+          }
+        },
+        {
+          "filename": "close",
+          "frame": {
+            "x": 1222,
+            "y": 515,
+            "w": 264,
+            "h": 475
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 127,
+            "y": 17,
+            "w": 264,
+            "h": 475
+          },
+          "sourceSize": {
+            "w": 414,
+            "h": 492
+          },
+          "referenceHeight": 456,
+          "feet": [
+            {
+              "x": 215,
+              "y": 492
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "image": "garden-employee-inbetweens.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "walk-0-between",
+          "frame": {
+            "x": 127,
+            "y": 7,
+            "w": 220,
+            "h": 350
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 50,
+            "y": 11,
+            "w": 220,
+            "h": 350
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 350,
+          "feet": [
+            {
+              "x": 84,
+              "y": 354
+            },
+            {
+              "x": 228,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "walk-1-between",
+          "frame": {
+            "x": 497,
+            "y": 11,
+            "w": 165,
+            "h": 347
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 83,
+            "y": 14,
+            "w": 165,
+            "h": 347
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 350,
+          "feet": [
+            {
+              "x": 122,
+              "y": 361
+            },
+            {
+              "x": 209,
+              "y": 346
+            }
+          ]
+        },
+        {
+          "filename": "walk-2-between",
+          "frame": {
+            "x": 823,
+            "y": 10,
+            "w": 235,
+            "h": 349
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 50,
+            "y": 12,
+            "w": 235,
+            "h": 349
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 350,
+          "feet": [
+            {
+              "x": 94.5,
+              "y": 359
+            },
+            {
+              "x": 244,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "walk-3-between",
+          "frame": {
+            "x": 1218,
+            "y": 8,
+            "w": 145,
+            "h": 353
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 102,
+            "y": 8,
+            "w": 145,
+            "h": 353
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 350,
+          "feet": [
+            {
+              "x": 151.5,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "open-reach",
+          "frame": {
+            "x": 136,
+            "y": 371,
+            "w": 235,
+            "h": 330
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 107,
+            "y": 31,
+            "w": 235,
+            "h": 330
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 175,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "open-return",
+          "frame": {
+            "x": 533,
+            "y": 368,
+            "w": 142,
+            "h": 331
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 102,
+            "y": 30,
+            "w": 142,
+            "h": 331
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 170.5,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "lift-half",
+          "frame": {
+            "x": 877,
+            "y": 371,
+            "w": 216,
+            "h": 328
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 108,
+            "y": 33,
+            "w": 216,
+            "h": 328
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 182,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "lift-ready",
+          "frame": {
+            "x": 1246,
+            "y": 371,
+            "w": 186,
+            "h": 328
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 111,
+            "y": 33,
+            "w": 186,
+            "h": 328
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 180.5,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "lift-tip",
+          "frame": {
+            "x": 153,
+            "y": 706,
+            "w": 222,
+            "h": 312
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 108,
+            "y": 49,
+            "w": 222,
+            "h": 312
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 315,
+          "feet": [
+            {
+              "x": 178,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "close-lower",
+          "frame": {
+            "x": 525,
+            "y": 703,
+            "w": 163,
+            "h": 315
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 108,
+            "y": 46,
+            "w": 163,
+            "h": 315
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 315,
+          "feet": [
+            {
+              "x": 177,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "close-reach",
+          "frame": {
+            "x": 878,
+            "y": 704,
+            "w": 208,
+            "h": 314
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 114,
+            "y": 47,
+            "w": 208,
+            "h": 314
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 315,
+          "feet": [
+            {
+              "x": 188.5,
+              "y": 361
+            }
+          ]
+        },
+        {
+          "filename": "close-return",
+          "frame": {
+            "x": 1249,
+            "y": 702,
+            "w": 146,
+            "h": 316
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 108,
+            "y": 45,
+            "w": 146,
+            "h": 316
+          },
+          "sourceSize": {
+            "w": 348,
+            "h": 361
+          },
+          "referenceHeight": 315,
+          "feet": [
+            {
+              "x": 175,
+              "y": 361
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

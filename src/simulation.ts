@@ -1,5 +1,6 @@
 import { PelletMachine } from './vending.ts';
-import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent } from './throws.ts';
+import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent, type ThrowFacing } from './throws.ts';
+import { DOCK_POSITION } from './thrower-art.ts';
 import { ObserverCrowd } from './observers.ts';
 import { MachineEmployee } from './restocking.ts';
 
@@ -79,6 +80,7 @@ export class PondSimulation {
   luckyBonus = 0;
   nextThrow: ThrowPlan | null = null;
   lastThrow: ThrowEvent | null = null;
+  throwFacing: ThrowFacing = -1;
   handfuls = 0;
   elapsed = 0;
   paused = false;
@@ -126,11 +128,13 @@ export class PondSimulation {
     if (this.paused || this.machine.busy || this.handfuls <= 0 || !inPond(point)) return false;
     const plan = this.nextThrow ?? planThrow(this.throwRandom);
     const motion = THROW_MOTIONS[plan.animation];
-    const origin = releaseOrigin(plan.animation);
     const queued = this.throwQueue.at(-1);
+    const facing: ThrowFacing = point.x === DOCK_POSITION.x ? queued?.facing ?? this.throwFacing : point.x < DOCK_POSITION.x ? -1 : 1;
+    const origin = releaseOrigin(plan.animation, facing);
     const startedAt = queued ? Math.max(this.elapsed, queued.startedAt + THROW_MOTIONS[queued.animation].duration) : this.elapsed;
-    const action = { ...plan, id: this.nextThrowId++, startedAt };
+    const action = { ...plan, id: this.nextThrowId++, startedAt, facing };
     this.throwQueue.push(action);
+    if (startedAt <= this.elapsed) this.throwFacing = facing;
     this.lastThrow = action;
     this.handfuls -= 1;
     const aimDistance = Math.max(1, distance(origin, point));
@@ -276,6 +280,7 @@ export class PondSimulation {
     this.crowd.step(dt);
     this.throwQueue = this.throwQueue.filter(action => this.elapsed < action.startedAt + THROW_MOTIONS[action.animation].duration);
     const released = this.currentThrow;
+    if (released) this.throwFacing = released.facing;
     if (released && released.id !== this.lastObservedThrow &&
       this.elapsed >= released.startedAt + THROW_MOTIONS[released.animation].releaseDelay) {
       this.lastObservedThrow = released.id;

@@ -1,0 +1,886 @@
+{
+  "textures": [
+    {
+      "image": "dock-thrower.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "empty",
+          "frame": {
+            "x": 215,
+            "y": 6,
+            "w": 131,
+            "h": 323
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 127,
+            "y": 14,
+            "w": 131,
+            "h": 323
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 161,
+              "y": 337
+            },
+            {
+              "x": 234.5,
+              "y": 322
+            }
+          ],
+          "hand": {
+            "x": 142,
+            "y": 198
+          }
+        },
+        {
+          "filename": "rest",
+          "frame": {
+            "x": 496,
+            "y": 6,
+            "w": 173,
+            "h": 323
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 85,
+            "y": 14,
+            "w": 173,
+            "h": 323
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 161,
+              "y": 337
+            },
+            {
+              "x": 234.5,
+              "y": 323
+            }
+          ],
+          "hand": {
+            "x": 103,
+            "y": 140
+          }
+        },
+        {
+          "filename": "toss-windup",
+          "frame": {
+            "x": 890,
+            "y": 6,
+            "w": 133,
+            "h": 323
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 126,
+            "y": 14,
+            "w": 133,
+            "h": 323
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 161,
+              "y": 337
+            },
+            {
+              "x": 235,
+              "y": 322
+            }
+          ],
+          "hand": {
+            "x": 138,
+            "y": 206
+          }
+        },
+        {
+          "filename": "toss-release",
+          "frame": {
+            "x": 1183,
+            "y": 5,
+            "w": 230,
+            "h": 324
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 30,
+            "y": 13,
+            "w": 230,
+            "h": 324
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 161,
+              "y": 337
+            },
+            {
+              "x": 235.5,
+              "y": 322
+            }
+          ],
+          "hand": {
+            "x": 55,
+            "y": 114
+          }
+        },
+        {
+          "filename": "toss-follow",
+          "frame": {
+            "x": 130,
+            "y": 342,
+            "w": 229,
+            "h": 328
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 34,
+            "y": 9,
+            "w": 229,
+            "h": 328
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 161,
+              "y": 337
+            },
+            {
+              "x": 234.5,
+              "y": 323
+            }
+          ],
+          "hand": {
+            "x": 55,
+            "y": 79
+          }
+        },
+        {
+          "filename": "overhand-windup",
+          "frame": {
+            "x": 522,
+            "y": 344,
+            "w": 169,
+            "h": 325
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 95,
+            "y": 12,
+            "w": 169,
+            "h": 325
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 160.5,
+              "y": 337
+            },
+            {
+              "x": 235.5,
+              "y": 324
+            }
+          ],
+          "hand": {
+            "x": 145,
+            "y": 26
+          }
+        },
+        {
+          "filename": "overhand-release",
+          "frame": {
+            "x": 836,
+            "y": 347,
+            "w": 220,
+            "h": 324
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 41,
+            "y": 13,
+            "w": 220,
+            "h": 324
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 160.5,
+              "y": 337
+            },
+            {
+              "x": 235,
+              "y": 323
+            }
+          ],
+          "hand": {
+            "x": 66,
+            "y": 30
+          }
+        },
+        {
+          "filename": "overhand-follow",
+          "frame": {
+            "x": 1213,
+            "y": 347,
+            "w": 200,
+            "h": 324
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 60,
+            "y": 13,
+            "w": 200,
+            "h": 324
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 161,
+              "y": 337
+            },
+            {
+              "x": 235,
+              "y": 323
+            }
+          ],
+          "hand": {
+            "x": 75,
+            "y": 132
+          }
+        },
+        {
+          "filename": "spread-windup",
+          "frame": {
+            "x": 118,
+            "y": 676,
+            "w": 240,
+            "h": 325
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 22,
+            "y": 12,
+            "w": 240,
+            "h": 325
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 160,
+              "y": 337
+            },
+            {
+              "x": 236,
+              "y": 322
+            }
+          ],
+          "hand": {
+            "x": 42,
+            "y": 144
+          }
+        },
+        {
+          "filename": "spread-release",
+          "frame": {
+            "x": 476,
+            "y": 676,
+            "w": 240,
+            "h": 325
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 21,
+            "y": 12,
+            "w": 240,
+            "h": 325
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 159.5,
+              "y": 337
+            },
+            {
+              "x": 237,
+              "y": 322
+            }
+          ],
+          "hand": {
+            "x": 53,
+            "y": 94
+          }
+        },
+        {
+          "filename": "spread-follow",
+          "frame": {
+            "x": 815,
+            "y": 676,
+            "w": 258,
+            "h": 329
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 8,
+            "w": 258,
+            "h": 329
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 156.5,
+              "y": 337
+            },
+            {
+              "x": 239,
+              "y": 321
+            }
+          ],
+          "hand": {
+            "x": 33,
+            "y": 118
+          }
+        },
+        {
+          "filename": "recover",
+          "frame": {
+            "x": 1269,
+            "y": 676,
+            "w": 141,
+            "h": 327
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 122,
+            "y": 10,
+            "w": 141,
+            "h": 327
+          },
+          "sourceSize": {
+            "w": 396,
+            "h": 337
+          },
+          "referenceHeight": 323,
+          "feet": [
+            {
+              "x": 159,
+              "y": 337
+            },
+            {
+              "x": 237.5,
+              "y": 321
+            }
+          ],
+          "hand": {
+            "x": 132,
+            "y": 132
+          }
+        }
+      ]
+    },
+    {
+      "image": "dock-thrower-inbetweens.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "toss-anticipate",
+          "frame": {
+            "x": 171,
+            "y": 6,
+            "w": 183,
+            "h": 326
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 78,
+            "y": 23,
+            "w": 183,
+            "h": 326
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 327,
+          "feet": [
+            {
+              "x": 156.5,
+              "y": 349
+            },
+            {
+              "x": 237,
+              "y": 333
+            }
+          ],
+          "hand": {
+            "x": 95,
+            "y": 190
+          }
+        },
+        {
+          "filename": "toss-drive",
+          "frame": {
+            "x": 497,
+            "y": 6,
+            "w": 190,
+            "h": 327
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 72,
+            "y": 22,
+            "w": 190,
+            "h": 327
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 327,
+          "feet": [
+            {
+              "x": 156,
+              "y": 349
+            },
+            {
+              "x": 237.5,
+              "y": 333
+            }
+          ],
+          "hand": {
+            "x": 95,
+            "y": 145
+          }
+        },
+        {
+          "filename": "toss-settle",
+          "frame": {
+            "x": 844,
+            "y": 6,
+            "w": 215,
+            "h": 327
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 47,
+            "y": 22,
+            "w": 215,
+            "h": 327
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 327,
+          "feet": [
+            {
+              "x": 156.5,
+              "y": 349
+            },
+            {
+              "x": 237.5,
+              "y": 333
+            }
+          ],
+          "hand": {
+            "x": 71,
+            "y": 120
+          }
+        },
+        {
+          "filename": "toss-return",
+          "frame": {
+            "x": 1217,
+            "y": 5,
+            "w": 198,
+            "h": 329
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 66,
+            "y": 20,
+            "w": 198,
+            "h": 329
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 327,
+          "feet": [
+            {
+              "x": 155,
+              "y": 349
+            },
+            {
+              "x": 238,
+              "y": 334
+            }
+          ],
+          "hand": {
+            "x": 90,
+            "y": 150
+          }
+        },
+        {
+          "filename": "overhand-anticipate",
+          "frame": {
+            "x": 166,
+            "y": 344,
+            "w": 195,
+            "h": 330
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 69,
+            "y": 19,
+            "w": 195,
+            "h": 330
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 155.5,
+              "y": 349
+            },
+            {
+              "x": 237,
+              "y": 335
+            }
+          ],
+          "hand": {
+            "x": 113,
+            "y": 61
+          }
+        },
+        {
+          "filename": "overhand-drive",
+          "frame": {
+            "x": 514,
+            "y": 333,
+            "w": 195,
+            "h": 341
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 70,
+            "y": 8,
+            "w": 195,
+            "h": 341
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 156.5,
+              "y": 349
+            },
+            {
+              "x": 237.5,
+              "y": 334
+            }
+          ],
+          "hand": {
+            "x": 97,
+            "y": 35
+          }
+        },
+        {
+          "filename": "overhand-settle",
+          "frame": {
+            "x": 850,
+            "y": 347,
+            "w": 236,
+            "h": 327
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 30,
+            "y": 22,
+            "w": 236,
+            "h": 327
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 155,
+              "y": 349
+            },
+            {
+              "x": 237.5,
+              "y": 334
+            }
+          ],
+          "hand": {
+            "x": 55,
+            "y": 56
+          }
+        },
+        {
+          "filename": "overhand-return",
+          "frame": {
+            "x": 1217,
+            "y": 346,
+            "w": 198,
+            "h": 329
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 66,
+            "y": 20,
+            "w": 198,
+            "h": 329
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 155,
+              "y": 349
+            },
+            {
+              "x": 237.5,
+              "y": 334
+            }
+          ],
+          "hand": {
+            "x": 92,
+            "y": 174
+          }
+        },
+        {
+          "filename": "spread-anticipate",
+          "frame": {
+            "x": 121,
+            "y": 675,
+            "w": 241,
+            "h": 330
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 25,
+            "y": 19,
+            "w": 241,
+            "h": 330
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 154.5,
+              "y": 349
+            },
+            {
+              "x": 239.5,
+              "y": 334
+            }
+          ],
+          "hand": {
+            "x": 50,
+            "y": 141
+          }
+        },
+        {
+          "filename": "spread-drive",
+          "frame": {
+            "x": 455,
+            "y": 676,
+            "w": 259,
+            "h": 329
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 20,
+            "w": 259,
+            "h": 329
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 153.5,
+              "y": 349
+            },
+            {
+              "x": 239,
+              "y": 333
+            }
+          ],
+          "hand": {
+            "x": 31,
+            "y": 100
+          }
+        },
+        {
+          "filename": "spread-settle",
+          "frame": {
+            "x": 835,
+            "y": 675,
+            "w": 234,
+            "h": 332
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 32,
+            "y": 17,
+            "w": 234,
+            "h": 332
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 152.5,
+              "y": 349
+            },
+            {
+              "x": 240.5,
+              "y": 333
+            }
+          ],
+          "hand": {
+            "x": 49,
+            "y": 150
+          }
+        },
+        {
+          "filename": "spread-return",
+          "frame": {
+            "x": 1239,
+            "y": 676,
+            "w": 180,
+            "h": 330
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 86,
+            "y": 19,
+            "w": 180,
+            "h": 330
+          },
+          "sourceSize": {
+            "w": 393,
+            "h": 349
+          },
+          "referenceHeight": 330,
+          "feet": [
+            {
+              "x": 153,
+              "y": 349
+            },
+            {
+              "x": 240.5,
+              "y": 333
+            }
+          ],
+          "hand": {
+            "x": 106,
+            "y": 153
+          }
+        }
+      ]
+    }
+  ]
+}

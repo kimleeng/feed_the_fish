@@ -29,8 +29,8 @@ test('larger visitors take longer steps and alternate both contact and passing p
   const distance = walkingCycleDistance(adult);
   adult.scale = 1.1;
   assert.ok(Math.abs(walkingCycleDistance(adult) - distance * 1.1) < 0.000001);
-  assert.deepEqual([0, 1, 2, 3, 4].map(stride => observerFrame({ ...adult, stride })),
-    [0, 1, 2, 3, 0].map(phase => `observer-adult-0-walk-${phase}`));
+  assert.deepEqual([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4].map(stride => observerFrame({ ...adult, stride })),
+    ['0', '0-between', '1', '1-between', '2', '2-between', '3', '3-between', '0'].map(phase => `observer-adult-0-walk-${phase}`));
 });
 
 test('footfall progress follows actual travel including approach depth, and stays still when stationary', () => {

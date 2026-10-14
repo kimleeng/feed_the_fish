@@ -317,6 +317,41 @@ test('rapid throws queue all three motions and launch food from the dock charact
   assert.equal(JSON.stringify({ elapsed: pond.elapsed, current: pond.currentThrow, food: pond.food }), frozen);
 });
 
+test('throw direction follows the active queued throw and persists through idle, center throws, and pause', () => {
+  const pond = new PondSimulation(23, () => 0.5);
+  pond.animals = []; pond.handfuls = 6;
+  assert.equal(pond.throwFacing, -1);
+  pond.scatter({ x: 850, y: 389 });
+  assert.equal(pond.throwFacing, 1);
+  const first = pond.currentThrow!;
+  pond.scatter({ x: 350, y: 389 });
+  pond.scatter({ x: 600, y: 389 });
+  assert.equal(pond.throwFacing, 1, 'Queued input must not turn the current throw early');
+  assert.equal(pond.lastThrow!.facing, -1, 'A center throw retains the preceding queued direction');
+  for (const facing of [-1, 1] as const) {
+    for (const animation of ['toss', 'overhand', 'spread'] as const) {
+      const origin = releaseOrigin(animation, facing);
+      assert.equal(Math.sign(origin.x - 600), facing);
+      assert.deepEqual(throwerPose(animation, THROW_MOTIONS[animation].releaseDelay, facing).hand, origin);
+    }
+  }
+  assert.deepEqual(pond.food[0].origin, releaseOrigin(first.animation, 1));
+  assert.deepEqual(pond.food[4].origin, releaseOrigin(first.animation, -1));
+  pond.paused = true; advance(pond, 2);
+  assert.equal(pond.scatter({ x: 350, y: 389 }), false);
+  assert.equal(pond.throwFacing, 1);
+  pond.paused = false; advance(pond, THROW_MOTIONS[first.animation].duration + 0.05);
+  assert.equal(pond.throwFacing, -1);
+  advance(pond, 5);
+  assert.equal(pond.currentThrow, null);
+  assert.equal(pond.throwFacing, -1);
+  assert.equal(pond.scatter({ x: 1199, y: 799 }), false);
+  assert.equal(pond.throwFacing, -1);
+  pond.scatter({ x: 850, y: 389 }); advance(pond, 5);
+  assert.equal(pond.throwFacing, 1, 'Resting after a rightward throw must keep facing right');
+  assert.equal(new PondSimulation(23).throwFacing, -1);
+});
+
 test('spread throws fan food across the aim point, stay inside the shoreline, and overhand food takes a higher arc', () => {
   const target = { x: THROW_ORIGIN.x, y: 389 };
   const throwFood = (roll: number, point = target) => {

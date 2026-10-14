@@ -193,7 +193,7 @@ test('purchases lower the visible pellet level and an employee walks in to refil
   expect(low.employee).toBe('arriving');
   expect(low.visible).toBe(true);
   expect(low.atlas).toBe('garden-employee');
-  expect(low.frame).toMatch(/^walk-[0-3]$/);
+  expect(low.frame).toMatch(/^walk-[0-3](-between)?$/);
   expect(low.money).toBe(105); expect(low.throws).toBe(210);
 
   const pouring = await page.evaluate(() => {
@@ -210,7 +210,7 @@ test('purchases lower the visible pellet level and an employee walks in to refil
       x: visitor.x, y: visitor.y, lidRotation: lid.rotation, canBuy: scene.buyPellets() };
   });
   expect(pouring.phase).toBe('pouring');
-  expect(pouring.frame).toBe('pour');
+  expect(pouring.frame).toMatch(/^pour(-rock)?$/);
   expect(pouring.stock).toBe(4);
   expect(pouring.fill).toBeGreaterThan(0.4); expect(pouring.fill).toBeLessThan(0.8);
   expect(pouring.restocking).toBe(true); expect(pouring.canBuy).toBe(false);
@@ -470,13 +470,13 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
     expect(rendered.waterAlpha).toBeGreaterThan(0.2);
     expect(rendered.waterAlpha).toBeLessThan(0.5);
     for (const animal of rendered.animals) {
-      expect(animal.frame).toMatch(new RegExp(`^${animal.species}-${directions[heading]}-[01]$`));
+      expect(animal.frame).toMatch(new RegExp(`^${animal.species}-${directions[heading]}-[0-3]$`));
       expect(animal.frameExists).toBe(true);
       expect(animal.flipped).toBe(false);
       if (animal.kind !== 'bird') {
         expect(animal.atlas).toBe(animal.kind === 'turtle' ? 'turtle-swimmer' : 'fish-swimmers');
         expect(animal.depth).toBeLessThan(animal.waterDepth);
-        expect(animal.alpha).toBeGreaterThan(0.6);
+        if (animal.kind === 'fish') expect(animal.alpha).toBeGreaterThan(0.6);
         expect(animal.masked).toBe(true);
       } else {
         expect(animal.atlas).toBe('bird-swimmers');
@@ -495,7 +495,7 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
     });
     birdPoses.add(pose);
     return birdPoses.size;
-  }, { timeout: 5000 }).toBe(2);
+  }, { timeout: 5000 }).toBe(4);
   await page.getByRole('button', { name: 'Field guide' }).click();
   await expect(page.getByRole('heading', { name: 'Little coot' })).toBeVisible();
   expect(await page.locator('.species-art').evaluateAll(images =>
@@ -532,7 +532,6 @@ test('the dock character keeps planted feet through three throws, releases from 
       const image = rig.getByName('thrower-art') as Phaser.GameObjects.Image;
       const action = scene.world.currentThrow!;
       if (action.animation !== expected) throw new Error('Wrong throw animation');
-      const atlas = await (await fetch('/art/dock-thrower.json')).json();
       const delays = { toss: 0.26, overhand: 0.44, spread: 0.32 };
       const result: { x: number; y: number; top: number; bottom: number; sole: number; frame: string; flipped: boolean;
         hand: { x: number; y: number }; origins: { x: number; y: number }[] }[] = [];
@@ -541,9 +540,9 @@ test('the dock character keeps planted feet through three throws, releases from 
           if (scene.world.currentThrow?.id !== action.id) { resolve(); return; }
           const transform = image.getWorldTransformMatrix();
           const cut = image.frame;
-          const pin = atlas.meta.hands[cut.name];
+          const pin = cut.customData.hand;
           const hand = transform.transformPoint(pin.x - image.displayOriginX, pin.y - image.displayOriginY);
-          const feet = atlas.meta.anchors[cut.name].feet as { x: number; y: number }[];
+          const feet = cut.customData.feet as { x: number; y: number }[];
           const sole = Math.max(...feet.map(foot => transform.transformPoint(foot.x - image.displayOriginX, foot.y - image.displayOriginY).y));
           const bounds = image.getBounds();
           const released = scene.world.food.filter(food => Math.abs(food.releaseAt - action.startedAt - delays[action.animation]) < 0.000001);
@@ -562,7 +561,7 @@ test('the dock character keeps planted feet through three throws, releases from 
       expect(frame.sole).toBeCloseTo(684, 3);
       expect(frame.flipped).toBe(false);
     }
-    for (const stage of ['windup', 'release', 'follow']) expect(frames.some(frame => frame.frame === `${animation}-${stage}`)).toBe(true);
+    for (const stage of ['windup', 'drive', 'release', 'follow', 'settle', 'return']) expect(frames.some(frame => frame.frame === `${animation}-${stage}`)).toBe(true);
     const release = frames.find(frame => frame.frame === `${animation}-release`)!;
     expect(release.origins).toHaveLength(4);
     for (const origin of release.origins) {
@@ -588,6 +587,61 @@ test('the dock character keeps planted feet through three throws, releases from 
   await expect(page.locator('#lucky-bonus')).toBeHidden();
   expect(await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.pendingThrows)).toBe(0);
   expect(await page.evaluate(() => !!(window as InspectedWindow).inspectedPond.children.getByName('lucky-celebration'))).toBe(false);
+});
+
+test('the thrower faces each throw and keeps looking that way afterward, with food leaving either visible hand', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  const throws = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.pause(); scene.world.handfuls = 6;
+    for (const animal of scene.world.animals) animal.chewLeft = 60;
+    const rig = scene.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
+    const art = rig.getByName('thrower-art') as Phaser.GameObjects.Image;
+    const results = [];
+    let time = 0;
+    for (const facing of [-1, 1] as const) for (const animation of ['toss', 'overhand', 'spread'] as const) {
+      scene.world.nextThrow = { animation, lucky: false };
+      scene.scatter({ x: 600 + facing * 220, y: 389 });
+      const action = scene.world.currentThrow!;
+      const delay = { toss: 0.26, overhand: 0.44, spread: 0.32 }[animation];
+      while (scene.world.elapsed - action.startedAt < delay) scene.update(time += 10, 10);
+      const pin = art.frame.customData.hand;
+      const localX = (pin.x - art.displayOriginX) * (art.flipX ? -1 : 1);
+      const hand = art.getWorldTransformMatrix().transformPoint(localX, pin.y - art.displayOriginY);
+      const food = scene.world.food.filter(food => Math.abs(food.releaseAt - action.startedAt - delay) < 0.000001);
+      const release = { frame: art.frame.name, flipped: art.flipX, hand: { x: hand.x, y: hand.y }, origins: food.map(food => food.origin) };
+      for (let tick = 0; tick < 150; tick++) scene.update(time += 20, 20);
+      results.push({ facing, animation, release, idleFlipped: art.flipX, active: !!scene.world.currentThrow });
+    }
+    return results;
+  });
+  for (const result of throws) {
+    expect(result.release.frame).toBe(`${result.animation}-release`);
+    expect(result.release.flipped).toBe(result.facing === 1);
+    expect(result.idleFlipped).toBe(result.facing === 1);
+    expect(result.active).toBe(false);
+    expect(result.release.origins).toHaveLength(4);
+    for (const origin of result.release.origins) {
+      expect(origin.x).toBeCloseTo(result.release.hand.x, 3);
+      expect(origin.y).toBeCloseTo(result.release.hand.y, 3);
+    }
+  }
+  const canvas = (await page.locator('#pond canvas').boundingBox())!;
+  await page.mouse.move(canvas.x + canvas.width * 0.25, canvas.y + canvas.height * 0.4);
+  expect(await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const rig = scene.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
+    return { flipped: (rig.getByName('thrower-art') as Phaser.GameObjects.Image).flipX, food: scene.world.handfuls };
+  })).toEqual({ flipped: true, food: 0 });
+  await page.screenshot({ path: testInfo.outputPath('thrower-looking-right.png'), fullPage: true });
+  const reset = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.restart();
+    const rig = scene.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
+    return (rig.getByName('thrower-art') as Phaser.GameObjects.Image).flipX;
+  });
+  expect(reset).toBe(false);
 });
 
 test('the opening animates the coin and crank, grants ten throws, and feeds an untimed pond', async ({ page }, testInfo) => {

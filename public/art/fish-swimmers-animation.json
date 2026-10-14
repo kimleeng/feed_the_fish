@@ -1,0 +1,2143 @@
+{
+  "textures": [
+    {
+      "image": "fish-swimmers.png",
+      "size": {
+        "w": 1448,
+        "h": 1086
+      },
+      "frames": [
+        {
+          "filename": "koi-e-0",
+          "frame": {
+            "x": 49,
+            "y": 89,
+            "w": 143,
+            "h": 76
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 40,
+            "y": 74,
+            "w": 143,
+            "h": 76
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-se-0",
+          "frame": {
+            "x": 222,
+            "y": 61,
+            "w": 121,
+            "h": 114
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 51,
+            "y": 55,
+            "w": 121,
+            "h": 114
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-s-0",
+          "frame": {
+            "x": 412,
+            "y": 55,
+            "w": 68,
+            "h": 123
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 78,
+            "y": 50,
+            "w": 68,
+            "h": 123
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-sw-0",
+          "frame": {
+            "x": 560,
+            "y": 66,
+            "w": 123,
+            "h": 115
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 50,
+            "y": 54,
+            "w": 123,
+            "h": 115
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-w-0",
+          "frame": {
+            "x": 736,
+            "y": 94,
+            "w": 151,
+            "h": 71
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 36,
+            "y": 76,
+            "w": 151,
+            "h": 71
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-nw-0",
+          "frame": {
+            "x": 934,
+            "y": 67,
+            "w": 126,
+            "h": 111
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 56,
+            "w": 126,
+            "h": 111
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-n-0",
+          "frame": {
+            "x": 1129,
+            "y": 50,
+            "w": 78,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 73,
+            "y": 42,
+            "w": 78,
+            "h": 140
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-ne-0",
+          "frame": {
+            "x": 1274,
+            "y": 69,
+            "w": 127,
+            "h": 110
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 48,
+            "y": 57,
+            "w": 127,
+            "h": 110
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-e-1",
+          "frame": {
+            "x": 47,
+            "y": 270,
+            "w": 147,
+            "h": 89
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 38,
+            "y": 67,
+            "w": 147,
+            "h": 89
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-se-1",
+          "frame": {
+            "x": 221,
+            "y": 252,
+            "w": 130,
+            "h": 111
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 47,
+            "y": 56,
+            "w": 130,
+            "h": 111
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-s-1",
+          "frame": {
+            "x": 412,
+            "y": 248,
+            "w": 71,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 76,
+            "y": 52,
+            "w": 71,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-sw-1",
+          "frame": {
+            "x": 559,
+            "y": 246,
+            "w": 125,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 51,
+            "w": 125,
+            "h": 121
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-w-1",
+          "frame": {
+            "x": 729,
+            "y": 278,
+            "w": 158,
+            "h": 76
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 33,
+            "y": 74,
+            "w": 158,
+            "h": 76
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-nw-1",
+          "frame": {
+            "x": 935,
+            "y": 253,
+            "w": 126,
+            "h": 114
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 55,
+            "w": 126,
+            "h": 114
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-n-1",
+          "frame": {
+            "x": 1127,
+            "y": 245,
+            "w": 83,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 70,
+            "y": 43,
+            "w": 83,
+            "h": 138
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "koi-ne-1",
+          "frame": {
+            "x": 1270,
+            "y": 262,
+            "w": 129,
+            "h": 108
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 47,
+            "y": 58,
+            "w": 129,
+            "h": 108
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-e-0",
+          "frame": {
+            "x": 50,
+            "y": 457,
+            "w": 144,
+            "h": 85
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 40,
+            "y": 69,
+            "w": 144,
+            "h": 85
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-se-0",
+          "frame": {
+            "x": 222,
+            "y": 436,
+            "w": 131,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 46,
+            "y": 53,
+            "w": 131,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-s-0",
+          "frame": {
+            "x": 413,
+            "y": 434,
+            "w": 71,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 76,
+            "y": 49,
+            "w": 71,
+            "h": 126
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-sw-0",
+          "frame": {
+            "x": 557,
+            "y": 438,
+            "w": 125,
+            "h": 122
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 51,
+            "w": 125,
+            "h": 122
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-w-0",
+          "frame": {
+            "x": 727,
+            "y": 470,
+            "w": 160,
+            "h": 76
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 32,
+            "y": 74,
+            "w": 160,
+            "h": 76
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-nw-0",
+          "frame": {
+            "x": 938,
+            "y": 440,
+            "w": 129,
+            "h": 122
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 47,
+            "y": 51,
+            "w": 129,
+            "h": 122
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-n-0",
+          "frame": {
+            "x": 1128,
+            "y": 436,
+            "w": 84,
+            "h": 135
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 70,
+            "y": 44,
+            "w": 84,
+            "h": 135
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-ne-0",
+          "frame": {
+            "x": 1271,
+            "y": 446,
+            "w": 131,
+            "h": 116
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 46,
+            "y": 54,
+            "w": 131,
+            "h": 116
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-e-1",
+          "frame": {
+            "x": 48,
+            "y": 644,
+            "w": 149,
+            "h": 87
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 37,
+            "y": 68,
+            "w": 149,
+            "h": 87
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-se-1",
+          "frame": {
+            "x": 223,
+            "y": 633,
+            "w": 133,
+            "h": 115
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 45,
+            "y": 54,
+            "w": 133,
+            "h": 115
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-s-1",
+          "frame": {
+            "x": 412,
+            "y": 621,
+            "w": 73,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 75,
+            "y": 49,
+            "w": 73,
+            "h": 126
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-sw-1",
+          "frame": {
+            "x": 556,
+            "y": 628,
+            "w": 125,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 49,
+            "w": 125,
+            "h": 126
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-w-1",
+          "frame": {
+            "x": 731,
+            "y": 659,
+            "w": 157,
+            "h": 75
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 33,
+            "y": 74,
+            "w": 157,
+            "h": 75
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-nw-1",
+          "frame": {
+            "x": 934,
+            "y": 633,
+            "w": 134,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 45,
+            "y": 52,
+            "w": 134,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-n-1",
+          "frame": {
+            "x": 1127,
+            "y": 622,
+            "w": 84,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 70,
+            "y": 43,
+            "w": 84,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "carp-ne-1",
+          "frame": {
+            "x": 1270,
+            "y": 642,
+            "w": 131,
+            "h": 113
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 46,
+            "y": 55,
+            "w": 131,
+            "h": 113
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-e-0",
+          "frame": {
+            "x": 50,
+            "y": 837,
+            "w": 142,
+            "h": 81
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 41,
+            "y": 71,
+            "w": 142,
+            "h": 81
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-se-0",
+          "frame": {
+            "x": 222,
+            "y": 816,
+            "w": 126,
+            "h": 111
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 56,
+            "w": 126,
+            "h": 111
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-s-0",
+          "frame": {
+            "x": 414,
+            "y": 811,
+            "w": 67,
+            "h": 116
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 78,
+            "y": 54,
+            "w": 67,
+            "h": 116
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-sw-0",
+          "frame": {
+            "x": 553,
+            "y": 819,
+            "w": 127,
+            "h": 111
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 48,
+            "y": 56,
+            "w": 127,
+            "h": 111
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-w-0",
+          "frame": {
+            "x": 734,
+            "y": 851,
+            "w": 151,
+            "h": 70
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 36,
+            "y": 77,
+            "w": 151,
+            "h": 70
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-nw-0",
+          "frame": {
+            "x": 938,
+            "y": 824,
+            "w": 130,
+            "h": 110
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 47,
+            "y": 57,
+            "w": 130,
+            "h": 110
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-n-0",
+          "frame": {
+            "x": 1129,
+            "y": 812,
+            "w": 81,
+            "h": 131
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 71,
+            "y": 46,
+            "w": 81,
+            "h": 131
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-ne-0",
+          "frame": {
+            "x": 1273,
+            "y": 827,
+            "w": 126,
+            "h": 109
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 57,
+            "w": 126,
+            "h": 109
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-e-1",
+          "frame": {
+            "x": 53,
+            "y": 989,
+            "w": 142,
+            "h": 73
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 41,
+            "y": 75,
+            "w": 142,
+            "h": 73
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-se-1",
+          "frame": {
+            "x": 231,
+            "y": 977,
+            "w": 122,
+            "h": 94
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 51,
+            "y": 65,
+            "w": 122,
+            "h": 94
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-s-1",
+          "frame": {
+            "x": 415,
+            "y": 969,
+            "w": 66,
+            "h": 99
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 79,
+            "y": 62,
+            "w": 66,
+            "h": 99
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-sw-1",
+          "frame": {
+            "x": 553,
+            "y": 974,
+            "w": 125,
+            "h": 97
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 63,
+            "w": 125,
+            "h": 97
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-w-1",
+          "frame": {
+            "x": 739,
+            "y": 998,
+            "w": 146,
+            "h": 67
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 39,
+            "y": 78,
+            "w": 146,
+            "h": 67
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-nw-1",
+          "frame": {
+            "x": 941,
+            "y": 979,
+            "w": 121,
+            "h": 95
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 51,
+            "y": 64,
+            "w": 121,
+            "h": 95
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-n-1",
+          "frame": {
+            "x": 1134,
+            "y": 971,
+            "w": 74,
+            "h": 104
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 75,
+            "y": 60,
+            "w": 74,
+            "h": 104
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        },
+        {
+          "filename": "minnow-ne-1",
+          "frame": {
+            "x": 1277,
+            "y": 983,
+            "w": 119,
+            "h": 91
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 52,
+            "y": 66,
+            "w": 119,
+            "h": 91
+          },
+          "sourceSize": {
+            "w": 224,
+            "h": 224
+          },
+          "referenceHeight": 224
+        }
+      ]
+    },
+    {
+      "image": "fish-swimmers-inbetweens.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "koi-e-2",
+          "frame": {
+            "x": 47,
+            "y": 88,
+            "w": 155,
+            "h": 86
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 44,
+            "y": 78,
+            "w": 155,
+            "h": 86
+          },
+          "sourceSize": {
+            "w": 243,
+            "h": 243
+          },
+          "referenceHeight": 242.7972027972028
+        },
+        {
+          "filename": "koi-se-2",
+          "frame": {
+            "x": 221,
+            "y": 54,
+            "w": 143,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 61,
+            "y": 72,
+            "w": 143,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 265,
+            "h": 265
+          },
+          "referenceHeight": 264.72727272727275
+        },
+        {
+          "filename": "koi-s-2",
+          "frame": {
+            "x": 437,
+            "y": 50,
+            "w": 76,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 77,
+            "y": 52,
+            "w": 76,
+            "h": 126
+          },
+          "sourceSize": {
+            "w": 230,
+            "h": 230
+          },
+          "referenceHeight": 229.46341463414635
+        },
+        {
+          "filename": "koi-sw-2",
+          "frame": {
+            "x": 589,
+            "y": 53,
+            "w": 130,
+            "h": 125
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 53,
+            "y": 56,
+            "w": 130,
+            "h": 125
+          },
+          "sourceSize": {
+            "w": 237,
+            "h": 237
+          },
+          "referenceHeight": 236.7479674796748
+        },
+        {
+          "filename": "koi-w-2",
+          "frame": {
+            "x": 757,
+            "y": 89,
+            "w": 167,
+            "h": 79
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 40,
+            "y": 84,
+            "w": 167,
+            "h": 79
+          },
+          "sourceSize": {
+            "w": 248,
+            "h": 248
+          },
+          "referenceHeight": 247.73509933774835
+        },
+        {
+          "filename": "koi-nw-2",
+          "frame": {
+            "x": 970,
+            "y": 57,
+            "w": 153,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 59,
+            "y": 77,
+            "w": 153,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 272,
+            "h": 272
+          },
+          "referenceHeight": 272
+        },
+        {
+          "filename": "koi-n-2",
+          "frame": {
+            "x": 1196,
+            "y": 45,
+            "w": 85,
+            "h": 146
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 74,
+            "y": 44,
+            "w": 85,
+            "h": 146
+          },
+          "sourceSize": {
+            "w": 234,
+            "h": 234
+          },
+          "referenceHeight": 233.6
+        },
+        {
+          "filename": "koi-ne-2",
+          "frame": {
+            "x": 1349,
+            "y": 65,
+            "w": 142,
+            "h": 110
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 54,
+            "y": 70,
+            "w": 142,
+            "h": 110
+          },
+          "sourceSize": {
+            "w": 251,
+            "h": 251
+          },
+          "referenceHeight": 250.45669291338584
+        },
+        {
+          "filename": "koi-e-3",
+          "frame": {
+            "x": 48,
+            "y": 257,
+            "w": 157,
+            "h": 98
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 44,
+            "y": 74,
+            "w": 157,
+            "h": 98
+          },
+          "sourceSize": {
+            "w": 246,
+            "h": 246
+          },
+          "referenceHeight": 245.93006993006992
+        },
+        {
+          "filename": "koi-se-3",
+          "frame": {
+            "x": 221,
+            "y": 228,
+            "w": 153,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 65,
+            "y": 81,
+            "w": 153,
+            "h": 121
+          },
+          "sourceSize": {
+            "w": 284,
+            "h": 284
+          },
+          "referenceHeight": 283.2396694214876
+        },
+        {
+          "filename": "koi-s-3",
+          "frame": {
+            "x": 438,
+            "y": 220,
+            "w": 77,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 87,
+            "y": 57,
+            "w": 77,
+            "h": 138
+          },
+          "sourceSize": {
+            "w": 252,
+            "h": 252
+          },
+          "referenceHeight": 251.3170731707317
+        },
+        {
+          "filename": "koi-sw-3",
+          "frame": {
+            "x": 585,
+            "y": 220,
+            "w": 135,
+            "h": 133
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 55,
+            "y": 56,
+            "w": 135,
+            "h": 133
+          },
+          "sourceSize": {
+            "w": 246,
+            "h": 246
+          },
+          "referenceHeight": 245.85365853658536
+        },
+        {
+          "filename": "koi-w-3",
+          "frame": {
+            "x": 757,
+            "y": 267,
+            "w": 168,
+            "h": 83
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 41,
+            "y": 83,
+            "w": 168,
+            "h": 83
+          },
+          "sourceSize": {
+            "w": 250,
+            "h": 250
+          },
+          "referenceHeight": 249.2185430463576
+        },
+        {
+          "filename": "koi-nw-3",
+          "frame": {
+            "x": 975,
+            "y": 242,
+            "w": 148,
+            "h": 106
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 58,
+            "y": 79,
+            "w": 148,
+            "h": 106
+          },
+          "sourceSize": {
+            "w": 264,
+            "h": 264
+          },
+          "referenceHeight": 263.1111111111111
+        },
+        {
+          "filename": "koi-n-3",
+          "frame": {
+            "x": 1197,
+            "y": 220,
+            "w": 85,
+            "h": 150
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 77,
+            "y": 45,
+            "w": 85,
+            "h": 150
+          },
+          "sourceSize": {
+            "w": 240,
+            "h": 240
+          },
+          "referenceHeight": 240
+        },
+        {
+          "filename": "koi-ne-3",
+          "frame": {
+            "x": 1349,
+            "y": 242,
+            "w": 140,
+            "h": 114
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 53,
+            "y": 66,
+            "w": 140,
+            "h": 114
+          },
+          "sourceSize": {
+            "w": 247,
+            "h": 247
+          },
+          "referenceHeight": 246.9291338582677
+        },
+        {
+          "filename": "carp-e-2",
+          "frame": {
+            "x": 48,
+            "y": 441,
+            "w": 158,
+            "h": 89
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 44,
+            "y": 78,
+            "w": 158,
+            "h": 89
+          },
+          "sourceSize": {
+            "w": 246,
+            "h": 246
+          },
+          "referenceHeight": 245.77777777777777
+        },
+        {
+          "filename": "carp-se-2",
+          "frame": {
+            "x": 232,
+            "y": 405,
+            "w": 139,
+            "h": 131
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 53,
+            "w": 139,
+            "h": 131
+          },
+          "sourceSize": {
+            "w": 238,
+            "h": 238
+          },
+          "referenceHeight": 237.6793893129771
+        },
+        {
+          "filename": "carp-s-2",
+          "frame": {
+            "x": 437,
+            "y": 405,
+            "w": 76,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 78,
+            "y": 51,
+            "w": 76,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 232
+          },
+          "referenceHeight": 231.11111111111111
+        },
+        {
+          "filename": "carp-sw-2",
+          "frame": {
+            "x": 585,
+            "y": 406,
+            "w": 135,
+            "h": 129
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 53,
+            "y": 56,
+            "w": 135,
+            "h": 129
+          },
+          "sourceSize": {
+            "w": 242,
+            "h": 242
+          },
+          "referenceHeight": 241.92
+        },
+        {
+          "filename": "carp-w-2",
+          "frame": {
+            "x": 756,
+            "y": 447,
+            "w": 169,
+            "h": 82
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 34,
+            "y": 77,
+            "w": 169,
+            "h": 82
+          },
+          "sourceSize": {
+            "w": 237,
+            "h": 237
+          },
+          "referenceHeight": 236.6
+        },
+        {
+          "filename": "carp-nw-2",
+          "frame": {
+            "x": 978,
+            "y": 411,
+            "w": 147,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 54,
+            "y": 68,
+            "w": 147,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 256,
+            "h": 256
+          },
+          "referenceHeight": 255.25581395348837
+        },
+        {
+          "filename": "carp-n-2",
+          "frame": {
+            "x": 1195,
+            "y": 410,
+            "w": 90,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 75,
+            "y": 48,
+            "w": 90,
+            "h": 145
+          },
+          "sourceSize": {
+            "w": 241,
+            "h": 241
+          },
+          "referenceHeight": 240.59259259259258
+        },
+        {
+          "filename": "carp-ne-2",
+          "frame": {
+            "x": 1350,
+            "y": 420,
+            "w": 147,
+            "h": 112
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 52,
+            "y": 70,
+            "w": 147,
+            "h": 112
+          },
+          "sourceSize": {
+            "w": 252,
+            "h": 252
+          },
+          "referenceHeight": 251.3587786259542
+        },
+        {
+          "filename": "carp-e-3",
+          "frame": {
+            "x": 48,
+            "y": 618,
+            "w": 158,
+            "h": 90
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 44,
+            "y": 78,
+            "w": 158,
+            "h": 90
+          },
+          "sourceSize": {
+            "w": 246,
+            "h": 246
+          },
+          "referenceHeight": 245.77777777777777
+        },
+        {
+          "filename": "carp-se-3",
+          "frame": {
+            "x": 233,
+            "y": 579,
+            "w": 142,
+            "h": 132
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 50,
+            "y": 55,
+            "w": 142,
+            "h": 132
+          },
+          "sourceSize": {
+            "w": 243,
+            "h": 243
+          },
+          "referenceHeight": 242.8091603053435
+        },
+        {
+          "filename": "carp-s-3",
+          "frame": {
+            "x": 437,
+            "y": 579,
+            "w": 80,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 82,
+            "y": 53,
+            "w": 80,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 244,
+            "h": 244
+          },
+          "referenceHeight": 243.55555555555554
+        },
+        {
+          "filename": "carp-sw-3",
+          "frame": {
+            "x": 588,
+            "y": 580,
+            "w": 136,
+            "h": 136
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 54,
+            "y": 54,
+            "w": 136,
+            "h": 136
+          },
+          "sourceSize": {
+            "w": 244,
+            "h": 244
+          },
+          "referenceHeight": 243.712
+        },
+        {
+          "filename": "carp-w-3",
+          "frame": {
+            "x": 756,
+            "y": 623,
+            "w": 169,
+            "h": 82
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 34,
+            "y": 77,
+            "w": 169,
+            "h": 82
+          },
+          "sourceSize": {
+            "w": 237,
+            "h": 237
+          },
+          "referenceHeight": 236.6
+        },
+        {
+          "filename": "carp-nw-3",
+          "frame": {
+            "x": 985,
+            "y": 596,
+            "w": 142,
+            "h": 123
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 52,
+            "y": 62,
+            "w": 142,
+            "h": 123
+          },
+          "sourceSize": {
+            "w": 247,
+            "h": 247
+          },
+          "referenceHeight": 246.57364341085272
+        },
+        {
+          "filename": "carp-n-3",
+          "frame": {
+            "x": 1196,
+            "y": 594,
+            "w": 89,
+            "h": 142
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 73,
+            "y": 47,
+            "w": 89,
+            "h": 142
+          },
+          "sourceSize": {
+            "w": 236,
+            "h": 236
+          },
+          "referenceHeight": 235.61481481481482
+        },
+        {
+          "filename": "carp-ne-3",
+          "frame": {
+            "x": 1350,
+            "y": 605,
+            "w": 143,
+            "h": 116
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 51,
+            "y": 64,
+            "w": 143,
+            "h": 116
+          },
+          "sourceSize": {
+            "w": 245,
+            "h": 245
+          },
+          "referenceHeight": 244.51908396946564
+        },
+        {
+          "filename": "minnow-e-2",
+          "frame": {
+            "x": 47,
+            "y": 801,
+            "w": 160,
+            "h": 91
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 46,
+            "y": 81,
+            "w": 160,
+            "h": 91
+          },
+          "sourceSize": {
+            "w": 253,
+            "h": 253
+          },
+          "referenceHeight": 252.3943661971831
+        },
+        {
+          "filename": "minnow-se-2",
+          "frame": {
+            "x": 236,
+            "y": 768,
+            "w": 138,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 54,
+            "y": 59,
+            "w": 138,
+            "h": 127
+          },
+          "sourceSize": {
+            "w": 246,
+            "h": 246
+          },
+          "referenceHeight": 245.33333333333334
+        },
+        {
+          "filename": "minnow-s-2",
+          "frame": {
+            "x": 439,
+            "y": 764,
+            "w": 78,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 87,
+            "y": 61,
+            "w": 78,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 252,
+            "h": 252
+          },
+          "referenceHeight": 251.0344827586207
+        },
+        {
+          "filename": "minnow-sw-2",
+          "frame": {
+            "x": 587,
+            "y": 768,
+            "w": 137,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 52,
+            "y": 57,
+            "w": 137,
+            "h": 127
+          },
+          "sourceSize": {
+            "w": 242,
+            "h": 242
+          },
+          "referenceHeight": 241.63779527559055
+        },
+        {
+          "filename": "minnow-w-2",
+          "frame": {
+            "x": 759,
+            "y": 807,
+            "w": 167,
+            "h": 83
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 40,
+            "y": 82,
+            "w": 167,
+            "h": 83
+          },
+          "sourceSize": {
+            "w": 248,
+            "h": 248
+          },
+          "referenceHeight": 247.73509933774835
+        },
+        {
+          "filename": "minnow-nw-2",
+          "frame": {
+            "x": 980,
+            "y": 770,
+            "w": 146,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 53,
+            "y": 66,
+            "w": 146,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 252,
+            "h": 252
+          },
+          "referenceHeight": 251.56923076923076
+        },
+        {
+          "filename": "minnow-n-2",
+          "frame": {
+            "x": 1199,
+            "y": 775,
+            "w": 87,
+            "h": 141
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 77,
+            "y": 50,
+            "w": 87,
+            "h": 141
+          },
+          "sourceSize": {
+            "w": 242,
+            "h": 242
+          },
+          "referenceHeight": 241.09923664122138
+        },
+        {
+          "filename": "minnow-ne-2",
+          "frame": {
+            "x": 1353,
+            "y": 794,
+            "w": 139,
+            "h": 106
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 54,
+            "y": 71,
+            "w": 139,
+            "h": 106
+          },
+          "sourceSize": {
+            "w": 248,
+            "h": 248
+          },
+          "referenceHeight": 247.11111111111111
+        }
+      ]
+    },
+    {
+      "image": "fish-young-inbetweens.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "minnow-e-3",
+          "frame": {
+            "x": 110,
+            "y": 251,
+            "w": 214,
+            "h": 101
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 62,
+            "y": 118,
+            "w": 214,
+            "h": 101
+          },
+          "sourceSize": {
+            "w": 338,
+            "h": 338
+          },
+          "referenceHeight": 337.5774647887324
+        },
+        {
+          "filename": "minnow-se-3",
+          "frame": {
+            "x": 491,
+            "y": 211,
+            "w": 186,
+            "h": 153
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 72,
+            "y": 89,
+            "w": 186,
+            "h": 153
+          },
+          "sourceSize": {
+            "w": 331,
+            "h": 331
+          },
+          "referenceHeight": 330.6666666666667
+        },
+        {
+          "filename": "minnow-s-3",
+          "frame": {
+            "x": 916,
+            "y": 192,
+            "w": 106,
+            "h": 178
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 119,
+            "y": 83,
+            "w": 106,
+            "h": 178
+          },
+          "sourceSize": {
+            "w": 344,
+            "h": 344
+          },
+          "referenceHeight": 343.7241379310345
+        },
+        {
+          "filename": "minnow-sw-3",
+          "frame": {
+            "x": 1265,
+            "y": 208,
+            "w": 174,
+            "h": 160
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 66,
+            "y": 73,
+            "w": 174,
+            "h": 160
+          },
+          "sourceSize": {
+            "w": 307,
+            "h": 307
+          },
+          "referenceHeight": 306.8976377952756
+        },
+        {
+          "filename": "minnow-w-3",
+          "frame": {
+            "x": 106,
+            "y": 692,
+            "w": 218,
+            "h": 102
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 53,
+            "y": 111,
+            "w": 218,
+            "h": 102
+          },
+          "sourceSize": {
+            "w": 324,
+            "h": 324
+          },
+          "referenceHeight": 323.3907284768212
+        },
+        {
+          "filename": "minnow-nw-3",
+          "frame": {
+            "x": 496,
+            "y": 666,
+            "w": 182,
+            "h": 160
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 66,
+            "y": 77,
+            "w": 182,
+            "h": 160
+          },
+          "sourceSize": {
+            "w": 314,
+            "h": 314
+          },
+          "referenceHeight": 313.6
+        },
+        {
+          "filename": "minnow-n-3",
+          "frame": {
+            "x": 910,
+            "y": 654,
+            "w": 117,
+            "h": 186
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 101,
+            "y": 66,
+            "w": 117,
+            "h": 186
+          },
+          "sourceSize": {
+            "w": 319,
+            "h": 319
+          },
+          "referenceHeight": 318.0458015267176
+        },
+        {
+          "filename": "minnow-ne-3",
+          "frame": {
+            "x": 1254,
+            "y": 656,
+            "w": 162,
+            "h": 173
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 73,
+            "y": 67,
+            "w": 162,
+            "h": 173
+          },
+          "sourceSize": {
+            "w": 308,
+            "h": 308
+          },
+          "referenceHeight": 307.55555555555554
+        }
+      ]
+    }
+  ]
+}

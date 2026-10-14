@@ -1,0 +1,16 @@
+{
+  "thrower": {
+    "toss-anticipate": { "x": 188, "y": 173 },
+    "toss-drive": { "x": 520, "y": 129 },
+    "toss-settle": { "x": 868, "y": 104 },
+    "toss-return": { "x": 1241, "y": 135 },
+    "overhand-anticipate": { "x": 210, "y": 386 },
+    "overhand-drive": { "x": 541, "y": 360 },
+    "overhand-settle": { "x": 875, "y": 381 },
+    "overhand-return": { "x": 1243, "y": 500 },
+    "spread-anticipate": { "x": 146, "y": 797 },
+    "spread-drive": { "x": 480, "y": 756 },
+    "spread-settle": { "x": 852, "y": 808 },
+    "spread-return": { "x": 1259, "y": 810 }
+  }
+}
