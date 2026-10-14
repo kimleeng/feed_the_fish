@@ -21,6 +21,8 @@ Each throw has an independent 2% chance of containing one lucky pellet. A gold s
 
 Click or tap the **red machine beside the dock** for another ten throws. The **Pellet machine** button provides the same interaction for keyboard users. **P** and the pause button pause the pond. The field guide pauses while open. Sound is optional. **Begin a new visit** clears the current food, spending, and score and returns to the machine; the best saved score remains.
 
+The machine holds **25 servings**, each worth ten throws. Its visible pellet level drops once per purchase, when the dispenser opens, in both the garden and the close-up dialog. The dialog also shows the remaining servings. When stock falls below five, a garden employee walks in from the left with a feed sack. Purchases can continue during the walk; the employee waits for any paid serving to finish, opens the lid, pours fresh pellets into the globe, closes it, and leaves. The level rises throughout the pour and stock returns to 25 after closing. New purchases wait while the machine is open, and an empty machine never takes a coin. Food already in your hand remains available to throw. Restocking costs no extra coins, pauses with the pond, and can repeat throughout a long visit. A new visit resets stock to 25 and sends the employee offstage.
+
 ## Animal movement
 
 The pond has 46 fish and 15 birds across six field-guide profiles, plus one secret musk turtle. Every animal inherits a common baseline and overrides movement speed, vision, bite size, chewing time, and turn rate.
@@ -70,12 +72,15 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/turtle-swimmer.png` and `turtle-swimmer.json`: musk turtle atlas with sixteen swimming cuts and eight separate raised heads. `turtle-swimmer-pins.json` aligns the heads with the swimming artwork.
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
 - `public/art/scene-machine.png` and `scene-machine.json`: separate garden machine on an iron pedestal, grounded on the path and clickable without throwing pellets.
+- `public/art/machine-empty.png` and `scene-machine-empty.png`: registered empty-globe counterparts of the original machine artwork. The original pellet pile is clipped over each clear globe to show remaining stock; `scene-machine-empty.json` includes the hinged lid cut.
+- `public/art/garden-employee.png` and `garden-employee.json`: four walking poses and four restocking poses, with a shared hip/sole alignment. `garden-employee-pins.json` locates the feed sack opening for the falling pellets.
 - `public/art/garden-observers.png` and `garden-observers.json`: transparent visitor atlas with 30 trimmed walking and watching cuts, hip/sole anchors, and measured stride ratios.
 - `public/art/dock-thrower.png` and `dock-thrower.json`: twelve full-body throw stages aligned at the planted feet.
 - `public/art/dock-thrower-pins.json`: source-image hand annotations used to generate atlas hand pins and release offsets.
 - `public/art/hand.png`: original hand used for collecting pellets at the machine.
 - `public/art/right-hand-*.png`, `right-arm-throws.json`, and `throw-hand.png`: retained artwork from the earlier foreground-arm version.
 - `src/vending.ts`: coin price, servings of ten throws, and the guarded dispenser cycle.
+- `src/restocking.ts`: the 25-serving machine's employee arrival, wait, refill, and departure; `src/employee-art.ts` and `employee-pins.ts` align walking distance, planted work poses, and the pouring sack.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
 - `src/game.ts`: rendering, dock-character motion, and landing ripples.
 - `src/appearance.ts`: directional frame names and stable heading selection while turning.
@@ -93,6 +98,6 @@ For the image audit and decisions, see [the art review](docs/art-review.md) and 
 npm run review:art
 ```
 
-The review command rejects missing poses, out-of-bounds cuts, overlapping rectangles, and PNG/atlas size mismatches before saving images under ignored `test-results/art-review`. It also checks body anchors and foot baselines and renders the dock character's hand pins over a separate review sheet. When replacing generated source art, `node scripts/build-art-atlas.mjs fish`, `turtle`, `machine`, `observers`, or `thrower` reads alpha to rebuild frame metadata without altering PNG pixels. Observer packaging regenerates `src/observer-gait.ts`; thrower packaging reads the hand annotations and regenerates `src/thrower-pins.ts`; turtle packaging reads the head annotations and regenerates `src/turtle-pins.ts`. Inspect every resulting pose before committing the art; bounds checks cannot judge anatomy or perspective.
+The review command rejects missing poses, out-of-bounds cuts, overlapping rectangles, and PNG/atlas size mismatches before saving images under ignored `test-results/art-review`. It also checks body anchors and foot baselines and renders the dock character's hand pins over a separate review sheet. When replacing generated source art, `node scripts/build-art-atlas.mjs fish`, `turtle`, `machine`, `observers`, `thrower`, or `employee` reads alpha to rebuild frame metadata without altering PNG pixels. Observer packaging regenerates `src/observer-gait.ts`; thrower packaging reads the hand annotations and regenerates `src/thrower-pins.ts`; turtle packaging reads the head annotations and regenerates `src/turtle-pins.ts`; employee packaging uses the sack opening and foot contacts to regenerate `src/employee-pins.ts`. Inspect every resulting pose before committing the art; bounds checks cannot judge anatomy or perspective.
 
 `npm run review:hands` and `node scripts/build-art-atlas.mjs hand` remain available for reviewing and packaging the archived foreground-arm artwork.

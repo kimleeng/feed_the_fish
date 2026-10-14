@@ -1,0 +1,268 @@
+{
+  "frames": {
+    "walk-0": {
+      "frame": {
+        "x": 95,
+        "y": 28,
+        "w": 279,
+        "h": 456
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 66,
+        "y": 36,
+        "w": 279,
+        "h": 456
+      },
+      "sourceSize": {
+        "w": 414,
+        "h": 492
+      }
+    },
+    "walk-1": {
+      "frame": {
+        "x": 476,
+        "y": 28,
+        "w": 195,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 103,
+        "y": 37,
+        "w": 195,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 414,
+        "h": 492
+      }
+    },
+    "walk-2": {
+      "frame": {
+        "x": 789,
+        "y": 27,
+        "w": 284,
+        "h": 457
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 68,
+        "y": 35,
+        "w": 284,
+        "h": 457
+      },
+      "sourceSize": {
+        "w": 414,
+        "h": 492
+      }
+    },
+    "walk-3": {
+      "frame": {
+        "x": 1189,
+        "y": 28,
+        "w": 194,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 107,
+        "y": 37,
+        "w": 194,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 414,
+        "h": 492
+      }
+    },
+    "open": {
+      "frame": {
+        "x": 87,
+        "y": 513,
+        "w": 275,
+        "h": 476
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 119,
+        "y": 16,
+        "w": 275,
+        "h": 476
+      },
+      "sourceSize": {
+        "w": 414,
+        "h": 492
+      }
+    },
+    "lift": {
+      "frame": {
+        "x": 485,
+        "y": 506,
+        "w": 232,
+        "h": 484
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 130,
+        "y": 8,
+        "w": 232,
+        "h": 484
+      },
+      "sourceSize": {
+        "w": 414,
+        "h": 492
+      }
+    },
+    "pour": {
+      "frame": {
+        "x": 833,
+        "y": 508,
+        "w": 273,
+        "h": 482
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 135,
+        "y": 10,
+        "w": 273,
+        "h": 482
+      },
+      "sourceSize": {
+        "w": 414,
+        "h": 492
+      }
+    },
+    "close": {
+      "frame": {
+        "x": 1222,
+        "y": 515,
+        "w": 264,
+        "h": 475
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 127,
+        "y": 17,
+        "w": 264,
+        "h": 475
+      },
+      "sourceSize": {
+        "w": 414,
+        "h": 492
+      }
+    }
+  },
+  "meta": {
+    "image": "garden-employee.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1536,
+      "h": 1024
+    },
+    "scale": "1",
+    "anchors": {
+      "walk-0": {
+        "axis": 207,
+        "feet": [
+          {
+            "x": 112.5,
+            "y": 488
+          },
+          {
+            "x": 299,
+            "y": 492
+          }
+        ]
+      },
+      "walk-1": {
+        "axis": 207,
+        "feet": [
+          {
+            "x": 154,
+            "y": 464
+          },
+          {
+            "x": 240,
+            "y": 492
+          }
+        ]
+      },
+      "walk-2": {
+        "axis": 207,
+        "feet": [
+          {
+            "x": 116,
+            "y": 487
+          },
+          {
+            "x": 302.5,
+            "y": 492
+          }
+        ]
+      },
+      "walk-3": {
+        "axis": 207,
+        "feet": [
+          {
+            "x": 157,
+            "y": 464
+          },
+          {
+            "x": 243,
+            "y": 492
+          }
+        ]
+      },
+      "open": {
+        "axis": 207,
+        "feet": [
+          {
+            "x": 216.5,
+            "y": 492
+          }
+        ]
+      },
+      "lift": {
+        "axis": 207,
+        "feet": [
+          {
+            "x": 213,
+            "y": 492
+          }
+        ]
+      },
+      "pour": {
+        "axis": 207,
+        "feet": [
+          {
+            "x": 216,
+            "y": 492
+          }
+        ]
+      },
+      "close": {
+        "axis": 207,
+        "feet": [
+          {
+            "x": 215,
+            "y": 492
+          }
+        ]
+      }
+    },
+    "pour": {
+      "x": 397,
+      "y": 108
+    },
+    "strideRatio": 0.8179824561403509
+  }
+}

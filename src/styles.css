@@ -179,6 +179,7 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
 .vending-stage { position: relative; width: 260px; height: 435px; margin: auto; }
 .machine-apparatus { position: relative; width: 240px; height: 360px; margin: 0 auto; overflow: hidden; }
 .machine-picture { display: block; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.machine-fill { position: absolute; inset: 0; pointer-events: none; clip-path: inset(31.6% 12% 44.5%); }
 .coin-slot { position: absolute; width: 23px; height: 5px; top: 64%; left: 50%; transform: translateX(-50%); background: #3d4944; border: 1px solid #9da89a; box-shadow: 0 1px #eeecd8; }
 .machine-handle { position: absolute; width: 45px; height: 45px; left: calc(50% - 22.5px); top: calc(70% - 22.5px); shape-rendering: crispEdges; filter: drop-shadow(1px 2px 1px #242f4060); }
 .coin-button { position: absolute; left: calc(50% - 31px); bottom: 8px; width: 62px; height: 62px; border-radius: 50%; border: 3px solid #c39c53; background: #e8c778; box-shadow: inset 0 0 0 3px #f4dfab, 0 4px 0 #ab894d; color: #92642d; font: 26px/1 Georgia, serif; z-index: 5; }
@@ -213,6 +214,8 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
 .machine-offer span { font-size: 11px; color: #8e997f; }
 .machine-offer span strong { font-weight: 500; color: #678057; }
 .machine-status { min-height: 32px; font: italic 14px/1.5 Georgia, serif; color: #799166; margin: 0 0 15px; }
+.machine-stock { margin: -10px 0 15px; color: #859078; font: 10px ui-monospace, monospace; }
+.machine-stock strong { color: #5d7850; font-weight: 500; }
 .machine-receipt { display: flex; gap: 28px; padding: 15px 0; border-top: 1px solid #e0e4d3; border-bottom: 1px solid #e0e4d3; font: 8px ui-monospace, monospace; color: #959c88; }
 .machine-receipt strong { display: block; color: #6c805d; font: 15px Georgia, serif; margin-top: 8px; }
 .machine-copy .text-button { padding: 18px 0 0; text-align: left; }
@@ -240,6 +243,7 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
   .machine-copy h2 { font-size: 27px; margin: 8px 0 10px; }
   .machine-offer { justify-content: center; margin: 12px 0; }
   .machine-status { min-height: 22px; margin-bottom: 10px; font-size: 12px; }
+  .machine-stock { margin: 0 0 10px; }
   .machine-receipt { justify-content: center; padding: 10px 0; }
   .machine-copy .text-button { text-align: center; padding-top: 14px; font-size: 9px; }
   @keyframes insert-coin { 0% { transform: translateY(0) rotateY(0); } 75% { opacity: 1; } 100% { transform: translateY(-142px) rotateY(75deg) scale(.25); opacity: 0; } }

@@ -147,10 +147,19 @@ document.addEventListener('pond:state', event => {
   pause.setAttribute('aria-label', state.paused ? 'Resume game' : 'Pause game');
   element<HTMLButtonElement>('scatter-button').disabled = state.paused || state.machinePhase !== 'ready' || state.handfuls === 0;
   const busy = state.machinePhase !== 'ready';
-  for (const id of ['insert-coin', 'close-machine', 'machine-watch']) element<HTMLButtonElement>(id).disabled = busy;
-  element('vending-stage').setAttribute('aria-busy', String(busy));
+  element<HTMLButtonElement>('insert-coin').disabled = busy || state.machineRestocking || state.machineStock === 0;
+  for (const id of ['close-machine', 'machine-watch']) element<HTMLButtonElement>(id).disabled = busy;
+  element('machine-stock').textContent = String(state.machineStock);
+  element('machine-fill').style.clipPath = `inset(${55.5 - state.machineFill * 23.9}% 12% 44.5%)`;
+  element('machine-fill').hidden = state.machineFill <= 0;
+  const status = busy ? phaseText[state.machinePhase] : state.machineRestocking
+    ? 'A fresh sack of pellets. The employee is topping up the globe.' : state.machineStock === 0
+    ? state.paused ? 'All out for a moment. Resume the pond to let the employee refill it.' : 'All out for a moment. An employee is bringing more.'
+    : state.employeePhase === 'arriving' || state.employeePhase === 'waiting'
+    ? 'Running low. An employee is bringing a fresh sack.' : phaseText.ready;
+  if (element('machine-status').textContent !== status) element('machine-status').textContent = status;
+  element('vending-stage').setAttribute('aria-busy', String(busy || state.machineRestocking));
   if (lastPhase !== state.machinePhase) {
-    element('machine-status').textContent = phaseText[state.machinePhase];
     element('vending-stage').dataset.phase = state.machinePhase;
     if (state.machinePhase === 'turning') tone(230, 0.2);
     lastPhase = state.machinePhase;

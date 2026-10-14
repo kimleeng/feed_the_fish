@@ -9,6 +9,7 @@ const atlas = JSON.parse(await fs.readFile('public/art/fish-swimmers.json', 'utf
 const turtle = JSON.parse(await fs.readFile('public/art/turtle-swimmer.json', 'utf8'));
 const observers = JSON.parse(await fs.readFile('public/art/garden-observers.json', 'utf8'));
 const thrower = JSON.parse(await fs.readFile('public/art/dock-thrower.json', 'utf8'));
+const employee = JSON.parse(await fs.readFile('public/art/garden-employee.json', 'utf8'));
 const directions = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'];
 const expected = ['koi', 'carp', 'minnow'].flatMap(species => [0, 1].flatMap(stroke =>
   directions.map(direction => `${species}-${direction}-${stroke}`)));
@@ -29,7 +30,11 @@ const throwerNames = ['empty', 'rest', 'toss-windup', 'toss-release', 'toss-foll
 if (Object.keys(thrower.frames).length !== 12 || throwerNames.some(name => !thrower.frames[name])) {
   throw new Error('The dock character needs all twelve throw stages.');
 }
-for (const body of [observers, thrower]) {
+const employeeNames = ['walk-0', 'walk-1', 'walk-2', 'walk-3', 'open', 'lift', 'pour', 'close'];
+if (Object.keys(employee.frames).length !== 8 || employeeNames.some(name => !employee.frames[name])) {
+  throw new Error('The employee needs all four walking phases and four restocking poses.');
+}
+for (const body of [observers, thrower, employee]) {
   const bodyFrames = Object.entries(body.frames);
   for (let i = 0; i < bodyFrames.length; i++) {
     const [name, { frame, spriteSourceSize: source, sourceSize: size }] = bodyFrames[i];
@@ -79,6 +84,7 @@ const turtleImage = 'data:image/png;base64,' + (await fs.readFile('public/art/tu
 const pond = 'data:image/png;base64,' + (await fs.readFile('public/art/pond.png')).toString('base64');
 const observerImage = 'data:image/png;base64,' + (await fs.readFile('public/art/garden-observers.png')).toString('base64');
 const throwerImage = 'data:image/png;base64,' + (await fs.readFile('public/art/dock-thrower.png')).toString('base64');
+const employeeImage = 'data:image/png;base64,' + (await fs.readFile('public/art/garden-employee.png')).toString('base64');
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium', headless: true });
 try {
   const page = await browser.newPage({ viewport: { width: 1320, height: 1200 } });
@@ -101,6 +107,7 @@ try {
   await page.screenshot({ path: path.join(output, 'fish-frames.png'), fullPage: true });
 
   for (const body of [
+    { atlas: employee, png: employeeImage, columns: 4, title: 'Garden employee: walking and restocking the pellet machine', output: 'employee-frames.png' },
     { atlas: turtle, png: turtleImage, columns: 8, title: 'Musk turtle: gentle swimming and raised heads', output: 'turtle-frames.png' },
     { atlas: observers, png: observerImage, columns: 5, title: 'Garden visitors: all four steps and watching poses', output: 'observer-frames.png' },
     { atlas: thrower, png: throwerImage, columns: 4, title: 'Dock character: every actual throw stage', output: 'thrower-frames.png' },
@@ -154,7 +161,7 @@ try {
     }
   }, pond);
   await page.screenshot({ path: path.join(output, 'garden-regions.png'), fullPage: true });
-  console.log(`All 48 carp, 24 turtle, 30 observer, and 12 dock-character frames have valid, non-overlapping cuts. Art review images saved to ${output}`);
+  console.log(`All 48 carp, 24 turtle, 30 observer, 12 dock-character, and 8 employee frames have valid, non-overlapping cuts. Art review images saved to ${output}`);
 } finally {
   await browser.close();
 }

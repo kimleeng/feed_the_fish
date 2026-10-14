@@ -163,6 +163,128 @@ test('the machine on the garden path opens its coin ritual without throwing food
   await page.screenshot({ path: testInfo.outputPath('tivoli-garden-machine.png'), fullPage: true });
 });
 
+test('purchases lower the visible pellet level and an employee walks in to refill below five', async ({ page }, testInfo) => {
+  await arrive(page);
+  await expect(page.locator('#machine-stock')).toHaveText('25');
+  const fullClip = await page.locator('#machine-fill').evaluate(image => getComputedStyle(image).clipPath);
+  await buy(page);
+  await expect(page.locator('#machine-stock')).toHaveText('24');
+  await expect(page.locator('#food-count')).toHaveText('10');
+  expect(await page.locator('#machine-fill').evaluate(image => getComputedStyle(image).clipPath)).not.toBe(fullClip);
+
+  const low = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.pause();
+    let time = 100_000;
+    for (let purchase = 0; purchase < 19; purchase++) {
+      if (!scene.buyPellets()) throw new Error('An available serving was refused');
+      for (let tick = 0; tick < 60; tick++) scene.update(time += 50, 50);
+    }
+    const before = { stock: scene.world.machine.stock, employee: scene.world.employee.phase };
+    scene.buyPellets();
+    for (let tick = 0; tick < 60; tick++) scene.update(time += 50, 50);
+    const visitor = scene.children.getByName('machine-employee') as Phaser.GameObjects.Container;
+    const art = visitor.getByName('employee-art') as Phaser.GameObjects.Sprite;
+    return { before, stock: scene.world.machine.stock, employee: scene.world.employee.phase,
+      visible: visitor.visible, atlas: art.texture.key, frame: art.frame.name,
+      money: scene.world.machine.moneyUsed, throws: scene.world.handfuls };
+  });
+  expect(low.before).toEqual({ stock: 5, employee: 'away' });
+  expect(low.stock).toBe(4);
+  expect(low.employee).toBe('arriving');
+  expect(low.visible).toBe(true);
+  expect(low.atlas).toBe('garden-employee');
+  expect(low.frame).toMatch(/^walk-[0-3]$/);
+  expect(low.money).toBe(105); expect(low.throws).toBe(210);
+
+  const pouring = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    let time = 200_000;
+    for (let tick = 0; tick < 400 && scene.world.employee.phase !== 'pouring'; tick++) scene.update(time += 50, 50);
+    for (let tick = 0; tick < 24; tick++) scene.update(time += 50, 50);
+    const visitor = scene.children.getByName('machine-employee') as Phaser.GameObjects.Container;
+    const art = visitor.getByName('employee-art') as Phaser.GameObjects.Sprite;
+    const machine = scene.children.getByName('garden-pellet-machine') as Phaser.GameObjects.Container;
+    const lid = machine.getByName('machine-lid') as Phaser.GameObjects.Image;
+    return { phase: scene.world.employee.phase, frame: art.frame.name, stock: scene.world.machine.stock,
+      fill: scene.world.machine.fillFraction, restocking: scene.world.machine.restocking,
+      x: visitor.x, y: visitor.y, lidRotation: lid.rotation, canBuy: scene.buyPellets() };
+  });
+  expect(pouring.phase).toBe('pouring');
+  expect(pouring.frame).toBe('pour');
+  expect(pouring.stock).toBe(4);
+  expect(pouring.fill).toBeGreaterThan(0.4); expect(pouring.fill).toBeLessThan(0.8);
+  expect(pouring.restocking).toBe(true); expect(pouring.canBuy).toBe(false);
+  expect(pouring.x).toBeGreaterThan(300); expect(pouring.x).toBeLessThan(400);
+  expect(pouring.y).toBeGreaterThan(700); expect(pouring.y).toBeLessThan(760);
+  expect(pouring.lidRotation).toBeCloseTo(-Math.PI / 2);
+  await page.screenshot({ path: testInfo.outputPath('employee-refilling.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Pellet machine' }).click();
+  await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeDisabled();
+  await expect(page.locator('#close-machine')).toBeEnabled();
+  await expect(page.locator('#machine-status')).toContainText('topping up');
+  await page.screenshot({ path: testInfo.outputPath('machine-half-refilled.png'), fullPage: true });
+  const frozen = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.world.paused = true;
+    const before = JSON.stringify([scene.world.employee, scene.world.machine]);
+    for (let tick = 0; tick < 100; tick++) scene.update(300_000 + tick * 50, 50);
+    return before === JSON.stringify([scene.world.employee, scene.world.machine]);
+  });
+  expect(frozen).toBe(true);
+  const finished = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.world.paused = false;
+    for (let tick = 0; tick < 300; tick++) scene.update(400_000 + tick * 50, 50);
+    const visitor = scene.children.getByName('machine-employee') as Phaser.GameObjects.Container;
+    return { stock: scene.world.machine.stock, fill: scene.world.machine.fillFraction,
+      restocks: scene.world.machine.restocks, employee: scene.world.employee.phase, visible: visitor.visible,
+      money: scene.world.machine.moneyUsed, throws: scene.world.handfuls };
+  });
+  expect(finished).toEqual({ stock: 25, fill: 1, restocks: 1, employee: 'away', visible: false, money: 105, throws: 210 });
+  await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeEnabled();
+  await expect(page.locator('#machine-stock')).toHaveText('25');
+  expect(await page.locator('#machine-fill').evaluate(image => getComputedStyle(image).clipPath)).toBe(fullClip);
+});
+
+test('an empty globe blocks payment until the employee returns stock, and a new visit resets it', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.pause(); scene.world.paused = true;
+    let time = 100_000;
+    for (let purchase = 0; purchase < 25; purchase++) {
+      if (!scene.buyPellets()) throw new Error('The machine ran out before 25 purchases');
+      for (let tick = 0; tick < 60; tick++) scene.update(time += 50, 50);
+    }
+  });
+  await page.getByRole('button', { name: 'Pellet machine' }).click();
+  await expect(page.locator('#machine-stock')).toHaveText('0');
+  await expect(page.locator('#machine-fill')).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeDisabled();
+  await expect(page.locator('#machine-status')).toContainText('Resume the pond');
+  await expect(page.locator('#money-used')).toHaveText('125 kr');
+  await page.screenshot({ path: testInfo.outputPath('machine-empty.png'), fullPage: true });
+  const recovered = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const rejected = !scene.buyPellets();
+    scene.world.paused = false;
+    for (let tick = 0; tick < 600; tick++) scene.update(300_000 + tick * 50, 50);
+    return { rejected, stock: scene.world.machine.stock, coins: scene.world.machine.coinsUsed,
+      throws: scene.world.handfuls, restocks: scene.world.machine.restocks };
+  });
+  expect(recovered).toEqual({ rejected: true, stock: 25, coins: 25, throws: 250, restocks: 1 });
+  const restarted = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.restart();
+    const visitor = scene.children.getByName('machine-employee') as Phaser.GameObjects.Container;
+    return { stock: scene.world.machine.stock, coins: scene.world.machine.coinsUsed,
+      restocks: scene.world.machine.restocks, visible: visitor.visible };
+  });
+  expect(restarted).toEqual({ stock: 25, coins: 0, restocks: 0, visible: false });
+  await expect(page.locator('#machine-stock')).toHaveText('25');
+});
+
 test('the secret turtle swims underwater and reveals only its head after eating in hidden mode', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();

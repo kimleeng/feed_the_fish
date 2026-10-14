@@ -55,7 +55,8 @@
       <div class="machine-body">
         <div id="vending-stage" class="vending-stage" data-phase="ready" aria-busy="false">
           <div class="machine-apparatus">
-          <img class="machine-picture" src="/art/machine.png" alt="A red, round-globe fish-pellet machine with a chrome crank" />
+          <img class="machine-picture" src="/art/machine-empty.png" alt="A red, round-globe fish-pellet machine with a chrome crank" />
+          <img id="machine-fill" class="machine-picture machine-fill" src="/art/machine.png" alt="" aria-hidden="true" />
           <span class="coin-slot" aria-hidden="true"></span>
           <svg class="machine-handle" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="13" fill="#8c9799" stroke="#465456" stroke-width="3"/><circle cx="32" cy="32" r="8" fill="#dde3dc"/><path d="M9 28h46v9H9z" fill="#bbc4c0" stroke="#4a5552" stroke-width="2"/><path d="M9 27h46v3H9z" fill="#f2eee0"/><path d="M50 22h8v21h-8z" fill="#707f7d" stroke="#404b47" stroke-width="2"/></svg>
           <div class="machine-stream" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -68,6 +69,7 @@
           <p class="eyebrow">FIRST, A LITTLE RITUAL.</p><h2 id="machine-title">A handful of calm.</h2>
           <p class="machine-description">Drop in a coin. Watch the handle turn. Hold out your hand for a little kindness to share.</p>
           <div class="machine-offer"><strong id="coin-price">5 kr</strong><span>for <strong id="serving-count">10</strong> little throws</span></div>
+          <p class="machine-stock"><strong id="machine-stock">25</strong> servings in the globe</p>
           <p id="machine-status" class="machine-status" role="status">Click the coin to begin.</p>
           <div class="machine-receipt"><span>Coins this visit <strong id="machine-coins">0</strong></span><span>A little spent <strong id="machine-total">0 kr</strong></span></div>
           <button id="machine-watch" class="text-button">Or just watch the pond for a while</button>

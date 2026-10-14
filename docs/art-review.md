@@ -33,15 +33,23 @@ The assembled game was reviewed in all eight directions underwater, with the hea
 
 Validation passed: 41 unit tests, the TypeScript/production build, all nine production browser scenarios, and the art audit. Checks include real pellet feeding, slow movement, food accounting, collisions with fish, visibility in both modes, pause, and restart. The turtle remains absent from the six-card field guide.
 
+## Machine stock and employee, 14 October 2026
+
+Both machine views now use an empty-globe counterpart registered to their original artwork, with the original pellet pile clipped above it according to remaining stock. The full, half-full, four-serving, and empty states were reviewed in the dialog and garden. The garden lid hinges at the globe's left edge during service, leaving the opening clear for the falling pellets.
+
+The employee matches the existing adult visitors in height and shaded pixel-art style, with a green cap, work shirt, and paper feed sack. Four walking poses advance by measured distance; opening, lifting, pouring, and closing poses share a planted foot baseline. The annotated sack opening sets the work position and the falling-pellet origin. All eight atlas cuts passed bounds, overlap, and hip/sole checks and were visually reviewed. The assembled arrival, refill, and departure were checked alongside the existing visitors and machine.
+
+Validation covers 25 purchases without overselling, dispatch at four remaining, purchases during arrival, waiting for a paid serving, gradual refill to 25, continued use of food already purchased, repeated service, pause, and new visits. The build, 47 unit tests, and 11 production browser scenarios passed.
+
 ## Reproduce the review
 
 ```bash
 npm run review:art
 ```
 
-This reads the actual PNG and atlas metadata used by the game. It checks all required frame names, image dimensions, frame/source bounds, and non-overlapping rectangles, then saves the fish, visitor, dock-character, and garden review sheets under ignored `test-results/art-review`. The garden sheet covers every source-image pixel in six full-detail tiles.
+This reads the actual PNG and atlas metadata used by the game. It checks all required frame names, image dimensions, frame/source bounds, and non-overlapping rectangles, then saves the fish, turtle, visitor, employee, dock-character, and garden review sheets under ignored `test-results/art-review`. The garden sheet covers every source-image pixel in six full-detail tiles.
 
-For a regenerated asset, run `node scripts/build-art-atlas.mjs` with `fish`, `machine`, `observers`, or `thrower`. The builder inspects alpha and leaves the PNG pixels unchanged. Review each resulting pose before accepting it; automatic bounds checks cannot establish correct anatomy.
+For a regenerated asset, run `node scripts/build-art-atlas.mjs` with `fish`, `turtle`, `machine`, `observers`, `thrower`, or `employee`. The builder inspects alpha and leaves the PNG pixels unchanged. Review each resulting pose before accepting it; automatic bounds checks cannot establish correct anatomy.
 
 `npm run test:browser` exercises the garden machine on desktop and touch, verifies a refill preserves unused throws and adds 5 kr, and checks that opening the machine does not throw food. Existing browser checks cover every direction, visible submerged fish, throwing, lucky bonuses, the field guide, and reduced motion. The same suite can run against the production build with `FEED_FISH_TEST_MODE=production npm run test:browser`.
 

@@ -1,6 +1,7 @@
 import { PelletMachine } from './vending.ts';
 import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent } from './throws.ts';
 import { ObserverCrowd } from './observers.ts';
+import { MachineEmployee } from './restocking.ts';
 
 export type AnimalKind = 'fish' | 'bird' | 'turtle';
 export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift' | 'amble';
@@ -70,6 +71,7 @@ export class PondSimulation {
   bites: BiteEvent[] = [];
   splashes: Splash[] = [];
   machine = new PelletMachine();
+  employee = new MachineEmployee();
   fedFish = new Set<number>();
   fishFood = 0;
   birdFood = 0;
@@ -269,6 +271,7 @@ export class PondSimulation {
     this.handfuls += this.machine.step(dt);
     if (this.handfuls > 0 && !this.nextThrow) this.nextThrow = planThrow(this.throwRandom);
     if (this.paused || dt === 0) return;
+    this.employee.step(dt, this.machine);
     this.elapsed += dt;
     this.crowd.step(dt);
     this.throwQueue = this.throwQueue.filter(action => this.elapsed < action.startedAt + THROW_MOTIONS[action.animation].duration);

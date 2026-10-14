@@ -2,6 +2,9 @@ import Phaser from 'phaser';
 import { PondSimulation, POND, inPond, type Point } from './simulation.ts';
 import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
 import { COIN_PRICE, type VendingPhase } from './vending.ts';
+import { MACHINE_POSITION, EMPLOYEE_HEIGHT, type EmployeePhase } from './restocking.ts';
+import { employeeFrame } from './employee-art.ts';
+import { EMPLOYEE_POUR_OFFSET } from './employee-pins.ts';
 import { throwerPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 import { DOCK_POSITION, THROWER_HEIGHT, throwerHand } from './thrower-art.ts';
 import { observerFrame, observerHeight } from './observer-art.ts';
@@ -12,6 +15,7 @@ export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; turtleFood: number; share: number;
   paused: boolean; score: number; moneyUsed: number; coinsUsed: number; servings: number;
   machinePhase: VendingPhase;
+  machineStock: number; machineFill: number; machineRestocking: boolean; employeePhase: EmployeePhase;
   luckyBonus: number; luckyInHand: boolean;
 }
 
@@ -34,6 +38,11 @@ export class PondScene extends Phaser.Scene {
   private luckyIndicator!: Phaser.GameObjects.Container;
   private luckyLabel!: Phaser.GameObjects.Text;
   private effects!: Phaser.GameObjects.Group;
+  private machineFill!: Phaser.GameObjects.Image;
+  private machineLid!: Phaser.GameObjects.Image;
+  private employee!: Phaser.GameObjects.Container;
+  private employeeArt!: Phaser.GameObjects.Sprite;
+  private refillStream!: Phaser.GameObjects.Graphics;
   private lastRelease = -1;
   private lastPoint: Point = { x: 600, y: 389 };
   private lastHud = 0;
@@ -46,6 +55,8 @@ export class PondScene extends Phaser.Scene {
     this.load.image('pond-art', '/art/pond.png');
     this.load.atlas('dock-thrower', '/art/dock-thrower.png', '/art/dock-thrower.json');
     this.load.atlas('scene-machine', '/art/scene-machine.png', '/art/scene-machine.json');
+    this.load.atlas('scene-machine-empty', '/art/scene-machine-empty.png', '/art/scene-machine-empty.json');
+    this.load.atlas('garden-employee', '/art/garden-employee.png', '/art/garden-employee.json');
     this.load.atlas('fish-swimmers', '/art/fish-swimmers.png', '/art/fish-swimmers.json');
     this.load.atlas('bird-swimmers', '/art/bird-swimmers.png', '/art/bird-swimmers.json');
     this.load.atlas('turtle-swimmer', '/art/turtle-swimmer.png', '/art/turtle-swimmer.json');
@@ -62,6 +73,7 @@ export class PondScene extends Phaser.Scene {
     this.spawnCreatures();
     this.updateObservers();
     this.createPelletMachine();
+    this.createEmployee();
     this.createDockThrower();
     this.cursor = this.add.circle(600, 390, 16).setStrokeStyle(1, 0xfff7d4, 0.6).setDepth(80).setVisible(false);
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
@@ -77,9 +89,15 @@ export class PondScene extends Phaser.Scene {
   }
 
   private createPelletMachine(): void {
-    const machine = this.add.container(410, 746).setName('garden-pellet-machine').setDepth(40 + 746 / 1000);
-    const image = this.add.image(0, 0, 'scene-machine', 'machine').setName('machine-art').setOrigin(0.5, 1);
+    const machine = this.add.container(MACHINE_POSITION.x, MACHINE_POSITION.y).setName('garden-pellet-machine').setDepth(40 + MACHINE_POSITION.y / 1000);
+    const image = this.add.image(0, 0, 'scene-machine-empty', 'machine').setName('machine-art').setOrigin(0.5, 1);
     image.setScale(154 / image.height);
+    // The clear hopper remains behind a clipped slice of the original pellet artwork.
+    image.setCrop(0, 112, image.width, image.height - 112);
+    this.machineFill = this.add.image(0, 0, 'scene-machine', 'machine').setName('machine-pellet-fill')
+      .setOrigin(0.5, 1).setScale(image.scaleX);
+    this.machineLid = this.add.image(0, -1322 * image.scaleY, 'scene-machine-empty', 'lid').setName('machine-lid')
+      .setOrigin(0, 1).setScale(image.scaleX);
     // Include the narrow pedestal in the touch target, with a little extra width.
     const touchWidth = 110 / image.scaleX;
     image.setInteractive(new Phaser.Geom.Rectangle((image.width - touchWidth) / 2, 0, touchWidth, image.height), Phaser.Geom.Rectangle.Contains);
@@ -95,7 +113,43 @@ export class PondScene extends Phaser.Scene {
     const price = this.add.text(0, -68, `${COIN_PRICE} kr`, {
       fontFamily: 'monospace', fontSize: '8px', color: '#344a3d',
     }).setOrigin(0.5);
-    machine.add([image, plaque, price]);
+    machine.add([image, this.machineFill, this.machineLid, plaque, price]);
+    this.updateMachine();
+  }
+
+  private createEmployee(): void {
+    const shadow = this.add.ellipse(0, -1, 43, 8, 0x493f32, 0.2);
+    const reference = this.textures.getFrame('garden-employee', 'walk-0')!;
+    this.employeeArt = this.add.sprite(0, 0, 'garden-employee', 'walk-0').setName('employee-art')
+      .setOrigin(0.5, 1).setScale(EMPLOYEE_HEIGHT / reference.cutHeight);
+    this.employee = this.add.container(0, 0, [shadow, this.employeeArt]).setName('machine-employee').setVisible(false);
+    this.refillStream = this.add.graphics().setName('employee-pellet-stream').setDepth(41);
+  }
+
+  private updateMachine(): void {
+    const fill = this.world.machine.fillFraction;
+    const height = 196 * fill;
+    this.machineFill.setCrop(8, 409 - height, 391, height).setVisible(fill > 0);
+    const open = this.world.employee.lidOpen;
+    // Hinge the cap at the left edge so it stays attached while both hands pour.
+    this.machineLid.setPosition(-this.machineLid.displayWidth / 2, -1322 * this.machineLid.scaleY).setRotation(-open * Math.PI / 2);
+  }
+
+  private updateEmployee(): void {
+    const person = this.world.employee;
+    this.employee.setVisible(person.visible).setPosition(person.x, person.y).setDepth(40 + person.y / 1000);
+    this.employeeArt.setFrame(employeeFrame(person)).setFlipX(person.direction === -1);
+    this.refillStream.clear();
+    if (person.pouring) {
+      const origin = { x: person.x + EMPLOYEE_POUR_OFFSET.x * EMPLOYEE_HEIGHT,
+        y: person.y + EMPLOYEE_POUR_OFFSET.y * EMPLOYEE_HEIGHT };
+      for (let i = 0; i < 8; i++) {
+        const t = (person.phaseTime * 2.4 + i / 8) % 1;
+        const x = origin.x + (MACHINE_POSITION.x - origin.x) * t + Math.sin(i * 2.3) * 1.5;
+        const y = origin.y + (MACHINE_POSITION.y - 138 - origin.y) * t * t;
+        this.refillStream.fillStyle(i % 2 ? 0xc49b58 : 0x956435).fillRect(x, y, 1.5, 1.8);
+      }
+    }
   }
 
   private createDockThrower(): void {
@@ -244,6 +298,8 @@ export class PondScene extends Phaser.Scene {
     this.spawnCreatures();
     this.updateObservers();
     this.updateThrower();
+    this.updateMachine();
+    this.updateEmployee();
     this.publishHud();
     document.dispatchEvent(new CustomEvent('pond:needs-food'));
   }
@@ -286,6 +342,8 @@ export class PondScene extends Phaser.Scene {
       share: this.world.fishShare, paused: this.world.paused, score: this.world.score,
       moneyUsed: this.world.machine.moneyUsed, coinsUsed: this.world.machine.coinsUsed,
       servings: this.world.machine.servings, machinePhase: this.world.machine.phase,
+      machineStock: this.world.machine.stock, machineFill: this.world.machine.fillFraction,
+      machineRestocking: this.world.machine.restocking, employeePhase: this.world.employee.phase,
       luckyBonus: this.world.luckyBonus, luckyInHand: this.isLuckyInHand(),
     };
     document.dispatchEvent(new CustomEvent('pond:state', { detail }));
@@ -296,6 +354,8 @@ export class PondScene extends Phaser.Scene {
     this.world.step(delta / 1000);
     this.updateObservers();
     this.updateThrower();
+    this.updateMachine();
+    this.updateEmployee();
     this.birdWakes.clear();
     this.waterShimmer.clear();
     for (let i = 0; i < 18; i++) {
