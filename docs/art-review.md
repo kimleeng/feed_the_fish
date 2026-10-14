@@ -25,6 +25,14 @@ The visitor atlas contains 30 non-overlapping cuts with a shared foot baseline a
 
 Watching interest rises modestly on actual releases and in proportion to food eaten, then decreases after each observer's own 5–10 second quiet threshold. Checks cover delayed and queued releases, fish and bird nibbles, bounded interest, shorter quiet watches, and pause. Across twelve half-hour visits per condition, visible crowds averaged 2.70 during quiet periods and 3.25 with regular feeding; neither condition exceeded eight in that sample.
 
+## Secret musk turtle, 14 October 2026
+
+The turtle matches the warm shaded pond artwork, with a domed olive-brown shell, short webbed feet, and pale head stripes. Its atlas contains two gentle paddle poses in each of eight directions, plus eight separate raised heads. All 24 transparent cuts passed bounds and overlap checks and were reviewed on a pale background. Head annotations align the surface sprites with the swimming body; the builder packages existing pixels without changing them.
+
+The assembled game was reviewed in all eight directions underwater, with the head raised, and with the future hidden-underwater option enabled. The body sits beneath the same reflections as the fish; only the feeding head and a small ripple sit above the surface. The current default keeps the whole swimming turtle visible. A feeding peek lasts five seconds and eases in and out using simulation time, so pause freezes it. A new visit removes the old head sprite and resets the single turtle.
+
+Validation passed: 41 unit tests, the TypeScript/production build, all nine production browser scenarios, and the art audit. Checks include real pellet feeding, slow movement, food accounting, collisions with fish, visibility in both modes, pause, and restart. The turtle remains absent from the six-card field guide.
+
 ## Reproduce the review
 
 ```bash

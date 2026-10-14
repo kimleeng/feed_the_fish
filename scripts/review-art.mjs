@@ -6,6 +6,7 @@ import path from 'node:path';
 const output = path.resolve(process.argv[2] || 'test-results/art-review');
 await fs.mkdir(output, { recursive: true });
 const atlas = JSON.parse(await fs.readFile('public/art/fish-swimmers.json', 'utf8'));
+const turtle = JSON.parse(await fs.readFile('public/art/turtle-swimmer.json', 'utf8'));
 const observers = JSON.parse(await fs.readFile('public/art/garden-observers.json', 'utf8'));
 const thrower = JSON.parse(await fs.readFile('public/art/dock-thrower.json', 'utf8'));
 const directions = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'];
@@ -14,7 +15,10 @@ const expected = ['koi', 'carp', 'minnow'].flatMap(species => [0, 1].flatMap(str
 if (Object.keys(atlas.frames).length !== 48 || expected.some(name => !atlas.frames[name])) {
   throw new Error('The carp atlas must contain all 48 named swim frames.');
 }
-const frames = Object.entries(atlas.frames);
+const turtleNames = [0, 1, 'head'].flatMap(pose => directions.map(direction => `musk-turtle-${direction}-${pose}`));
+if (Object.keys(turtle.frames).length !== 24 || turtleNames.some(name => !turtle.frames[name])) {
+  throw new Error('The turtle needs two swimming poses and a separate raised head in every direction.');
+}
 const observerNames = ['adult', 'kid'].flatMap(age => [0, 1, 2].flatMap(look =>
   ['walk-0', 'walk-1', 'walk-2', 'walk-3', 'watch'].map(pose => `observer-${age}-${look}-${pose}`)));
 if (Object.keys(observers.frames).length !== 30 || observerNames.some(name => !observers.frames[name])) {
@@ -52,22 +56,26 @@ for (const body of [observers, thrower]) {
     }
   }
 }
-for (let i = 0; i < frames.length; i++) {
-  const [name, { frame, spriteSourceSize, sourceSize }] = frames[i];
-  if (frame.x < 0 || frame.y < 0 || frame.x + frame.w > atlas.meta.size.w || frame.y + frame.h > atlas.meta.size.h ||
-      spriteSourceSize.x < 0 || spriteSourceSize.y < 0 || spriteSourceSize.x + frame.w > sourceSize.w ||
-      spriteSourceSize.y + frame.h > sourceSize.h || frame.w !== spriteSourceSize.w || frame.h !== spriteSourceSize.h) {
-    throw new Error(`Invalid atlas bounds for ${name}`);
-  }
-  for (let j = 0; j < i; j++) {
-    const other = frames[j][1].frame;
-    if (Math.min(frame.x + frame.w, other.x + other.w) > Math.max(frame.x, other.x) &&
-        Math.min(frame.y + frame.h, other.y + other.h) > Math.max(frame.y, other.y)) {
-      throw new Error(`Atlas cuts overlap: ${name}, ${frames[j][0]}`);
+for (const swimmer of [atlas, turtle]) {
+  const frames = Object.entries(swimmer.frames);
+  for (let i = 0; i < frames.length; i++) {
+    const [name, { frame, spriteSourceSize, sourceSize }] = frames[i];
+    if (frame.x < 0 || frame.y < 0 || frame.x + frame.w > swimmer.meta.size.w || frame.y + frame.h > swimmer.meta.size.h ||
+        spriteSourceSize.x < 0 || spriteSourceSize.y < 0 || spriteSourceSize.x + frame.w > sourceSize.w ||
+        spriteSourceSize.y + frame.h > sourceSize.h || frame.w !== spriteSourceSize.w || frame.h !== spriteSourceSize.h) {
+      throw new Error(`Invalid atlas bounds for ${name}`);
+    }
+    for (let j = 0; j < i; j++) {
+      const other = frames[j][1].frame;
+      if (Math.min(frame.x + frame.w, other.x + other.w) > Math.max(frame.x, other.x) &&
+          Math.min(frame.y + frame.h, other.y + other.h) > Math.max(frame.y, other.y)) {
+        throw new Error(`Atlas cuts overlap: ${name}, ${frames[j][0]}`);
+      }
     }
   }
 }
 const fish = 'data:image/png;base64,' + (await fs.readFile('public/art/fish-swimmers.png')).toString('base64');
+const turtleImage = 'data:image/png;base64,' + (await fs.readFile('public/art/turtle-swimmer.png')).toString('base64');
 const pond = 'data:image/png;base64,' + (await fs.readFile('public/art/pond.png')).toString('base64');
 const observerImage = 'data:image/png;base64,' + (await fs.readFile('public/art/garden-observers.png')).toString('base64');
 const throwerImage = 'data:image/png;base64,' + (await fs.readFile('public/art/dock-thrower.png')).toString('base64');
@@ -93,6 +101,7 @@ try {
   await page.screenshot({ path: path.join(output, 'fish-frames.png'), fullPage: true });
 
   for (const body of [
+    { atlas: turtle, png: turtleImage, columns: 8, title: 'Musk turtle: gentle swimming and raised heads', output: 'turtle-frames.png' },
     { atlas: observers, png: observerImage, columns: 5, title: 'Garden visitors: all four steps and watching poses', output: 'observer-frames.png' },
     { atlas: thrower, png: throwerImage, columns: 4, title: 'Dock character: every actual throw stage', output: 'thrower-frames.png' },
   ]) {
@@ -145,7 +154,7 @@ try {
     }
   }, pond);
   await page.screenshot({ path: path.join(output, 'garden-regions.png'), fullPage: true });
-  console.log(`All 48 carp, 30 observer, and 12 dock-character frames have valid, non-overlapping cuts. Art review images saved to ${output}`);
+  console.log(`All 48 carp, 24 turtle, 30 observer, and 12 dock-character frames have valid, non-overlapping cuts. Art review images saved to ${output}`);
 } finally {
   await browser.close();
 }

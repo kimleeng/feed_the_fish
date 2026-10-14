@@ -16,7 +16,7 @@ export function directionForHeading(heading: number, previous?: Direction): Dire
 }
 
 export function animalAtlas(kind: AnimalKind): string {
-  return kind === 'fish' ? 'fish-swimmers' : 'bird-swimmers';
+  return kind === 'turtle' ? 'turtle-swimmer' : kind === 'fish' ? 'fish-swimmers' : 'bird-swimmers';
 }
 
 export function animalFrame(texture: string, direction: Direction, stroke = 0): string {

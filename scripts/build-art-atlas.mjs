@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 
 // Inspect alpha to package generated art. The PNG is read without editing its pixels.
 const type = process.argv[2];
-if (!['fish', 'machine', 'hand', 'observers', 'thrower'].includes(type)) throw new Error('Usage: node scripts/build-art-atlas.mjs fish|machine|hand|observers|thrower');
+if (!['fish', 'turtle', 'machine', 'hand', 'observers', 'thrower'].includes(type)) throw new Error('Usage: node scripts/build-art-atlas.mjs fish|turtle|machine|hand|observers|thrower');
 if (type === 'hand') {
   const sources = [
     { image: 'right-hand-cup.png', names: ['rest', 'toss-windup', 'overhand-windup', 'spread-ready', 'spread-windup', 'recover', 'empty'] },
@@ -46,7 +46,7 @@ if (type === 'hand') {
   console.log('Packaged 12 named right-arm poses from four source cutouts without changing PNG pixels.');
   process.exit(0);
 }
-const basename = { fish: 'fish-swimmers', machine: 'scene-machine', observers: 'garden-observers', thrower: 'dock-thrower' }[type];
+const basename = { fish: 'fish-swimmers', turtle: 'turtle-swimmer', machine: 'scene-machine', observers: 'garden-observers', thrower: 'dock-thrower' }[type];
 const filename = `public/art/${basename}.png`;
 const src = 'data:image/png;base64,' + (await fs.readFile(filename)).toString('base64');
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium', headless: true });
@@ -83,7 +83,7 @@ try {
         }
         if (count > 700) boxes.push({ left, top, right, bottom });
       }
-      const expected = type === 'observers' ? 30 : type === 'thrower' ? 12 : 48;
+      const expected = type === 'observers' ? 30 : type === 'thrower' ? 12 : type === 'turtle' ? 24 : 48;
       if (boxes.length !== expected) throw new Error(`Expected ${expected} ${type} silhouettes; found ${boxes.length}. Inspect the generated art before packaging.`);
       boxes.sort((a, b) => a.top + a.bottom - b.top - b.bottom);
       const columns = type === 'observers' ? 5 : type === 'thrower' ? 4 : 8;
@@ -138,6 +138,7 @@ const observerSize = { w: bodyAtlas ? Math.ceil(Math.max(...inspected.boxes.map(
 const throwerNames = ['empty', 'rest', 'toss-windup', 'toss-release', 'toss-follow', 'overhand-windup',
   'overhand-release', 'overhand-follow', 'spread-windup', 'spread-release', 'spread-follow', 'recover'];
 const anchors = {};
+const turtlePins = type === 'turtle' ? JSON.parse(await fs.readFile('public/art/turtle-swimmer-pins.json', 'utf8')) : null;
 // Closely spaced body rows have only a one-pixel gap. Keep their opaque cuts
 // separate; fish and machine artwork can retain the surrounding padding.
 const padding = bodyAtlas ? 0 : 2;
@@ -145,7 +146,7 @@ for (let index = 0; index < inspected.boxes.length; index++) {
   const box = inspected.boxes[index];
   const x = Math.max(0, box.left - padding); const y = Math.max(0, box.top - padding);
   const w = Math.min(inspected.width, box.right + padding) - x; const h = Math.min(inspected.height, box.bottom + padding) - y;
-  if (type === 'fish' && (w > 224 || h > 224)) throw new Error('Fish exceeds the shared 224px source size.');
+  if ((type === 'fish' || (type === 'turtle' && index < 16)) && (w > 224 || h > 224)) throw new Error('Swimmer exceeds the shared 224px source size.');
   for (const [previousName, entry] of Object.entries(frames)) {
     const previous = entry.frame;
     if (Math.min(x + w, previous.x + previous.w) > Math.max(x, previous.x) &&
@@ -154,11 +155,26 @@ for (let index = 0; index < inspected.boxes.length; index++) {
     }
   }
   const name = type === 'fish' ? `${['koi', 'carp', 'minnow'][Math.floor(index / 16)]}-${directions[index % 8]}-${Math.floor(index / 8) % 2}`
+    : type === 'turtle' ? `musk-turtle-${directions[index % 8]}-${index < 16 ? Math.floor(index / 8) : 'head'}`
     : type === 'observers' ? `observer-${index < 15 ? 'adult' : 'kid'}-${Math.floor(index / 5) % 3}-${['walk-0', 'walk-1', 'walk-2', 'walk-3', 'watch'][index % 5]}`
       : type === 'thrower' ? throwerNames[index] : 'machine';
-  const size = type === 'fish' ? { w: 224, h: 224 } : bodyAtlas ? observerSize : { w, h };
+  const turtleHead = type === 'turtle' && index >= 16;
+  const size = type === 'fish' || type === 'turtle' ? { w: turtleHead ? 448 : 224, h: turtleHead ? 448 : 224 } : bodyAtlas ? observerSize : { w, h };
   const source = { x: bodyAtlas ? Math.round(size.w / 2 - (box.anchorX - x)) : Math.floor((size.w - w) / 2),
     y: bodyAtlas ? size.h - h : Math.floor((size.h - h) / 2) };
+  if (type === 'turtle') {
+    const pin = turtlePins[directions[index % 8]];
+    const reference = inspected.boxes[index % 8];
+    const offset = { x: pin.x - (reference.left + reference.right) / 2, y: pin.y - (reference.top + reference.bottom) / 2 };
+    if (pin.x < reference.left || pin.x > reference.right || pin.y < reference.top || pin.y > reference.bottom) {
+      throw new Error('Turtle head pins must fall inside the matching swim pose.');
+    }
+    if (turtleHead) {
+      // Heads were drawn at twice the body detail; keep their actual size and anchor aligned.
+      source.x += Math.round(offset.x * 2); source.y += Math.round(offset.y * 2);
+    }
+    anchors[directions[index % 8]] = { x: offset.x / 224, y: offset.y / 224 };
+  }
   if (source.x < 0 || source.y < 0 || source.x + w > size.w || source.y + h > size.h) {
     throw new Error(`${name} crosses its grid cell. Correct sprite spacing before packaging.`);
   }
@@ -171,6 +187,11 @@ for (let index = 0; index < inspected.boxes.length; index++) {
 }
 const meta = { image: `${basename}.png`, format: 'RGBA8888', size: { w: inspected.width, h: inspected.height }, scale: '1' };
 if (bodyAtlas) meta.anchors = anchors;
+if (type === 'turtle') {
+  meta.headOffsets = anchors;
+  await fs.writeFile('src/turtle-pins.ts', '// Generated by scripts/build-art-atlas.mjs turtle from head positions in the swimming artwork.\n' +
+    'export const TURTLE_HEAD_OFFSETS = ' + JSON.stringify(anchors, null, 2) + ';\n');
+}
 if (type === 'observers') {
   const ratios = { adult: [], kid: [] };
   for (const age of ['adult', 'kid']) for (let look = 0; look < 3; look++) {

@@ -116,7 +116,7 @@ function tone(frequency: number, duration = 0.12): void {
 }
 document.addEventListener('pond:toss', () => tone(480, 0.16));
 document.addEventListener('pond:coin', () => tone(1000, 0.08));
-document.addEventListener('pond:bite', event => tone((event as CustomEvent).detail === 'fish' ? 750 : 320, 0.08));
+document.addEventListener('pond:bite', event => tone((event as CustomEvent).detail === 'bird' ? 320 : 750, 0.08));
 document.addEventListener('pond:lucky', () => tone(1046, 0.22));
 
 const phaseText: Record<VendingPhase, string> = {
@@ -137,7 +137,7 @@ document.addEventListener('pond:state', event => {
   element('money-used').textContent = money(state.moneyUsed);
   element('machine-total').textContent = money(state.moneyUsed);
   element('machine-coins').textContent = String(state.coinsUsed);
-  const hasMeals = state.fishFood + state.birdFood > 0;
+  const hasMeals = state.fishFood + state.birdFood + state.turtleFood > 0;
   element('share-value').textContent = hasMeals ? Math.round(state.share * 100) + '%' : '—';
   element('share-fill').style.width = hasMeals ? state.share * 100 + '%' : '0%';
   element('paused-overlay').hidden = !state.paused;

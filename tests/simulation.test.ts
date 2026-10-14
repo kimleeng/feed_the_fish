@@ -234,7 +234,7 @@ test('repeated refills conserve food and keep every swimming animal inside the p
   assert.equal(pond.handfuls, 0);
   assert.equal(pond.machine.moneyUsed, 15);
   assert.ok(pond.fishFood > 0);
-  assert.ok(pond.fishFood + pond.birdFood <= 120.000001);
+  assert.ok(pond.eatenFood <= 120.000001);
   assert.ok(pond.animals.every(inPond));
   assert.ok(pond.fishShare >= 0 && pond.fishShare <= 1);
 });

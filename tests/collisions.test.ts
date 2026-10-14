@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { PondSimulation, POND, animalCollisionRadius, inPond, type Animal } from '../src/simulation.ts';
+import { PondSimulation, POND, animalCollisionRadius, shareCollisionLayer, inPond, type Animal } from '../src/simulation.ts';
+import { animalAtlas } from '../src/appearance.ts';
 
 function gap(first: Animal, second: Animal): number {
   return Math.hypot(second.x - first.x, second.y - first.y);
@@ -16,11 +17,11 @@ function restingPair(kind: 'fish' | 'bird'): PondSimulation {
 
 test('collision cores are smaller than every actual swimming-art cut', () => {
   const pond = new PondSimulation(1);
-  for (const kind of ['fish', 'bird'] as const) {
-    const atlas = JSON.parse(readFileSync(new URL(`../public/art/${kind}-swimmers.json`, import.meta.url), 'utf8'));
+  for (const kind of ['fish', 'bird', 'turtle'] as const) {
+    const atlas = JSON.parse(readFileSync(new URL(`../public/art/${animalAtlas(kind)}.json`, import.meta.url), 'utf8'));
     for (const animal of pond.animals.filter(animal => animal.profile.kind === kind)) {
       for (const [name, entry] of Object.entries(atlas.frames) as [string, { frame: { w: number; h: number }; sourceSize: { w: number; h: number } }][]) {
-        if (!name.startsWith(animal.profile.texture + '-')) continue;
+        if (!name.startsWith(animal.profile.texture + '-') || name.endsWith('-head')) continue;
         const width = entry.frame.w / entry.sourceSize.w * animal.profile.size;
         const height = entry.frame.h / entry.sourceSize.h * animal.profile.size;
         assert.ok(animalCollisionRadius(animal) * 2 < Math.min(width, height), `${name} has room outside its collision core`);
@@ -120,10 +121,10 @@ test('the full pond keeps body space when all ten throws land in one patch', () 
     pond.step(0.05);
     for (let i = 0; i < pond.animals.length; i++) for (let j = i + 1; j < pond.animals.length; j++) {
       const first = pond.animals[i], second = pond.animals[j];
-      if (first.profile.kind !== second.profile.kind) continue;
+      if (!shareCollisionLayer(first, second)) continue;
       assert.ok(gap(first, second) >= animalCollisionRadius(first) + animalCollisionRadius(second) - 0.3);
     }
   }
   assert.ok(pond.fedFish.size >= 10);
-  assert.ok(Math.abs(pond.fishFood + pond.birdFood + pond.food.reduce((sum, food) => sum + food.amount, 0) - 40) < 0.000001);
+  assert.ok(Math.abs(pond.eatenFood + pond.food.reduce((sum, food) => sum + food.amount, 0) - 40) < 0.000001);
 });

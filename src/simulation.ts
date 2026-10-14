@@ -2,8 +2,8 @@ import { PelletMachine } from './vending.ts';
 import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent } from './throws.ts';
 import { ObserverCrowd } from './observers.ts';
 
-export type AnimalKind = 'fish' | 'bird';
-export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift';
+export type AnimalKind = 'fish' | 'bird' | 'turtle';
+export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift' | 'amble';
 export interface AnimalProfile {
   id: string; name: string; kind: AnimalKind; texture: string;
   speed: number; vision: number; bite: number; chew: number; turnRate: number;
@@ -18,6 +18,13 @@ export const SPECIES: AnimalProfile[] = [
   { ...ANIMAL_BASELINE, id: 'gull', name: 'Cheeky gull', kind: 'bird', texture: 'gull', movement: 'sweep', speed: 68, vision: 310, bite: 1, chew: 0.9, turnRate: 3, size: 50, count: 4, description: 'Swims in broad loops and snatches low-flying pellets as they reach the water.' },
   { ...ANIMAL_BASELINE, id: 'coot', name: 'Little coot', kind: 'bird', texture: 'coot', movement: 'drift', speed: 38, vision: 150, bite: 0.45, chew: 1.8, size: 42, count: 5, description: 'A few quiet paddle strokes, then a gentle drift near the edge of the pond.' },
 ];
+// A quiet extra resident, deliberately absent from the field guide's SPECIES list.
+export const MUSK_TURTLE: AnimalProfile = {
+  ...ANIMAL_BASELINE, id: 'musk-turtle', name: 'Musk turtle', kind: 'turtle', texture: 'musk-turtle',
+  movement: 'amble', speed: 18, vision: 105, bite: 0.4, chew: 5.4, turnRate: 1.1, size: 48, count: 1,
+  description: 'A little striped head, a domed olive shell, and all the time in the world.',
+};
+export const TURTLE_SURFACE_SECONDS = 5;
 export const POND = { x: 600, y: 389, rx: 498, ry: 230 };
 export const THROW_ORIGIN = releaseOrigin('toss');
 export const FLOAT_SECONDS = 1.7;
@@ -25,11 +32,15 @@ export interface Point { x: number; y: number }
 export interface Animal extends Point {
   id: number; profile: AnimalProfile; destination: Point; heading: number;
   chewLeft: number; state: 'roaming' | 'approaching' | 'chewing'; moving: boolean;
+  surfaceLeft: number;
   school: number; phase: number;
 }
 // Small body cores leave fins, tails, and feathers free to overlap naturally.
 export function animalCollisionRadius(animal: Animal): number {
-  return animal.profile.size * (animal.profile.kind === 'fish' ? 0.14 : 0.2);
+  return animal.profile.size * (animal.profile.kind === 'fish' ? 0.14 : animal.profile.kind === 'turtle' ? 0.18 : 0.2);
+}
+export function shareCollisionLayer(first: Animal, second: Animal): boolean {
+  return (first.profile.kind === 'bird') === (second.profile.kind === 'bird');
 }
 export interface Food extends Point {
   origin: Point; launchHeight: number;
@@ -62,6 +73,7 @@ export class PondSimulation {
   fedFish = new Set<number>();
   fishFood = 0;
   birdFood = 0;
+  turtleFood = 0;
   luckyBonus = 0;
   nextThrow: ThrowPlan | null = null;
   lastThrow: ThrowEvent | null = null;
@@ -87,7 +99,7 @@ export class PondSimulation {
       return ((t ^ t >>> 14) >>> 0) / 4294967296;
     };
     this.throwRandom = throwRandom ?? this.random;
-    for (const profile of SPECIES) {
+    for (const profile of [...SPECIES, MUSK_TURTLE]) {
       let schoolCenter = this.randomPoint(0, 0.7);
       for (let i = 0; i < profile.count; i++) {
         if (i % 5 === 0) schoolCenter = this.randomPoint(0, 0.7);
@@ -95,7 +107,7 @@ export class PondSimulation {
         const point = school >= 0
           ? { x: schoolCenter.x + (this.random() - 0.5) * 50, y: schoolCenter.y + (this.random() - 0.5) * 30 }
           : this.randomPoint(profile.kind === 'bird' ? 0.65 : 0, 0.92);
-        this.animals.push({ ...point, id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2 });
+        this.animals.push({ ...point, id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, surfaceLeft: 0, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2 });
         if (school >= 0 && !this.schools.has(school)) this.schools.set(school, this.randomPoint());
       }
     }
@@ -141,8 +153,9 @@ export class PondSimulation {
     this.nextThrow = this.handfuls > 0 ? planThrow(this.throwRandom) : null;
     return true;
   }
-  get fishShare(): number { return this.fishFood + this.birdFood > 0 ? this.fishFood / (this.fishFood + this.birdFood) : 0; }
-  get score(): number { return Math.round(this.fishFood * 10) + this.luckyBonus; }
+  get eatenFood(): number { return this.fishFood + this.birdFood + this.turtleFood; }
+  get fishShare(): number { return this.eatenFood > 0 ? this.fishFood / this.eatenFood : 0; }
+  get score(): number { return Math.round((this.fishFood + this.turtleFood) * 10) + this.luckyBonus; }
   get currentThrow(): ThrowEvent | null {
     const action = this.throwQueue[0];
     return action && action.startedAt <= this.elapsed ? action : null;
@@ -181,6 +194,7 @@ export class PondSimulation {
     if (pattern === 'drift') return { destination: animal.destination, pace: 0.08 + Math.max(0, Math.sin(t * 0.8 + animal.phase)) * 0.28, bend: Math.sin(t * 0.6 + animal.phase) * 0.12 };
     if (pattern === 'paddle') return { destination: animal.destination, pace: 0.38, bend: Math.sin(t * 1.1 + animal.phase) * 0.3 };
     if (pattern === 'meander') return { destination: animal.destination, pace: 0.38, bend: Math.sin(t * 0.75 + animal.phase) * 0.5 };
+    if (pattern === 'amble') return { destination: animal.destination, pace: 0.3, bend: Math.sin(t * 0.35 + animal.phase) * 0.16 };
     return { destination: animal.destination, pace: 0.26, bend: 0 };
   }
 
@@ -189,8 +203,8 @@ export class PondSimulation {
     const forward = { x: Math.cos(heading), y: Math.sin(heading) };
     let x = forward.x, y = forward.y;
     for (const other of this.animals) {
-      // Birds float above the submerged fish, so their bodies do not collide.
-      if (other === animal || other.profile.kind !== animal.profile.kind) continue;
+      // Fish and the turtle share the water below the floating birds.
+      if (other === animal || !shareCollisionLayer(animal, other)) continue;
       const dx = other.x - animal.x, dy = other.y - animal.y;
       const gap = Math.hypot(dx, dy);
       const room = (animalCollisionRadius(animal) + animalCollisionRadius(other)) * 1.8;
@@ -228,7 +242,7 @@ export class PondSimulation {
       let separated = false;
       for (let i = 0; i < this.animals.length; i++) for (let j = i + 1; j < this.animals.length; j++) {
         const first = this.animals[i], second = this.animals[j];
-        if (first.profile.kind !== second.profile.kind) continue;
+        if (!shareCollisionLayer(first, second)) continue;
         const firstRadius = animalCollisionRadius(first), secondRadius = animalCollisionRadius(second);
         const dx = second.x - first.x, dy = second.y - first.y;
         const squared = dx * dx + dy * dy;
@@ -283,6 +297,7 @@ export class PondSimulation {
     this.updateSchools();
     for (const animal of this.animals) {
       animal.moving = false;
+      animal.surfaceLeft = Math.max(0, animal.surfaceLeft - dt);
       if (animal.chewLeft > 0) {
         animal.chewLeft = Math.max(0, animal.chewLeft - dt);
         animal.state = animal.chewLeft > 0 ? 'chewing' : 'roaming';
@@ -293,7 +308,7 @@ export class PondSimulation {
       let nearest = profile.vision;
       for (const food of this.food) {
         if (food.amount <= 0 || food.age > 13 || this.elapsed < food.releaseAt) continue;
-        if (profile.kind === 'fish' && food.phase !== 'water') continue;
+        if (profile.kind !== 'bird' && food.phase !== 'water') continue;
         if (profile.kind === 'bird' && food.phase === 'water' && food.age > FLOAT_SECONDS) continue;
         // Swimming birds watch the landing point while food is high in the air.
         const d = distance(animal, food.phase === 'air' ? food.target : food);
@@ -314,7 +329,10 @@ export class PondSimulation {
           animal.state = 'chewing';
           let bonus = 0;
           if (profile.kind === 'fish') { this.fishFood += amount; this.fedFish.add(animal.id); }
-          else this.birdFood += amount;
+          else if (profile.kind === 'turtle') {
+            this.turtleFood += amount;
+            animal.surfaceLeft = TURTLE_SURFACE_SECONDS;
+          } else this.birdFood += amount;
           if (profile.kind === 'fish' && target.lucky && !target.bonusClaimed) {
             target.bonusClaimed = true;
             bonus = LUCKY_BONUS_POINTS;

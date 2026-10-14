@@ -163,6 +163,89 @@ test('the machine on the garden path opens its coin ritual without throwing food
   await page.screenshot({ path: testInfo.outputPath('tivoli-garden-machine.png'), fullPage: true });
 });
 
+test('the secret turtle swims underwater and reveals only its head after eating in hidden mode', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  const before = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.pause();
+    const turtle = scene.world.animals.find(animal => animal.profile.kind === 'turtle')!;
+    for (const animal of scene.world.animals) animal.chewLeft = 30;
+    Object.assign(turtle, { x: 600, y: 389, heading: 0, chewLeft: 0, surfaceLeft: 0 });
+    scene.update(1000, 0);
+    const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+    const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
+    const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
+    const water = scene.children.getByName('water-surface') as Phaser.GameObjects.Container;
+    return { count: scene.world.animals.filter(animal => animal.profile.kind === 'turtle').length,
+      bodyVisible: body.visible, headVisible: head.visible, bodyDepth: layer.depth, waterDepth: water.depth,
+      atlas: body.texture.key, masked: !!layer.mask };
+  });
+  expect(before.count).toBe(1);
+  expect(before.bodyVisible).toBe(true);
+  expect(before.headVisible).toBe(false);
+  expect(before.bodyDepth).toBeLessThan(before.waterDepth);
+  expect(before.masked).toBe(true);
+  expect(before.atlas).toBe('turtle-swimmer');
+
+  const after = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const turtle = scene.world.animals.find(animal => animal.profile.kind === 'turtle')!;
+    scene.world.handfuls = 1;
+    scene.world.scatter({ x: turtle.x, y: turtle.y });
+    for (let tick = 0; tick < 160 && scene.world.turtleFood === 0; tick++) scene.update(2000 + tick * 50, 50);
+    scene.world.food = [];
+    for (let tick = 0; tick < 10; tick++) scene.update(12_000 + tick * 50, 50);
+    const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
+    const water = scene.children.getByName('water-surface') as Phaser.GameObjects.Container;
+    return { eaten: scene.world.turtleFood, visible: head.visible, alpha: head.alpha, headDepth: head.depth,
+      waterDepth: water.depth, frame: head.frame.name, frameExists: head.texture.has(head.frame.name) };
+  });
+  expect(after.eaten).toBeGreaterThan(0);
+  expect(after.visible).toBe(true);
+  expect(after.alpha).toBe(1);
+  expect(after.headDepth).toBeGreaterThan(after.waterDepth);
+  expect(after.frame).toMatch(/^musk-turtle-\w+-head$/);
+  expect(after.frameExists).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('turtle-peeking.png'), fullPage: true });
+
+  const hidden = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const turtle = scene.world.animals.find(animal => animal.profile.kind === 'turtle')!;
+    const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
+    const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+    const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
+    scene.showTurtleUnderwater = false;
+    scene.world.paused = true;
+    const remaining = turtle.surfaceLeft;
+    for (let tick = 0; tick < 120; tick++) scene.update(14_000 + tick * 50, 50);
+    return { bodyVisible: body.visible, headVisible: head.visible, frozen: turtle.surfaceLeft === remaining };
+  });
+  expect(hidden).toEqual({ bodyVisible: false, headVisible: true, frozen: true });
+  await page.screenshot({ path: testInfo.outputPath('turtle-hidden-mode-peek.png'), fullPage: true });
+
+  const submerged = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.world.paused = false;
+    for (let tick = 0; tick < 120; tick++) scene.update(21_000 + tick * 50, 50);
+    const turtle = scene.world.animals.find(animal => animal.profile.kind === 'turtle')!;
+    const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
+    const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+    const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
+    return { body: body.visible, head: head.visible, remaining: turtle.surfaceLeft };
+  });
+  expect(submerged).toEqual({ body: false, head: false, remaining: 0 });
+  const restarted = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.showTurtleUnderwater = true;
+    scene.restart();
+    return { turtles: scene.world.animals.filter(animal => animal.profile.kind === 'turtle').length,
+      heads: scene.children.list.filter(child => child.name.startsWith('turtle-head-')).length,
+      food: scene.world.turtleFood, score: scene.world.score };
+  });
+  expect(restarted).toEqual({ turtles: 1, heads: 1, food: 0, score: 0 });
+});
+
 test('swimmers turn through eight views, and visible fish sit beneath the water surface', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();
@@ -211,7 +294,7 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
       return {
         waterAlpha: surface.alpha,
         animals: scene.world.animals.map(animal => {
-          const sprite = (animal.profile.kind === 'fish' ? fishLayer.getByName('animal-' + animal.id)
+          const sprite = (animal.profile.kind !== 'bird' ? fishLayer.getByName('animal-' + animal.id)
             : scene.children.getByName('animal-' + animal.id)) as Phaser.GameObjects.Sprite;
           return {
             species: animal.profile.id, kind: animal.profile.kind, frame: sprite.frame.name,
@@ -228,8 +311,8 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
       expect(animal.frame).toMatch(new RegExp(`^${animal.species}-${directions[heading]}-[01]$`));
       expect(animal.frameExists).toBe(true);
       expect(animal.flipped).toBe(false);
-      if (animal.kind === 'fish') {
-        expect(animal.atlas).toBe('fish-swimmers');
+      if (animal.kind !== 'bird') {
+        expect(animal.atlas).toBe(animal.kind === 'turtle' ? 'turtle-swimmer' : 'fish-swimmers');
         expect(animal.depth).toBeLessThan(animal.waterDepth);
         expect(animal.alpha).toBeGreaterThan(0.6);
         expect(animal.masked).toBe(true);

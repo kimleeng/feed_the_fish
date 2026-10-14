@@ -5,9 +5,11 @@ import { COIN_PRICE, type VendingPhase } from './vending.ts';
 import { throwerPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 import { DOCK_POSITION, THROWER_HEIGHT, throwerHand } from './thrower-art.ts';
 import { observerFrame, observerHeight } from './observer-art.ts';
+import { SHOW_TURTLE_UNDERWATER, turtleSurfaceAmount } from './turtle.ts';
+import { TURTLE_HEAD_OFFSETS } from './turtle-pins.ts';
 
 export interface PondState {
-  handfuls: number; fish: number; fishFood: number; birdFood: number; share: number;
+  handfuls: number; fish: number; fishFood: number; birdFood: number; turtleFood: number; share: number;
   paused: boolean; score: number; moneyUsed: number; coinsUsed: number; servings: number;
   machinePhase: VendingPhase;
   luckyBonus: number; luckyInHand: boolean;
@@ -15,7 +17,9 @@ export interface PondState {
 
 export class PondScene extends Phaser.Scene {
   world = new PondSimulation();
+  showTurtleUnderwater = SHOW_TURTLE_UNDERWATER;
   private creatures = new Map<number, Phaser.GameObjects.Sprite>();
+  private turtleHeads = new Map<number, Phaser.GameObjects.Sprite>();
   private observers = new Map<number, Phaser.GameObjects.Container>();
   private directions = new Map<number, Direction>();
   private pellets = new Map<number, Phaser.GameObjects.Container>();
@@ -44,6 +48,7 @@ export class PondScene extends Phaser.Scene {
     this.load.atlas('scene-machine', '/art/scene-machine.png', '/art/scene-machine.json');
     this.load.atlas('fish-swimmers', '/art/fish-swimmers.png', '/art/fish-swimmers.json');
     this.load.atlas('bird-swimmers', '/art/bird-swimmers.png', '/art/bird-swimmers.json');
+    this.load.atlas('turtle-swimmer', '/art/turtle-swimmer.png', '/art/turtle-swimmer.json');
     this.load.atlas('garden-observers', '/art/garden-observers.png', '/art/garden-observers.json');
     this.load.on('loaderror', () => {
       document.querySelector('#loading p')!.textContent = 'The artwork could not load. Please refresh to try again.';
@@ -157,11 +162,18 @@ export class PondScene extends Phaser.Scene {
     for (const animal of this.world.animals) {
       const profile = animal.profile;
       const direction = directionForHeading(animal.heading);
+      const underwater = profile.kind !== 'bird';
       const sprite = this.add.sprite(animal.x, animal.y, animalAtlas(profile.kind), animalFrame(profile.texture, direction))
         .setName('animal-' + animal.id)
         .setDisplaySize(profile.size, profile.size).setTint(profile.tint)
-        .setDepth(profile.kind === 'fish' ? 10 : 30).setAlpha(profile.kind === 'fish' ? 0.83 + animal.id % 4 * 0.025 : 1);
-      if (profile.kind === 'fish') this.fishLayer.add(sprite);
+        .setDepth(underwater ? 10 : 30).setAlpha(underwater ? 0.83 + animal.id % 4 * 0.025 : 1);
+      if (underwater) this.fishLayer.add(sprite);
+      if (profile.kind === 'turtle') {
+        sprite.setVisible(this.showTurtleUnderwater);
+        const head = this.add.sprite(animal.x, animal.y, 'turtle-swimmer', `musk-turtle-${direction}-head`)
+          .setName('turtle-head-' + animal.id).setDisplaySize(profile.size, profile.size).setDepth(30).setVisible(false);
+        this.turtleHeads.set(animal.id, head);
+      }
       this.creatures.set(animal.id, sprite);
       this.directions.set(animal.id, direction);
     }
@@ -219,6 +231,8 @@ export class PondScene extends Phaser.Scene {
 
   restart(): void {
     this.creatures.forEach(sprite => sprite.destroy());
+    this.turtleHeads.forEach(sprite => sprite.destroy());
+    this.turtleHeads.clear();
     this.pellets.forEach(pellet => pellet.destroy());
     this.observers.forEach(visitor => visitor.destroy());
     this.observers.clear();
@@ -268,7 +282,7 @@ export class PondScene extends Phaser.Scene {
   private publishHud(): void {
     const detail: PondState = {
       handfuls: this.world.handfuls, fish: this.world.fedFish.size,
-      fishFood: this.world.fishFood, birdFood: this.world.birdFood,
+      fishFood: this.world.fishFood, birdFood: this.world.birdFood, turtleFood: this.world.turtleFood,
       share: this.world.fishShare, paused: this.world.paused, score: this.world.score,
       moneyUsed: this.world.machine.moneyUsed, coinsUsed: this.world.machine.coinsUsed,
       servings: this.world.machine.servings, machinePhase: this.world.machine.phase,
@@ -302,6 +316,21 @@ export class PondScene extends Phaser.Scene {
       sprite.setFrame(animalFrame(animal.profile.texture, direction, stroke));
       const bob = bird ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
       sprite.setPosition(animal.x, animal.y + bob).setDepth((bird ? 30 : 10) + animal.y / 1000);
+      if (animal.profile.kind === 'turtle') {
+        sprite.setVisible(this.showTurtleUnderwater);
+        const amount = turtleSurfaceAmount(animal);
+        const head = this.turtleHeads.get(animal.id)!;
+        // The head frame shares the body's anchor, while the shell stays submerged.
+        head.setFrame(`musk-turtle-${direction}-head`).setPosition(animal.x, animal.y - amount * 3)
+          .setDepth(30 + animal.y / 1000).setAlpha(amount).setVisible(amount > 0);
+        if (amount > 0) {
+          const offset = TURTLE_HEAD_OFFSETS[direction];
+          const x = animal.x + offset.x * animal.profile.size;
+          const y = animal.y + offset.y * animal.profile.size;
+          this.birdWakes.lineStyle(1, 0xd7e5be, amount * 0.4)
+            .strokeEllipse(x, y + 2, 14 + Math.sin(this.world.elapsed * 2) * 2, 5);
+        }
+      }
       if (bird) {
         const size = animal.profile.size;
         this.birdWakes.lineStyle(1, 0xc5ddc1, 0.2)
@@ -338,7 +367,7 @@ export class PondScene extends Phaser.Scene {
     }
     for (const splash of this.world.splashes.splice(0)) this.ripple(splash.x, splash.y, 0xe4efcc, 0.45, 35);
     for (const bite of this.world.bites.splice(0)) {
-      if (bite.phase === 'water') this.ripple(bite.x, bite.y, bite.kind === 'fish' ? 0xe4f5ba : 0xf7c187);
+      if (bite.phase === 'water') this.ripple(bite.x, bite.y, bite.kind === 'bird' ? 0xf7c187 : 0xe4f5ba);
       if (bite.kind === 'fish') {
         if (bite.bonus > 0) this.celebrateLucky(bite.x, bite.y, bite.bonus);
         else {
