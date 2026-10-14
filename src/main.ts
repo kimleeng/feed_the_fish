@@ -4,6 +4,7 @@ import { SPECIES } from './simulation.ts';
 import { animalAtlas, animalFrame } from './appearance.ts';
 import { COIN_PRICE, THROWS_PER_COIN, type VendingPhase } from './vending.ts';
 import { LUCKY_BONUS_POINTS } from './throws.ts';
+import { pelletStockLevel } from './pellet-stock-art.ts';
 
 const element = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const guide = element<HTMLDialogElement>('guide-dialog');
@@ -14,6 +15,25 @@ let best = 0;
 let soundOn = false;
 let audio: AudioContext | undefined;
 let lastPhase: VendingPhase = 'ready';
+let lastMachineFillLevel = -1;
+
+function updateMachineFill(fillFraction: number, scene = pond): void {
+  const canvas = element<HTMLCanvasElement>('machine-fill');
+  const level = pelletStockLevel(fillFraction);
+  canvas.hidden = level === 0;
+  canvas.dataset.level = String(level);
+  if (lastMachineFillLevel === level || !scene?.textures.exists('pellet-stock')) return;
+  const frame = scene.textures.getFrame('pellet-stock', `stock-${level || 1}`)!;
+  canvas.width = frame.realWidth;
+  canvas.height = frame.realHeight;
+  const context = canvas.getContext('2d')!;
+  context.imageSmoothingEnabled = false;
+  if (level > 0) {
+    context.drawImage(frame.source.image as HTMLImageElement, frame.cutX, frame.cutY, frame.cutWidth, frame.cutHeight,
+      frame.x, frame.y, frame.cutWidth, frame.cutHeight);
+  }
+  lastMachineFillLevel = level;
+}
 try { best = Number(localStorage.getItem('feed-the-fish-best-score')) || 0; } catch { /* Storage is optional. */ }
 const money = (amount: number) => amount + ' kr';
 function updateBest(): void { element('best-score').textContent = best > 0 ? 'Most kindness: ' + best + ' points' : 'A lovely place to begin'; }
@@ -47,6 +67,7 @@ machine.addEventListener('cancel', event => { if (pond.world.machine.busy) event
 document.addEventListener('pond:ready', openMachine);
 document.addEventListener('pond:ready', event => {
   const scene = (event as CustomEvent<PondScene>).detail;
+  updateMachineFill(scene.world.machine.fillFraction, scene);
   for (const profile of SPECIES) {
     const portrait = document.querySelector<HTMLImageElement>('[data-species="' + profile.id + '"]')!;
     portrait.src = scene.textures.getBase64(animalAtlas(profile.kind), animalFrame(profile.texture, 'e'));
@@ -150,8 +171,7 @@ document.addEventListener('pond:state', event => {
   element<HTMLButtonElement>('insert-coin').disabled = busy || state.machineRestocking || state.machineStock === 0;
   for (const id of ['close-machine', 'machine-watch']) element<HTMLButtonElement>(id).disabled = busy;
   element('machine-stock').textContent = String(state.machineStock);
-  element('machine-fill').style.clipPath = `inset(${55.5 - state.machineFill * 23.9}% 12% 44.5%)`;
-  element('machine-fill').hidden = state.machineFill <= 0;
+  updateMachineFill(state.machineFill);
   const status = busy ? phaseText[state.machinePhase] : state.machineRestocking
     ? 'A fresh sack of pellets. The employee is topping up the globe.' : state.machineStock === 0
     ? state.paused ? 'All out for a moment. Resume the pond to let the employee refill it.' : 'All out for a moment. An employee is bringing more.'

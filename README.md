@@ -72,7 +72,8 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/turtle-swimmer.png` and `turtle-swimmer.json`: musk turtle atlas with sixteen swimming cuts and eight separate raised heads. `turtle-swimmer-pins.json` aligns the heads with the swimming artwork.
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
 - `public/art/scene-machine.png` and `scene-machine.json`: separate garden machine on an iron pedestal, grounded on the path and clickable without throwing pellets.
-- `public/art/machine-empty.png` and `scene-machine-empty.png`: registered empty-globe counterparts of the original machine artwork. The original pellet pile is clipped over each clear globe to show remaining stock; `scene-machine-empty.json` includes the hinged lid cut.
+- `public/art/machine-empty.png` and `scene-machine-empty.png`: registered empty-globe counterparts of the original machine artwork; `scene-machine-empty.json` includes the hinged lid cut.
+- `public/art/pellet-stock.png` and `pellet-stock.json`: 25 complete pellet-pile illustrations, one per remaining serving, shared by the garden and dialog. Each drawing retains whole pellets and rests on the same baseline. Empty hides the pile; restocking advances through the drawings in reverse. Regenerate atlas metadata with `node scripts/build-pellet-stock-atlas.mjs` without changing the source PNG.
 - `public/art/garden-employee.png` and `garden-employee.json`: four walking poses and four restocking poses, with a shared hip/sole alignment. `garden-employee-pins.json` locates the feed sack opening for the falling pellets.
 - `public/art/garden-observers.png` and `garden-observers.json`: transparent visitor atlas with 30 trimmed walking and watching cuts, hip/sole anchors, and measured stride ratios.
 - `public/art/dock-thrower.png` and `dock-thrower.json`: twelve full-body throw stages aligned at the planted feet.

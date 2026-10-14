@@ -35,11 +35,11 @@ Validation passed: 41 unit tests, the TypeScript/production build, all nine prod
 
 ## Machine stock and employee, 14 October 2026
 
-Both machine views now use an empty-globe counterpart registered to their original artwork, with the original pellet pile clipped above it according to remaining stock. The full, half-full, four-serving, and empty states were reviewed in the dialog and garden. The garden lid hinges at the globe's left edge during service, leaving the opening clear for the falling pellets.
+Both machine views use an empty-globe counterpart registered to their original artwork. A shared atlas supplies 25 individually illustrated pellet piles, one for each remaining serving, with complete pieces along the irregular surface. All piles use a fixed scale and bottom baseline; purchases select the next smaller drawing, empty hides it, and pouring advances toward the full drawing. Atlas packaging preserves the source PNG, keeps cuts outside the pellet silhouettes, and orders the drawings by painted food area. The garden lid hinges at the globe's left edge during service, leaving the opening clear for the falling pellets.
 
 The employee matches the existing adult visitors in height and shaded pixel-art style, with a green cap, work shirt, and paper feed sack. Four walking poses advance by measured distance; opening, lifting, pouring, and closing poses share a planted foot baseline. The annotated sack opening sets the work position and the falling-pellet origin. All eight atlas cuts passed bounds, overlap, and hip/sole checks and were visually reviewed. The assembled arrival, refill, and departure were checked alongside the existing visitors and machine.
 
-Validation covers 25 purchases without overselling, dispatch at four remaining, purchases during arrival, waiting for a paid serving, gradual refill to 25, continued use of food already purchased, repeated service, pause, and new visits. The build, 47 unit tests, and 11 production browser scenarios passed.
+All 25 populated states and the empty globe were visually reviewed in both machine views. Browser checks verify 26 distinct canvas results, matching garden frames, and no stock-dependent cropping. Validation also covers 25 purchases without overselling, dispatch at four remaining, purchases during arrival, waiting for a paid serving, gradual refill to 25, continued use of food already purchased, repeated service, pause, and new visits. The build, 47 unit tests, and 11 production browser scenarios passed. The throw-animation test now holds animals in their chewing state until its intended fish is positioned, preventing another animal from eating its lucky pellet during frame inspection.
 
 ## Reproduce the review
 

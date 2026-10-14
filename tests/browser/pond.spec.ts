@@ -166,11 +166,11 @@ test('the machine on the garden path opens its coin ritual without throwing food
 test('purchases lower the visible pellet level and an employee walks in to refill below five', async ({ page }, testInfo) => {
   await arrive(page);
   await expect(page.locator('#machine-stock')).toHaveText('25');
-  const fullClip = await page.locator('#machine-fill').evaluate(image => getComputedStyle(image).clipPath);
+  await expect(page.locator('#machine-fill')).toHaveAttribute('data-level', '25');
   await buy(page);
   await expect(page.locator('#machine-stock')).toHaveText('24');
   await expect(page.locator('#food-count')).toHaveText('10');
-  expect(await page.locator('#machine-fill').evaluate(image => getComputedStyle(image).clipPath)).not.toBe(fullClip);
+  await expect(page.locator('#machine-fill')).toHaveAttribute('data-level', '24');
 
   const low = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
@@ -244,20 +244,35 @@ test('purchases lower the visible pellet level and an employee walks in to refil
   expect(finished).toEqual({ stock: 25, fill: 1, restocks: 1, employee: 'away', visible: false, money: 105, throws: 210 });
   await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeEnabled();
   await expect(page.locator('#machine-stock')).toHaveText('25');
-  expect(await page.locator('#machine-fill').evaluate(image => getComputedStyle(image).clipPath)).toBe(fullClip);
+  await expect(page.locator('#machine-fill')).toHaveAttribute('data-level', '25');
 });
 
 test('an empty globe blocks payment until the employee returns stock, and a new visit resets it', async ({ page }, testInfo) => {
   await arrive(page);
-  await page.evaluate(() => {
+  const levels = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
     scene.scene.pause(); scene.world.paused = true;
+    const machine = scene.children.getByName('garden-pellet-machine') as Phaser.GameObjects.Container;
+    const pile = machine.getByName('machine-pellet-fill') as Phaser.GameObjects.Image;
+    const canvas = document.querySelector<HTMLCanvasElement>('#machine-fill')!;
+    const snapshot = () => ({ level: Number(canvas.dataset.level), frame: pile.frame.name,
+      cropped: pile.isCropped, visible: pile.visible, clip: getComputedStyle(canvas).clipPath, pixels: canvas.toDataURL() });
+    const levels = [snapshot()];
     let time = 100_000;
     for (let purchase = 0; purchase < 25; purchase++) {
       if (!scene.buyPellets()) throw new Error('The machine ran out before 25 purchases');
       for (let tick = 0; tick < 60; tick++) scene.update(time += 50, 50);
+      levels.push(snapshot());
     }
+    return levels;
   });
+  expect(new Set(levels.map(level => level.pixels)).size).toBe(26);
+  for (const [index, level] of levels.entries()) {
+    expect(level.level).toBe(25 - index);
+    expect(level.cropped).toBe(false); expect(level.clip).toBe('none');
+    expect(level.visible).toBe(index < 25);
+    if (index < 25) expect(level.frame).toBe(`stock-${25 - index}`);
+  }
   await page.getByRole('button', { name: 'Pellet machine' }).click();
   await expect(page.locator('#machine-stock')).toHaveText('0');
   await expect(page.locator('#machine-fill')).toBeHidden();
@@ -470,6 +485,9 @@ test('the dock character keeps planted feet through three throws, releases from 
     const Simulation = scene.world.constructor as new (seed: number, roll?: () => number) => PondSimulation;
     const rolls = [0.1, 0.5, 0.75, 0.5, 0.95, 0.01, 0.1, 0.5];
     scene.world = new Simulation(1234, () => rolls.shift() ?? 0.5);
+    // Keep the lucky pellet available while inspecting all three animations.
+    // Feeding resumes below when the test places the intended fish beside it.
+    for (const animal of scene.world.animals) { animal.chewLeft = 60; animal.state = 'chewing'; }
   });
   await buy(page);
 

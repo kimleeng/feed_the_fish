@@ -5,6 +5,7 @@ import { COIN_PRICE, type VendingPhase } from './vending.ts';
 import { MACHINE_POSITION, EMPLOYEE_HEIGHT, type EmployeePhase } from './restocking.ts';
 import { employeeFrame } from './employee-art.ts';
 import { EMPLOYEE_POUR_OFFSET } from './employee-pins.ts';
+import { pelletStockLevel } from './pellet-stock-art.ts';
 import { throwerPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 import { DOCK_POSITION, THROWER_HEIGHT, throwerHand } from './thrower-art.ts';
 import { observerFrame, observerHeight } from './observer-art.ts';
@@ -54,7 +55,7 @@ export class PondScene extends Phaser.Scene {
   preload(): void {
     this.load.image('pond-art', '/art/pond.png');
     this.load.atlas('dock-thrower', '/art/dock-thrower.png', '/art/dock-thrower.json');
-    this.load.atlas('scene-machine', '/art/scene-machine.png', '/art/scene-machine.json');
+    this.load.atlas('pellet-stock', '/art/pellet-stock.png', '/art/pellet-stock.json');
     this.load.atlas('scene-machine-empty', '/art/scene-machine-empty.png', '/art/scene-machine-empty.json');
     this.load.atlas('garden-employee', '/art/garden-employee.png', '/art/garden-employee.json');
     this.load.atlas('fish-swimmers', '/art/fish-swimmers.png', '/art/fish-swimmers.json');
@@ -92,10 +93,11 @@ export class PondScene extends Phaser.Scene {
     const machine = this.add.container(MACHINE_POSITION.x, MACHINE_POSITION.y).setName('garden-pellet-machine').setDepth(40 + MACHINE_POSITION.y / 1000);
     const image = this.add.image(0, 0, 'scene-machine-empty', 'machine').setName('machine-art').setOrigin(0.5, 1);
     image.setScale(154 / image.height);
-    // The clear hopper remains behind a clipped slice of the original pellet artwork.
+    // The lid has its own hinge; the hopper contains a complete pellet-pile drawing.
     image.setCrop(0, 112, image.width, image.height - 112);
-    this.machineFill = this.add.image(0, 0, 'scene-machine', 'machine').setName('machine-pellet-fill')
-      .setOrigin(0.5, 1).setScale(image.scaleX);
+    this.machineFill = this.add.image(0, -1025 * image.scaleY, 'pellet-stock', 'stock-25').setName('machine-pellet-fill')
+      .setOrigin(0.5, 1);
+    this.machineFill.setScale(38.5 / this.machineFill.width);
     this.machineLid = this.add.image(0, -1322 * image.scaleY, 'scene-machine-empty', 'lid').setName('machine-lid')
       .setOrigin(0, 1).setScale(image.scaleX);
     // Include the narrow pedestal in the touch target, with a little extra width.
@@ -127,9 +129,9 @@ export class PondScene extends Phaser.Scene {
   }
 
   private updateMachine(): void {
-    const fill = this.world.machine.fillFraction;
-    const height = 196 * fill;
-    this.machineFill.setCrop(8, 409 - height, 391, height).setVisible(fill > 0);
+    const level = pelletStockLevel(this.world.machine.fillFraction);
+    this.machineFill.setVisible(level > 0);
+    if (level > 0) this.machineFill.setFrame(`stock-${level}`);
     const open = this.world.employee.lidOpen;
     // Hinge the cap at the left edge so it stays attached while both hands pour.
     this.machineLid.setPosition(-this.machineLid.displayWidth / 2, -1322 * this.machineLid.scaleY).setRotation(-open * Math.PI / 2);
