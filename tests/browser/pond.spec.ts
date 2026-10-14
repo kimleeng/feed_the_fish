@@ -335,11 +335,14 @@ test('the secret turtle stays hidden except for its feeding peek, including afte
     const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
     const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
     const water = scene.children.getByName('water-surface') as Phaser.GameObjects.Container;
-    return { eaten: scene.world.turtleFood, bodyVisible: body.visible, visible: head.visible, alpha: head.alpha, headDepth: head.depth,
+    return { eaten: scene.world.turtleFood, bodyVisible: body.visible, bodyAlpha: body.alpha,
+      visible: head.visible, alpha: head.alpha, headDepth: head.depth,
       waterDepth: water.depth, frame: head.frame.name, frameExists: head.texture.has(head.frame.name) };
   });
   expect(after.eaten).toBeGreaterThan(0);
-  expect(after.bodyVisible).toBe(false);
+  expect(after.bodyVisible).toBe(true);
+  expect(after.bodyAlpha).toBeGreaterThan(0);
+  expect(after.bodyAlpha).toBeLessThan(1);
   expect(after.visible).toBe(true);
   expect(after.alpha).toBe(1);
   expect(after.headDepth).toBeGreaterThan(after.waterDepth);
@@ -355,15 +358,35 @@ test('the secret turtle stays hidden except for its feeding peek, including afte
     const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
     scene.world.paused = true;
     const remaining = turtle.surfaceLeft;
+    const bodyAlpha = body.alpha;
+    const headAlpha = head.alpha;
     for (let tick = 0; tick < 120; tick++) scene.update(14_000 + tick * 50, 50);
-    return { bodyVisible: body.visible, headVisible: head.visible, frozen: turtle.surfaceLeft === remaining };
+    return { bodyVisible: body.visible, headVisible: head.visible,
+      frozen: turtle.surfaceLeft === remaining && body.alpha === bodyAlpha && head.alpha === headAlpha };
   });
-  expect(pausedPeek).toEqual({ bodyVisible: false, headVisible: true, frozen: true });
+  expect(pausedPeek).toEqual({ bodyVisible: true, headVisible: true, frozen: true });
+
+  const sinking = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.world.paused = false;
+    for (let tick = 0; tick < 80; tick++) scene.update(21_000 + tick * 50, 50);
+    const turtle = scene.world.animals.find(animal => animal.profile.kind === 'turtle')!;
+    const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
+    const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+    const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
+    return { bodyVisible: body.visible, headVisible: head.visible, bodyAlpha: body.alpha, headAlpha: head.alpha };
+  });
+  expect(sinking.bodyVisible).toBe(true);
+  expect(sinking.headVisible).toBe(true);
+  expect(sinking.bodyAlpha).toBeGreaterThan(0);
+  expect(sinking.bodyAlpha).toBeLessThan(after.bodyAlpha);
+  expect(sinking.headAlpha).toBeGreaterThan(0);
+  expect(sinking.headAlpha).toBeLessThan(after.alpha);
+  expect(sinking.bodyAlpha / after.bodyAlpha).toBeCloseTo(sinking.headAlpha / after.alpha);
 
   const submerged = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
-    scene.world.paused = false;
-    for (let tick = 0; tick < 120; tick++) scene.update(21_000 + tick * 50, 50);
+    for (let tick = 0; tick < 40; tick++) scene.update(25_000 + tick * 50, 50);
     const turtle = scene.world.animals.find(animal => animal.profile.kind === 'turtle')!;
     const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
     const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;

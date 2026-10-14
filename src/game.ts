@@ -379,8 +379,9 @@ export class PondScene extends Phaser.Scene {
       const bob = bird ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
       sprite.setPosition(animal.x, animal.y + bob).setDepth((bird ? 30 : 10) + animal.y / 1000);
       if (animal.profile.kind === 'turtle') {
-        sprite.setVisible(this.showTurtleUnderwater);
         const amount = turtleSurfaceAmount(animal);
+        const bodyAmount = this.showTurtleUnderwater ? 1 : amount;
+        sprite.setAlpha((0.83 + animal.id % 4 * 0.025) * bodyAmount).setVisible(bodyAmount > 0);
         const head = this.turtleHeads.get(animal.id)!;
         // The head frame shares the body's anchor, while the shell stays submerged.
         head.setFrame(`musk-turtle-${direction}-head`).setPosition(animal.x, animal.y - amount * 3)

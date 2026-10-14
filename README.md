@@ -40,7 +40,7 @@ Animals steer around nearby bodies and gently separate when they touch. Collisio
 
 The musk turtle is a quiet homage to a pet: a domed olive-brown shell, short webbed feet, and pale stripes along its head. It ambles at about 5.4 pixels per second and approaches nearby food at 18 pixels per second. Like fish, it ignores airborne pellets and can eat food after it sinks. Each small bite brings its head above the reflections for five seconds, with a gentle rise, a little ripple, and a slow dip back underwater. Its shell stays submerged. Turtle meals earn ordinary kindness points without increasing the different-fish count; lucky bonuses still belong to the first fish to eat a lucky pellet.
 
-The turtle stays hidden underwater between meals. Only its raised head and a small ripple appear during the feeding peek. Feeding and collisions continue while it is hidden. It stays out of the field guide, and pause and a new visit freeze/reset its peek along with the rest of the pond.
+The turtle stays hidden underwater between meals. During the feeding peek, its body becomes visible beneath the reflections while its raised head and a small ripple appear above them. Its body and head fade away together as it dips back underwater. Feeding and collisions continue while it is hidden. It stays out of the field guide, and pause and a new visit freeze/reset its peek along with the rest of the pond.
 
 ## Garden visitors
 
