@@ -32,6 +32,109 @@ async function gardenMachinePoint(page: Page): Promise<{ x: number; y: number }>
   return { x: bounds.x + point.x / 1200 * bounds.width, y: bounds.y + point.y / 800 * bounds.height };
 }
 
+test('kids and adults visibly walk, face the pond while watching, and freeze and reset with the visit', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  const initial = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    // Pause automatic updates while leaving the renderer running for pixel checks.
+    scene.scene.pause();
+    const Simulation = scene.world.constructor as new (seed: number) => PondSimulation;
+    scene.world = new Simulation(11);
+    scene.update(0, 0);
+    return scene.world.crowd.people.map(person => {
+      const visitor = scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container;
+      const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
+      return { id: person.id, age: person.age, state: person.state, direction: person.direction,
+        x: person.x, y: person.y, remaining: person.watchRemaining, frame: sprite.frame.name,
+        atlas: sprite.texture.key, flipped: sprite.flipX, interactive: !!sprite.input };
+    });
+  });
+  expect(initial).toHaveLength(4);
+  expect(new Set(initial.map(person => person.age))).toEqual(new Set(['adult', 'kid']));
+  expect(initial.some(person => person.state === 'watching')).toBe(true);
+  expect(initial.some(person => person.state !== 'watching')).toBe(true);
+  for (const person of initial) {
+    expect(person.atlas).toBe('garden-observers');
+    expect(person.interactive).toBe(false);
+    expect(person.frame).toContain('observer-' + person.age);
+    expect(person.flipped).toBe(person.state !== 'watching' && person.direction === -1);
+    if (person.state === 'watching') expect(person.frame).toMatch(/-watch$/);
+  }
+
+  const paintedPixels = await page.evaluate(async () => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const visitors = scene.world.crowd.people.map(person =>
+      scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container);
+    const snapshot = async () => {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      const canvas = scene.game.canvas;
+      return canvas.getContext('2d')!.getImageData(0, 0, canvas.width, canvas.height).data;
+    };
+    const withVisitors = await snapshot();
+    for (const visitor of visitors) visitor.setVisible(false);
+    const withoutVisitors = await snapshot();
+    for (const visitor of visitors) visitor.setVisible(true);
+    let count = 0;
+    for (let i = 0; i < withVisitors.length; i += 4) {
+      if (Math.abs(withVisitors[i] - withoutVisitors[i]) + Math.abs(withVisitors[i + 1] - withoutVisitors[i + 1]) +
+        Math.abs(withVisitors[i + 2] - withoutVisitors[i + 2]) > 30) count++;
+    }
+    return count;
+  });
+  expect(paintedPixels).toBeGreaterThan(800);
+  await page.screenshot({ path: testInfo.outputPath('garden-visitors.png'), fullPage: true });
+
+  const moved = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    for (let i = 0; i < 5; i++) scene.update(i * 100, 100);
+    return scene.world.crowd.people.map(person => {
+      const visitor = scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container;
+      const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
+      return { id: person.id, x: person.x, y: person.y, remaining: person.watchRemaining, frame: sprite.frame.name };
+    });
+  });
+  for (const person of initial) {
+    const after = moved.find(other => other.id === person.id)!;
+    if (person.state === 'watching') {
+      expect(after.x).toBe(person.x); expect(after.y).toBe(person.y);
+      expect(after.remaining).toBeLessThan(person.remaining);
+    } else {
+      expect(Math.abs(after.x - person.x)).toBeGreaterThan(10);
+      expect(after.frame).not.toBe(person.frame);
+    }
+  }
+  await page.getByRole('button', { name: 'Pause game' }).click();
+  const frozen = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const before = JSON.stringify(scene.world.crowd);
+    for (let i = 0; i < 20; i++) scene.update(i * 100, 100);
+    return JSON.stringify(scene.world.crowd) === before;
+  });
+  expect(frozen).toBe(true);
+  await page.getByRole('button', { name: 'Back to the pond' }).click();
+  const afterDepartures = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    for (let i = 0; i < 2000; i++) scene.world.step(0.1);
+    scene.update(0, 0);
+    return { people: scene.world.crowd.people.map(person => 'observer-' + person.id).sort(),
+      rendered: scene.children.list.filter(child => child.name.startsWith('observer-')).map(child => child.name).sort() };
+  });
+  expect(afterDepartures.rendered).toEqual(afterDepartures.people);
+  expect(afterDepartures.people.every(name => !initial.some(person => name === 'observer-' + person.id))).toBe(true);
+  await page.getByRole('button', { name: 'Begin a new visit' }).click();
+  const restarted = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.resume();
+    return { count: scene.world.crowd.people.length, rendered: scene.children.list.filter(child => child.name.startsWith('observer-')).length };
+  });
+  expect(restarted.count).toBeGreaterThanOrEqual(2);
+  expect(restarted.count).toBeLessThanOrEqual(4);
+  expect(restarted.rendered).toBe(restarted.count);
+  await expect(page.locator('#machine-dialog')).toBeVisible();
+});
+
 test('the machine on the garden path opens its coin ritual without throwing food', async ({ page }, testInfo) => {
   await arrive(page);
   await buy(page);

@@ -170,9 +170,9 @@ test('pause freezes animals and airborne food, and long visits still allow feedi
   refill(pond);
   pond.scatter({ x: 600, y: 389 });
   pond.paused = true;
-  const before = JSON.stringify({ food: pond.food, animals: pond.animals, elapsed: pond.elapsed });
+  const before = JSON.stringify({ food: pond.food, animals: pond.animals, crowd: pond.crowd, elapsed: pond.elapsed });
   advance(pond, 1);
-  assert.equal(JSON.stringify({ food: pond.food, animals: pond.animals, elapsed: pond.elapsed }), before);
+  assert.equal(JSON.stringify({ food: pond.food, animals: pond.animals, crowd: pond.crowd, elapsed: pond.elapsed }), before);
   assert.equal(pond.scatter({ x: 600, y: 389 }), false);
   pond.paused = false;
   advance(pond, 180);

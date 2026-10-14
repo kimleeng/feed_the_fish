@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node --experimental-strip-types --test tests/simulation.test.ts",
+    "test": "node --experimental-strip-types --test --experimental-test-isolation=none tests/*.test.ts",
     "test:browser": "playwright test",
     "check:running": "node scripts/check-running-game.mjs",
     "review:art": "node scripts/review-art.mjs",

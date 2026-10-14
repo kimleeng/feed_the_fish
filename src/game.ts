@@ -3,6 +3,7 @@ import { PondSimulation, POND, THROW_ORIGIN, inPond, type Point } from './simula
 import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
 import { COIN_PRICE, type VendingPhase } from './vending.ts';
 import { handPose, REST_HAND, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
+import { createObserverAtlas, observerFrame } from './observer-art.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; share: number;
@@ -14,6 +15,7 @@ export interface PondState {
 export class PondScene extends Phaser.Scene {
   world = new PondSimulation();
   private creatures = new Map<number, Phaser.GameObjects.Sprite>();
+  private observers = new Map<number, Phaser.GameObjects.Container>();
   private directions = new Map<number, Direction>();
   private pellets = new Map<number, Phaser.GameObjects.Container>();
   private waterMask!: Phaser.Display.Masks.GeometryMask;
@@ -51,6 +53,8 @@ export class PondScene extends Phaser.Scene {
     this.effects = this.add.group();
     this.createWaterSurface();
     this.spawnCreatures();
+    createObserverAtlas(this.textures);
+    this.updateObservers();
     this.createPelletMachine();
     this.createThrowHand();
     this.cursor = this.add.circle(600, 390, 16).setStrokeStyle(1, 0xfff7d4, 0.6).setDepth(80).setVisible(false);
@@ -67,7 +71,7 @@ export class PondScene extends Phaser.Scene {
   }
 
   private createPelletMachine(): void {
-    const machine = this.add.container(410, 746).setName('garden-pellet-machine').setDepth(50);
+    const machine = this.add.container(410, 746).setName('garden-pellet-machine').setDepth(40 + 746 / 1000);
     const image = this.add.image(0, 0, 'scene-machine', 'machine').setName('machine-art').setOrigin(0.5, 1);
     image.setScale(154 / image.height);
     // Include the narrow pedestal in the touch target, with a little extra width.
@@ -158,6 +162,29 @@ export class PondScene extends Phaser.Scene {
     }
   }
 
+  private updateObservers(): void {
+    const crowd = this.world.crowd;
+    const present = new Set(crowd.people.map(person => person.id));
+    for (const [id, visitor] of this.observers) {
+      if (!present.has(id)) { visitor.destroy(); this.observers.delete(id); }
+    }
+    for (const person of crowd.people) {
+      let visitor = this.observers.get(person.id);
+      if (!visitor) {
+        const shadow = this.add.ellipse(1, -1, 24, 7, 0x493f32, 0.2).setName('observer-shadow');
+        const sprite = this.add.sprite(0, 0, 'garden-observers', observerFrame(person))
+          .setName('observer-art').setOrigin(0.5, 1);
+        visitor = this.add.container(person.x, person.y, [shadow, sprite]).setName('observer-' + person.id);
+        this.observers.set(person.id, visitor);
+      }
+      const watching = person.state === 'watching';
+      const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
+      const bob = watching ? Math.sin(crowd.elapsed * 1.3 + person.id) * 0.3 : 0;
+      sprite.setFrame(observerFrame(person)).setFlipX(!watching && person.direction === -1).setY(bob);
+      visitor.setPosition(person.x, person.y).setScale(1.75 * person.scale).setDepth(40 + person.y / 1000);
+    }
+  }
+
   scatter(point = this.lastPoint): void {
     if (!this.ready || this.world.paused) return;
     if (!inPond(point)) { this.message('A little further into the water. The fish are waiting.'); return; }
@@ -184,12 +211,15 @@ export class PondScene extends Phaser.Scene {
   restart(): void {
     this.creatures.forEach(sprite => sprite.destroy());
     this.pellets.forEach(pellet => pellet.destroy());
+    this.observers.forEach(visitor => visitor.destroy());
+    this.observers.clear();
     this.creatures.clear(); this.directions.clear(); this.pellets.clear();
     this.tweens.killAll(); this.effects.clear(true, true);
     this.world = new PondSimulation();
     this.lastServings = 0;
     this.lastRelease = -1;
     this.spawnCreatures();
+    this.updateObservers();
     this.updateThrowHand();
     this.publishHud();
     document.dispatchEvent(new CustomEvent('pond:needs-food'));
@@ -241,6 +271,7 @@ export class PondScene extends Phaser.Scene {
   update(time: number, delta: number): void {
     if (!this.ready) return;
     this.world.step(delta / 1000);
+    this.updateObservers();
     this.updateThrowHand();
     this.birdWakes.clear();
     this.waterShimmer.clear();

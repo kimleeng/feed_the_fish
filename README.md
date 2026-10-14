@@ -34,6 +34,14 @@ The pond has 46 fish and 15 birds across six profiles. Every animal inherits a c
 
 Every species has eight directional views and two swimming poses per view. Birds float low in the water, bob gently, and leave little wakes; they watch airborne food but can only catch it near the surface. Fish turn toward their swimming direction beneath a translucent layer of the pond's reflections and moving glints, so their shapes remain visible through the water.
 
+## Garden visitors
+
+Kids and adults walk across the near garden path in either direction. Many turn toward the pond for a brief look, while a few linger: adults have a 70% chance of stopping and kids a 90% chance. Of those who stop, 16% of adults and 52% of kids choose a long watch. Brief stops last 4–11 seconds for adults and 6–15 seconds for kids; longer watches last 25–60 seconds and 40–90 seconds respectively.
+
+Uneven arrivals keep about three visitors visible on average, usually two to four. Busy periods reduce the chance of another arrival, making more than eight unusual; ten is the absolute limit. Visitors reserve separate watching places on dry paving and resume their original route afterward. Pause and the field guide freeze their movement and watching time, and a new visit starts with a fresh small crowd. Foot traffic has its own random stream so it does not affect fish behavior or lucky throws.
+
+The visitors use an original pixel atlas made at startup, with eight appearances per age, four walking poses, a back view for watching, and grounded shadows.
+
 ## Validate
 
 ```bash
@@ -61,6 +69,8 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `src/game.ts`: rendering, throws, hand motion, and landing ripples.
 - `src/appearance.ts`: directional frame names and stable heading selection while turning.
 - `src/throws.ts`: weighted throw choices, hand motion keyframes, and lucky-pellet chance and bonus.
+- `src/observers.ts`: visitor routes, age-dependent watching time, and variable foot traffic.
+- `src/observer-art.ts`: original adult and kid pixel sprites, baked once into an atlas.
 
 Sprites use nearest-neighbor scaling. The original side-view animal sheet is retained as an art source; the game and field guide use the new swimming atlases. Explicit trimmed rectangles and a shared frame size preserve transparent padding around every pose. The supplied vending-machine reference page was blocked by the cloud network policy, so the machine art uses the described classic round-globe form. Repository wiki notes were unavailable during initial setup.
 
