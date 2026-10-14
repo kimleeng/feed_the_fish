@@ -12,31 +12,48 @@ try {
     const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
     const context = canvas.getContext('2d'); context.drawImage(image, 0, 0);
     const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
-    const boxes = [], visited = new Uint8Array(image.width * image.height);
-    for (let start = 0; start < visited.length; start++) {
-      if (visited[start] || data[start * 4 + 3] < 32) continue;
-      const queue = [start]; visited[start] = 1;
-      let left = image.width, right = 0, top = image.height, bottom = 0, area = 0;
-      for (let cursor = 0; cursor < queue.length; cursor++) {
-        const index = queue[cursor], x = index % image.width, y = Math.floor(index / image.width);
-        left = Math.min(left, x); right = Math.max(right, x + 1);
-        top = Math.min(top, y); bottom = Math.max(bottom, y + 1);
-        area += data[index * 4 + 3] / 255;
-        for (const next of [x > 0 ? index - 1 : -1, x + 1 < image.width ? index + 1 : -1,
-          y > 0 ? index - image.width : -1, y + 1 < image.height ? index + image.width : -1]) {
-          if (next >= 0 && !visited[next] && data[next * 4 + 3] >= 32) { visited[next] = 1; queue.push(next); }
-        }
+    // Use the clear gutters to keep every loose grain with its pile. Connected
+    // component detection would drop small, separate pellets at low stock.
+    const bands = occupied => {
+      const gaps = [];
+      let start = -1, seenFood = false;
+      for (let i = 0; i < occupied.length; i++) {
+        if (occupied[i]) {
+          if (start >= 0) gaps.push({ start, end: i });
+          start = -1; seenFood = true;
+        } else if (seenFood && start < 0) start = i;
       }
-      if (area < 100) continue;
-      if (left < 3 || right > image.width - 3 || top < 3 || bottom > image.height - 3) {
-        throw new Error('A pile touches the image boundary. Re-space the art instead of cutting a pellet.');
-      }
-      boxes.push({ x: left - 2, y: top - 2, w: right - left + 4, h: bottom - top + 4, area });
+      const gutters = gaps.filter(gap => gap.end - gap.start >= 6)
+        .sort((a, b) => b.end - b.start - (a.end - a.start)).slice(0, 4);
+      if (gutters.length !== 4) throw new Error('Expected five separated piles in every row and five separated rows. Inspect the artwork.');
+      const cuts = [0, ...gutters.map(gap => Math.floor((gap.start + gap.end) / 2)).sort((a, b) => a - b), occupied.length];
+      return cuts.slice(0, -1).map((start, index) => ({ start, end: cuts[index + 1] }));
+    };
+    const occupiedRows = new Uint8Array(image.height);
+    for (let y = 0; y < image.height; y++) for (let x = 0; x < image.width; x++) {
+      if (data[(y * image.width + x) * 4 + 3] >= 128) occupiedRows[y] = 1;
     }
-    if (boxes.length !== 25) throw new Error(`Expected 25 complete piles; found ${boxes.length}. Inspect the art before packaging.`);
-    boxes.sort((a, b) => a.y + a.h / 2 - b.y - b.h / 2);
-    for (let row = 0; row < 5; row++) {
-      boxes.splice(row * 5, 5, ...boxes.slice(row * 5, row * 5 + 5).sort((a, b) => a.x - b.x));
+    const boxes = [];
+    for (const row of bands(occupiedRows)) {
+      const occupiedColumns = new Uint8Array(image.width);
+      for (let y = row.start; y < row.end; y++) for (let x = 0; x < image.width; x++) {
+        if (data[(y * image.width + x) * 4 + 3] >= 128) occupiedColumns[x] = 1;
+      }
+      for (const column of bands(occupiedColumns)) {
+        let left = column.end, right = column.start, top = row.end, bottom = row.start, area = 0;
+        for (let y = row.start; y < row.end; y++) for (let x = column.start; x < column.end; x++) {
+          const alpha = data[(y * image.width + x) * 4 + 3];
+          if (alpha < 32) continue;
+          left = Math.min(left, x); right = Math.max(right, x + 1);
+          top = Math.min(top, y); bottom = Math.max(bottom, y + 1);
+          area += alpha / 255;
+        }
+        if (area < 100) throw new Error('Every stock level needs a visible pellet pile.');
+        if (left < column.start + 2 || right > column.end - 2 || top < row.start + 2 || bottom > row.end - 2) {
+          throw new Error('A pellet touches its cell boundary. Re-space the art instead of cutting a pellet.');
+        }
+        boxes.push({ x: left - 2, y: top - 2, w: right - left + 4, h: bottom - top + 4, area });
+      }
     }
     for (const [index, box] of boxes.entries()) {
       box.sourceCell = index + 1;

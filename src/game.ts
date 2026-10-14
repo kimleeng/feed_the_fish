@@ -97,7 +97,7 @@ export class PondScene extends Phaser.Scene {
     image.setCrop(0, 112, image.width, image.height - 112);
     this.machineFill = this.add.image(0, -1025 * image.scaleY, 'pellet-stock', 'stock-25').setName('machine-pellet-fill')
       .setOrigin(0.5, 1);
-    this.machineFill.setScale(38.5 / this.machineFill.width);
+    this.machineFill.setScale(32.5 / this.machineFill.width);
     this.machineLid = this.add.image(0, -1322 * image.scaleY, 'scene-machine-empty', 'lid').setName('machine-lid')
       .setOrigin(0, 1).setScale(image.scaleX);
     // Include the narrow pedestal in the touch target, with a little extra width.

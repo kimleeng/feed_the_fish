@@ -179,7 +179,7 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
 .vending-stage { position: relative; width: 260px; height: 435px; margin: auto; }
 .machine-apparatus { position: relative; width: 240px; height: 360px; margin: 0 auto; overflow: hidden; }
 .machine-picture { display: block; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
-.machine-fill { position: absolute; left: 12%; bottom: 45.2%; width: 76%; height: auto; pointer-events: none; image-rendering: pixelated; }
+.machine-fill { position: absolute; left: 18%; bottom: 45.2%; width: 64%; height: auto; pointer-events: none; image-rendering: pixelated; }
 .coin-slot { position: absolute; width: 23px; height: 5px; top: 64%; left: 50%; transform: translateX(-50%); background: #3d4944; border: 1px solid #9da89a; box-shadow: 0 1px #eeecd8; }
 .machine-handle { position: absolute; width: 45px; height: 45px; left: calc(50% - 22.5px); top: calc(70% - 22.5px); shape-rendering: crispEdges; filter: drop-shadow(1px 2px 1px #242f4060); }
 .coin-button { position: absolute; left: calc(50% - 31px); bottom: 8px; width: 62px; height: 62px; border-radius: 50%; border: 3px solid #c39c53; background: #e8c778; box-shadow: inset 0 0 0 3px #f4dfab, 0 4px 0 #ab894d; color: #92642d; font: 26px/1 Georgia, serif; z-index: 5; }
