@@ -165,10 +165,9 @@ test('the machine on the garden path opens its coin ritual without throwing food
 
 test('purchases lower the visible pellet level and an employee walks in to refill below five', async ({ page }, testInfo) => {
   await arrive(page);
-  await expect(page.locator('#machine-stock')).toHaveText('25');
+  await expect(page.locator('.machine-stock')).toHaveCount(0);
   await expect(page.locator('#machine-fill')).toHaveAttribute('data-level', '25');
   await buy(page);
-  await expect(page.locator('#machine-stock')).toHaveText('24');
   await expect(page.locator('#food-count')).toHaveText('10');
   await expect(page.locator('#machine-fill')).toHaveAttribute('data-level', '24');
 
@@ -243,7 +242,6 @@ test('purchases lower the visible pellet level and an employee walks in to refil
   });
   expect(finished).toEqual({ stock: 25, fill: 1, restocks: 1, employee: 'away', visible: false, money: 105, throws: 210 });
   await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeEnabled();
-  await expect(page.locator('#machine-stock')).toHaveText('25');
   await expect(page.locator('#machine-fill')).toHaveAttribute('data-level', '25');
 });
 
@@ -274,7 +272,7 @@ test('an empty globe blocks payment until the employee returns stock, and a new 
     if (index < 25) expect(level.frame).toBe(`stock-${25 - index}`);
   }
   await page.getByRole('button', { name: 'Pellet machine' }).click();
-  await expect(page.locator('#machine-stock')).toHaveText('0');
+  await expect(page.locator('#machine-fill')).toHaveAttribute('data-level', '0');
   await expect(page.locator('#machine-fill')).toBeHidden();
   await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeDisabled();
   await expect(page.locator('#machine-status')).toContainText('Resume the pond');
@@ -297,10 +295,10 @@ test('an empty globe blocks payment until the employee returns stock, and a new 
       restocks: scene.world.machine.restocks, visible: visitor.visible };
   });
   expect(restarted).toEqual({ stock: 25, coins: 0, restocks: 0, visible: false });
-  await expect(page.locator('#machine-stock')).toHaveText('25');
+  await expect(page.locator('#machine-fill')).toHaveAttribute('data-level', '25');
 });
 
-test('the secret turtle swims underwater and reveals only its head after eating in hidden mode', async ({ page }, testInfo) => {
+test('the secret turtle stays hidden except for its feeding peek, including after a new visit', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();
   const before = await page.evaluate(() => {
@@ -319,7 +317,7 @@ test('the secret turtle swims underwater and reveals only its head after eating 
       atlas: body.texture.key, masked: !!layer.mask };
   });
   expect(before.count).toBe(1);
-  expect(before.bodyVisible).toBe(true);
+  expect(before.bodyVisible).toBe(false);
   expect(before.headVisible).toBe(false);
   expect(before.bodyDepth).toBeLessThan(before.waterDepth);
   expect(before.masked).toBe(true);
@@ -334,11 +332,14 @@ test('the secret turtle swims underwater and reveals only its head after eating 
     scene.world.food = [];
     for (let tick = 0; tick < 10; tick++) scene.update(12_000 + tick * 50, 50);
     const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
+    const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+    const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
     const water = scene.children.getByName('water-surface') as Phaser.GameObjects.Container;
-    return { eaten: scene.world.turtleFood, visible: head.visible, alpha: head.alpha, headDepth: head.depth,
+    return { eaten: scene.world.turtleFood, bodyVisible: body.visible, visible: head.visible, alpha: head.alpha, headDepth: head.depth,
       waterDepth: water.depth, frame: head.frame.name, frameExists: head.texture.has(head.frame.name) };
   });
   expect(after.eaten).toBeGreaterThan(0);
+  expect(after.bodyVisible).toBe(false);
   expect(after.visible).toBe(true);
   expect(after.alpha).toBe(1);
   expect(after.headDepth).toBeGreaterThan(after.waterDepth);
@@ -346,20 +347,18 @@ test('the secret turtle swims underwater and reveals only its head after eating 
   expect(after.frameExists).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('turtle-peeking.png'), fullPage: true });
 
-  const hidden = await page.evaluate(() => {
+  const pausedPeek = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
     const turtle = scene.world.animals.find(animal => animal.profile.kind === 'turtle')!;
     const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
     const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
     const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
-    scene.showTurtleUnderwater = false;
     scene.world.paused = true;
     const remaining = turtle.surfaceLeft;
     for (let tick = 0; tick < 120; tick++) scene.update(14_000 + tick * 50, 50);
     return { bodyVisible: body.visible, headVisible: head.visible, frozen: turtle.surfaceLeft === remaining };
   });
-  expect(hidden).toEqual({ bodyVisible: false, headVisible: true, frozen: true });
-  await page.screenshot({ path: testInfo.outputPath('turtle-hidden-mode-peek.png'), fullPage: true });
+  expect(pausedPeek).toEqual({ bodyVisible: false, headVisible: true, frozen: true });
 
   const submerged = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
@@ -374,13 +373,16 @@ test('the secret turtle swims underwater and reveals only its head after eating 
   expect(submerged).toEqual({ body: false, head: false, remaining: 0 });
   const restarted = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
-    scene.showTurtleUnderwater = true;
     scene.restart();
+    const turtle = scene.world.animals.find(animal => animal.profile.kind === 'turtle')!;
+    const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+    const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
+    const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
     return { turtles: scene.world.animals.filter(animal => animal.profile.kind === 'turtle').length,
       heads: scene.children.list.filter(child => child.name.startsWith('turtle-head-')).length,
-      food: scene.world.turtleFood, score: scene.world.score };
+      food: scene.world.turtleFood, score: scene.world.score, bodyVisible: body.visible, headVisible: head.visible };
   });
-  expect(restarted).toEqual({ turtles: 1, heads: 1, food: 0, score: 0 });
+  expect(restarted).toEqual({ turtles: 1, heads: 1, food: 0, score: 0, bodyVisible: false, headVisible: false });
 });
 
 test('swimmers turn through eight views, and visible fish sit beneath the water surface', async ({ page }, testInfo) => {

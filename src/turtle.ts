@@ -1,7 +1,7 @@
 import { TURTLE_SURFACE_SECONDS, type Animal } from './simulation.ts';
 
-// Set false later to reveal only the head after feeding. It stays visible for now.
-export const SHOW_TURTLE_UNDERWATER = true;
+// Keep the turtle hidden underwater; a meal reveals only its raised head.
+export const SHOW_TURTLE_UNDERWATER = false;
 
 export function turtleSurfaceAmount(animal: Animal): number {
   if (animal.surfaceLeft <= 0) return 0;
