@@ -129,6 +129,8 @@ Validation passed: all 61 unit tests, the TypeScript/production build, the art a
 
 The follow-up visibility review found that the original one-pixel glints blended into the painted water. The effect now uses 128 wider, two-pixel crests with paired light and shade, slightly quicker drift, and a shorter fade cycle. The shared wind and visit recording still drive the effect. Desktop and phone captures were reviewed; the browser check now measures contrast after viewport scaling and clipping. All 61 unit tests, the production build, and the wind and mobile browser scenarios passed.
 
+The restaurant-side reflection review removed the extra leafy silhouettes beneath the terrace. That water now reflects the cream awning, dark posts, and amber lights in broken horizontal ripples. The real tree immediately left of the restaurant retains its reflection. The 1536 × 1024 pond image was checked in all six art regions and the assembled desktop and phone views; the production asset matches the source image. The art audit, production build, and browser checks for both interface modes and wind shimmer passed.
+
 ## Reproduce the review
 
 ```bash
