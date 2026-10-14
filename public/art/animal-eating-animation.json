@@ -1,0 +1,3601 @@
+{
+  "textures": [
+    {
+      "image": "eating-duck.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "duck-e-bite",
+          "frame": {
+            "x": 17,
+            "y": 220,
+            "w": 191,
+            "h": 109
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 204,
+            "h": 124
+          },
+          "spriteSourceSize": {
+            "x": 9,
+            "y": 4.710691823899367,
+            "w": 191,
+            "h": 109
+          },
+          "referenceHeight": 248.5534591194968,
+          "waterline": {
+            "x": 102,
+            "y": 111.71069182389937
+          }
+        },
+        {
+          "filename": "duck-e-chew",
+          "frame": {
+            "x": 17,
+            "y": 438,
+            "w": 190,
+            "h": 125
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 218,
+            "h": 156
+          },
+          "spriteSourceSize": {
+            "x": 24,
+            "y": 4.710691823899367,
+            "w": 190,
+            "h": 125
+          },
+          "referenceHeight": 248.5534591194968,
+          "waterline": {
+            "x": 109,
+            "y": 127.71069182389937
+          }
+        },
+        {
+          "filename": "duck-e-swallow",
+          "frame": {
+            "x": 17,
+            "y": 655,
+            "w": 178,
+            "h": 163
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 194,
+            "h": 232
+          },
+          "spriteSourceSize": {
+            "x": 12,
+            "y": 4.710691823899367,
+            "w": 178,
+            "h": 163
+          },
+          "referenceHeight": 248.5534591194968,
+          "waterline": {
+            "x": 97,
+            "y": 165.71069182389937
+          }
+        },
+        {
+          "filename": "duck-se-bite",
+          "frame": {
+            "x": 214,
+            "y": 218,
+            "w": 176,
+            "h": 111
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 190,
+            "h": 130
+          },
+          "spriteSourceSize": {
+            "x": 10,
+            "y": 4.338997617094435,
+            "w": 176,
+            "h": 111
+          },
+          "referenceHeight": 241.69498808547212,
+          "waterline": {
+            "x": 95,
+            "y": 113.33899761709444
+          }
+        },
+        {
+          "filename": "duck-se-chew",
+          "frame": {
+            "x": 214,
+            "y": 434,
+            "w": 175,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 196,
+            "h": 168
+          },
+          "spriteSourceSize": {
+            "x": 17,
+            "y": 4.338997617094435,
+            "w": 175,
+            "h": 130
+          },
+          "referenceHeight": 241.69498808547212,
+          "waterline": {
+            "x": 98,
+            "y": 132.33899761709444
+          }
+        },
+        {
+          "filename": "duck-se-swallow",
+          "frame": {
+            "x": 214,
+            "y": 657,
+            "w": 167,
+            "h": 162
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 182,
+            "h": 232
+          },
+          "spriteSourceSize": {
+            "x": 11,
+            "y": 4.338997617094435,
+            "w": 167,
+            "h": 162
+          },
+          "referenceHeight": 241.69498808547212,
+          "waterline": {
+            "x": 91,
+            "y": 164.33899761709444
+          }
+        },
+        {
+          "filename": "duck-s-bite",
+          "frame": {
+            "x": 421,
+            "y": 212,
+            "w": 132,
+            "h": 122
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 152
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.667810177244149,
+            "w": 132,
+            "h": 122
+          },
+          "referenceHeight": 243.3390508862207,
+          "waterline": {
+            "x": 71,
+            "y": 124.66781017724415
+          }
+        },
+        {
+          "filename": "duck-s-chew",
+          "frame": {
+            "x": 421,
+            "y": 432,
+            "w": 132,
+            "h": 134
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 176
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.667810177244149,
+            "w": 132,
+            "h": 134
+          },
+          "referenceHeight": 243.3390508862207,
+          "waterline": {
+            "x": 71,
+            "y": 136.66781017724415
+          }
+        },
+        {
+          "filename": "duck-s-swallow",
+          "frame": {
+            "x": 421,
+            "y": 654,
+            "w": 132,
+            "h": 167
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 140,
+            "h": 242
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.667810177244149,
+            "w": 132,
+            "h": 167
+          },
+          "referenceHeight": 243.3390508862207,
+          "waterline": {
+            "x": 70,
+            "y": 169.66781017724415
+          }
+        },
+        {
+          "filename": "duck-sw-bite",
+          "frame": {
+            "x": 579,
+            "y": 218,
+            "w": 177,
+            "h": 111
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 188,
+            "h": 126
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.22586131877695,
+            "w": 177,
+            "h": 111
+          },
+          "referenceHeight": 251.12930659388473,
+          "waterline": {
+            "x": 94,
+            "y": 113.22586131877695
+          }
+        },
+        {
+          "filename": "duck-sw-chew",
+          "frame": {
+            "x": 584,
+            "y": 434,
+            "w": 172,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 186,
+            "h": 164
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.225861318776936,
+            "w": 172,
+            "h": 130
+          },
+          "referenceHeight": 251.12930659388473,
+          "waterline": {
+            "x": 93,
+            "y": 132.22586131877694
+          }
+        },
+        {
+          "filename": "duck-sw-swallow",
+          "frame": {
+            "x": 589,
+            "y": 656,
+            "w": 168,
+            "h": 163
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 180,
+            "h": 230
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.225861318776936,
+            "w": 168,
+            "h": 163
+          },
+          "referenceHeight": 251.12930659388473,
+          "waterline": {
+            "x": 90,
+            "y": 165.22586131877694
+          }
+        },
+        {
+          "filename": "duck-w-bite",
+          "frame": {
+            "x": 760,
+            "y": 215,
+            "w": 196,
+            "h": 111
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 208,
+            "h": 128
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.598224195338531,
+            "w": 196,
+            "h": 111
+          },
+          "referenceHeight": 247.9911209766926,
+          "waterline": {
+            "x": 104,
+            "y": 113.59822419533853
+          }
+        },
+        {
+          "filename": "duck-w-chew",
+          "frame": {
+            "x": 766,
+            "y": 434,
+            "w": 190,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 208,
+            "h": 166
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.598224195338531,
+            "w": 190,
+            "h": 130
+          },
+          "referenceHeight": 247.9911209766926,
+          "waterline": {
+            "x": 104,
+            "y": 132.59822419533853
+          }
+        },
+        {
+          "filename": "duck-w-swallow",
+          "frame": {
+            "x": 775,
+            "y": 659,
+            "w": 181,
+            "h": 160
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 190,
+            "h": 226
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.598224195338531,
+            "w": 181,
+            "h": 160
+          },
+          "referenceHeight": 247.9911209766926,
+          "waterline": {
+            "x": 95,
+            "y": 162.59822419533853
+          }
+        },
+        {
+          "filename": "duck-nw-bite",
+          "frame": {
+            "x": 956,
+            "y": 212,
+            "w": 189,
+            "h": 117
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 198,
+            "h": 132
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.186187255250985,
+            "w": 189,
+            "h": 117
+          },
+          "referenceHeight": 265.9309362762549,
+          "waterline": {
+            "x": 99,
+            "y": 119.18618725525099
+          }
+        },
+        {
+          "filename": "duck-nw-chew",
+          "frame": {
+            "x": 959,
+            "y": 433,
+            "w": 183,
+            "h": 135
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 206,
+            "h": 168
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.186187255250985,
+            "w": 183,
+            "h": 135
+          },
+          "referenceHeight": 265.9309362762549,
+          "waterline": {
+            "x": 103,
+            "y": 137.18618725525099
+          }
+        },
+        {
+          "filename": "duck-nw-swallow",
+          "frame": {
+            "x": 966,
+            "y": 659,
+            "w": 177,
+            "h": 162
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 192,
+            "h": 222
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.186187255250985,
+            "w": 177,
+            "h": 162
+          },
+          "referenceHeight": 265.9309362762549,
+          "waterline": {
+            "x": 96,
+            "y": 164.18618725525099
+          }
+        },
+        {
+          "filename": "duck-n-bite",
+          "frame": {
+            "x": 1177,
+            "y": 211,
+            "w": 126,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 136,
+            "h": 152
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.78766097634022,
+            "w": 126,
+            "h": 124
+          },
+          "referenceHeight": 253.9383048817011,
+          "waterline": {
+            "x": 68,
+            "y": 126.78766097634022
+          }
+        },
+        {
+          "filename": "duck-n-chew",
+          "frame": {
+            "x": 1177,
+            "y": 431,
+            "w": 126,
+            "h": 142
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 136,
+            "h": 188
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.78766097634022,
+            "w": 126,
+            "h": 142
+          },
+          "referenceHeight": 253.9383048817011,
+          "waterline": {
+            "x": 68,
+            "y": 144.78766097634022
+          }
+        },
+        {
+          "filename": "duck-n-swallow",
+          "frame": {
+            "x": 1177,
+            "y": 657,
+            "w": 126,
+            "h": 170
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 136,
+            "h": 244
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.78766097634022,
+            "w": 126,
+            "h": 170
+          },
+          "referenceHeight": 253.9383048817011,
+          "waterline": {
+            "x": 68,
+            "y": 172.78766097634022
+          }
+        },
+        {
+          "filename": "duck-ne-bite",
+          "frame": {
+            "x": 1333,
+            "y": 212,
+            "w": 182,
+            "h": 117
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 192,
+            "h": 138
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.229025750563665,
+            "w": 182,
+            "h": 117
+          },
+          "referenceHeight": 251.14512875281835,
+          "waterline": {
+            "x": 96,
+            "y": 119.22902575056366
+          }
+        },
+        {
+          "filename": "duck-ne-chew",
+          "frame": {
+            "x": 1335,
+            "y": 433,
+            "w": 180,
+            "h": 135
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 208,
+            "h": 174
+          },
+          "spriteSourceSize": {
+            "x": 24,
+            "y": 4.229025750563665,
+            "w": 180,
+            "h": 135
+          },
+          "referenceHeight": 251.14512875281835,
+          "waterline": {
+            "x": 104,
+            "y": 137.22902575056366
+          }
+        },
+        {
+          "filename": "duck-ne-swallow",
+          "frame": {
+            "x": 1335,
+            "y": 657,
+            "w": 169,
+            "h": 164
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 184,
+            "h": 232
+          },
+          "spriteSourceSize": {
+            "x": 11,
+            "y": 4.229025750563665,
+            "w": 169,
+            "h": 164
+          },
+          "referenceHeight": 251.14512875281835,
+          "waterline": {
+            "x": 92,
+            "y": 166.22902575056366
+          }
+        }
+      ]
+    },
+    {
+      "image": "eating-gull.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "gull-e-bite",
+          "frame": {
+            "x": 23,
+            "y": 207,
+            "w": 175,
+            "h": 99
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 184,
+            "h": 108
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.249775727284373,
+            "w": 175,
+            "h": 99
+          },
+          "referenceHeight": 236.24887863642186,
+          "waterline": {
+            "x": 92,
+            "y": 101.24977572728437
+          }
+        },
+        {
+          "filename": "gull-e-chew",
+          "frame": {
+            "x": 25,
+            "y": 455,
+            "w": 174,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 196,
+            "h": 162
+          },
+          "spriteSourceSize": {
+            "x": 18,
+            "y": 4.249775727284373,
+            "w": 174,
+            "h": 126
+          },
+          "referenceHeight": 236.24887863642186,
+          "waterline": {
+            "x": 98,
+            "y": 128.24977572728437
+          }
+        },
+        {
+          "filename": "gull-e-swallow",
+          "frame": {
+            "x": 24,
+            "y": 710,
+            "w": 173,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 190,
+            "h": 184
+          },
+          "spriteSourceSize": {
+            "x": 13,
+            "y": 4.249775727284373,
+            "w": 173,
+            "h": 137
+          },
+          "referenceHeight": 236.24887863642186,
+          "waterline": {
+            "x": 95,
+            "y": 139.24977572728437
+          }
+        },
+        {
+          "filename": "gull-se-bite",
+          "frame": {
+            "x": 221,
+            "y": 204,
+            "w": 162,
+            "h": 101
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 176,
+            "h": 114
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.658553076402967,
+            "w": 162,
+            "h": 101
+          },
+          "referenceHeight": 233.29276538201486,
+          "waterline": {
+            "x": 88,
+            "y": 103.65855307640297
+          }
+        },
+        {
+          "filename": "gull-se-chew",
+          "frame": {
+            "x": 222,
+            "y": 455,
+            "w": 164,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 178,
+            "h": 160
+          },
+          "spriteSourceSize": {
+            "x": 10,
+            "y": 4.658553076402967,
+            "w": 164,
+            "h": 124
+          },
+          "referenceHeight": 233.29276538201486,
+          "waterline": {
+            "x": 89,
+            "y": 126.65855307640297
+          }
+        },
+        {
+          "filename": "gull-se-swallow",
+          "frame": {
+            "x": 221,
+            "y": 708,
+            "w": 161,
+            "h": 139
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 172,
+            "h": 190
+          },
+          "spriteSourceSize": {
+            "x": 7,
+            "y": 4.658553076402967,
+            "w": 161,
+            "h": 139
+          },
+          "referenceHeight": 233.29276538201486,
+          "waterline": {
+            "x": 86,
+            "y": 141.65855307640297
+          }
+        },
+        {
+          "filename": "gull-s-bite",
+          "frame": {
+            "x": 430,
+            "y": 206,
+            "w": 123,
+            "h": 103
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 122
+          },
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4.33020266930302,
+            "w": 123,
+            "h": 103
+          },
+          "referenceHeight": 221.65101334651507,
+          "waterline": {
+            "x": 66,
+            "y": 105.33020266930302
+          }
+        },
+        {
+          "filename": "gull-s-chew",
+          "frame": {
+            "x": 430,
+            "y": 454,
+            "w": 122,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 130,
+            "h": 164
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.33020266930302,
+            "w": 122,
+            "h": 124
+          },
+          "referenceHeight": 221.65101334651507,
+          "waterline": {
+            "x": 65,
+            "y": 126.33020266930302
+          }
+        },
+        {
+          "filename": "gull-s-swallow",
+          "frame": {
+            "x": 431,
+            "y": 705,
+            "w": 121,
+            "h": 142
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 130,
+            "h": 200
+          },
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4.33020266930302,
+            "w": 121,
+            "h": 142
+          },
+          "referenceHeight": 221.65101334651507,
+          "waterline": {
+            "x": 65,
+            "y": 144.33020266930302
+          }
+        },
+        {
+          "filename": "gull-sw-bite",
+          "frame": {
+            "x": 600,
+            "y": 205,
+            "w": 163,
+            "h": 100
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 176,
+            "h": 110
+          },
+          "spriteSourceSize": {
+            "x": 9,
+            "y": 4.853263371076139,
+            "w": 163,
+            "h": 100
+          },
+          "referenceHeight": 239.26631685538067,
+          "waterline": {
+            "x": 88,
+            "y": 102.85326337107614
+          }
+        },
+        {
+          "filename": "gull-sw-chew",
+          "frame": {
+            "x": 599,
+            "y": 454,
+            "w": 163,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 176,
+            "h": 158
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.853263371076139,
+            "w": 163,
+            "h": 124
+          },
+          "referenceHeight": 239.26631685538067,
+          "waterline": {
+            "x": 88,
+            "y": 126.85326337107614
+          }
+        },
+        {
+          "filename": "gull-sw-swallow",
+          "frame": {
+            "x": 606,
+            "y": 707,
+            "w": 157,
+            "h": 141
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 168,
+            "h": 192
+          },
+          "spriteSourceSize": {
+            "x": 7,
+            "y": 4.853263371076139,
+            "w": 157,
+            "h": 141
+          },
+          "referenceHeight": 239.26631685538067,
+          "waterline": {
+            "x": 84,
+            "y": 143.85326337107614
+          }
+        },
+        {
+          "filename": "gull-w-bite",
+          "frame": {
+            "x": 776,
+            "y": 205,
+            "w": 178,
+            "h": 100
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 188,
+            "h": 110
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.169498910675372,
+            "w": 178,
+            "h": 100
+          },
+          "referenceHeight": 235.8474945533769,
+          "waterline": {
+            "x": 94,
+            "y": 102.16949891067537
+          }
+        },
+        {
+          "filename": "gull-w-chew",
+          "frame": {
+            "x": 783,
+            "y": 455,
+            "w": 173,
+            "h": 123
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 196,
+            "h": 156
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.169498910675372,
+            "w": 173,
+            "h": 123
+          },
+          "referenceHeight": 235.8474945533769,
+          "waterline": {
+            "x": 98,
+            "y": 125.16949891067537
+          }
+        },
+        {
+          "filename": "gull-w-swallow",
+          "frame": {
+            "x": 784,
+            "y": 707,
+            "w": 171,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 188,
+            "h": 190
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.169498910675372,
+            "w": 171,
+            "h": 140
+          },
+          "referenceHeight": 235.8474945533769,
+          "waterline": {
+            "x": 94,
+            "y": 142.16949891067537
+          }
+        },
+        {
+          "filename": "gull-nw-bite",
+          "frame": {
+            "x": 959,
+            "y": 203,
+            "w": 170,
+            "h": 102
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 180,
+            "h": 112
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.377520022093336,
+            "w": 170,
+            "h": 102
+          },
+          "referenceHeight": 241.8876001104667,
+          "waterline": {
+            "x": 90,
+            "y": 104.37752002209334
+          }
+        },
+        {
+          "filename": "gull-nw-chew",
+          "frame": {
+            "x": 965,
+            "y": 454,
+            "w": 165,
+            "h": 125
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 188,
+            "h": 158
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.377520022093336,
+            "w": 165,
+            "h": 125
+          },
+          "referenceHeight": 241.8876001104667,
+          "waterline": {
+            "x": 94,
+            "y": 127.37752002209334
+          }
+        },
+        {
+          "filename": "gull-nw-swallow",
+          "frame": {
+            "x": 970,
+            "y": 704,
+            "w": 159,
+            "h": 143
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 170,
+            "h": 194
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.377520022093336,
+            "w": 159,
+            "h": 143
+          },
+          "referenceHeight": 241.8876001104667,
+          "waterline": {
+            "x": 85,
+            "y": 145.37752002209334
+          }
+        },
+        {
+          "filename": "gull-n-bite",
+          "frame": {
+            "x": 1169,
+            "y": 182,
+            "w": 117,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 126,
+            "h": 158
+          },
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4.104398516163229,
+            "w": 117,
+            "h": 126
+          },
+          "referenceHeight": 245.5219925808161,
+          "waterline": {
+            "x": 63,
+            "y": 128.10439851616323
+          }
+        },
+        {
+          "filename": "gull-n-chew",
+          "frame": {
+            "x": 1172,
+            "y": 449,
+            "w": 117,
+            "h": 133
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 126,
+            "h": 172
+          },
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4.104398516163229,
+            "w": 117,
+            "h": 133
+          },
+          "referenceHeight": 245.5219925808161,
+          "waterline": {
+            "x": 63,
+            "y": 135.10439851616323
+          }
+        },
+        {
+          "filename": "gull-n-swallow",
+          "frame": {
+            "x": 1172,
+            "y": 704,
+            "w": 117,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 126,
+            "h": 196
+          },
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4.104398516163229,
+            "w": 117,
+            "h": 145
+          },
+          "referenceHeight": 245.5219925808161,
+          "waterline": {
+            "x": 63,
+            "y": 147.10439851616323
+          }
+        },
+        {
+          "filename": "gull-ne-bite",
+          "frame": {
+            "x": 1331,
+            "y": 208,
+            "w": 183,
+            "h": 98
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 192,
+            "h": 110
+          },
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 7.563789152024441,
+            "w": 183,
+            "h": 98
+          },
+          "referenceHeight": 242.81894576012223,
+          "waterline": {
+            "x": 96,
+            "y": 103.56378915202444
+          }
+        },
+        {
+          "filename": "gull-ne-chew",
+          "frame": {
+            "x": 1334,
+            "y": 455,
+            "w": 176,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 198,
+            "h": 160
+          },
+          "spriteSourceSize": {
+            "x": 18,
+            "y": 4.563789152024441,
+            "w": 176,
+            "h": 126
+          },
+          "referenceHeight": 242.81894576012223,
+          "waterline": {
+            "x": 99,
+            "y": 128.56378915202444
+          }
+        },
+        {
+          "filename": "gull-ne-swallow",
+          "frame": {
+            "x": 1336,
+            "y": 706,
+            "w": 166,
+            "h": 141
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 180,
+            "h": 190
+          },
+          "spriteSourceSize": {
+            "x": 10,
+            "y": 4.563789152024441,
+            "w": 166,
+            "h": 141
+          },
+          "referenceHeight": 242.81894576012223,
+          "waterline": {
+            "x": 90,
+            "y": 143.56378915202444
+          }
+        }
+      ]
+    },
+    {
+      "image": "eating-coot.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "coot-e-bite",
+          "frame": {
+            "x": 26,
+            "y": 270,
+            "w": 179,
+            "h": 90
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 190,
+            "h": 118
+          },
+          "spriteSourceSize": {
+            "x": 7,
+            "y": 23.051282051282058,
+            "w": 179,
+            "h": 90
+          },
+          "referenceHeight": 260.2564102564103,
+          "waterline": {
+            "x": 95,
+            "y": 111.05128205128206
+          }
+        },
+        {
+          "filename": "coot-e-chew",
+          "frame": {
+            "x": 29,
+            "y": 500,
+            "w": 183,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 216,
+            "h": 148
+          },
+          "spriteSourceSize": {
+            "x": 29,
+            "y": 4.051282051282058,
+            "w": 183,
+            "h": 124
+          },
+          "referenceHeight": 260.2564102564103,
+          "waterline": {
+            "x": 108,
+            "y": 126.05128205128206
+          }
+        },
+        {
+          "filename": "coot-e-swallow",
+          "frame": {
+            "x": 29,
+            "y": 743,
+            "w": 180,
+            "h": 150
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 208,
+            "h": 200
+          },
+          "spriteSourceSize": {
+            "x": 24,
+            "y": 4.051282051282044,
+            "w": 180,
+            "h": 150
+          },
+          "referenceHeight": 260.2564102564103,
+          "waterline": {
+            "x": 104,
+            "y": 152.05128205128204
+          }
+        },
+        {
+          "filename": "coot-se-bite",
+          "frame": {
+            "x": 221,
+            "y": 276,
+            "w": 170,
+            "h": 87
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 178,
+            "h": 116
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 24.692753623188395,
+            "w": 170,
+            "h": 87
+          },
+          "referenceHeight": 258.463768115942,
+          "waterline": {
+            "x": 89,
+            "y": 109.6927536231884
+          }
+        },
+        {
+          "filename": "coot-se-chew",
+          "frame": {
+            "x": 226,
+            "y": 503,
+            "w": 170,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 194,
+            "h": 144
+          },
+          "spriteSourceSize": {
+            "x": 20,
+            "y": 4.692753623188395,
+            "w": 170,
+            "h": 121
+          },
+          "referenceHeight": 258.463768115942,
+          "waterline": {
+            "x": 97,
+            "y": 123.6927536231884
+          }
+        },
+        {
+          "filename": "coot-se-swallow",
+          "frame": {
+            "x": 224,
+            "y": 748,
+            "w": 161,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 176,
+            "h": 192
+          },
+          "spriteSourceSize": {
+            "x": 11,
+            "y": 4.692753623188395,
+            "w": 161,
+            "h": 145
+          },
+          "referenceHeight": 258.463768115942,
+          "waterline": {
+            "x": 88,
+            "y": 147.6927536231884
+          }
+        },
+        {
+          "filename": "coot-s-bite",
+          "frame": {
+            "x": 412,
+            "y": 267,
+            "w": 118,
+            "h": 102
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 128,
+            "h": 112
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 5.899846824555198,
+            "w": 118,
+            "h": 102
+          },
+          "referenceHeight": 249.49923412277602,
+          "waterline": {
+            "x": 64,
+            "y": 105.8998468245552
+          }
+        },
+        {
+          "filename": "coot-s-chew",
+          "frame": {
+            "x": 417,
+            "y": 505,
+            "w": 122,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 148
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.899846824555198,
+            "w": 122,
+            "h": 121
+          },
+          "referenceHeight": 249.49923412277602,
+          "waterline": {
+            "x": 66,
+            "y": 123.8998468245552
+          }
+        },
+        {
+          "filename": "coot-s-swallow",
+          "frame": {
+            "x": 417,
+            "y": 733,
+            "w": 122,
+            "h": 162
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 230
+          },
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4.899846824555198,
+            "w": 122,
+            "h": 162
+          },
+          "referenceHeight": 249.49923412277602,
+          "waterline": {
+            "x": 66,
+            "y": 164.8998468245552
+          }
+        },
+        {
+          "filename": "coot-sw-bite",
+          "frame": {
+            "x": 561,
+            "y": 270,
+            "w": 174,
+            "h": 93
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 182,
+            "h": 118
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 20.27409785040365,
+            "w": 174,
+            "h": 93
+          },
+          "referenceHeight": 261.3704892520183,
+          "waterline": {
+            "x": 91,
+            "y": 111.27409785040365
+          }
+        },
+        {
+          "filename": "coot-sw-chew",
+          "frame": {
+            "x": 573,
+            "y": 503,
+            "w": 167,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 186,
+            "h": 142
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.274097850403649,
+            "w": 167,
+            "h": 121
+          },
+          "referenceHeight": 261.3704892520183,
+          "waterline": {
+            "x": 93,
+            "y": 123.27409785040365
+          }
+        },
+        {
+          "filename": "coot-sw-swallow",
+          "frame": {
+            "x": 587,
+            "y": 749,
+            "w": 153,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 164,
+            "h": 188
+          },
+          "spriteSourceSize": {
+            "x": 7,
+            "y": 4.274097850403649,
+            "w": 153,
+            "h": 144
+          },
+          "referenceHeight": 261.3704892520183,
+          "waterline": {
+            "x": 82,
+            "y": 146.27409785040365
+          }
+        },
+        {
+          "filename": "coot-w-bite",
+          "frame": {
+            "x": 767,
+            "y": 274,
+            "w": 182,
+            "h": 88
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 194,
+            "h": 116
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 23.91007060572278,
+            "w": 182,
+            "h": 88
+          },
+          "referenceHeight": 259.55035302861387,
+          "waterline": {
+            "x": 97,
+            "y": 109.91007060572278
+          }
+        },
+        {
+          "filename": "coot-w-chew",
+          "frame": {
+            "x": 771,
+            "y": 500,
+            "w": 180,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 206,
+            "h": 150
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.91007060572278,
+            "w": 180,
+            "h": 124
+          },
+          "referenceHeight": 259.55035302861387,
+          "waterline": {
+            "x": 103,
+            "y": 126.91007060572278
+          }
+        },
+        {
+          "filename": "coot-w-swallow",
+          "frame": {
+            "x": 774,
+            "y": 743,
+            "w": 177,
+            "h": 150
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 200,
+            "h": 202
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.91007060572278,
+            "w": 177,
+            "h": 150
+          },
+          "referenceHeight": 259.55035302861387,
+          "waterline": {
+            "x": 100,
+            "y": 152.91007060572278
+          }
+        },
+        {
+          "filename": "coot-nw-bite",
+          "frame": {
+            "x": 967,
+            "y": 270,
+            "w": 177,
+            "h": 90
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 186,
+            "h": 122
+          },
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 27.252873563218387,
+            "w": 177,
+            "h": 90
+          },
+          "referenceHeight": 271.2643678160919,
+          "waterline": {
+            "x": 93,
+            "y": 115.25287356321839
+          }
+        },
+        {
+          "filename": "coot-nw-chew",
+          "frame": {
+            "x": 973,
+            "y": 500,
+            "w": 172,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 198,
+            "h": 144
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.252873563218387,
+            "w": 172,
+            "h": 124
+          },
+          "referenceHeight": 271.2643678160919,
+          "waterline": {
+            "x": 99,
+            "y": 126.25287356321839
+          }
+        },
+        {
+          "filename": "coot-nw-swallow",
+          "frame": {
+            "x": 977,
+            "y": 743,
+            "w": 167,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 188,
+            "h": 194
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.2528735632183725,
+            "w": 167,
+            "h": 149
+          },
+          "referenceHeight": 271.2643678160919,
+          "waterline": {
+            "x": 94,
+            "y": 151.25287356321837
+          }
+        },
+        {
+          "filename": "coot-n-bite",
+          "frame": {
+            "x": 1186,
+            "y": 270,
+            "w": 124,
+            "h": 99
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 120
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 16.251886453467478,
+            "w": 124,
+            "h": 99
+          },
+          "referenceHeight": 266.2594322673374,
+          "waterline": {
+            "x": 66,
+            "y": 113.25188645346748
+          }
+        },
+        {
+          "filename": "coot-n-chew",
+          "frame": {
+            "x": 1186,
+            "y": 505,
+            "w": 124,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 152
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.251886453467478,
+            "w": 124,
+            "h": 127
+          },
+          "referenceHeight": 266.2594322673374,
+          "waterline": {
+            "x": 66,
+            "y": 129.25188645346748
+          }
+        },
+        {
+          "filename": "coot-n-swallow",
+          "frame": {
+            "x": 1186,
+            "y": 732,
+            "w": 124,
+            "h": 164
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 226
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.251886453467478,
+            "w": 124,
+            "h": 164
+          },
+          "referenceHeight": 266.2594322673374,
+          "waterline": {
+            "x": 66,
+            "y": 166.25188645346748
+          }
+        },
+        {
+          "filename": "coot-ne-bite",
+          "frame": {
+            "x": 1351,
+            "y": 267,
+            "w": 160,
+            "h": 93
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 170,
+            "h": 118
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 20.129935032483758,
+            "w": 160,
+            "h": 93
+          },
+          "referenceHeight": 260.64967516241876,
+          "waterline": {
+            "x": 85,
+            "y": 111.12993503248376
+          }
+        },
+        {
+          "filename": "coot-ne-chew",
+          "frame": {
+            "x": 1351,
+            "y": 500,
+            "w": 167,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 190,
+            "h": 148
+          },
+          "spriteSourceSize": {
+            "x": 19,
+            "y": 4.129935032483758,
+            "w": 167,
+            "h": 124
+          },
+          "referenceHeight": 260.64967516241876,
+          "waterline": {
+            "x": 95,
+            "y": 126.12993503248376
+          }
+        },
+        {
+          "filename": "coot-ne-swallow",
+          "frame": {
+            "x": 1353,
+            "y": 743,
+            "w": 155,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 168,
+            "h": 196
+          },
+          "spriteSourceSize": {
+            "x": 9,
+            "y": 4.129935032483758,
+            "w": 155,
+            "h": 148
+          },
+          "referenceHeight": 260.64967516241876,
+          "waterline": {
+            "x": 84,
+            "y": 150.12993503248376
+          }
+        }
+      ]
+    },
+    {
+      "image": "eating-fish.png",
+      "size": {
+        "w": 1448,
+        "h": 1086
+      },
+      "frames": [
+        {
+          "filename": "koi-e-bite",
+          "frame": {
+            "x": 39,
+            "y": 87,
+            "w": 158,
+            "h": 82
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 166,
+            "h": 90
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 158,
+            "h": 82
+          },
+          "referenceHeight": 236.3368147168121
+        },
+        {
+          "filename": "koi-e-chew",
+          "frame": {
+            "x": 38,
+            "y": 266,
+            "w": 154,
+            "h": 96
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 162,
+            "h": 104
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 154,
+            "h": 96
+          },
+          "referenceHeight": 236.3368147168121
+        },
+        {
+          "filename": "koi-se-bite",
+          "frame": {
+            "x": 217,
+            "y": 60,
+            "w": 133,
+            "h": 112
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 120
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 133,
+            "h": 112
+          },
+          "referenceHeight": 240.53348619769133
+        },
+        {
+          "filename": "koi-se-chew",
+          "frame": {
+            "x": 216,
+            "y": 251,
+            "w": 133,
+            "h": 110
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 118
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 133,
+            "h": 110
+          },
+          "referenceHeight": 240.53348619769133
+        },
+        {
+          "filename": "koi-s-bite",
+          "frame": {
+            "x": 406,
+            "y": 52,
+            "w": 84,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 92,
+            "h": 138
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 84,
+            "h": 130
+          },
+          "referenceHeight": 208.81963463324425
+        },
+        {
+          "filename": "koi-s-chew",
+          "frame": {
+            "x": 406,
+            "y": 245,
+            "w": 85,
+            "h": 123
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 94,
+            "h": 132
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 85,
+            "h": 123
+          },
+          "referenceHeight": 208.81963463324425
+        },
+        {
+          "filename": "koi-sw-bite",
+          "frame": {
+            "x": 555,
+            "y": 63,
+            "w": 137,
+            "h": 115
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 124
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 137,
+            "h": 115
+          },
+          "referenceHeight": 245.27757037696554
+        },
+        {
+          "filename": "koi-sw-chew",
+          "frame": {
+            "x": 556,
+            "y": 247,
+            "w": 135,
+            "h": 114
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 144,
+            "h": 122
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 135,
+            "h": 114
+          },
+          "referenceHeight": 245.27757037696554
+        },
+        {
+          "filename": "koi-w-bite",
+          "frame": {
+            "x": 731,
+            "y": 89,
+            "w": 165,
+            "h": 83
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 174,
+            "h": 92
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 165,
+            "h": 83
+          },
+          "referenceHeight": 238.9889505555306
+        },
+        {
+          "filename": "koi-w-chew",
+          "frame": {
+            "x": 732,
+            "y": 276,
+            "w": 163,
+            "h": 84
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 172,
+            "h": 92
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 163,
+            "h": 84
+          },
+          "referenceHeight": 238.9889505555306
+        },
+        {
+          "filename": "koi-nw-bite",
+          "frame": {
+            "x": 934,
+            "y": 65,
+            "w": 136,
+            "h": 117
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 144,
+            "h": 126
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 136,
+            "h": 117
+          },
+          "referenceHeight": 240.17823437107646
+        },
+        {
+          "filename": "koi-nw-chew",
+          "frame": {
+            "x": 934,
+            "y": 251,
+            "w": 137,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 130
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 137,
+            "h": 121
+          },
+          "referenceHeight": 240.17823437107646
+        },
+        {
+          "filename": "koi-n-bite",
+          "frame": {
+            "x": 1130,
+            "y": 45,
+            "w": 95,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 104,
+            "h": 156
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 95,
+            "h": 148
+          },
+          "referenceHeight": 243.16479873939477
+        },
+        {
+          "filename": "koi-n-chew",
+          "frame": {
+            "x": 1131,
+            "y": 240,
+            "w": 95,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 104,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 95,
+            "h": 145
+          },
+          "referenceHeight": 243.16479873939477
+        },
+        {
+          "filename": "koi-ne-bite",
+          "frame": {
+            "x": 1281,
+            "y": 66,
+            "w": 138,
+            "h": 117
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 126
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 138,
+            "h": 117
+          },
+          "referenceHeight": 242.01499994657567
+        },
+        {
+          "filename": "koi-ne-chew",
+          "frame": {
+            "x": 1278,
+            "y": 257,
+            "w": 139,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 148,
+            "h": 128
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 139,
+            "h": 119
+          },
+          "referenceHeight": 242.01499994657567
+        },
+        {
+          "filename": "carp-e-bite",
+          "frame": {
+            "x": 43,
+            "y": 455,
+            "w": 154,
+            "h": 92
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 162,
+            "h": 100
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 154,
+            "h": 92
+          },
+          "referenceHeight": 230.14004704061247
+        },
+        {
+          "filename": "carp-e-chew",
+          "frame": {
+            "x": 42,
+            "y": 643,
+            "w": 154,
+            "h": 92
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 162,
+            "h": 100
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 154,
+            "h": 92
+          },
+          "referenceHeight": 230.14004704061247
+        },
+        {
+          "filename": "carp-se-bite",
+          "frame": {
+            "x": 219,
+            "y": 435,
+            "w": 136,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 144,
+            "h": 128
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 136,
+            "h": 119
+          },
+          "referenceHeight": 245.0506271898935
+        },
+        {
+          "filename": "carp-se-chew",
+          "frame": {
+            "x": 219,
+            "y": 632,
+            "w": 137,
+            "h": 114
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 122
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 137,
+            "h": 114
+          },
+          "referenceHeight": 245.0506271898935
+        },
+        {
+          "filename": "carp-s-bite",
+          "frame": {
+            "x": 405,
+            "y": 433,
+            "w": 89,
+            "h": 131
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 98,
+            "h": 140
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 89,
+            "h": 131
+          },
+          "referenceHeight": 206.27930759525623
+        },
+        {
+          "filename": "carp-s-chew",
+          "frame": {
+            "x": 406,
+            "y": 621,
+            "w": 88,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 96,
+            "h": 134
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 88,
+            "h": 126
+          },
+          "referenceHeight": 206.27930759525623
+        },
+        {
+          "filename": "carp-sw-bite",
+          "frame": {
+            "x": 552,
+            "y": 436,
+            "w": 137,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 130
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 137,
+            "h": 121
+          },
+          "referenceHeight": 245.99783095944028
+        },
+        {
+          "filename": "carp-sw-chew",
+          "frame": {
+            "x": 553,
+            "y": 628,
+            "w": 135,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 144,
+            "h": 128
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 135,
+            "h": 120
+          },
+          "referenceHeight": 245.99783095944028
+        },
+        {
+          "filename": "carp-w-bite",
+          "frame": {
+            "x": 729,
+            "y": 467,
+            "w": 164,
+            "h": 86
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 172,
+            "h": 94
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 164,
+            "h": 86
+          },
+          "referenceHeight": 231.20094325235328
+        },
+        {
+          "filename": "carp-w-chew",
+          "frame": {
+            "x": 732,
+            "y": 657,
+            "w": 162,
+            "h": 84
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 170,
+            "h": 92
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 162,
+            "h": 84
+          },
+          "referenceHeight": 231.20094325235328
+        },
+        {
+          "filename": "carp-nw-bite",
+          "frame": {
+            "x": 935,
+            "y": 439,
+            "w": 138,
+            "h": 125
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 134
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 138,
+            "h": 125
+          },
+          "referenceHeight": 241.86111213434128
+        },
+        {
+          "filename": "carp-nw-chew",
+          "frame": {
+            "x": 937,
+            "y": 632,
+            "w": 137,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 132
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 137,
+            "h": 124
+          },
+          "referenceHeight": 241.86111213434128
+        },
+        {
+          "filename": "carp-n-bite",
+          "frame": {
+            "x": 1130,
+            "y": 433,
+            "w": 97,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 106,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 97,
+            "h": 145
+          },
+          "referenceHeight": 232.6180165921281
+        },
+        {
+          "filename": "carp-n-chew",
+          "frame": {
+            "x": 1130,
+            "y": 622,
+            "w": 96,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 104,
+            "h": 152
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 96,
+            "h": 144
+          },
+          "referenceHeight": 232.6180165921281
+        },
+        {
+          "filename": "carp-ne-bite",
+          "frame": {
+            "x": 1278,
+            "y": 445,
+            "w": 141,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 150,
+            "h": 128
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 141,
+            "h": 120
+          },
+          "referenceHeight": 239.19726910095332
+        },
+        {
+          "filename": "carp-ne-chew",
+          "frame": {
+            "x": 1278,
+            "y": 638,
+            "w": 139,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 148,
+            "h": 130
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 139,
+            "h": 121
+          },
+          "referenceHeight": 239.19726910095332
+        },
+        {
+          "filename": "minnow-e-bite",
+          "frame": {
+            "x": 44,
+            "y": 836,
+            "w": 152,
+            "h": 88
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 160,
+            "h": 96
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 152,
+            "h": 88
+          },
+          "referenceHeight": 233.31312272128682
+        },
+        {
+          "filename": "minnow-e-chew",
+          "frame": {
+            "x": 45,
+            "y": 989,
+            "w": 148,
+            "h": 79
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 156,
+            "h": 88
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 148,
+            "h": 79
+          },
+          "referenceHeight": 233.31312272128682
+        },
+        {
+          "filename": "minnow-se-bite",
+          "frame": {
+            "x": 218,
+            "y": 814,
+            "w": 134,
+            "h": 112
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 120
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 134,
+            "h": 112
+          },
+          "referenceHeight": 236.7178040944008
+        },
+        {
+          "filename": "minnow-se-chew",
+          "frame": {
+            "x": 224,
+            "y": 976,
+            "w": 129,
+            "h": 93
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 138,
+            "h": 102
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 129,
+            "h": 93
+          },
+          "referenceHeight": 236.7178040944008
+        },
+        {
+          "filename": "minnow-s-bite",
+          "frame": {
+            "x": 405,
+            "y": 808,
+            "w": 88,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 96,
+            "h": 136
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 88,
+            "h": 127
+          },
+          "referenceHeight": 190.64371095372036
+        },
+        {
+          "filename": "minnow-s-chew",
+          "frame": {
+            "x": 409,
+            "y": 970,
+            "w": 78,
+            "h": 98
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 86,
+            "h": 106
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 78,
+            "h": 98
+          },
+          "referenceHeight": 190.64371095372036
+        },
+        {
+          "filename": "minnow-sw-bite",
+          "frame": {
+            "x": 552,
+            "y": 817,
+            "w": 138,
+            "h": 109
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 118
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 138,
+            "h": 109
+          },
+          "referenceHeight": 235.8356743038269
+        },
+        {
+          "filename": "minnow-sw-chew",
+          "frame": {
+            "x": 552,
+            "y": 978,
+            "w": 131,
+            "h": 91
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 140,
+            "h": 100
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 131,
+            "h": 91
+          },
+          "referenceHeight": 235.8356743038269
+        },
+        {
+          "filename": "minnow-w-bite",
+          "frame": {
+            "x": 731,
+            "y": 848,
+            "w": 163,
+            "h": 80
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 172,
+            "h": 88
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 163,
+            "h": 80
+          },
+          "referenceHeight": 236.11599444455595
+        },
+        {
+          "filename": "minnow-w-chew",
+          "frame": {
+            "x": 737,
+            "y": 994,
+            "w": 153,
+            "h": 78
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 162,
+            "h": 86
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 153,
+            "h": 78
+          },
+          "referenceHeight": 236.11599444455595
+        },
+        {
+          "filename": "minnow-nw-bite",
+          "frame": {
+            "x": 938,
+            "y": 822,
+            "w": 135,
+            "h": 117
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 144,
+            "h": 126
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 135,
+            "h": 117
+          },
+          "referenceHeight": 230.98228558601525
+        },
+        {
+          "filename": "minnow-nw-chew",
+          "frame": {
+            "x": 941,
+            "y": 978,
+            "w": 129,
+            "h": 102
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 138,
+            "h": 110
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 129,
+            "h": 102
+          },
+          "referenceHeight": 230.98228558601525
+        },
+        {
+          "filename": "minnow-n-bite",
+          "frame": {
+            "x": 1131,
+            "y": 809,
+            "w": 95,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 104,
+            "h": 148
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 95,
+            "h": 140
+          },
+          "referenceHeight": 217.13130127315483
+        },
+        {
+          "filename": "minnow-n-chew",
+          "frame": {
+            "x": 1135,
+            "y": 971,
+            "w": 87,
+            "h": 115
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 96,
+            "h": 124
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 87,
+            "h": 115
+          },
+          "referenceHeight": 217.13130127315483
+        },
+        {
+          "filename": "minnow-ne-bite",
+          "frame": {
+            "x": 1280,
+            "y": 826,
+            "w": 138,
+            "h": 115
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 124
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 138,
+            "h": 115
+          },
+          "referenceHeight": 230.49211115801998
+        },
+        {
+          "filename": "minnow-ne-chew",
+          "frame": {
+            "x": 1285,
+            "y": 981,
+            "w": 128,
+            "h": 101
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 136,
+            "h": 110
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 128,
+            "h": 101
+          },
+          "referenceHeight": 230.49211115801998
+        }
+      ]
+    },
+    {
+      "image": "eating-turtle.png",
+      "size": {
+        "w": 1983,
+        "h": 793
+      },
+      "frames": [
+        {
+          "filename": "musk-turtle-e-bite",
+          "frame": {
+            "x": 52,
+            "y": 102,
+            "w": 178,
+            "h": 143
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 738,
+            "h": 226
+          },
+          "spriteSourceSize": {
+            "x": 555.2047783781659,
+            "y": 4.676825428273588,
+            "w": 178,
+            "h": 143
+          },
+          "referenceHeight": 838.8653994994214,
+          "surfaceOffset": {
+            "x": 0.3280678623082912,
+            "y": -0.04389640411167277
+          }
+        },
+        {
+          "filename": "musk-turtle-e-chew",
+          "frame": {
+            "x": 53,
+            "y": 346,
+            "w": 176,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 736,
+            "h": 220
+          },
+          "spriteSourceSize": {
+            "x": 555.2047783781659,
+            "y": 4.676825428273588,
+            "w": 176,
+            "h": 137
+          },
+          "referenceHeight": 838.8653994994214,
+          "surfaceOffset": {
+            "x": 0.3280678623082912,
+            "y": -0.04389640411167277
+          }
+        },
+        {
+          "filename": "musk-turtle-e-swallow",
+          "frame": {
+            "x": 55,
+            "y": 582,
+            "w": 171,
+            "h": 141
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 730,
+            "h": 224
+          },
+          "spriteSourceSize": {
+            "x": 554.7047783781659,
+            "y": 4.676825428273588,
+            "w": 171,
+            "h": 141
+          },
+          "referenceHeight": 838.8653994994214,
+          "surfaceOffset": {
+            "x": 0.3280678623082912,
+            "y": -0.04389640411167277
+          }
+        },
+        {
+          "filename": "musk-turtle-se-bite",
+          "frame": {
+            "x": 305,
+            "y": 104,
+            "w": 161,
+            "h": 131
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 484,
+            "h": 376
+          },
+          "spriteSourceSize": {
+            "x": 318.3045847087052,
+            "y": 240.90346192289985,
+            "w": 161,
+            "h": 131
+          },
+          "referenceHeight": 744.1211248373537,
+          "surfaceOffset": {
+            "x": 0.21072454399541304,
+            "y": 0.15911853322102618
+          }
+        },
+        {
+          "filename": "musk-turtle-se-chew",
+          "frame": {
+            "x": 309,
+            "y": 349,
+            "w": 158,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 480,
+            "h": 370
+          },
+          "spriteSourceSize": {
+            "x": 317.8045847087052,
+            "y": 241.40346192289985,
+            "w": 158,
+            "h": 124
+          },
+          "referenceHeight": 744.1211248373537,
+          "surfaceOffset": {
+            "x": 0.21072454399541304,
+            "y": 0.15911853322102618
+          }
+        },
+        {
+          "filename": "musk-turtle-se-swallow",
+          "frame": {
+            "x": 301,
+            "y": 577,
+            "w": 153,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 476,
+            "h": 384
+          },
+          "spriteSourceSize": {
+            "x": 318.3045847087052,
+            "y": 241.40346192289985,
+            "w": 153,
+            "h": 138
+          },
+          "referenceHeight": 744.1211248373537,
+          "surfaceOffset": {
+            "x": 0.21072454399541304,
+            "y": 0.15911853322102618
+          }
+        },
+        {
+          "filename": "musk-turtle-s-bite",
+          "frame": {
+            "x": 560,
+            "y": 88,
+            "w": 122,
+            "h": 157
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 134,
+            "h": 534
+          },
+          "spriteSourceSize": {
+            "x": 4.126714532013011,
+            "y": 372.0819758627246,
+            "w": 122,
+            "h": 157
+          },
+          "referenceHeight": 796.3736399081665,
+          "surfaceOffset": {
+            "x": -0.0023522695555355183,
+            "y": 0.2305224164424808
+          }
+        },
+        {
+          "filename": "musk-turtle-s-chew",
+          "frame": {
+            "x": 560,
+            "y": 339,
+            "w": 122,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 134,
+            "h": 524
+          },
+          "spriteSourceSize": {
+            "x": 4.126714532013011,
+            "y": 371.5819758627246,
+            "w": 122,
+            "h": 148
+          },
+          "referenceHeight": 796.3736399081665,
+          "surfaceOffset": {
+            "x": -0.0023522695555355183,
+            "y": 0.2305224164424808
+          }
+        },
+        {
+          "filename": "musk-turtle-s-swallow",
+          "frame": {
+            "x": 560,
+            "y": 575,
+            "w": 122,
+            "h": 154
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 134,
+            "h": 530
+          },
+          "spriteSourceSize": {
+            "x": 4.126714532013011,
+            "y": 371.5819758627246,
+            "w": 122,
+            "h": 154
+          },
+          "referenceHeight": 796.3736399081665,
+          "surfaceOffset": {
+            "x": -0.0023522695555355183,
+            "y": 0.2305224164424808
+          }
+        },
+        {
+          "filename": "musk-turtle-sw-bite",
+          "frame": {
+            "x": 782,
+            "y": 104,
+            "w": 162,
+            "h": 131
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 498,
+            "h": 416
+          },
+          "spriteSourceSize": {
+            "x": 4.492407141119656,
+            "y": 280.1053999307409,
+            "w": 162,
+            "h": 131
+          },
+          "referenceHeight": 745.1171583714788,
+          "surfaceOffset": {
+            "x": -0.21943877016097849,
+            "y": 0.18467619270973434
+          }
+        },
+        {
+          "filename": "musk-turtle-sw-chew",
+          "frame": {
+            "x": 782,
+            "y": 349,
+            "w": 156,
+            "h": 125
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 492,
+            "h": 410
+          },
+          "spriteSourceSize": {
+            "x": 4.492407141119656,
+            "y": 280.1053999307409,
+            "w": 156,
+            "h": 125
+          },
+          "referenceHeight": 745.1171583714788,
+          "surfaceOffset": {
+            "x": -0.21943877016097849,
+            "y": 0.18467619270973434
+          }
+        },
+        {
+          "filename": "musk-turtle-sw-swallow",
+          "frame": {
+            "x": 793,
+            "y": 580,
+            "w": 153,
+            "h": 139
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 490,
+            "h": 424
+          },
+          "spriteSourceSize": {
+            "x": 4.992407141119656,
+            "y": 280.1053999307409,
+            "w": 153,
+            "h": 139
+          },
+          "referenceHeight": 745.1171583714788,
+          "surfaceOffset": {
+            "x": -0.21943877016097849,
+            "y": 0.18467619270973434
+          }
+        },
+        {
+          "filename": "musk-turtle-w-bite",
+          "frame": {
+            "x": 1026,
+            "y": 102,
+            "w": 179,
+            "h": 143
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 728,
+            "h": 224
+          },
+          "spriteSourceSize": {
+            "x": 4.981282970368511,
+            "y": 4.828405099019363,
+            "w": 179,
+            "h": 143
+          },
+          "referenceHeight": 839.2461069546481,
+          "surfaceOffset": {
+            "x": -0.3211438394485111,
+            "y": -0.04250433169171471
+          }
+        },
+        {
+          "filename": "musk-turtle-w-chew",
+          "frame": {
+            "x": 1026,
+            "y": 346,
+            "w": 179,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 728,
+            "h": 218
+          },
+          "spriteSourceSize": {
+            "x": 4.981282970368511,
+            "y": 4.828405099019363,
+            "w": 179,
+            "h": 137
+          },
+          "referenceHeight": 839.2461069546481,
+          "surfaceOffset": {
+            "x": -0.3211438394485111,
+            "y": -0.04250433169171471
+          }
+        },
+        {
+          "filename": "musk-turtle-w-swallow",
+          "frame": {
+            "x": 1028,
+            "y": 582,
+            "w": 172,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 720,
+            "h": 220
+          },
+          "spriteSourceSize": {
+            "x": 4.481282970368511,
+            "y": 4.328405099019363,
+            "w": 172,
+            "h": 140
+          },
+          "referenceHeight": 839.2461069546481,
+          "surfaceOffset": {
+            "x": -0.3211438394485111,
+            "y": -0.04250433169171471
+          }
+        },
+        {
+          "filename": "musk-turtle-nw-bite",
+          "frame": {
+            "x": 1289,
+            "y": 105,
+            "w": 169,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 558,
+            "h": 544
+          },
+          "spriteSourceSize": {
+            "x": 4.303103875479849,
+            "y": 4.519856760909846,
+            "w": 169,
+            "h": 144
+          },
+          "referenceHeight": 830.0933951261336,
+          "surfaceOffset": {
+            "x": -0.2291271045417962,
+            "y": -0.23549174633462386
+          }
+        },
+        {
+          "filename": "musk-turtle-nw-chew",
+          "frame": {
+            "x": 1289,
+            "y": 346,
+            "w": 163,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 552,
+            "h": 544
+          },
+          "spriteSourceSize": {
+            "x": 4.303103875479849,
+            "y": 4.019856760909846,
+            "w": 163,
+            "h": 145
+          },
+          "referenceHeight": 830.0933951261336,
+          "surfaceOffset": {
+            "x": -0.2291271045417962,
+            "y": -0.23549174633462386
+          }
+        },
+        {
+          "filename": "musk-turtle-nw-swallow",
+          "frame": {
+            "x": 1293,
+            "y": 582,
+            "w": 162,
+            "h": 146
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 552,
+            "h": 546
+          },
+          "spriteSourceSize": {
+            "x": 4.803103875479849,
+            "y": 4.519856760909846,
+            "w": 162,
+            "h": 146
+          },
+          "referenceHeight": 830.0933951261336,
+          "surfaceOffset": {
+            "x": -0.2291271045417962,
+            "y": -0.23549174633462386
+          }
+        },
+        {
+          "filename": "musk-turtle-n-bite",
+          "frame": {
+            "x": 1547,
+            "y": 89,
+            "w": 122,
+            "h": 156
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 148,
+            "h": 622
+          },
+          "spriteSourceSize": {
+            "x": 4.229293057350702,
+            "y": 4.961619491118142,
+            "w": 122,
+            "h": 156
+          },
+          "referenceHeight": 807.7167652669921,
+          "surfaceOffset": {
+            "x": -0.010858641691992278,
+            "y": -0.2823246839917993
+          }
+        },
+        {
+          "filename": "musk-turtle-n-chew",
+          "frame": {
+            "x": 1547,
+            "y": 341,
+            "w": 122,
+            "h": 156
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 148,
+            "h": 622
+          },
+          "spriteSourceSize": {
+            "x": 4.229293057350702,
+            "y": 4.961619491118142,
+            "w": 122,
+            "h": 156
+          },
+          "referenceHeight": 807.7167652669921,
+          "surfaceOffset": {
+            "x": -0.010858641691992278,
+            "y": -0.2823246839917993
+          }
+        },
+        {
+          "filename": "musk-turtle-n-swallow",
+          "frame": {
+            "x": 1546,
+            "y": 577,
+            "w": 124,
+            "h": 153
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 150,
+            "h": 618
+          },
+          "spriteSourceSize": {
+            "x": 4.229293057350702,
+            "y": 4.461619491118142,
+            "w": 124,
+            "h": 153
+          },
+          "referenceHeight": 807.7167652669921,
+          "surfaceOffset": {
+            "x": -0.010858641691992278,
+            "y": -0.2823246839917993
+          }
+        },
+        {
+          "filename": "musk-turtle-ne-bite",
+          "frame": {
+            "x": 1759,
+            "y": 102,
+            "w": 170,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 536,
+            "h": 538
+          },
+          "spriteSourceSize": {
+            "x": 361.65298387397024,
+            "y": 4.196284730071767,
+            "w": 170,
+            "h": 144
+          },
+          "referenceHeight": 830.3488862814654,
+          "surfaceOffset": {
+            "x": 0.21515411994351946,
+            "y": -0.23219603043409523
+          }
+        },
+        {
+          "filename": "musk-turtle-ne-chew",
+          "frame": {
+            "x": 1765,
+            "y": 345,
+            "w": 164,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 530,
+            "h": 540
+          },
+          "spriteSourceSize": {
+            "x": 361.65298387397024,
+            "y": 4.696284730071767,
+            "w": 164,
+            "h": 145
+          },
+          "referenceHeight": 830.3488862814654,
+          "surfaceOffset": {
+            "x": 0.21515411994351946,
+            "y": -0.23219603043409523
+          }
+        },
+        {
+          "filename": "musk-turtle-ne-swallow",
+          "frame": {
+            "x": 1760,
+            "y": 579,
+            "w": 163,
+            "h": 147
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 530,
+            "h": 542
+          },
+          "spriteSourceSize": {
+            "x": 362.15298387397024,
+            "y": 4.696284730071767,
+            "w": 163,
+            "h": 147
+          },
+          "referenceHeight": 830.3488862814654,
+          "surfaceOffset": {
+            "x": 0.21515411994351946,
+            "y": -0.23219603043409523
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import { DOCK_POSITION } from './thrower-art.ts';
 import { ObserverCrowd } from './observers.ts';
 import { MachineEmployee } from './restocking.ts';
 import { WindSimulation } from './wind.ts';
+import { eatingDuration, type Meal } from './eating.ts';
 
 export type AnimalKind = 'fish' | 'bird' | 'turtle';
 export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift' | 'amble';
@@ -37,7 +38,8 @@ export interface Point { x: number; y: number }
 export interface Animal extends Point {
   id: number; profile: AnimalProfile; destination: Point; heading: number;
   chewLeft: number; state: 'roaming' | 'approaching' | 'chewing'; moving: boolean;
-  surfaceLeft: number;
+  meal: Meal | null;
+  surfaceLeft: number; surfaceDuration: number;
   school: number; phase: number;
 }
 // Small body cores leave fins, tails, and feathers free to overlap naturally.
@@ -117,7 +119,7 @@ export class PondSimulation {
         const point = school >= 0
           ? { x: schoolCenter.x + (this.random() - 0.5) * 50, y: schoolCenter.y + (this.random() - 0.5) * 30 }
           : this.randomPoint(profile.kind === 'bird' ? 0.65 : 0, 0.92);
-        this.animals.push({ ...point, id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, surfaceLeft: 0, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2 });
+        this.animals.push({ ...point, id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, meal: null, surfaceLeft: 0, surfaceDuration: TURTLE_SURFACE_SECONDS, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2 });
         if (school >= 0 && !this.schools.has(school)) this.schools.set(school, this.randomPoint());
       }
     }
@@ -330,9 +332,12 @@ export class PondSimulation {
       animal.surfaceLeft = Math.max(0, animal.surfaceLeft - dt);
       if (animal.chewLeft > 0) {
         animal.chewLeft = Math.max(0, animal.chewLeft - dt);
+        if (animal.chewLeft < 1e-9) animal.chewLeft = 0;
         animal.state = animal.chewLeft > 0 ? 'chewing' : 'roaming';
+        if (!animal.chewLeft) animal.meal = null;
         continue;
       }
+      if (animal.profile.kind === 'turtle' && animal.surfaceLeft > 0) continue;
       const profile = animal.profile;
       let target: Food | undefined;
       let nearest = profile.vision;
@@ -355,13 +360,16 @@ export class PondSimulation {
         if (reachable && nearest < Math.max(9, profile.size * 0.2)) {
           const amount = Math.min(profile.bite, target.amount);
           target.amount = Math.max(0, target.amount - amount);
-          animal.chewLeft = profile.chew;
+          animal.chewLeft = eatingDuration(profile, amount);
+          animal.meal = { duration: animal.chewLeft, amount };
           animal.state = 'chewing';
           let bonus = 0;
           if (profile.kind === 'fish') { this.fishFood += amount; this.fedFish.add(animal.id); }
           else if (profile.kind === 'turtle') {
             this.turtleFood += amount;
-            animal.surfaceLeft = TURTLE_SURFACE_SECONDS;
+            // Stay visible through the entire meal, then gently dip underwater.
+            animal.surfaceDuration = Math.max(TURTLE_SURFACE_SECONDS, animal.chewLeft + 0.75);
+            animal.surfaceLeft = animal.surfaceDuration;
           } else this.birdFood += amount;
           if (profile.kind === 'fish' && target.lucky && !target.bonusClaimed) {
             target.bonusClaimed = true;

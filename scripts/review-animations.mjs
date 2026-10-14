@@ -2,8 +2,9 @@ import { chromium } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { ANIMATED_ATLASES, WALK_CYCLE, SWIM_CYCLE } from '../src/animation-frames.ts';
+import { EATING_ATLAS } from '../src/eating.ts';
 
-export async function reviewAnimations(output, names = ANIMATED_ATLASES) {
+export async function reviewAnimations(output, names = [...ANIMATED_ATLASES, EATING_ATLAS]) {
   await fs.mkdir(output, { recursive: true });
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium', headless: true });
   let count = 0;
@@ -36,7 +37,10 @@ export async function reviewAnimations(output, names = ANIMATED_ATLASES) {
         }
       }
       const directions = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'];
-      const order = name === 'garden-observers' ? ['adult', 'kid'].flatMap(age => [0, 1, 2].flatMap(look =>
+      const order = name === EATING_ATLAS ? ['koi', 'carp', 'minnow', 'duck', 'gull', 'coot', 'musk-turtle'].flatMap(species =>
+        directions.flatMap(direction => (['koi', 'carp', 'minnow'].includes(species) ? ['bite', 'chew'] : ['bite', 'chew', 'swallow'])
+          .map(pose => `${species}-${direction}-${pose}`)))
+        : name === 'garden-observers' ? ['adult', 'kid'].flatMap(age => [0, 1, 2].flatMap(look =>
         [...WALK_CYCLE, 'watch'].map(pose => `observer-${age}-${look}-${pose}`)))
         : name.includes('swim') ? (name === 'fish-swimmers' ? ['koi', 'carp', 'minnow'] : name === 'bird-swimmers' ? ['duck', 'gull', 'coot'] : ['musk-turtle'])
           .flatMap(species => directions.flatMap(direction => SWIM_CYCLE.map(stroke => `${species}-${direction}-${stroke}`)))
@@ -67,7 +71,7 @@ export async function reviewAnimations(output, names = ANIMATED_ATLASES) {
           const label = document.createElement('p'); label.textContent = name;
           card.append(canvas, label); document.querySelector('main').append(card);
         }
-      }, { atlas, order, body: !name.includes('swim') });
+      }, { atlas, order, body: !name.includes('swim') && name !== EATING_ATLAS });
       await page.screenshot({ path: path.join(output, `${name}-cycles.png`), fullPage: true });
     }
   } finally { await browser.close(); }

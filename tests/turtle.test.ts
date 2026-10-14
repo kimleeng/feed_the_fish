@@ -100,7 +100,7 @@ test('turtle bites conserve food and earn kindness without counting as fish or c
   assert.equal(pond.fedFish.size, 1);
   assert.ok(Math.abs(pond.fishShare - 0.3 / 0.7) < 0.000001);
   assert.ok(Math.abs(pond.eatenFood + pond.food[0].amount - 1) < 0.000001);
-  assert.equal(turtle.surfaceLeft, TURTLE_SURFACE_SECONDS - 0.05);
+  assert.equal(turtle.surfaceLeft, turtle.surfaceDuration - 0.05);
 });
 
 test('the turtle keeps body space from fish while birds float above it', () => {

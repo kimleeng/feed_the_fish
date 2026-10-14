@@ -13,6 +13,7 @@ import { SHOW_TURTLE_UNDERWATER, turtleSurfaceAmount } from './turtle.ts';
 import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-frames.ts';
 import { WaterShimmer } from './water.ts';
 import type { WindState } from './wind.ts';
+import { EATING_ATLAS, eatingFrame } from './eating.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; turtleFood: number; share: number;
@@ -61,6 +62,7 @@ export class PondScene extends Phaser.Scene {
   preload(): void {
     this.load.image('pond-art', '/art/pond.png');
     for (const atlas of ANIMATED_ATLASES) this.load.multiatlas(atlas, `/art/${atlas}-animation.json`, '/art');
+    this.load.multiatlas(EATING_ATLAS, `/art/${EATING_ATLAS}-animation.json`, '/art');
     this.load.multiatlas(WALK_ATLAS, '/art/people-walking.json', '/art');
     this.load.atlas('pellet-stock', '/art/pellet-stock.png', '/art/pellet-stock.json');
     this.load.atlas('scene-machine-empty', '/art/scene-machine-empty.png', '/art/scene-machine-empty.json');
@@ -379,10 +381,13 @@ export class PondScene extends Phaser.Scene {
       const bird = animal.profile.kind === 'bird';
       const direction = directionForHeading(animal.heading, this.directions.get(animal.id));
       this.directions.set(animal.id, direction);
-      const rate = animal.state === 'chewing' ? 0.6 : bird ? 1.4 : animal.profile.speed / 24;
-      const stroke = animal.moving || animal.state === 'chewing'
+      const rate = bird ? 1.4 : animal.profile.speed / 24;
+      const stroke = animal.moving
         ? SWIM_CYCLE[Math.floor((this.world.elapsed * rate + animal.phase) * 2) % SWIM_CYCLE.length] : 0;
-      sprite.setFrame(animalFrame(animal.profile.texture, direction, stroke));
+      const feeding = eatingFrame(animal, direction);
+      const feedingBody = feeding && animal.profile.kind !== 'turtle';
+      sprite.setTexture(feedingBody ? EATING_ATLAS : animalAtlas(animal.profile.kind),
+        feedingBody ? feeding : animalFrame(animal.profile.texture, direction, stroke));
       sprite.setScale(animal.profile.size / animationFrameData(sprite.frame).referenceHeight);
       const bob = bird ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
       sprite.setPosition(animal.x, animal.y + bob).setDepth((bird ? 30 : 10) + animal.y / 1000);
@@ -392,7 +397,8 @@ export class PondScene extends Phaser.Scene {
         sprite.setAlpha((0.83 + animal.id % 4 * 0.025) * bodyAmount).setVisible(bodyAmount > 0);
         const head = this.turtleHeads.get(animal.id)!;
         // The head frame shares the body's anchor, while the shell stays submerged.
-        head.setFrame(`musk-turtle-${direction}-head`).setPosition(animal.x, animal.y - amount * 3)
+        head.setTexture(feeding ? EATING_ATLAS : 'turtle-swimmer', feeding ?? `musk-turtle-${direction}-head`)
+          .setPosition(animal.x, animal.y - amount * 3)
           .setDepth(30 + animal.y / 1000).setAlpha(amount).setVisible(amount > 0);
         head.setScale(animal.profile.size / animationFrameData(head.frame).referenceHeight);
         if (amount > 0) {

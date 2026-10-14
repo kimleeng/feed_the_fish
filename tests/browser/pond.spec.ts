@@ -707,7 +707,7 @@ test('the secret turtle stays hidden except for its feeding peek, including afte
   expect(after.visible).toBe(true);
   expect(after.alpha).toBe(1);
   expect(after.headDepth).toBeGreaterThan(after.waterDepth);
-  expect(after.frame).toMatch(/^musk-turtle-\w+-head$/);
+  expect(after.frame).toMatch(/^musk-turtle-\w+-(bite|chew|swallow)$/);
   expect(after.frameExists).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('turtle-peeking.png'), fullPage: true });
 
@@ -730,8 +730,8 @@ test('the secret turtle stays hidden except for its feeding peek, including afte
   const sinking = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
     scene.world.paused = false;
-    for (let tick = 0; tick < 80; tick++) scene.update(21_000 + tick * 50, 50);
     const turtle = scene.world.animals.find(animal => animal.profile.kind === 'turtle')!;
+    while (turtle.surfaceLeft > 0.4) scene.update(21_000, 50);
     const head = scene.children.getByName('turtle-head-' + turtle.id) as Phaser.GameObjects.Sprite;
     const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
     const body = layer.getByName('animal-' + turtle.id) as Phaser.GameObjects.Sprite;
@@ -864,7 +864,7 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
   await page.screenshot({ path: testInfo.outputPath('swimming-field-guide.png'), fullPage: true });
 });
 
-test('bird bodies keep their size and waterline through every paddle and chewing cycle', async ({ page }, testInfo) => {
+test('bird bodies keep their size and waterline through every paddle cycle', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();
   const cycles = await page.evaluate(() => {
@@ -873,11 +873,11 @@ test('bird bodies keep their size and waterline through every paddle and chewing
     const birds = ['duck', 'gull', 'coot'].map(id => scene.world.animals.find(animal => animal.profile.id === id)!);
     const canvases = new Map<CanvasImageSource, { data: Uint8ClampedArray; width: number }>();
     const results = [];
-    for (const state of ['roaming', 'chewing'] as const) for (let heading = 0; heading < 8; heading++) {
+    for (let heading = 0; heading < 8; heading++) {
       const samples = birds.map(() => [] as { frame: string; scale: number; width: number; height: number; area: number; centerX: number; waterY: number; expectedWaterY: number }[]);
-      for (const bird of birds) Object.assign(bird, { state, heading: heading * Math.PI / 4, phase: 0, moving: true });
+      for (const bird of birds) Object.assign(bird, { state: 'roaming', heading: heading * Math.PI / 4, phase: 0, moving: true });
       for (let step = 0; step < 4; step++) {
-        scene.world.elapsed = (step + .25) / ((state === 'chewing' ? .6 : 1.4) * 2);
+        scene.world.elapsed = (step + .25) / (1.4 * 2);
         scene.update(0, 0);
         birds.forEach((bird, index) => {
           const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
@@ -904,7 +904,7 @@ test('bird bodies keep their size and waterline through every paddle and chewing
     }
     return results;
   });
-  expect(cycles).toHaveLength(48);
+  expect(cycles).toHaveLength(24);
   for (const cycle of cycles) {
     expect(cycle.map(pose => Number(pose.frame.split('-').at(-1)))).toEqual([0, 2, 1, 3]);
     expect(new Set(cycle.map(pose => pose.scale)).size).toBe(1);

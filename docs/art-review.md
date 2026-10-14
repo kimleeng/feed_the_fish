@@ -131,6 +131,16 @@ The follow-up visibility review found that the original one-pixel glints blended
 
 The restaurant-side reflection review removed the extra leafy silhouettes beneath the terrace. That water now reflects the cream awning, dark posts, and amber lights in broken horizontal ripples. The real tree immediately left of the restaurant retains its reflection. The 1536 × 1024 pond image was checked in all six art regions and the assembled desktop and phone views; the production asset matches the source image. The art audit, production build, and browser checks for both interface modes and wind shimmer passed.
 
+## Eating animations, 14 October 2026
+
+The eating atlas adds 144 complete feeding drawings in eight directions: open and closed puckered mouths for all three carp profiles, bill dips and swallows for the three birds, and slow bites and swallows for the surfaced turtle head. The carp's round mouth opening and closing is the main feeding cue, repeated throughout the meal. The fish drawings were revised to make that motion readable in diagonal and away-facing views as well. Incorrect front-facing heads in the birds' north-facing bite poses were corrected before packaging.
+
+`node scripts/build-eating-atlas.mjs` registers the five source sheets without repainting, stretching, or segmenting the animals. Each heading shares one scale across its feeding poses. Bird registration uses the lower body and waterline so a head dip does not change the body's size. Fish retain their established body length; turtle heads retain their surface offsets over the submerged shell. The existing swimming drawings provide the return-to-rest pose.
+
+Actual bites start a simulation-owned meal with its amount and duration. Full bites retain the existing species times (0.65–5.4 seconds); scraps shorten the working phase while preserving a visible bite and swallow. The turtle remains surfaced until its meal finishes and then dips. Food, points, and lucky bonuses still count once per actual bite. The meal and animation freeze together when the pond is suspended, reset on a new visit, and remain visible with reduced motion.
+
+Validation passed: 71 unit tests, all 22 production browser scenarios, the TypeScript/production build, and the art audit of 474 animation drawings. The 56 species/direction combinations were checked in the running game for pose selection, stable scale, head/waterline anchors, and return to swimming. The eating contact sheet and assembled desktop and phone views were visually inspected.
+
 ## Reproduce the review
 
 ```bash
