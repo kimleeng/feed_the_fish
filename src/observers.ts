@@ -1,5 +1,6 @@
 import { walkingCycleDistance } from './observer-art.ts';
 import { pathBlend, walkingAdvance } from './walking.ts';
+import { OBSERVER_LOOKS } from './observer-looks.ts';
 
 export type ObserverAge = 'adult' | 'kid';
 export type ObserverState = 'walking' | 'approaching' | 'watching' | 'leaving';
@@ -114,11 +115,14 @@ export class ObserverCrowd {
       ? OBSERVER_PATH.start + (OBSERVER_PATH.end - OBSERVER_PATH.start) * progress
       : OBSERVER_PATH.end - (OBSERVER_PATH.end - OBSERVER_PATH.start) * progress;
     const lane = OBSERVER_PATH.lanes[Math.floor(this.random() * OBSERVER_PATH.lanes.length)];
+    const looks = OBSERVER_LOOKS[age].map((_, index) => index);
+    const unusedLooks = looks.filter(look => !this.people.some(person => person.age === age && person.look === look));
+    const availableLooks = unusedLooks.length ? unusedLooks : looks;
     const person: Observer = {
       id: this.nextId++, age, x, y: pathY(x, lane), lane, direction, stop: null,
       state: 'walking',
       speed: age === 'kid' ? this.between(37, 51) : this.between(32, 46),
-      velocity: 0, look: Math.floor(this.random() * 3), scale: this.between(0.92, 1.1),
+      velocity: 0, look: availableLooks[Math.floor(this.random() * availableLooks.length)], scale: this.between(0.92, 1.1),
       stride: this.random() * 4, watchDuration: 0, watchRemaining: 0,
       interest: this.sceneInterest, quietAfter: this.between(5, 10), stopRoll: this.random(), hasWatched: false,
     };

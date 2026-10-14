@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { ObserverCrowd, WATCH_SPOTS, type ObserverAge } from '../src/observers.ts';
 import { PondSimulation, inPond } from '../src/simulation.ts';
 import { THROW_MOTIONS } from '../src/throws.ts';
-import { observerFrame, walkingCycleDistance } from '../src/observer-art.ts';
+import { observerAtlas, observerFrame, observerHeight, walkingCycleDistance } from '../src/observer-art.ts';
+import { OBSERVER_DESIGNS, OBSERVER_LOOKS } from '../src/observer-looks.ts';
 import { WALK_FRAMES } from '../src/walking.ts';
 
 function advance(simulation: { step(seconds: number): void }, seconds: number): void {
@@ -187,6 +188,34 @@ test('a visit opens with two to four visitors, including an adult and a kid', ()
     assert.ok(crowd.people.some(person => person.age === 'kid'));
     assert.deepEqual(crowd.people, new ObserverCrowd(seed).people);
   }
+});
+
+test('all visitor looks can arrive, keep their outfit through a visit, and avoid duplicates while another look is free', () => {
+  const seen = new Set<string>();
+  for (let seed = 0; seed < 6; seed++) {
+    const crowd = new ObserverCrowd(seed);
+    const outfits = new Map<number, string>();
+    for (let tick = 0; tick < 6000; tick++) {
+      for (const person of crowd.people) {
+        const design = `observer-${person.age}-${person.look}`;
+        assert.ok(OBSERVER_DESIGNS.some(look => look.design === design));
+        assert.ok(Number.isFinite(observerHeight(person)) && walkingCycleDistance(person) > 0);
+        if (outfits.has(person.id)) assert.equal(design, outfits.get(person.id), 'Walking and watching retain the same outfit');
+        else {
+          const peers = crowd.people.filter(other => other.age === person.age && other.id < person.id);
+          if (new Set(peers.map(peer => peer.look)).size < OBSERVER_LOOKS[person.age].length) {
+            assert.ok(peers.every(peer => peer.look !== person.look), 'Choose an unused outfit when one is available');
+          }
+          outfits.set(person.id, design); seen.add(design);
+        }
+        const expectedAtlas = person.state === 'watching' && !OBSERVER_LOOKS[person.age][person.look].watchingInSheet
+          ? 'garden-observers' : 'people-walking';
+        assert.equal(observerAtlas(person), expectedAtlas);
+      }
+      crowd.step(.1);
+    }
+  }
+  assert.deepEqual([...seen].sort(), OBSERVER_DESIGNS.map(look => look.design).sort());
 });
 
 test('visitors cross dry paving, stop at distinct places, watch, and leave the garden', () => {

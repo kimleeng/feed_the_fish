@@ -5,6 +5,7 @@ import type { PondSimulation } from '../../src/simulation.ts';
 import type { AnimationFrameData } from '../../src/animation-frames.ts';
 import { TURTLE_HEAD_OFFSETS } from '../../src/turtle-pins.ts';
 import { DIRECTIONS } from '../../src/appearance.ts';
+import { OBSERVER_DESIGNS, OBSERVER_LOOKS } from '../../src/observer-looks.ts';
 
 type InspectedWindow = Window & { inspectedPond: PondScene };
 
@@ -48,7 +49,7 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
     return scene.world.crowd.people.map(person => {
       const visitor = scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container;
       const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
-      return { id: person.id, age: person.age, state: person.state, direction: person.direction,
+      return { id: person.id, age: person.age, look: person.look, state: person.state, direction: person.direction,
         x: person.x, y: person.y, remaining: person.watchRemaining, frame: sprite.frame.name,
         atlas: sprite.texture.key, flipped: sprite.flipX, interactive: !!sprite.input,
         height: sprite.frame.cutHeight * sprite.scaleY };
@@ -59,11 +60,12 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
   expect(initial.some(person => person.state === 'watching')).toBe(true);
   expect(initial.some(person => person.state !== 'watching')).toBe(true);
   for (const person of initial) {
-    expect(person.atlas).toBe(person.state === 'watching' ? 'garden-observers' : 'people-walking');
+    expect(person.atlas).toBe(person.state === 'watching' && !OBSERVER_LOOKS[person.age][person.look].watchingInSheet
+      ? 'garden-observers' : 'people-walking');
     expect(person.interactive).toBe(false);
     expect(person.frame).toContain('observer-' + person.age);
     expect(person.height).toBeGreaterThan(person.age === 'adult' ? 130 : 80);
-    expect(person.height).toBeLessThan(person.age === 'adult' ? 180 : 130);
+    expect(person.height).toBeLessThan(person.age === 'adult' ? 190 : 145);
     expect(person.flipped).toBe(person.state !== 'watching' && person.direction === -1);
     if (person.state === 'watching') expect(person.frame).toMatch(/-watch$/);
   }
@@ -151,28 +153,29 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
   await expect(page.locator('#machine-dialog')).toBeVisible();
 });
 
-test('all seven walkers play complete illustrated frames while traveling in both directions', async ({ page }, testInfo) => {
+test('every visitor and employee plays complete walking frames in both directions and keeps their outfit when watching', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();
-  const result = await page.evaluate(() => {
+  const result = await page.evaluate(designs => {
     const scene = (window as InspectedWindow).inspectedPond;
     scene.scene.pause();
     const model = scene.world.crowd.people[0];
-    scene.world.crowd.people = (['adult', 'kid'] as const).flatMap((age, group) => [0, 1, 2].map(look => ({
-      ...model, id: group * 3 + look + 100, age, look, scale: 1, stride: 0,
-      x: 200 + (group * 3 + look) * 140, y: 776, lane: 776, direction: (look === 1 ? -1 : 1) as -1 | 1,
+    scene.world.crowd.people = designs.map(({ age, look }, index) => ({
+      ...model, id: index + 100, age, look, scale: 1, stride: 0,
+      x: 250 + index % 6 * 130, y: 776, lane: 776, direction: 1 as const,
       state: 'walking' as const, stop: null, hasWatched: true, speed: age === 'adult' ? 38 : 44, velocity: age === 'adult' ? 38 : 44,
-    })));
+    }));
     Object.assign(scene.world.employee, { phase: 'leaving', x: 1150, y: 778, velocity: 52 });
-    const summaries = Array.from({ length: 7 }, () => ({ frames: new Set<string>(),
-      minHeight: Infinity, maxHeight: 0, grounded: 0, flipped: false, intact: true }));
+    const summaries = Array.from({ length: designs.length + 1 }, () => ({ frames: new Set<string>(), flips: new Set<boolean>(),
+      minHeight: Infinity, maxHeight: 0, grounded: 0, intact: true }));
     const texture = scene.textures.get('people-walking');
     const atlasFrames = Object.values(texture.frames).filter(frame => frame.name !== '__BASE');
     const sources = new Set(atlasFrames.map(frame => frame.source.image));
     // Phaser decodes loaded PNGs through blob URLs. Generated rig textures used
     // canvases instead; each complete walk sheet must remain an image source.
     const originalPNGs = [...sources].every(source => source instanceof HTMLImageElement);
-    for (let tick = 0; tick < 480; tick++) {
+    for (let tick = 0; tick < 960; tick++) {
+      if (tick === 480) for (const person of scene.world.crowd.people) person.direction = -1;
       scene.update(tick * 1000 / 120, 1000 / 120);
       const people: { person: { y: number }; container: Phaser.GameObjects.Container; name: string }[] = scene.world.crowd.people.filter(person => person.id >= 100).map(person => ({ person,
         container: scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container, name: 'observer-art' }));
@@ -182,7 +185,7 @@ test('all seven walkers play complete illustrated frames while traveling in both
         const sprite = container.getByName(name) as Phaser.GameObjects.Sprite;
         const summary = summaries[index];
         const data = sprite.frame.customData as AnimationFrameData;
-        summary.frames.add(sprite.frame.name); summary.flipped = sprite.flipX;
+        summary.frames.add(sprite.frame.name); summary.flips.add(sprite.flipX);
         summary.intact &&= sprite.texture.key === 'people-walking' && sprite.x === 0 && sprite.y === 0 &&
           sprite.scaleX === sprite.scaleY && sprite.rotation === 0 && !sprite.isCropped &&
           container.list.filter(child => child.type === 'Sprite').length === 1;
@@ -191,18 +194,38 @@ test('all seven walkers play complete illustrated frames while traveling in both
         if (data.feet?.some(foot => Math.abs(container.y + (foot.y - sprite.displayOriginY) * sprite.scaleY - person.y) < 0.01)) summary.grounded++;
       });
     }
-    return { originalPNGs, sources: sources.size, frameCount: atlasFrames.length,
-      walkers: summaries.map(summary => ({ ...summary, frames: summary.frames.size })) };
-  });
+    const watching = scene.world.crowd.people.filter(person => person.id >= 100).map(person => {
+      const sprite = (scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container)
+        .getByName('observer-art') as Phaser.GameObjects.Sprite;
+      const previousScale = sprite.scaleX;
+      person.state = 'watching'; person.watchRemaining = 30;
+      scene.update(0, 0);
+      return { design: `observer-${person.age}-${person.look}`, frame: sprite.frame.name, exists: sprite.texture.has(sprite.frame.name),
+        atlas: sprite.texture.key, flipped: sprite.flipX, scaleRatio: sprite.scaleX / previousScale };
+    });
+    scene.world.crowd.people = scene.world.crowd.people.filter(person => designs.find(design => design.age === person.age && design.look === person.look)?.watchingInSheet);
+    scene.world.crowd.people.forEach((person, index) => Object.assign(person, { x: 110 + index * 190, state: index % 2 ? 'watching' : 'walking' }));
+    scene.update(0, 0);
+    return { originalPNGs, sources: sources.size, frameCount: atlasFrames.length, watching,
+      walkers: summaries.map(summary => ({ ...summary, frames: summary.frames.size, flips: [...summary.flips] })) };
+  }, OBSERVER_DESIGNS);
   expect(result.originalPNGs).toBe(true);
-  expect(result.sources).toBe(7);
+  expect(result.sources).toBe(OBSERVER_DESIGNS.length + 1);
+  expect(result.frameCount).toBe((OBSERVER_DESIGNS.length + 1) * 8 + OBSERVER_DESIGNS.filter(design => design.watchingInSheet).length);
   for (const [index, walker] of result.walkers.entries()) {
-    expect(walker.frames).toBe(result.frameCount / 7);
-    expect(walker.frames).toBeGreaterThanOrEqual(8);
+    expect(walker.frames).toBe(8);
     expect(walker.intact).toBe(true);
-    expect(walker.grounded).toBe(480);
+    expect(walker.grounded).toBe(960);
     expect(walker.maxHeight - walker.minHeight).toBeLessThan(12);
-    expect(walker.flipped).toBe(index === 1 || index === 4 || index === 6);
+    expect(new Set(walker.flips)).toEqual(new Set(index < OBSERVER_DESIGNS.length ? [false, true] : [true]));
+  }
+  for (const visitor of result.watching) {
+    const design = OBSERVER_DESIGNS.find(design => design.design === visitor.design)!;
+    expect(visitor.frame).toBe(visitor.design + '-watch');
+    expect(visitor.exists).toBe(true);
+    expect(visitor.flipped).toBe(false);
+    expect(visitor.atlas).toBe(design.watchingInSheet ? 'people-walking' : 'garden-observers');
+    if (design.watchingInSheet) expect(visitor.scaleRatio).toBe(1);
   }
   await page.screenshot({ path: testInfo.outputPath('walking-cycles-in-garden.png'), fullPage: true });
 });

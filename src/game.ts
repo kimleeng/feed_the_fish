@@ -7,7 +7,7 @@ import { employeeFrame } from './employee-art.ts';
 import { pelletStockLevel } from './pellet-stock-art.ts';
 import { throwerPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 import { DOCK_POSITION, THROWER_HEIGHT, throwerHand } from './thrower-art.ts';
-import { observerFrame, observerHeight } from './observer-art.ts';
+import { observerAtlas, observerFrame, observerHeight } from './observer-art.ts';
 import { WALK_ATLAS } from './walking.ts';
 import { SHOW_TURTLE_UNDERWATER, turtleSurfaceAmount } from './turtle.ts';
 import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-frames.ts';
@@ -249,7 +249,7 @@ export class PondScene extends Phaser.Scene {
       let visitor = this.observers.get(person.id);
       if (!visitor) {
         const shadow = this.add.ellipse(0, -1, 44, 8, 0x493f32, 0.2).setName('observer-shadow');
-        const sprite = this.add.sprite(0, 0, person.state === 'watching' ? 'garden-observers' : WALK_ATLAS, observerFrame(person))
+        const sprite = this.add.sprite(0, 0, observerAtlas(person), observerFrame(person))
           .setName('observer-art').setOrigin(0.5, 1);
         visitor = this.add.container(person.x, person.y, [shadow, sprite]).setName('observer-' + person.id);
         this.observers.set(person.id, visitor);
@@ -257,7 +257,7 @@ export class PondScene extends Phaser.Scene {
       const watching = person.state === 'watching';
       const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
       const shadow = visitor.getByName('observer-shadow') as Phaser.GameObjects.Ellipse;
-      sprite.setTexture(watching ? 'garden-observers' : WALK_ATLAS, observerFrame(person)).setFlipX(!watching && person.direction === -1)
+      sprite.setTexture(observerAtlas(person), observerFrame(person)).setFlipX(!watching && person.direction === -1)
         .setPosition(0, 0);
       sprite.setScale(observerHeight(person) / animationFrameData(sprite.frame).referenceHeight);
       shadow.setDisplaySize((person.age === 'adult' ? 44 : 30) * person.scale, person.age === 'adult' ? 8 : 6);

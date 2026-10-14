@@ -108,6 +108,16 @@ The new browser regression turns every species through all eight directions and 
 
 Validation passed: all 232 animal atlas cuts, 55 unit tests, the TypeScript/production build, and all 16 production browser scenarios. The complete animal cycle sheets, all eight rendered directions, the pond, and the turtle's feeding peek were visually reviewed. Fixed physical dimensions vary by less than 5% across complete turns and strokes, allowing small differences in the hand-drawn silhouettes while preserving natural foreshortening.
 
+## Danish autumn visitors, 14 October 2026
+
+Six new visitor designs double the cast to twelve: three adults in a sand coat, navy quilted jacket, and moss raincoat, plus three children in mustard and teal rainwear and a brick-red puffer. Scarves, knit hats, full-length trousers, wellies, and practical shoes give the new set a contemporary Danish autumn wardrobe. The new designs cover different ages, builds, hair, and skin tones while retaining the game's illustrated style.
+
+Each new transparent sheet contains eight complete walking drawings and a ninth rear-facing watching pose. All nine use one physical height and sole baseline; the renderer changes the whole frame and mirrors it for the return direction. The walking reference includes both close passing poses, and candidates with a repeated wide stride in the second passing position were corrected during review. Original visitor and employee artwork remains in use.
+
+`src/observer-looks.ts` is the shared catalogue for arrival selection, heights, atlas packaging, and review coverage. New arrivals prefer unused outfits in their age group. Population targets and the age-based watching behavior are preserved. Browser coverage now exercises all twelve visitors and the employee, both walking directions, complete PNG frames, ground contact, and consistent outfits and scale when the autumn visitors stop to watch. The review script produces separate walking, watching, and movement sheets for the original and autumn groups.
+
+Validation passed: all 110 walking/watching atlas cuts, 56 unit tests, the TypeScript/production build, and all 16 production browser scenarios. After the final pose corrections, the atlas checks were rerun and all six new nine-pose sheets, movement samples, garden walking/watching views, and phone scene were visually reviewed. The seven original walking sheets and their atlas entries remain unchanged.
+
 ## Reproduce the review
 
 ```bash

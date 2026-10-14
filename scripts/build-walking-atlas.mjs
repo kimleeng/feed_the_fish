@@ -1,21 +1,22 @@
 import { chromium } from '@playwright/test';
 import fs from 'node:fs/promises';
+import { OBSERVER_DESIGNS } from '../src/observer-looks.ts';
 
 // Package complete drawings. Only rectangles, alignment and stride metadata are
 // written; every PNG remains unchanged, and no body parts are cut or assembled.
-const designs = ['adult', 'kid'].flatMap(age => [0, 1, 2].map(look => `observer-${age}-${look}`)).concat('employee');
+const designs = [...OBSERVER_DESIGNS, { design: 'employee', watchingInSheet: false }];
 const inspectOnly = process.argv.includes('--inspect');
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium', headless: true });
 const atlas = { textures: [] };
 const gait = {};
 try {
   const page = await browser.newPage();
-  for (const design of designs) {
+  for (const { design, watchingInSheet } of designs) {
     const filename = `${design}-walking.png`;
     let bytes;
     try { bytes = await fs.readFile(`public/art/${filename}`); }
     catch (error) { if (inspectOnly && error.code === 'ENOENT') continue; throw error; }
-    const inspected = await page.evaluate(async png => {
+    const inspected = await page.evaluate(async ({ png, watchingInSheet }) => {
       const image = new Image(); image.src = png; await image.decode();
       const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
       const context = canvas.getContext('2d', { willReadFrequently: true }); context.drawImage(image, 0, 0);
@@ -37,11 +38,12 @@ try {
         }
         if (queue.length > 300) boxes.push({ left, top, right, bottom, painted: queue.length });
       }
-      if (boxes.length !== 8) throw new Error(`Expected 8 complete silhouettes, found ${boxes.length}`);
+      const count = watchingInSheet ? 9 : 8, columns = watchingInSheet ? 3 : 4;
+      if (boxes.length !== count) throw new Error(`Expected ${count} complete silhouettes, found ${boxes.length}`);
       boxes.sort((a, b) => a.top + a.bottom - b.top - b.bottom);
-      for (let row = 0; row < 2; row++) {
-        const start = row * 4;
-        boxes.splice(start, 4, ...boxes.slice(start, start + 4).sort((a, b) => a.left - b.left));
+      for (let row = 0; row < count / columns; row++) {
+        const start = row * columns;
+        boxes.splice(start, columns, ...boxes.slice(start, start + columns).sort((a, b) => a.left - b.left));
       }
       for (const box of boxes) {
         const h = box.bottom - box.top;
@@ -70,17 +72,17 @@ try {
         box.right = Math.min(width, box.right + 2);
       }
       return { width, height, boxes };
-    }, 'data:image/png;base64,' + bytes.toString('base64'));
-    const heights = inspected.boxes.map(box => box.bottom - box.top).sort((a, b) => a - b);
+    }, { png: 'data:image/png;base64,' + bytes.toString('base64'), watchingInSheet });
+    const heights = inspected.boxes.slice(0, 8).map(box => box.bottom - box.top).sort((a, b) => a - b);
     const referenceHeight = (heights[3] + heights[4]) / 2;
     const sourceSize = {
       w: Math.ceil(Math.max(...inspected.boxes.map(box => Math.max(box.axis - box.left, box.right - box.axis))) * 2) + 8,
-      h: Math.max(...heights) + 8,
+      h: Math.max(...inspected.boxes.map(box => box.bottom - box.top)) + 8,
     };
     const frames = inspected.boxes.map((box, index) => {
       const frame = { x: box.left, y: box.top, w: box.right - box.left, h: box.bottom - box.top };
       const source = { x: Math.round(sourceSize.w / 2 - (box.axis - box.left)), y: sourceSize.h - frame.h };
-      return { filename: `${design}-step-${index}`, frame, rotated: false, trimmed: true,
+      return { filename: `${design}-${index === 8 ? 'watch' : `step-${index}`}`, frame, rotated: false, trimmed: true,
         spriteSourceSize: { ...source, w: frame.w, h: frame.h }, sourceSize, referenceHeight,
         feet: box.feet.map(foot => ({ x: source.x + foot.x - frame.x, y: source.y + foot.y - frame.y })),
       };
@@ -91,7 +93,7 @@ try {
     if (distance < 0.2 || distance > 1.2) throw new Error(`${design}: implausible cycle distance ${distance}`);
     gait[design] = { distance: Number(distance.toFixed(6)) };
     atlas.textures.push({ image: filename, size: { w: inspected.width, h: inspected.height }, frames });
-    console.log(`${design}: 8 intact drawings, cycle distance ${distance.toFixed(3)} × height, height variation ${((heights.at(-1) - heights[0]) / referenceHeight * 100).toFixed(1)}%`);
+    console.log(`${design}: ${frames.length} intact drawings, cycle distance ${distance.toFixed(3)} × height, height variation ${((heights.at(-1) - heights[0]) / referenceHeight * 100).toFixed(1)}%`);
   }
 } finally { await browser.close(); }
 if (!inspectOnly) {
