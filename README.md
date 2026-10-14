@@ -60,6 +60,21 @@ Visitors and the employee use complete illustrated walking frames. Each pose is 
 
 Animation follows actual distance covered, including approaches to the rail. Visitors brake before watching, stop while watching, and accelerate as they leave. Their route bends gently toward and away from the railing. The employee uses the same acceleration and braking, waits with both feet planted, and retains the existing reaching, lifting, pouring, and closing animations.
 
+## Wind and water
+
+A gentle breeze changes direction and strength over time. Small surface particles drift with it, fade in and out, and recycle within the pond mask. Stronger moments make the glints slightly longer and brighter. The particles freeze on pause, restart for a new visit, and are hidden when reduced motion is preferred, including changes to that preference during play. Wind itself continues to update and record when decorative motion is reduced.
+
+Wind is shared simulation state for future effects, independent of animal and throw randomness:
+
+```ts
+scene.world.wind.current;       // { time, direction, strength, x, y }
+scene.world.wind.history;       // Timestamped snapshots at 0, 1, 2, ... seconds
+scene.world.wind.sampleAt(12.5); // Reproduce any instant without changing state
+scene.world.wind.seed;          // Seed for replaying this visit's weather
+```
+
+`time` counts unpaused simulation seconds. `direction` is radians clockwise from screen-right, and `strength` is normalized from 0 to 1. `x` and `y` are the direction vector multiplied by strength; each effect can apply its own movement scale. The `pond:state` event also carries the current snapshot as `detail.wind`. History lasts for the current visit and resets with **Begin a new visit**; it is not saved across reloads. Weather is evaluated from the seed and absolute simulation time, so the same seed and time reproduce the same wind at different frame rates.
+
 ## Validate
 
 ```bash
@@ -73,7 +88,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 
 ## Art and simulation
 
-- `public/art/pond.png`: original Tivoli-inspired garden scenery, with corrected benches, paving, ironwork, and architecture reflections.
+- `public/art/pond.png`: original Tivoli-inspired garden scenery, with corrected benches, paving, ironwork, architecture and broadleaf-tree reflections, and an open foreground walking path.
 - `public/art/animals.png` and `animals.json`: transparent animal sprite sheet and explicit frame rectangles.
 - `public/art/fish-swimmers.png` and `fish-swimmers.json`: golden, common, and young carp swimming atlas, with eight headings and two tail strokes each. Natural carp snouts, scales, low dorsal fins, and one attached forked tail replace the ornate goldfish shapes. Internal frame IDs remain `koi`, `carp`, and `minnow`.
 - `public/art/bird-*-swimming.png` and `bird-swimmers-animation.json`: consistent four-pose cycles in eight directions for mallards, gulls, and coots. Whole-body frames use the species' fixed height across headings and a shared waterline, with no painted water. `node scripts/build-bird-atlas.mjs` rebuilds their registration without changing PNG pixels. The original `bird-swimmers.png`/`.json` remain as archived artwork and field-guide art.
@@ -94,6 +109,8 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `src/restocking.ts`: the 25-serving machine's employee arrival, wait, refill, and departure; `src/employee-art.ts` and `employee-pins.ts` align walking distance, planted work poses, and the pouring sack.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
 - `src/game.ts`: rendering, dock-character motion, and landing ripples.
+- `src/wind.ts`: shared seeded breeze, current state, per-second visit history, and replay.
+- `src/water.ts`: the wind-driven surface shimmer particle pool.
 - `src/appearance.ts`: directional frame names and stable heading selection while turning.
 - `src/turtle.ts` and `turtle-pins.ts`: underwater visibility, feeding peek timing, and generated head offsets.
 - `src/throws.ts`: weighted throw choices, full-body pose timing, per-motion release origins, and lucky-pellet chance and bonus.

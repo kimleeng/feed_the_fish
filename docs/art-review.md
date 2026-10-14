@@ -11,6 +11,7 @@ The review covered every rendered fish atlas cut (three profiles × eight headin
 | Garden identity | The old pavilion and buildings suggested a generic European garden. | An ivory, onion-domed Moorish facade inspired by Nimb, a Chinese-style lakeside pavilion, garden bulbs, green ironwork, and floral beds evoke Tivoli Gardens in Copenhagen. This is a stylized garden composition, not a reconstruction of the park's geography. |
 | Garden construction | Rail/planter joins, lamp bases, and foreground paving had uneven geometry. | Clearer rail endpoints and posts, grounded lamps and planters, a continuous cobblestone path, and a level feeding platform. |
 | Water and planting | Bright reflection columns were not clearly related to the distant architecture; some flowers/pads had ambiguous connections. | Facade and pavilion reflections aligned beneath the buildings; clearer lily-pad flowers and shore planting. The central lake remains open for moving animals. |
+| Tree reflections | Narrow, dark conifer-like reflections did not match the golden broadleaf trees along the far bank. | Reflected branching trunks and broad yellow-green canopies align with the trees above them, broken into horizontal water ripples. The open lake retains its turquoise color and sun glints. The updated foreground walking path remains clear. |
 | Pellet machine | The machine existed only in a dialog and felt detached from the garden. | A separate red globe machine on a green iron pedestal stands on the dry path left of the dock, with a contact shadow and a legible 5 kr plaque. Clicking or tapping it opens the existing coin ritual. |
 
 The final fish contact sheet has 48 complete single-tail silhouettes and no neighboring-frame marks. The new garden was reviewed for support connections, ground contact, perspective, shore continuity, lily pads, reflections, and consistent warm lighting. The moving fish still render beneath the translucent water reflections; birds remain above them.
@@ -117,6 +118,14 @@ Each new transparent sheet contains eight complete walking drawings and a ninth 
 `src/observer-looks.ts` is the shared catalogue for arrival selection, heights, atlas packaging, and review coverage. New arrivals prefer unused outfits in their age group. Population targets and the age-based watching behavior are preserved. Browser coverage now exercises all twelve visitors and the employee, both walking directions, complete PNG frames, ground contact, and consistent outfits and scale when the autumn visitors stop to watch. The review script produces separate walking, watching, and movement sheets for the original and autumn groups.
 
 Validation passed: all 110 walking/watching atlas cuts, 56 unit tests, the TypeScript/production build, and all 16 production browser scenarios. After the final pose corrections, the atlas checks were rerun and all six new nine-pose sheets, movement samples, garden walking/watching views, and phone scene were visually reviewed. The seven original walking sheets and their atlas entries remain unchanged.
+
+## Tree reflections and wind, 14 October 2026
+
+Broad, yellow-green reflected canopies and branching trunks now follow the actual deciduous trees on the far bank. The garden retains the open cobblestone walking corridor, benches, lamps, dock, and clear central lake used by the visitor update.
+
+Gentle surface particles drift with a shared, seeded breeze. Direction and strength change smoothly, with a timestamped snapshot recorded each simulation second for the current visit. Pause freezes the wind and particles; a new visit resets them. Reduced motion hides the particles while wind continues to update and record. Existing visitors, dock throws, turtle feeding, stock, and employee behavior remain in place.
+
+Validation passed: all 61 unit tests, the TypeScript/production build, the art audit, and all 17 production browser scenarios. The garden regions and assembled desktop and phone scenes were visually reviewed, including the corrected reflections and the clear walking path.
 
 ## Reproduce the review
 

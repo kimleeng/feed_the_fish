@@ -3,6 +3,7 @@ import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, releaseOrigin, releaseHei
 import { DOCK_POSITION } from './thrower-art.ts';
 import { ObserverCrowd } from './observers.ts';
 import { MachineEmployee } from './restocking.ts';
+import { WindSimulation } from './wind.ts';
 
 export type AnimalKind = 'fish' | 'bird' | 'turtle';
 export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift' | 'amble';
@@ -66,6 +67,7 @@ export function flightPosition(food: Food, time = food.flightTime): Point & { he
 }
 
 export class PondSimulation {
+  readonly wind: WindSimulation;
   crowd: ObserverCrowd;
   animals: Animal[] = [];
   food: Food[] = [];
@@ -93,6 +95,7 @@ export class PondSimulation {
   private schools = new Map<number, Point>();
 
   constructor(seed = Date.now(), throwRandom?: () => number) {
+    this.wind = new WindSimulation(seed);
     // Independent randomness keeps foot traffic from affecting animals or lucky throws.
     this.crowd = new ObserverCrowd(seed ^ 0xa511e9b3);
     let value = seed >>> 0;
@@ -277,6 +280,7 @@ export class PondSimulation {
     if (this.paused || dt === 0) return;
     this.employee.step(dt, this.machine);
     this.elapsed += dt;
+    this.wind.advanceTo(this.elapsed);
     this.crowd.step(dt);
     this.throwQueue = this.throwQueue.filter(action => this.elapsed < action.startedAt + THROW_MOTIONS[action.animation].duration);
     const released = this.currentThrow;

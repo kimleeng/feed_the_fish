@@ -11,6 +11,8 @@ import { observerAtlas, observerFrame, observerHeight } from './observer-art.ts'
 import { WALK_ATLAS } from './walking.ts';
 import { SHOW_TURTLE_UNDERWATER, turtleSurfaceAmount } from './turtle.ts';
 import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-frames.ts';
+import { WaterShimmer } from './water.ts';
+import type { WindState } from './wind.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; turtleFood: number; share: number;
@@ -19,6 +21,7 @@ export interface PondState {
   machineStock: number; machineFill: number; machineRestocking: boolean; employeePhase: EmployeePhase;
   luckyBonus: number; luckyInHand: boolean;
   handPreviewId: number; nextHandLucky: boolean;
+  wind: WindState;
 }
 
 export class PondScene extends Phaser.Scene {
@@ -33,6 +36,8 @@ export class PondScene extends Phaser.Scene {
   private fishLayer!: Phaser.GameObjects.Container;
   private birdWakes!: Phaser.GameObjects.Graphics;
   private waterShimmer!: Phaser.GameObjects.Graphics;
+  private shimmerParticles = new WaterShimmer(this.world.wind.seed);
+  private reducedMotion!: MediaQueryList;
   private cursor!: Phaser.GameObjects.Arc;
   private thrower!: Phaser.GameObjects.Container;
   private throwerArt!: Phaser.GameObjects.Image;
@@ -65,6 +70,7 @@ export class PondScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     this.add.image(600, 400, 'pond-art').setDisplaySize(1200, 800);
     this.effects = this.add.group();
     this.createWaterSurface();
@@ -298,6 +304,8 @@ export class PondScene extends Phaser.Scene {
     this.creatures.clear(); this.directions.clear(); this.pellets.clear();
     this.tweens.killAll(); this.effects.clear(true, true);
     this.world = new PondSimulation();
+    this.shimmerParticles = new WaterShimmer(this.world.wind.seed);
+    this.waterShimmer.clear();
     this.lastServings = 0;
     this.lastRelease = -1;
     this.spawnCreatures();
@@ -352,26 +360,21 @@ export class PondScene extends Phaser.Scene {
       luckyBonus: this.world.luckyBonus, luckyInHand: this.isLuckyInHand(),
       handPreviewId: (this.world.lastThrow?.id ?? -1) + 1,
       nextHandLucky: this.world.handfuls > 0 && !!this.world.nextThrow?.lucky,
+      wind: this.world.wind.current,
     };
     document.dispatchEvent(new CustomEvent('pond:state', { detail }));
   }
 
   update(time: number, delta: number): void {
     if (!this.ready) return;
+    const elapsedBefore = this.world.elapsed;
     this.world.step(delta / 1000);
     this.updateObservers();
     this.updateThrower();
     this.updateMachine();
     this.updateEmployee();
     this.birdWakes.clear();
-    this.waterShimmer.clear();
-    for (let i = 0; i < 18; i++) {
-      const wave = this.world.elapsed * 0.6 + i * 2.4;
-      const x = 210 + i * 137 % 790 + Math.sin(wave) * 4;
-      const y = 220 + i * 67 % 330;
-      this.waterShimmer.fillStyle(0xc0daba, 0.08 + Math.sin(wave) * 0.025);
-      this.waterShimmer.fillRect(x, y, 13, 1.5).fillRect(x + 4, y + 4, 6, 1);
-    }
+    this.updateWaterShimmer(this.world.elapsed - elapsedBefore);
     for (const animal of this.world.animals) {
       const sprite = this.creatures.get(animal.id)!;
       const bird = animal.profile.kind === 'bird';
@@ -453,6 +456,20 @@ export class PondScene extends Phaser.Scene {
       this.lastServings = this.world.machine.servings;
       this.publishHud();
       document.dispatchEvent(new CustomEvent('pond:dispensed'));
+    }
+  }
+  private updateWaterShimmer(seconds: number): void {
+    this.waterShimmer.clear();
+    if (this.reducedMotion.matches) return;
+    const wind = this.world.wind.current;
+    this.shimmerParticles.step(seconds, wind);
+    for (const particle of this.shimmerParticles.particles) {
+      const fade = Math.sin(particle.age / particle.lifetime * Math.PI) ** 2;
+      const alpha = fade * (0.07 + wind.strength * 0.23);
+      const width = particle.width * (0.8 + wind.strength);
+      const x = Math.round(particle.x); const y = Math.round(particle.y);
+      this.waterShimmer.fillStyle(0xe2edc4, alpha).fillRect(x, y, width, 1.2);
+      this.waterShimmer.fillStyle(0xc0daba, alpha * 0.4).fillRect(x + 3, y + 3, width * 0.45, 1);
     }
   }
 }

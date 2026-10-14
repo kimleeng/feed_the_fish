@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import type Phaser from 'phaser';
-import type { PondScene } from '../../src/game.ts';
-import type { PondSimulation } from '../../src/simulation.ts';
+import type { PondScene, PondState } from '../../src/game.ts';
+import { POND, type PondSimulation } from '../../src/simulation.ts';
 import type { AnimationFrameData } from '../../src/animation-frames.ts';
 import { TURTLE_HEAD_OFFSETS } from '../../src/turtle-pins.ts';
 import { DIRECTIONS } from '../../src/appearance.ts';
@@ -25,6 +25,34 @@ async function buy(page: Page): Promise<void> {
   await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
 }
 
+async function inspectShimmer(page: Page): Promise<{ pixels: number; outsideWater: number }> {
+  return page.evaluate(async bounds => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const paused = scene.world.paused;
+    scene.world.paused = true;
+    const shimmer = scene.children.getByName('water-shimmer') as Phaser.GameObjects.Graphics;
+    const snapshot = async () => {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      return scene.game.canvas.getContext('2d')!.getImageData(0, 0, 1200, 800).data;
+    };
+    shimmer.setVisible(true);
+    const visible = await snapshot();
+    shimmer.setVisible(false);
+    const hidden = await snapshot();
+    shimmer.setVisible(true);
+    scene.world.paused = paused;
+    let pixels = 0; let outsideWater = 0;
+    for (let index = 0; index < visible.length; index += 4) {
+      if (Math.abs(visible[index] - hidden[index]) + Math.abs(visible[index + 1] - hidden[index + 1]) + Math.abs(visible[index + 2] - hidden[index + 2]) <= 6) continue;
+      pixels++;
+      const x = index / 4 % 1200; const y = Math.floor(index / 4 / 1200);
+      if (((x - bounds.x) / bounds.rx) ** 2 + ((y - bounds.y) / bounds.ry) ** 2 > 1.01) outsideWater++;
+    }
+    return { pixels, outsideWater };
+  }, POND);
+}
+
 async function gardenMachinePoint(page: Page): Promise<{ x: number; y: number }> {
   const point = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
@@ -35,6 +63,46 @@ async function gardenMachinePoint(page: Page): Promise<{ x: number; y: number }>
   const bounds = (await page.locator('#pond canvas').boundingBox())!;
   return { x: bounds.x + point.x / 1200 * bounds.width, y: bounds.y + point.y / 800 * bounds.height };
 }
+
+test('wind is shared and recorded while subtle water particles respect pause and live motion preferences', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  const shared = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    for (let frame = 0; frame < 40; frame++) scene.update(2000 + frame * 100, 100);
+    let shared = false;
+    document.addEventListener('pond:state', event => {
+      shared = (event as CustomEvent<PondState>).detail.wind === scene.world.wind.current;
+    }, { once: true });
+    scene.togglePause();
+    return { shared, wind: scene.world.wind.current, history: [...scene.world.wind.history], elapsed: scene.world.elapsed };
+  });
+  expect(shared.shared).toBe(true);
+  expect(shared.wind.time).toBe(shared.elapsed);
+  expect(shared.history.length).toBeGreaterThanOrEqual(5);
+  const shimmer = await inspectShimmer(page);
+  expect(shimmer.pixels).toBeGreaterThan(100);
+  expect(shimmer.pixels).toBeLessThan(5000);
+  expect(shimmer.outsideWater).toBe(0);
+  await page.waitForTimeout(250);
+  expect(await page.evaluate(() => {
+    const wind = (window as InspectedWindow).inspectedPond.world.wind;
+    return { current: wind.current, history: [...wind.history] };
+  })).toEqual({ current: shared.wind, history: shared.history });
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  expect((await inspectShimmer(page)).pixels).toBe(0);
+  await page.getByRole('button', { name: 'Back to the pond' }).click();
+  await expect.poll(() => page.evaluate(() => (window as InspectedWindow).inspectedPond.world.wind.current.time)).toBeGreaterThan(shared.elapsed + 0.2);
+  expect((await inspectShimmer(page)).pixels).toBe(0);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  expect((await inspectShimmer(page)).pixels).toBeGreaterThan(100);
+  await page.screenshot({ path: testInfo.outputPath('wind-shimmer.png'), fullPage: true });
+
+  await page.getByRole('button', { name: 'Begin a new visit' }).click();
+  expect(await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.wind.history[0].time)).toBe(0);
+  expect(await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.wind.history.length)).toBeLessThan(3);
+});
 
 test('kids and adults visibly walk, face the pond while watching, and freeze and reset with the visit', async ({ page }, testInfo) => {
   await arrive(page);
