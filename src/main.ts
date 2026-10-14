@@ -5,6 +5,7 @@ import { animalAtlas, animalFrame } from './appearance.ts';
 import { COIN_PRICE, THROWS_PER_COIN, type VendingPhase } from './vending.ts';
 import { LUCKY_BONUS_POINTS } from './throws.ts';
 import { pelletStockLevel } from './pellet-stock-art.ts';
+import { HandIconDeck } from './hand-icon.ts';
 
 const element = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const guide = element<HTMLDialogElement>('guide-dialog');
@@ -16,6 +17,7 @@ let soundOn = false;
 let audio: AudioContext | undefined;
 let lastPhase: VendingPhase = 'ready';
 let lastMachineFillLevel = -1;
+const handIcons = new HandIconDeck();
 
 function updateMachineFill(fillFraction: number, scene = pond): void {
   const canvas = element<HTMLCanvasElement>('machine-fill');
@@ -150,6 +152,11 @@ const phaseText: Record<VendingPhase, string> = {
 document.addEventListener('pond:state', event => {
   const state = (event as CustomEvent<PondState>).detail;
   element('food-count').textContent = String(state.handfuls);
+  const hand = element('hand-icon');
+  const handFrame = handIcons.update(state.handPreviewId, state.handfuls > 0, state.nextHandLucky);
+  hand.dataset.frame = String(handFrame);
+  hand.style.backgroundPosition = `${handFrame % 4 / 3 * 100}% ${Math.floor(handFrame / 4) / 3 * 100}%`;
+  hand.classList.toggle('is-lucky', state.handfuls > 0 && state.nextHandLucky);
   element('food-bar').style.width = Math.min(100, state.handfuls / THROWS_PER_COIN * 100) + '%';
   element('fish-count').textContent = String(state.fish);
   element('score').textContent = String(state.score);

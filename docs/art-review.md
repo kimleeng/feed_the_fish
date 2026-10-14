@@ -65,6 +65,16 @@ Regression checks cover braking and departure in both directions, stationary str
 
 Validation passed: the production build, all 50 unit tests, all 13 production browser scenarios (including phone controls), and all 330 animation cuts. The assembled walkers and cycle sheets were visually inspected.
 
+## Hand HUD and grounded walking, 14 October 2026
+
+The HUD uses a new 4×4 hand sheet: ten regular arrangements of four small pellets, two lucky arrangements with a golden pellet, and an empty palm. The regular images shuffle without repeating within a group of ten; lucky images use a separate two-image deck. The next handful changes on an accepted throw and stays unchanged through ordinary state updates, pauses, invalid input, and refills. Gameplay randomness is independent of the presentation shuffle. Desktop and phone screenshots were reviewed at their actual display sizes.
+
+Walking now uses 48 cached poses for each of the six visitors and the employee. A continuous lower-leg rig uses the existing artwork and intact shoes, replaces the exaggerated raised-knee poses, and maintains a longer planted phase. Child stride lengths are shorter, producing more footfalls over the same distance. Between pose samples, a positional correction prevents the supporting shoe from drifting as the body moves forward. No cycle has both feet airborne, and foot clearance is limited to a few game pixels. The prior authored walk sheets remain available for reference; the runtime uses the new cache.
+
+`node scripts/review-walking.mjs` produces a sheet of all seven designs, an assembled scene, and motion sequences sampled every quarter second at the game's movement speeds. The rig was reviewed for knee and hip joins, shoe shape, scale, mirroring, and actual travel. Browser checks cover all 48 poses, painted soles at the ground contacts, horizontal foot locking during movement in both directions, and the unchanged stopping, refilling, and watching behavior.
+
+Validation passed: 55 unit tests, the TypeScript/production build, and all 14 browser scenarios in both development and production. The walking scenario checks 392 painted supporting-foot contacts across the 336 cached frames and stationary support positions while the seven characters move. Desktop and phone HUDs and the walking motion sheets were visually reviewed.
+
 ## Reproduce the review
 
 ```bash

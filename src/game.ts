@@ -7,7 +7,9 @@ import { employeeFrame } from './employee-art.ts';
 import { pelletStockLevel } from './pellet-stock-art.ts';
 import { throwerPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 import { DOCK_POSITION, THROWER_HEIGHT, throwerHand } from './thrower-art.ts';
-import { observerFrame, observerHeight } from './observer-art.ts';
+import { observerFrame, observerHeight, walkingCycleDistance } from './observer-art.ts';
+import { createWalkingAtlas, WALK_ATLAS } from './walking-rig.ts';
+import { WALK_DISTANCE, walkingOffset } from './walking.ts';
 import { SHOW_TURTLE_UNDERWATER, turtleSurfaceAmount } from './turtle.ts';
 import { TURTLE_HEAD_OFFSETS } from './turtle-pins.ts';
 import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-frames.ts';
@@ -18,6 +20,7 @@ export interface PondState {
   machinePhase: VendingPhase;
   machineStock: number; machineFill: number; machineRestocking: boolean; employeePhase: EmployeePhase;
   luckyBonus: number; luckyInHand: boolean;
+  handPreviewId: number; nextHandLucky: boolean;
 }
 
 export class PondScene extends Phaser.Scene {
@@ -55,6 +58,10 @@ export class PondScene extends Phaser.Scene {
   preload(): void {
     this.load.image('pond-art', '/art/pond.png');
     for (const atlas of ANIMATED_ATLASES) this.load.multiatlas(atlas, `/art/${atlas}-animation.json`, '/art');
+    for (const [key, asset] of [['observer-rig-source', 'garden-observers'], ['employee-rig-source', 'garden-employee']]) {
+      this.load.atlas(key, `/art/${asset}.png`, `/art/${asset}.json`);
+      this.load.json(`${key}-pins`, `/art/${asset}.json`);
+    }
     this.load.atlas('pellet-stock', '/art/pellet-stock.png', '/art/pellet-stock.json');
     this.load.atlas('scene-machine-empty', '/art/scene-machine-empty.png', '/art/scene-machine-empty.json');
     this.load.on('loaderror', () => {
@@ -63,6 +70,7 @@ export class PondScene extends Phaser.Scene {
   }
 
   create(): void {
+    createWalkingAtlas(this);
     this.add.image(600, 400, 'pond-art').setDisplaySize(1200, 800);
     this.effects = this.add.group();
     this.createWaterSurface();
@@ -135,7 +143,9 @@ export class PondScene extends Phaser.Scene {
   private updateEmployee(): void {
     const person = this.world.employee;
     this.employee.setVisible(person.visible).setPosition(person.x, person.y).setDepth(40 + person.y / 1000);
-    this.employeeArt.setFrame(employeeFrame(person)).setFlipX(person.direction === -1);
+    this.employeeArt.setTexture(person.walking ? WALK_ATLAS : 'garden-employee', employeeFrame(person)).setFlipX(person.direction === -1);
+    const distance = EMPLOYEE_HEIGHT * WALK_DISTANCE.employee;
+    this.employeeArt.setX(person.walking ? walkingOffset(0.25 + person.distanceWalked / distance, distance) * person.direction : 0);
     const frame = animationFrameData(this.employeeArt.frame);
     this.employeeArt.setScale(EMPLOYEE_HEIGHT / frame.referenceHeight);
     this.refillStream.clear();
@@ -245,7 +255,7 @@ export class PondScene extends Phaser.Scene {
       let visitor = this.observers.get(person.id);
       if (!visitor) {
         const shadow = this.add.ellipse(0, -1, 44, 8, 0x493f32, 0.2).setName('observer-shadow');
-        const sprite = this.add.sprite(0, 0, 'garden-observers', observerFrame(person))
+        const sprite = this.add.sprite(0, 0, person.state === 'watching' ? 'garden-observers' : WALK_ATLAS, observerFrame(person))
           .setName('observer-art').setOrigin(0.5, 1);
         visitor = this.add.container(person.x, person.y, [shadow, sprite]).setName('observer-' + person.id);
         this.observers.set(person.id, visitor);
@@ -253,7 +263,8 @@ export class PondScene extends Phaser.Scene {
       const watching = person.state === 'watching';
       const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
       const shadow = visitor.getByName('observer-shadow') as Phaser.GameObjects.Ellipse;
-      sprite.setFrame(observerFrame(person)).setFlipX(!watching && person.direction === -1).setY(0);
+      sprite.setTexture(watching ? 'garden-observers' : WALK_ATLAS, observerFrame(person)).setFlipX(!watching && person.direction === -1)
+        .setPosition(watching ? 0 : walkingOffset(person.stride / 4, walkingCycleDistance(person)) * person.direction, 0);
       sprite.setScale(observerHeight(person) / animationFrameData(sprite.frame).referenceHeight);
       shadow.setDisplaySize((person.age === 'adult' ? 44 : 30) * person.scale, person.age === 'adult' ? 8 : 6);
       visitor.setPosition(person.x, person.y).setDepth(40 + person.y / 1000);
@@ -345,6 +356,8 @@ export class PondScene extends Phaser.Scene {
       machineStock: this.world.machine.stock, machineFill: this.world.machine.fillFraction,
       machineRestocking: this.world.machine.restocking, employeePhase: this.world.employee.phase,
       luckyBonus: this.world.luckyBonus, luckyInHand: this.isLuckyInHand(),
+      handPreviewId: (this.world.lastThrow?.id ?? -1) + 1,
+      nextHandLucky: this.world.handfuls > 0 && !!this.world.nextThrow?.lucky,
     };
     document.dispatchEvent(new CustomEvent('pond:state', { detail }));
   }

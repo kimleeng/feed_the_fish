@@ -29,12 +29,13 @@ h1 em { color: #859775; font-weight: normal; }
 .loading .brand-fish { width: 100px; height: 100px; }
 .pond-hud { pointer-events: none; position: absolute; top: 20px; right: 20px; left: 20px; display: flex; align-items: flex-start; justify-content: space-between; }
 .hud-food, .hud-score { background: #fffcf0ef; border: 1px solid #fff9e8; backdrop-filter: blur(8px); border-radius: 9px; padding: 15px 18px 13px; box-shadow: 0 3px 15px #174a3220; }
-.hud-food { width: 190px; }
+.hud-food { width: 212px; }
 .hud-label { font: 8px ui-monospace, monospace; letter-spacing: 1.5px; color: #858a72; display: block; margin-bottom: 7px; }
 .hud-food > div, .hud-score > div { display: flex; align-items: baseline; gap: 8px; }
 .hud-food strong, .hud-score strong { font: 30px/1 Georgia, serif; color: #395640; }
 .hud-food div > span:last-child, .hud-score div > span { font-size: 10px; color: #7e8773; }
-.food-icon { font-size: 20px; color: #b59563; align-self: center; }
+.food-icon { display: inline-block; width: 50px; height: 50px; flex: 0 0 50px; align-self: center; background: url('/art/hand-icons.png') 0 100% / 400% 400% no-repeat; image-rendering: pixelated; border-radius: 9px; }
+.food-icon.is-lucky { filter: drop-shadow(0 0 3px #d6a74d80); }
 .food-track { height: 3px; margin-top: 12px; border-radius: 8px; overflow: hidden; background: #dedfcb; }
 .food-track span { width: 100%; height: 100%; background: #9dba84; transition: width .2s; }
 .hud-quiet { display: flex; align-items: center; gap: 9px; padding: 10px 13px; border: 1px solid #fdf7e9aa; border-radius: 25px; background: #fffcf0ed; font: 12px ui-monospace, monospace; }
@@ -101,7 +102,8 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
   h1 { font-size: 40px; }
   .intro-copy { font-size: 11px; max-width: 210px; }
   .pond-hud { top: 12px; right: 12px; left: 12px; }
-  .hud-food { width: 151px; padding: 11px 12px; }
+  .hud-food { width: 178px; padding: 11px 12px; }
+  .food-icon { width: 40px; height: 40px; flex-basis: 40px; }
   .hud-score { width: 125px; padding: 11px 12px; }
   .hud-food strong, .hud-score strong { font-size: 24px; }
   .hud-food div > span:last-child, .hud-score div > span { font-size: 8px; }
@@ -127,12 +129,12 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
   .pond-card { aspect-ratio: 1; border-radius: 9px; }
   #pond { background: #34786b; }
   .pond-hud { gap: 5px; top: 8px; right: 8px; left: 8px; }
-  .hud-food { width: 124px; padding: 9px; }
+  .hud-food { width: 142px; padding: 9px; }
   .hud-score { width: 92px; padding: 9px; }
   .hud-label { font-size: 6px; letter-spacing: .8px; }
   .hud-food strong, .hud-score strong { font-size: 22px; }
   .hud-food > div, .hud-score > div { gap: 4px; }
-  .food-icon { display: none; }
+  .food-icon { width: 32px; height: 32px; flex-basis: 32px; }
   .best-score { font-size: 6px; }
   .hud-quiet { font-size: 9px; padding: 8px; gap: 5px; }
   .hud-quiet button { font-size: 12px; padding-left: 5px; }

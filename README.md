@@ -19,6 +19,8 @@ The dock character keeps their feet planted and a pellet pouch in the other hand
 
 Each throw has an independent 2% chance of containing one lucky pellet. A gold star and **LUCKY PELLET** label appear over the palm before a lucky throw, and the golden pellet glints as it travels. The first fish to nibble that pellet earns **+50 bonus points**, golden ripples, a small star celebration, and an optional soft chime. The bonus is awarded once per pellet, even when fish share it. Birds can eat lucky pellets but earn no bonus. The score includes ordinary feeding points and lucky bonuses; the food-share meter still measures food amounts.
 
+The hand icon beside **throws left** shows the next handful: four small pellets arranged in one of ten randomly shuffled layouts. Each accepted throw selects the next layout, with no repeats until the ten have been shown. Lucky handfuls alternate between two special layouts containing a golden pellet. Normal HUD refreshes, pauses, rejected throws, and refills keep the current picture. An empty hand appears when no throws remain. The icon is visible on desktop and phones.
+
 Click or tap the **red machine beside the dock** for another ten throws. The **Pellet machine** button provides the same interaction for keyboard users. **P** and the pause button pause the pond. The field guide pauses while open. Sound is optional. **Begin a new visit** clears the current food, spending, and score and returns to the machine; the best saved score remains.
 
 The machine holds **25 servings**, each worth ten throws. Its visible pellet level drops once per purchase, when the dispenser opens, in both the garden and the close-up dialog. The artwork shows the remaining food without a stock counter. When stock falls below five, a garden employee walks in from the left with a feed sack. Purchases can continue during the walk; the employee waits for any paid serving to finish, opens the lid, pours fresh pellets into the globe, closes it, and leaves. The level rises throughout the pour and stock returns to 25 after closing. New purchases wait while the machine is open, and an empty machine never takes a coin. Food already in your hand remains available to throw. Restocking costs no extra coins, pauses with the pond, and can repeat throughout a long visit. A new visit resets stock to 25 and sends the employee offstage.
@@ -50,9 +52,11 @@ Actual pellet releases and food eaten by fish or birds gently increase interest,
 
 Uneven arrivals keep about three visitors visible on average, usually two to four. Busy periods reduce the chance of another arrival, making more than eight unusual; ten is the absolute limit. Visitors reserve separate watching places on dry paving and resume their original route afterward. Pause and the field guide freeze their movement and watching time, and a new visit starts with a fresh small crowd. Foot traffic has its own random stream so it does not affect fish behavior or lucky throws.
 
-The path has open cobblestone entrances at both image edges. Six shaded, detailed visitor designs (three adults and three kids) match the warm garden artwork, with eight alternating walking poses, back views for watching, and grounded shadows. Poses align at the hips and soles so changing foot positions does not shift the entire body. Walking progresses with actual distance traveled, including movement toward the rail. Each design's two contact poses determine its stride length; taller adults take longer steps than kids, with individual size and path-depth variation. Adult heights are based on the existing benches. The employee also has eight walking poses, plus intermediate reaching, lifting, and closing poses during refills.
+The path has open cobblestone entrances at both image edges. Six shaded visitor designs (three adults and three kids) match the warm garden artwork, with back views for watching and grounded shadows. Adult heights are based on the existing benches, with individual size and path-depth variation.
 
-Walk cycles spend different amounts of time on heel contact, weight transfer, passing, and toe-off. Corrected adult and employee poses carry the raised leg forward and shift the planted foot behind the hips. The original contact drawings retain the established stride lengths. Visitors slow before reaching their watching spot, plant their feet while watching, and gradually build speed as they leave. Their route bends gently toward and away from the railing. The employee also eases into walking, slows at the machine, and waits with both feet planted. Animation follows the actual distance covered throughout these transitions.
+Visitors and the employee use 48 cached walking poses per design. The original clothing and shoes supply the artwork; a small leg rig creates low steps with modest knee bending. The supporting shoe moves backward relative to the body at the same rate the person travels forward. A correction between cached poses holds the shoe still during its planted portion. At least one foot stays on the ground throughout each cycle. Adults take relaxed steps; children use shorter strides and a quicker cadence to match their travel. Full-cycle distances are 46% of adult height, 40% of child height, and 50% of employee height. Foot clearance stays around 3–5 game pixels.
+
+Animation follows actual distance covered, including approaches to the rail. Visitors brake before watching, stop while watching, and accelerate as they leave. Their route bends gently toward and away from the railing. The employee uses the same acceleration and braking, waits with both feet planted, and retains the existing reaching, lifting, pouring, and closing animations.
 
 ## Validate
 
@@ -81,6 +85,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/dock-thrower.png` and `dock-thrower.json`: twelve full-body throw stages aligned at the planted feet.
 - `public/art/dock-thrower-pins.json`: source-image hand annotations used to generate atlas hand pins and release offsets.
 - `public/art/hand.png`: original hand used for collecting pellets at the machine.
+- `public/art/hand-icons.png`: 4×4 HUD sheet; ten regular handfuls, two lucky handfuls, and an empty palm. `src/hand-icon.ts` shuffles each deck independently of gameplay randomness.
 - `public/art/right-hand-*.png`, `right-arm-throws.json`, and `throw-hand.png`: retained artwork from the earlier foreground-arm version.
 - `src/vending.ts`: coin price, servings of ten throws, and the guarded dispenser cycle.
 - `src/restocking.ts`: the 25-serving machine's employee arrival, wait, refill, and departure; `src/employee-art.ts` and `employee-pins.ts` align walking distance, planted work poses, and the pouring sack.
@@ -91,7 +96,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `src/throws.ts`: weighted throw choices, full-body pose timing, per-motion release origins, and lucky-pellet chance and bonus.
 - `src/thrower-art.ts` and `thrower-pins.ts`: dock placement, character height, and calibrated release positions.
 - `src/observers.ts`: visitor routes, age-dependent watching time, and variable foot traffic.
-- `src/observer-art.ts` and `observer-gait.ts`: visitor pose selection, height relative to the benches, and distance per walking cycle.
+- `src/observer-art.ts`, `walking.ts`, and `walking-rig.ts`: visitor sizing, distance-driven foot contacts, and the cached 48-pose walking rig shared with the employee. `observer-gait.ts` retains measurements for the archived authored walk cycles.
 - `src/walking.ts`: distance-based step timing, acceleration, braking, and path easing shared by visitors and the employee.
 - `public/art/observer-adult-*-walk.png` and `employee-walk.png`: corrected weight-transfer, passing, and toe-off drawings, packaged by `scripts/build-animation-atlases.mjs` alongside the original heel contacts.
 
@@ -104,5 +109,7 @@ npm run review:art
 ```
 
 The review command rejects missing poses, out-of-bounds cuts, overlapping rectangles, and PNG/atlas size mismatches before saving images under ignored `test-results/art-review`. It also checks body anchors and foot baselines and renders the dock character's hand pins over a separate review sheet. When replacing generated source art, `node scripts/build-art-atlas.mjs fish`, `turtle`, `machine`, `observers`, `thrower`, or `employee` reads alpha to rebuild frame metadata without altering PNG pixels. Observer packaging regenerates `src/observer-gait.ts`; thrower packaging reads the hand annotations and regenerates `src/thrower-pins.ts`; turtle packaging reads the head annotations and regenerates `src/turtle-pins.ts`; employee packaging uses the sack opening and foot contacts to regenerate `src/employee-pins.ts`. Inspect every resulting pose before committing the art; bounds checks cannot judge anatomy or perspective.
+
+`node scripts/review-walking.mjs http://127.0.0.1:5173` reviews the current runtime walking rig against a running game. It saves all seven designs as pose sheets, a desktop scene, and a sequence sampled during actual movement. The browser suite also checks planted shoe pixels, all 48 poses, low foot clearance, and movement without horizontal shoe slip in either direction.
 
 `npm run review:hands` and `node scripts/build-art-atlas.mjs hand` remain available for reviewing and packaging the archived foreground-arm artwork.

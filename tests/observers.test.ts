@@ -17,20 +17,22 @@ function quietWatcher(crowd: ObserverCrowd) {
   return person;
 }
 
-test('larger visitors take longer steps and alternate both contact and passing poses', () => {
+test('larger visitors take longer steps and all 48 poses follow distance traveled', () => {
   const crowd = new ObserverCrowd(12);
   const adult = crowd.people.find(person => person.age === 'adult')!;
   const kid = { ...adult, age: 'kid' as const };
   Object.assign(adult, { look: 0, scale: 1, y: 760, stride: 0, state: 'walking' });
   Object.assign(kid, { look: 0, scale: 1, y: 760, stride: 0, state: 'walking' });
-  assert.ok(walkingCycleDistance(adult) > 100 && walkingCycleDistance(adult) < 120);
-  assert.ok(walkingCycleDistance(kid) > 80 && walkingCycleDistance(kid) < 100);
+  assert.ok(walkingCycleDistance(adult) > 65 && walkingCycleDistance(adult) < 80);
+  assert.ok(walkingCycleDistance(kid) > 40 && walkingCycleDistance(kid) < 50);
   assert.ok(walkingCycleDistance(adult) > walkingCycleDistance(kid));
   const distance = walkingCycleDistance(adult);
   adult.scale = 1.1;
   assert.ok(Math.abs(walkingCycleDistance(adult) - distance * 1.1) < 0.000001);
-  assert.deepEqual([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4].map(stride => observerFrame({ ...adult, stride })),
-    ['0', '0-between', '1', '1-between', '2', '2-between', '3', '3-between', '0'].map(phase => `observer-adult-0-walk-${phase}`));
+  const frames = Array.from({ length: 48 }, (_, index) => observerFrame({ ...adult, stride: index / 12 }));
+  assert.equal(new Set(frames).size, 48);
+  assert.equal(observerFrame({ ...adult, stride: 4 }), frames[0]);
+  assert.equal(observerFrame({ ...kid, state: 'watching' }), 'observer-kid-0-watch');
 });
 
 test('footfall progress follows actual travel including approach depth, and stays still when stationary', () => {

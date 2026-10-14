@@ -1,14 +1,23 @@
-import { WALK_CYCLE } from './animation-frames.ts';
+export const WALK_FRAMES = 48;
+export const WALK_DISTANCE = { adult: 0.46, kid: 0.4, employee: 0.5 };
+export const WALK_STANCE = 0.58;
 
-// Brief heel contact, then weight transfer, passing, and toe-off, on each foot.
-// Distance drives this clock so slowing down also slows the legs.
-const POSE_STARTS = [0, 0.1, 0.25, 0.36, 0.5, 0.6, 0.75, 0.86];
+export function walkingFrame(cycles: number): number {
+  return Math.min(WALK_FRAMES - 1, Math.floor((cycles - Math.floor(cycles)) * WALK_FRAMES + 1e-7));
+}
 
-export function walkingPose(cycles: number): typeof WALK_CYCLE[number] {
+// Hold the supporting shoe still between the small, baked gait samples.
+export function walkingOffset(cycles: number, distance: number): number {
   const phase = cycles - Math.floor(cycles);
-  let index = 0;
-  while (index + 1 < POSE_STARTS.length && phase >= POSE_STARTS[index + 1]) index++;
-  return WALK_CYCLE[index];
+  return -(phase - walkingFrame(cycles) / WALK_FRAMES) * distance;
+}
+
+export function walkingFoot(cycles: number, leg: number, distance: number, lift: number) {
+  const phase = (cycles + leg * 0.5) - Math.floor(cycles + leg * 0.5);
+  const reach = distance * WALK_STANCE / 2;
+  if (phase <= WALK_STANCE) return { x: reach - phase * distance, y: 0, planted: true };
+  const swing = (phase - WALK_STANCE) / (1 - WALK_STANCE);
+  return { x: -reach + 2 * reach * pathBlend(swing), y: -(Math.sin(Math.PI * swing) ** 2) * lift, planted: false };
 }
 
 export function walkingAdvance(velocity: number, speed: number, remaining: number,

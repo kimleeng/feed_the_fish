@@ -3,8 +3,6 @@ import type Phaser from 'phaser';
 import type { PondScene } from '../../src/game.ts';
 import type { PondSimulation } from '../../src/simulation.ts';
 import type { AnimationFrameData } from '../../src/animation-frames.ts';
-import { EMPLOYEE_HEIGHT } from '../../src/restocking.ts';
-import { EMPLOYEE_STRIDE_RATIO } from '../../src/employee-pins.ts';
 
 type InspectedWindow = Window & { inspectedPond: PondScene };
 
@@ -59,7 +57,7 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
   expect(initial.some(person => person.state === 'watching')).toBe(true);
   expect(initial.some(person => person.state !== 'watching')).toBe(true);
   for (const person of initial) {
-    expect(person.atlas).toBe('garden-observers');
+    expect(person.atlas).toBe(person.state === 'watching' ? 'garden-observers' : 'grounded-walkers');
     expect(person.interactive).toBe(false);
     expect(person.frame).toContain('observer-' + person.age);
     expect(person.height).toBeGreaterThan(person.age === 'adult' ? 130 : 80);
@@ -151,58 +149,135 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
   await expect(page.locator('#machine-dialog')).toBeVisible();
 });
 
-test('walkers keep all eight poses grounded and the adults carry their weight from heel contact through toe-off', async ({ page }, testInfo) => {
+test('all seven walkers keep their supporting shoe fixed during actual travel, in both directions', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();
-  const cycles = await page.evaluate(({ employeeHeight, employeeStride }) => {
+  const result = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
     scene.scene.pause();
     const model = scene.world.crowd.people[0];
     scene.world.crowd.people = (['adult', 'kid'] as const).flatMap((age, group) => [0, 1, 2].map(look => ({
       ...model, id: group * 3 + look + 100, age, look, scale: 1, stride: 0,
-      x: 100 + (group * 3 + look) * 185, y: 776, lane: 784, direction: (look === 1 ? -1 : 1) as -1 | 1,
-      state: 'walking' as const, stop: null, hasWatched: true,
+      x: 200 + (group * 3 + look) * 140, y: 776, lane: 776, direction: (look === 1 ? -1 : 1) as -1 | 1,
+      state: 'walking' as const, stop: null, hasWatched: true, speed: age === 'adult' ? 38 : 44, velocity: age === 'adult' ? 38 : 44,
     })));
-    Object.assign(scene.world.employee, { phase: 'arriving', x: 1110, y: 764 });
-    const cycles: { name: string; height: number; sole: number; ground: number; supportX: number; groundFeet: number[]; frame: string; flip: boolean; direction: number }[][] = [];
-    for (let phase = 0; phase < 8; phase++) {
-      for (const person of scene.world.crowd.people) person.stride = phase / 2 + 0.04;
-      scene.world.employee.distanceWalked = ((phase / 8 + 0.01 - 0.25 + 1) % 1) * employeeHeight * employeeStride;
-      scene.update(0, 0);
-      const people: { person: { y: number; direction: number }; container: Phaser.GameObjects.Container; name: string }[] =
-        scene.world.crowd.people.map(person => ({ person, container: scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container, name: 'observer-art' }));
-      const employee = scene.world.employee;
-      people.push({ person: employee, container: scene.children.getByName('machine-employee') as Phaser.GameObjects.Container, name: 'employee-art' });
-      cycles.push(people.map(({ person, container, name }) => {
+    // A horizontal route isolates shoe slip from the employee's usual depth change.
+    Object.assign(scene.world.employee, { phase: 'leaving', x: 1150, y: 778, velocity: 52 });
+    const summaries = Array.from({ length: 7 }, () => ({ frames: new Set<string>(), maxSlip: 0, maxLift: 0,
+      minHeight: Infinity, maxHeight: 0, airborne: 0, steps: 0, soles: 0, flipped: false }));
+    const atlas = scene.textures.get('grounded-walkers').getSourceImage() as HTMLCanvasElement;
+    const pixels = atlas.getContext('2d')!.getImageData(0, 0, atlas.width, atlas.height).data;
+    let paintedContacts = 0;
+    for (const frame of Object.values(scene.textures.get('grounded-walkers').frames)) {
+      const data = frame.customData as AnimationFrameData;
+      for (const foot of data.feet ?? []) {
+        if (!foot.planted) continue;
+        const x = Math.round(frame.cutX - frame.x + foot.x), y = Math.round(frame.cutY - frame.y + foot.y);
+        let ink = 0;
+        for (let py = y - 3; py < y; py++) for (let px = x - 4; px <= x + 4; px++) {
+          if (pixels[(py * atlas.width + px) * 4 + 3] > 100) ink++;
+        }
+        if (ink >= 5) paintedContacts++;
+      }
+    }
+    let previous: { x: number; planted: boolean }[][] = [];
+    for (let tick = 0; tick < 480; tick++) {
+      scene.update(tick * 1000 / 120, 1000 / 120);
+      const people: { person: { y: number }; container: Phaser.GameObjects.Container; name: string }[] = scene.world.crowd.people.filter(person => person.id >= 100).map(person => ({ person,
+        container: scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container, name: 'observer-art' }));
+      people.push({ person: scene.world.employee,
+        container: scene.children.getByName('machine-employee') as Phaser.GameObjects.Container, name: 'employee-art' });
+      previous = people.map(({ person, container, name }, index) => {
         const sprite = container.getByName(name) as Phaser.GameObjects.Sprite;
-        const feet = (sprite.frame.customData as AnimationFrameData).feet!;
-        const support = [...feet].sort((a, b) => b.y - a.y || b.x - a.x)[0];
-        const transform = sprite.getWorldTransformMatrix();
-        return { name: container.name, height: sprite.frame.cutHeight * sprite.scaleY,
-          sole: transform.transformPoint(support.x - sprite.displayOriginX, support.y - sprite.displayOriginY).y,
-          ground: person.y, supportX: (support.x - sprite.displayOriginX) * sprite.scaleX,
-          groundFeet: feet.filter(foot => foot.y === sprite.height).map(foot => (foot.x - sprite.displayOriginX) * sprite.scaleX),
-          frame: sprite.frame.name, flip: sprite.flipX, direction: person.direction };
-      }));
+        const summary = summaries[index];
+        const data = sprite.frame.customData as AnimationFrameData;
+        const feet = data.feet!.map(foot => ({
+          x: container.x + sprite.x + (foot.x - sprite.displayOriginX) * sprite.scaleX * (sprite.flipX ? -1 : 1),
+          y: container.y + (foot.y - sprite.displayOriginY) * sprite.scaleY, planted: !!foot.planted,
+        }));
+        summary.frames.add(sprite.frame.name); summary.flipped = sprite.flipX;
+        const height = sprite.frame.cutHeight * sprite.scaleY;
+        summary.minHeight = Math.min(summary.minHeight, height); summary.maxHeight = Math.max(summary.maxHeight, height);
+        if (!feet.some(foot => foot.planted)) summary.airborne++;
+        feet.forEach((foot, leg) => {
+          summary.maxLift = Math.max(summary.maxLift, person.y - foot.y);
+          if (foot.planted && Math.abs(foot.y - person.y) < 0.01) summary.soles++;
+          if (foot.planted && previous[index]?.[leg]?.planted) {
+            summary.steps++; summary.maxSlip = Math.max(summary.maxSlip, Math.abs(foot.x - previous[index][leg].x));
+          }
+        });
+        return feet;
+      });
     }
-    return cycles;
-  }, { employeeHeight: EMPLOYEE_HEIGHT, employeeStride: EMPLOYEE_STRIDE_RATIO });
-  for (let person = 0; person < 7; person++) {
-    const poses = cycles.map(cycle => cycle[person]);
-    expect(new Set(poses.map(pose => pose.frame)).size).toBe(8);
-    const heights = poses.map(pose => pose.height);
-    expect(Math.max(...heights) - Math.min(...heights)).toBeLessThan(8);
-    for (const pose of poses) {
-      expect(pose.sole).toBeCloseTo(pose.ground, 5);
-      expect(pose.flip).toBe(pose.direction === -1);
-    }
-    if (person >= 3 && person < 6) continue;
-    for (const half of [0, 4]) {
-      expect(poses[half + 2].supportX).toBeLessThan(poses[half].supportX);
-      expect(Math.min(...poses[half + 3].groundFeet)).toBeLessThan(0);
-    }
+    return { paintedContacts, walkers: summaries.map(summary => ({ ...summary, frames: summary.frames.size })) };
+  });
+  expect(result.paintedContacts).toBe(392);
+  for (const [index, walker] of result.walkers.entries()) {
+    expect(walker.frames).toBe(48);
+    expect(walker.maxSlip).toBeLessThan(0.001);
+    expect(walker.airborne).toBe(0);
+    expect(walker.maxLift).toBeGreaterThan(2);
+    expect(walker.maxLift).toBeLessThan(5);
+    expect(walker.maxHeight - walker.minHeight).toBeLessThan(8);
+    expect(walker.steps).toBeGreaterThan(300);
+    expect(walker.soles).toBeGreaterThan(480);
+    expect(walker.flipped).toBe(index === 1 || index === 4 || index === 6);
   }
   await page.screenshot({ path: testInfo.outputPath('walking-cycles-in-garden.png'), fullPage: true });
+});
+
+test('the hand HUD cycles ten random regular handfuls and two lucky ones without flickering on updates', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  const regular = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.pause();
+    const Simulation = scene.world.constructor as new (seed: number, roll?: () => number) => PondSimulation;
+    scene.world = new Simulation(12, () => 0.5);
+    let time = 100_000;
+    const advance = (ticks: number) => { for (let tick = 0; tick < ticks; tick++) scene.update(time += 50, 50); };
+    const icon = document.getElementById('hand-icon')!;
+    scene.buyPellets(); advance(70);
+    const first = icon.dataset.frame;
+    // Refilling adds throws without replacing the handful already shown.
+    scene.buyPellets(); advance(70);
+    const afterRefill = icon.dataset.frame;
+    const frames: number[] = [], stable: boolean[] = [];
+    for (let i = 0; i < 20; i++) {
+      frames.push(Number(icon.dataset.frame));
+      advance(6);
+      scene.scatter({ x: 0, y: 0 });
+      stable.push(Number(icon.dataset.frame) === frames.at(-1));
+      scene.scatter({ x: 600, y: 389 });
+    }
+    return { first, afterRefill, frames, stable, empty: icon.dataset.frame, count: scene.world.handfuls };
+  });
+  expect(regular.afterRefill).toBe(regular.first);
+  for (const start of [0, 10]) expect([...regular.frames.slice(start, start + 10)].sort((a, b) => a - b))
+    .toEqual(Array.from({ length: 10 }, (_, i) => i));
+  expect(regular.frames[10]).not.toBe(regular.frames[9]);
+  expect(regular.stable.every(Boolean)).toBe(true);
+  expect(regular.empty).toBe('12'); expect(regular.count).toBe(0);
+  const lucky = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const Simulation = scene.world.constructor as new (seed: number, roll?: () => number) => PondSimulation;
+    scene.world = new Simulation(12, () => 0.01);
+    scene.buyPellets();
+    for (let tick = 0; tick < 70; tick++) scene.update(200_000 + tick * 50, 50);
+    const icon = document.getElementById('hand-icon')!;
+    const frames = [Number(icon.dataset.frame)];
+    scene.scatter({ x: 600, y: 389 }); frames.push(Number(icon.dataset.frame));
+    scene.scatter({ x: 600, y: 389 }); frames.push(Number(icon.dataset.frame));
+    return { frames, className: icon.className };
+  });
+  expect(new Set(lucky.frames)).toEqual(new Set([10, 11]));
+  expect(lucky.frames[0]).toBe(lucky.frames[2]);
+  expect(lucky.className).toContain('is-lucky');
+  const imageLoaded = await page.evaluate(async () => {
+    const image = new Image(); image.src = '/art/hand-icons.png'; await image.decode(); return image.naturalWidth > 0;
+  });
+  expect(imageLoaded).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('lucky-hand-hud.png'), fullPage: true });
 });
 
 test('the machine on the garden path opens its coin ritual without throwing food', async ({ page }, testInfo) => {
@@ -249,8 +324,8 @@ test('purchases lower the visible pellet level and an employee walks in to refil
   expect(low.stock).toBe(4);
   expect(low.employee).toBe('arriving');
   expect(low.visible).toBe(true);
-  expect(low.atlas).toBe('garden-employee');
-  expect(low.frame).toMatch(/^walk-[0-3](-between)?$/);
+  expect(low.atlas).toBe('grounded-walkers');
+  expect(low.frame).toMatch(/^employee-gait-\d+$/);
   expect(low.money).toBe(105); expect(low.throws).toBe(210);
 
   const pouring = await page.evaluate(() => {
@@ -782,6 +857,11 @@ test.describe('mobile touch controls', () => {
     await page.getByRole('button', { name: 'Insert 5 kr coin' }).tap();
     await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
     await expect(page.locator('#food-count')).toHaveText('10');
+    await expect(page.locator('#hand-icon')).toBeVisible();
+    await expect(page.locator('#hand-icon')).toHaveClass(/is-lucky/);
+    const iconBox = (await page.locator('#hand-icon').boundingBox())!;
+    expect(iconBox.width).toBeGreaterThanOrEqual(30);
+    expect(iconBox.height).toBeGreaterThanOrEqual(30);
     await expect.poll(() => page.evaluate(() => {
       const rig = (window as InspectedWindow).inspectedPond.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
       return rig.getByName('lucky-pellet-indicator').visible;
