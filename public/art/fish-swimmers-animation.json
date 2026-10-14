@@ -27,7 +27,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 212.52274205616516
         },
         {
           "filename": "koi-se-0",
@@ -49,7 +49,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 228.67562661414576
         },
         {
           "filename": "koi-s-0",
@@ -71,7 +71,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 202.67958335061132
         },
         {
           "filename": "koi-sw-0",
@@ -93,7 +93,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 233.02936680098045
         },
         {
           "filename": "koi-w-0",
@@ -115,7 +115,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 216.00156804097384
         },
         {
           "filename": "koi-nw-0",
@@ -137,7 +137,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 226.32855406322992
         },
         {
           "filename": "koi-n-0",
@@ -159,7 +159,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 233.00213587218573
         },
         {
           "filename": "koi-ne-0",
@@ -181,7 +181,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 226.625900769167
         },
         {
           "filename": "koi-e-1",
@@ -203,7 +203,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 225.82985862217384
         },
         {
           "filename": "koi-se-1",
@@ -225,7 +225,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 238.2795255602765
         },
         {
           "filename": "koi-s-1",
@@ -247,7 +247,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 197.5616230104723
         },
         {
           "filename": "koi-sw-1",
@@ -269,7 +269,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 242.66087807315114
         },
         {
           "filename": "koi-w-1",
@@ -291,7 +291,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 232.1689694326228
         },
         {
           "filename": "koi-nw-1",
@@ -313,7 +313,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 227.97472647369653
         },
         {
           "filename": "koi-n-1",
@@ -335,7 +335,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 228.09627494098558
         },
         {
           "filename": "koi-ne-1",
@@ -357,7 +357,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 225.5140950263753
         },
         {
           "filename": "carp-e-0",
@@ -379,7 +379,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 216.98349694653305
         },
         {
           "filename": "carp-se-0",
@@ -401,7 +401,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 236.81909024573437
         },
         {
           "filename": "carp-s-0",
@@ -423,7 +423,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 201.98037908720033
         },
         {
           "filename": "carp-sw-0",
@@ -445,7 +445,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 235.01379168553757
         },
         {
           "filename": "carp-w-0",
@@ -467,7 +467,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 228.24352768429247
         },
         {
           "filename": "carp-nw-0",
@@ -489,7 +489,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 234.9449307891663
         },
         {
           "filename": "carp-n-0",
@@ -511,7 +511,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 217.82389755633818
         },
         {
           "filename": "carp-ne-0",
@@ -533,7 +533,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 230.22776766487007
         },
         {
           "filename": "carp-e-1",
@@ -555,7 +555,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 221.8964457759552
         },
         {
           "filename": "carp-se-1",
@@ -577,7 +577,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 232.5896349483673
         },
         {
           "filename": "carp-s-1",
@@ -599,7 +599,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 202.06138489241079
         },
         {
           "filename": "carp-sw-1",
@@ -621,7 +621,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 237.77473052552403
         },
         {
           "filename": "carp-w-1",
@@ -643,7 +643,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 222.77001492984257
         },
         {
           "filename": "carp-nw-1",
@@ -665,7 +665,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 234.20009790948018
         },
         {
           "filename": "carp-n-1",
@@ -687,7 +687,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 220.87706432926274
         },
         {
           "filename": "carp-ne-1",
@@ -709,7 +709,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 224.56380405997916
         },
         {
           "filename": "minnow-e-0",
@@ -731,7 +731,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 222.37778590215913
         },
         {
           "filename": "minnow-se-0",
@@ -753,7 +753,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 235.65730489883853
         },
         {
           "filename": "minnow-s-0",
@@ -775,7 +775,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 196.52812660378962
         },
         {
           "filename": "minnow-sw-0",
@@ -797,7 +797,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 233.89192347649296
         },
         {
           "filename": "minnow-w-0",
@@ -819,7 +819,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 224.63155420363293
         },
         {
           "filename": "minnow-nw-0",
@@ -841,7 +841,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 229.92923618341453
         },
         {
           "filename": "minnow-n-0",
@@ -863,7 +863,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 222.42539590324586
         },
         {
           "filename": "minnow-ne-0",
@@ -885,7 +885,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 228.36965501821265
         },
         {
           "filename": "minnow-e-1",
@@ -907,7 +907,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 217.10662305715508
         },
         {
           "filename": "minnow-se-1",
@@ -929,7 +929,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 212.23480891035652
         },
         {
           "filename": "minnow-s-1",
@@ -951,7 +951,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 166.54218777006324
         },
         {
           "filename": "minnow-sw-1",
@@ -973,7 +973,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 218.4785009367375
         },
         {
           "filename": "minnow-w-1",
@@ -995,7 +995,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 216.4815846962885
         },
         {
           "filename": "minnow-nw-1",
@@ -1017,7 +1017,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 205.07592992121147
         },
         {
           "filename": "minnow-n-1",
@@ -1039,7 +1039,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 176.84839930817682
         },
         {
           "filename": "minnow-ne-1",
@@ -1061,7 +1061,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 199.6030296067186
         }
       ]
     },
@@ -1092,7 +1092,7 @@
             "w": 243,
             "h": 243
           },
-          "referenceHeight": 242.7972027972028
+          "referenceHeight": 231.28067825181483
         },
         {
           "filename": "koi-se-2",
@@ -1114,7 +1114,7 @@
             "w": 265,
             "h": 265
           },
-          "referenceHeight": 264.72727272727275
+          "referenceHeight": 261.4072575190682
         },
         {
           "filename": "koi-s-2",
@@ -1136,7 +1136,7 @@
             "w": 230,
             "h": 230
           },
-          "referenceHeight": 229.46341463414635
+          "referenceHeight": 217.19720874659575
         },
         {
           "filename": "koi-sw-2",
@@ -1158,7 +1158,7 @@
             "w": 237,
             "h": 237
           },
-          "referenceHeight": 236.7479674796748
+          "referenceHeight": 256.4615488913165
         },
         {
           "filename": "koi-w-2",
@@ -1180,7 +1180,7 @@
             "w": 248,
             "h": 248
           },
-          "referenceHeight": 247.73509933774835
+          "referenceHeight": 243.45960077312196
         },
         {
           "filename": "koi-nw-2",
@@ -1202,7 +1202,7 @@
             "w": 272,
             "h": 272
           },
-          "referenceHeight": 272
+          "referenceHeight": 273.970980994806
         },
         {
           "filename": "koi-n-2",
@@ -1224,7 +1224,7 @@
             "w": 234,
             "h": 234
           },
-          "referenceHeight": 233.6
+          "referenceHeight": 249.43807960348087
         },
         {
           "filename": "koi-ne-2",
@@ -1246,7 +1246,7 @@
             "w": 251,
             "h": 251
           },
-          "referenceHeight": 250.45669291338584
+          "referenceHeight": 253.1529863296294
         },
         {
           "filename": "koi-e-3",
@@ -1268,7 +1268,7 @@
             "w": 246,
             "h": 246
           },
-          "referenceHeight": 245.93006993006992
+          "referenceHeight": 244.56611937664056
         },
         {
           "filename": "koi-se-3",
@@ -1290,7 +1290,7 @@
             "w": 284,
             "h": 284
           },
-          "referenceHeight": 283.2396694214876
+          "referenceHeight": 272.71445283744043
         },
         {
           "filename": "koi-s-3",
@@ -1312,7 +1312,7 @@
             "w": 252,
             "h": 252
           },
-          "referenceHeight": 251.3170731707317
+          "referenceHeight": 235.55209666991234
         },
         {
           "filename": "koi-sw-3",
@@ -1334,7 +1334,7 @@
             "w": 246,
             "h": 246
           },
-          "referenceHeight": 245.85365853658536
+          "referenceHeight": 263.63402697571433
         },
         {
           "filename": "koi-w-3",
@@ -1356,7 +1356,7 @@
             "w": 250,
             "h": 250
           },
-          "referenceHeight": 249.2185430463576
+          "referenceHeight": 251.62849618211956
         },
         {
           "filename": "koi-nw-3",
@@ -1378,7 +1378,7 @@
             "w": 264,
             "h": 264
           },
-          "referenceHeight": 263.1111111111111
+          "referenceHeight": 257.0154397600548
         },
         {
           "filename": "koi-n-3",
@@ -1400,7 +1400,7 @@
             "w": 240,
             "h": 240
           },
-          "referenceHeight": 240
+          "referenceHeight": 255.63275731861515
         },
         {
           "filename": "koi-ne-3",
@@ -1422,7 +1422,7 @@
             "w": 247,
             "h": 247
           },
-          "referenceHeight": 246.9291338582677
+          "referenceHeight": 254.29006024807256
         },
         {
           "filename": "carp-e-2",
@@ -1444,7 +1444,7 @@
             "w": 246,
             "h": 246
           },
-          "referenceHeight": 245.77777777777777
+          "referenceHeight": 236.76873820796928
         },
         {
           "filename": "carp-se-2",
@@ -1466,7 +1466,7 @@
             "w": 238,
             "h": 238
           },
-          "referenceHeight": 237.6793893129771
+          "referenceHeight": 260.26901139652523
         },
         {
           "filename": "carp-s-2",
@@ -1488,7 +1488,7 @@
             "w": 232,
             "h": 232
           },
-          "referenceHeight": 231.11111111111111
+          "referenceHeight": 215.97745523671583
         },
         {
           "filename": "carp-sw-2",
@@ -1510,7 +1510,7 @@
             "w": 242,
             "h": 242
           },
-          "referenceHeight": 241.92
+          "referenceHeight": 257.4422555684185
         },
         {
           "filename": "carp-w-2",
@@ -1532,7 +1532,7 @@
             "w": 237,
             "h": 237
           },
-          "referenceHeight": 236.6
+          "referenceHeight": 244.72702530502178
         },
         {
           "filename": "carp-nw-2",
@@ -1554,7 +1554,7 @@
             "w": 256,
             "h": 256
           },
-          "referenceHeight": 255.25581395348837
+          "referenceHeight": 260.3913319704967
         },
         {
           "filename": "carp-n-2",
@@ -1576,7 +1576,7 @@
             "w": 241,
             "h": 241
           },
-          "referenceHeight": 240.59259259259258
+          "referenceHeight": 240.45759451621393
         },
         {
           "filename": "carp-ne-2",
@@ -1598,7 +1598,7 @@
             "w": 252,
             "h": 252
           },
-          "referenceHeight": 251.3587786259542
+          "referenceHeight": 250.03549937732586
         },
         {
           "filename": "carp-e-3",
@@ -1620,7 +1620,7 @@
             "w": 246,
             "h": 246
           },
-          "referenceHeight": 245.77777777777777
+          "referenceHeight": 235.2069652653817
         },
         {
           "filename": "carp-se-3",
@@ -1642,7 +1642,7 @@
             "w": 243,
             "h": 243
           },
-          "referenceHeight": 242.8091603053435
+          "referenceHeight": 264.5155821002903
         },
         {
           "filename": "carp-s-3",
@@ -1664,7 +1664,7 @@
             "w": 244,
             "h": 244
           },
-          "referenceHeight": 243.55555555555554
+          "referenceHeight": 226.98802882371
         },
         {
           "filename": "carp-sw-3",
@@ -1686,7 +1686,7 @@
             "w": 244,
             "h": 244
           },
-          "referenceHeight": 243.712
+          "referenceHeight": 267.8016033964642
         },
         {
           "filename": "carp-w-3",
@@ -1708,7 +1708,7 @@
             "w": 237,
             "h": 237
           },
-          "referenceHeight": 236.6
+          "referenceHeight": 245.62094354450653
         },
         {
           "filename": "carp-nw-3",
@@ -1730,7 +1730,7 @@
             "w": 247,
             "h": 247
           },
-          "referenceHeight": 246.57364341085272
+          "referenceHeight": 255.2619932183437
         },
         {
           "filename": "carp-n-3",
@@ -1752,7 +1752,7 @@
             "w": 236,
             "h": 236
           },
-          "referenceHeight": 235.61481481481482
+          "referenceHeight": 235.19212807744304
         },
         {
           "filename": "carp-ne-3",
@@ -1774,7 +1774,7 @@
             "w": 245,
             "h": 245
           },
-          "referenceHeight": 244.51908396946564
+          "referenceHeight": 249.09909615599977
         },
         {
           "filename": "minnow-e-2",
@@ -1796,7 +1796,7 @@
             "w": 253,
             "h": 253
           },
-          "referenceHeight": 252.3943661971831
+          "referenceHeight": 252.5494500872154
         },
         {
           "filename": "minnow-se-2",
@@ -1818,7 +1818,7 @@
             "w": 246,
             "h": 246
           },
-          "referenceHeight": 245.33333333333334
+          "referenceHeight": 269.6103703681031
         },
         {
           "filename": "minnow-s-2",
@@ -1840,7 +1840,7 @@
             "w": 252,
             "h": 252
           },
-          "referenceHeight": 251.0344827586207
+          "referenceHeight": 228.0653600376169
         },
         {
           "filename": "minnow-sw-2",
@@ -1862,7 +1862,7 @@
             "w": 242,
             "h": 242
           },
-          "referenceHeight": 241.63779527559055
+          "referenceHeight": 272.34047791856426
         },
         {
           "filename": "minnow-w-2",
@@ -1884,7 +1884,7 @@
             "w": 248,
             "h": 248
           },
-          "referenceHeight": 247.73509933774835
+          "referenceHeight": 258.7639412090581
         },
         {
           "filename": "minnow-nw-2",
@@ -1906,7 +1906,7 @@
             "w": 252,
             "h": 252
           },
-          "referenceHeight": 251.56923076923076
+          "referenceHeight": 272.410896790462
         },
         {
           "filename": "minnow-n-2",
@@ -1928,7 +1928,7 @@
             "w": 242,
             "h": 242
           },
-          "referenceHeight": 241.09923664122138
+          "referenceHeight": 247.5078106651254
         },
         {
           "filename": "minnow-ne-2",
@@ -1950,7 +1950,7 @@
             "w": 248,
             "h": 248
           },
-          "referenceHeight": 247.11111111111111
+          "referenceHeight": 245.58535586149569
         }
       ]
     },
@@ -1981,7 +1981,7 @@
             "w": 338,
             "h": 338
           },
-          "referenceHeight": 337.5774647887324
+          "referenceHeight": 328.0519220314946
         },
         {
           "filename": "minnow-se-3",
@@ -2003,7 +2003,7 @@
             "w": 331,
             "h": 331
           },
-          "referenceHeight": 330.6666666666667
+          "referenceHeight": 355.7196700628016
         },
         {
           "filename": "minnow-s-3",
@@ -2025,7 +2025,7 @@
             "w": 344,
             "h": 344
           },
-          "referenceHeight": 343.7241379310345
+          "referenceHeight": 312.2488637682202
         },
         {
           "filename": "minnow-sw-3",
@@ -2047,7 +2047,7 @@
             "w": 307,
             "h": 307
           },
-          "referenceHeight": 306.8976377952756
+          "referenceHeight": 352.0378761301558
         },
         {
           "filename": "minnow-w-3",
@@ -2069,7 +2069,7 @@
             "w": 324,
             "h": 324
           },
-          "referenceHeight": 323.3907284768212
+          "referenceHeight": 330.640547103544
         },
         {
           "filename": "minnow-nw-3",
@@ -2091,7 +2091,7 @@
             "w": 314,
             "h": 314
           },
-          "referenceHeight": 313.6
+          "referenceHeight": 338.95889072806386
         },
         {
           "filename": "minnow-n-3",
@@ -2113,7 +2113,7 @@
             "w": 319,
             "h": 319
           },
-          "referenceHeight": 318.0458015267176
+          "referenceHeight": 326.7362829954133
         },
         {
           "filename": "minnow-ne-3",
@@ -2135,7 +2135,7 @@
             "w": 308,
             "h": 308
           },
-          "referenceHeight": 307.55555555555554
+          "referenceHeight": 338.7780024860539
         }
       ]
     }

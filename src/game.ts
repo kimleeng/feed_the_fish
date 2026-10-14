@@ -10,7 +10,6 @@ import { DOCK_POSITION, THROWER_HEIGHT, throwerHand } from './thrower-art.ts';
 import { observerFrame, observerHeight } from './observer-art.ts';
 import { WALK_ATLAS } from './walking.ts';
 import { SHOW_TURTLE_UNDERWATER, turtleSurfaceAmount } from './turtle.ts';
-import { TURTLE_HEAD_OFFSETS } from './turtle-pins.ts';
 import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-frames.ts';
 
 export interface PondState {
@@ -231,7 +230,8 @@ export class PondScene extends Phaser.Scene {
       if (profile.kind === 'turtle') {
         sprite.setVisible(this.showTurtleUnderwater);
         const head = this.add.sprite(animal.x, animal.y, 'turtle-swimmer', `musk-turtle-${direction}-head`)
-          .setName('turtle-head-' + animal.id).setDisplaySize(profile.size, profile.size).setDepth(30).setVisible(false);
+          .setName('turtle-head-' + animal.id).setDepth(30).setVisible(false);
+        head.setScale(profile.size / animationFrameData(head.frame).referenceHeight);
         this.turtleHeads.set(animal.id, head);
       }
       this.creatures.set(animal.id, sprite);
@@ -392,8 +392,9 @@ export class PondScene extends Phaser.Scene {
         // The head frame shares the body's anchor, while the shell stays submerged.
         head.setFrame(`musk-turtle-${direction}-head`).setPosition(animal.x, animal.y - amount * 3)
           .setDepth(30 + animal.y / 1000).setAlpha(amount).setVisible(amount > 0);
+        head.setScale(animal.profile.size / animationFrameData(head.frame).referenceHeight);
         if (amount > 0) {
-          const offset = TURTLE_HEAD_OFFSETS[direction];
+          const offset = animationFrameData(head.frame).surfaceOffset!;
           const x = animal.x + offset.x * animal.profile.size;
           const y = animal.y + offset.y * animal.profile.size;
           this.birdWakes.lineStyle(1, 0xd7e5be, amount * 0.4)

@@ -27,7 +27,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 216.41863820626244
         },
         {
           "filename": "musk-turtle-se-0",
@@ -49,7 +49,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 232.5310524865419
         },
         {
           "filename": "musk-turtle-s-0",
@@ -71,7 +71,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 212.56067308415672
         },
         {
           "filename": "musk-turtle-sw-0",
@@ -93,7 +93,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 230.1325329291338
         },
         {
           "filename": "musk-turtle-w-0",
@@ -115,7 +115,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 211.74312456615692
         },
         {
           "filename": "musk-turtle-nw-0",
@@ -137,7 +137,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 235.6770496794263
         },
         {
           "filename": "musk-turtle-n-0",
@@ -159,7 +159,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 230.23137432038382
         },
         {
           "filename": "musk-turtle-ne-0",
@@ -181,7 +181,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 234.71546821068014
         },
         {
           "filename": "musk-turtle-e-1",
@@ -203,7 +203,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 216.60866420143327
         },
         {
           "filename": "musk-turtle-se-1",
@@ -225,7 +225,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 223.3429428125069
         },
         {
           "filename": "musk-turtle-s-1",
@@ -247,7 +247,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 219.51705842656864
         },
         {
           "filename": "musk-turtle-sw-1",
@@ -269,7 +269,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 227.4511032136761
         },
         {
           "filename": "musk-turtle-w-1",
@@ -291,7 +291,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 211.21675884477344
         },
         {
           "filename": "musk-turtle-nw-1",
@@ -313,7 +313,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 236.12865865062864
         },
         {
           "filename": "musk-turtle-n-1",
@@ -335,7 +335,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 231.02087298528747
         },
         {
           "filename": "musk-turtle-ne-1",
@@ -357,7 +357,7 @@
             "w": 224,
             "h": 224
           },
-          "referenceHeight": 224
+          "referenceHeight": 235.90840054506427
         },
         {
           "filename": "musk-turtle-e-head",
@@ -370,16 +370,20 @@
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 317,
-            "y": 169,
+            "x": 301,
+            "y": 146,
             "w": 98,
             "h": 72
           },
           "sourceSize": {
-            "w": 448,
-            "h": 448
+            "w": 404,
+            "h": 404
           },
-          "referenceHeight": 448
+          "referenceHeight": 451.16219683384327,
+          "surfaceOffset": {
+            "x": 0.3280678623082912,
+            "y": -0.04389640411167277
+          }
         },
         {
           "filename": "musk-turtle-se-head",
@@ -392,16 +396,20 @@
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 281,
-            "y": 263,
+            "x": 189,
+            "y": 173,
             "w": 82,
             "h": 69
           },
           "sourceSize": {
-            "w": 448,
-            "h": 448
+            "w": 276,
+            "h": 276
           },
-          "referenceHeight": 448
+          "referenceHeight": 438.5390582093106,
+          "surfaceOffset": {
+            "x": 0.21072454399541304,
+            "y": 0.15911853322102618
+          }
         },
         {
           "filename": "musk-turtle-s-head",
@@ -414,16 +422,20 @@
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 190,
-            "y": 281,
+            "x": 106,
+            "y": 195,
             "w": 66,
             "h": 81
           },
           "sourceSize": {
-            "w": 448,
-            "h": 448
+            "w": 280,
+            "h": 280
           },
-          "referenceHeight": 448
+          "referenceHeight": 412.4281716573051,
+          "surfaceOffset": {
+            "x": -0.0023522695555355183,
+            "y": 0.2305224164424808
+          }
         },
         {
           "filename": "musk-turtle-sw-head",
@@ -436,16 +448,20 @@
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 79,
-            "y": 273,
+            "x": 4,
+            "y": 198,
             "w": 87,
             "h": 72
           },
           "sourceSize": {
-            "w": 448,
-            "h": 448
+            "w": 298,
+            "h": 298
           },
-          "referenceHeight": 448
+          "referenceHeight": 462.2685221136641,
+          "surfaceOffset": {
+            "x": -0.21943877016097849,
+            "y": 0.18467619270973434
+          }
         },
         {
           "filename": "musk-turtle-w-head",
@@ -458,16 +474,20 @@
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 39,
-            "y": 170,
+            "x": 5,
+            "y": 141,
             "w": 97,
             "h": 72
           },
           "sourceSize": {
-            "w": 448,
-            "h": 448
+            "w": 392,
+            "h": 392
           },
-          "referenceHeight": 448
+          "referenceHeight": 444.28277542587784,
+          "surfaceOffset": {
+            "x": -0.3211438394485111,
+            "y": -0.04250433169171471
+          }
         },
         {
           "filename": "musk-turtle-nw-head",
@@ -480,16 +500,20 @@
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 71,
-            "y": 74,
+            "x": 5,
+            "y": 8,
             "w": 89,
             "h": 77
           },
           "sourceSize": {
-            "w": 448,
-            "h": 448
+            "w": 302,
+            "h": 302
           },
-          "referenceHeight": 448
+          "referenceHeight": 444.3836996229055,
+          "surfaceOffset": {
+            "x": -0.2291271045417962,
+            "y": -0.23549174633462386
+          }
         },
         {
           "filename": "musk-turtle-n-head",
@@ -502,16 +526,20 @@
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 185,
-            "y": 50,
+            "x": 136,
+            "y": 4,
             "w": 67,
             "h": 87
           },
           "sourceSize": {
-            "w": 448,
-            "h": 448
+            "w": 348,
+            "h": 348
           },
-          "referenceHeight": 448
+          "referenceHeight": 446.8406091937559,
+          "surfaceOffset": {
+            "x": -0.010858641691992278,
+            "y": -0.2823246839917993
+          }
         },
         {
           "filename": "musk-turtle-ne-head",
@@ -524,16 +552,20 @@
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 278,
-            "y": 76,
+            "x": 201,
+            "y": 4,
             "w": 93,
             "h": 77
           },
           "sourceSize": {
-            "w": 448,
-            "h": 448
+            "w": 298,
+            "h": 298
           },
-          "referenceHeight": 448
+          "referenceHeight": 457.701566515598,
+          "surfaceOffset": {
+            "x": 0.21515411994351946,
+            "y": -0.23219603043409523
+          }
         }
       ]
     },
@@ -564,7 +596,7 @@
             "w": 266,
             "h": 266
           },
-          "referenceHeight": 265.85858585858585
+          "referenceHeight": 256.2602847916878
         },
         {
           "filename": "musk-turtle-se-2",
@@ -586,7 +618,7 @@
             "w": 260,
             "h": 260
           },
-          "referenceHeight": 260
+          "referenceHeight": 275.97608167524965
         },
         {
           "filename": "musk-turtle-s-2",
@@ -608,7 +640,7 @@
             "w": 266,
             "h": 266
           },
-          "referenceHeight": 265.3333333333333
+          "referenceHeight": 257.30916386153194
         },
         {
           "filename": "musk-turtle-sw-2",
@@ -630,7 +662,7 @@
             "w": 259,
             "h": 259
           },
-          "referenceHeight": 258.874251497006
+          "referenceHeight": 272.8025389305142
         },
         {
           "filename": "musk-turtle-w-2",
@@ -652,7 +684,7 @@
             "w": 271,
             "h": 271
           },
-          "referenceHeight": 270.1855670103093
+          "referenceHeight": 254.67149392430304
         },
         {
           "filename": "musk-turtle-nw-2",
@@ -674,7 +706,7 @@
             "w": 276,
             "h": 276
           },
-          "referenceHeight": 275.58787878787876
+          "referenceHeight": 277.7279183509548
         },
         {
           "filename": "musk-turtle-n-2",
@@ -696,7 +728,7 @@
             "w": 245,
             "h": 245
           },
-          "referenceHeight": 244.92307692307693
+          "referenceHeight": 256.89628975389286
         },
         {
           "filename": "musk-turtle-ne-2",
@@ -718,7 +750,7 @@
             "w": 279,
             "h": 279
           },
-          "referenceHeight": 278.96932515337426
+          "referenceHeight": 276.49790045813836
         },
         {
           "filename": "musk-turtle-e-3",
@@ -740,7 +772,7 @@
             "w": 258,
             "h": 258
           },
-          "referenceHeight": 257.93939393939394
+          "referenceHeight": 251.7430871249794
         },
         {
           "filename": "musk-turtle-se-3",
@@ -762,7 +794,7 @@
             "w": 263,
             "h": 263
           },
-          "referenceHeight": 262.6666666666667
+          "referenceHeight": 265.7736167164547
         },
         {
           "filename": "musk-turtle-s-3",
@@ -784,7 +816,7 @@
             "w": 251,
             "h": 251
           },
-          "referenceHeight": 250.66666666666666
+          "referenceHeight": 242.9174678768085
         },
         {
           "filename": "musk-turtle-sw-3",
@@ -806,7 +838,7 @@
             "w": 265,
             "h": 265
           },
-          "referenceHeight": 264.23952095808386
+          "referenceHeight": 264.77825849435163
         },
         {
           "filename": "musk-turtle-w-3",
@@ -828,7 +860,7 @@
             "w": 263,
             "h": 263
           },
-          "referenceHeight": 262.10309278350513
+          "referenceHeight": 249.96132552013626
         },
         {
           "filename": "musk-turtle-nw-3",
@@ -850,7 +882,7 @@
             "w": 271,
             "h": 271
           },
-          "referenceHeight": 270.1575757575758
+          "referenceHeight": 271.5816808613099
         },
         {
           "filename": "musk-turtle-n-3",
@@ -872,7 +904,7 @@
             "w": 236,
             "h": 236
           },
-          "referenceHeight": 235.07692307692307
+          "referenceHeight": 246.75679834968113
         },
         {
           "filename": "musk-turtle-ne-3",
@@ -894,7 +926,7 @@
             "w": 271,
             "h": 271
           },
-          "referenceHeight": 270.7239263803681
+          "referenceHeight": 275.159221576619
         }
       ]
     }

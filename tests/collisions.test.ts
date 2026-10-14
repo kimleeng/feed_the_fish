@@ -18,12 +18,14 @@ function restingPair(kind: 'fish' | 'bird'): PondSimulation {
 test('collision cores are smaller than every actual swimming-art cut', () => {
   const pond = new PondSimulation(1);
   for (const kind of ['fish', 'bird', 'turtle'] as const) {
-    const atlas = JSON.parse(readFileSync(new URL(`../public/art/${animalAtlas(kind)}.json`, import.meta.url), 'utf8'));
+    const atlas = JSON.parse(readFileSync(new URL(`../public/art/${animalAtlas(kind)}-animation.json`, import.meta.url), 'utf8'));
     for (const animal of pond.animals.filter(animal => animal.profile.kind === kind)) {
-      for (const [name, entry] of Object.entries(atlas.frames) as [string, { frame: { w: number; h: number }; sourceSize: { w: number; h: number } }][]) {
+      for (const entry of atlas.textures.flatMap((texture: { frames: object[] }) => texture.frames) as
+        { filename: string; frame: { w: number; h: number }; referenceHeight: number }[]) {
+        const name = entry.filename;
         if (!name.startsWith(animal.profile.texture + '-') || name.endsWith('-head')) continue;
-        const width = entry.frame.w / entry.sourceSize.w * animal.profile.size;
-        const height = entry.frame.h / entry.sourceSize.h * animal.profile.size;
+        const width = entry.frame.w / entry.referenceHeight * animal.profile.size;
+        const height = entry.frame.h / entry.referenceHeight * animal.profile.size;
         assert.ok(animalCollisionRadius(animal) * 2 < Math.min(width, height), `${name} has room outside its collision core`);
       }
     }

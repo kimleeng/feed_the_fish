@@ -98,6 +98,16 @@ All 96 drawings were reviewed in cycle order. Width and height variation within 
 
 Validation passed: all 96 bird atlas cuts, 55 unit tests, the TypeScript/production build, and all 15 production browser scenarios. Desktop and phone pond screenshots were reviewed. Rebuilding all animation atlases reproduces the bird update without changing the other species or character atlases.
 
+## Consistent dimensions through turns, 14 October 2026
+
+The preceding bird-cycle fix stabilized four poses within each heading but retained different size references between headings. Diagonal views could therefore shrink substantially during a turn. The old fish packaging also treated each directional crop as its own size reference; some young-carp strokes were noticeably smaller.
+
+Each species now has a fixed physical dimension relative to its profile size in `src/appearance.ts`. Bird registration uses crown-to-waterline height across all eight headings, retaining a fixed scale within each paddle cycle. Fish and turtle registration measures each intact silhouette along its long axis after accounting for the common pond-depth projection. All changes are uniform scaling and atlas registration; the source drawings and their aspect ratios remain intact. The turtle's surfaced head has its own fixed length and is registered against the calibrated underwater head position, including its ripple anchor.
+
+The new browser regression turns every species through all eight directions and all four strokes. It measures actual painted bird height and independently measures the maximum distance between submerged silhouette pixels in pond coordinates, checks unchanged profiles and tints, and verifies the turtle's surfaced head size and annotated anchor. The collision check now reads the actual runtime animation atlases, including intermediate frames. Full cycle sheets and an eight-direction comparison from the running renderer accompany these measurements.
+
+Validation passed: all 232 animal atlas cuts, 55 unit tests, the TypeScript/production build, and all 16 production browser scenarios. The complete animal cycle sheets, all eight rendered directions, the pond, and the turtle's feeding peek were visually reviewed. Fixed physical dimensions vary by less than 5% across complete turns and strokes, allowing small differences in the hand-drawn silhouettes while preserving natural foreshortening.
+
 ## Reproduce the review
 
 ```bash

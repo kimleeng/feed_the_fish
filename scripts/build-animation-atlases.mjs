@@ -2,6 +2,7 @@ import { chromium } from '@playwright/test';
 import fs from 'node:fs/promises';
 import { ANIMATED_ATLASES, WALK_CYCLE } from '../src/animation-frames.ts';
 import { buildBirdAtlas } from './build-bird-atlas.mjs';
+import { registerSwimmerDimensions } from './register-swimmer-dimensions.mjs';
 
 // Package the original drawings and generated in-betweens as multi-image atlases.
 // Only atlas metadata is written: neither source PNG is resampled or repainted.
@@ -160,6 +161,7 @@ for (const config of configs) {
   }
   atlas.textures.push({ image: `${config.asset}.png`, size: { w: inspected.width, h: inspected.height }, frames: selectedFrames });
 }
+await registerSwimmerDimensions(atlases);
 for (const [name, atlas] of Object.entries(atlases)) {
   atlas.textures = atlas.textures.filter(texture => texture.frames.length > 0);
   await fs.writeFile(`public/art/${name}-animation.json`, JSON.stringify(atlas, null, 2) + '\n');

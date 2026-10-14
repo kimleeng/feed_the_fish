@@ -12,6 +12,7 @@ export interface AnimationFrameData {
   feet?: { x: number; y: number }[];
   bodyBounds?: { x: number; y: number; w: number; h: number };
   waterline?: { x: number; y: number };
+  surfaceOffset?: { x: number; y: number };
 }
 
 export function animationFrameData(frame: { customData: object }): AnimationFrameData {

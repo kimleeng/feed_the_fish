@@ -1,14 +1,12 @@
 import { chromium } from '@playwright/test';
 import fs from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
-import { DIRECTIONS } from '../src/appearance.ts';
+import { ANIMAL_DIMENSIONS, DIRECTIONS } from '../src/appearance.ts';
 import { SWIM_CYCLE } from '../src/animation-frames.ts';
 
-// Register complete bird drawings. PNG pixels are never changed. Each heading
-// has one scale for its entire cycle, measured without the old painted water.
+// Register complete bird drawings. PNG pixels are never changed. Every heading
+// shares the species' physical height, with one scale throughout its cycle.
 export async function buildBirdAtlas({ inspectOnly = false } = {}) {
-  const original = JSON.parse(await fs.readFile('public/art/bird-swimmers.json', 'utf8'));
-  const originalPNG = 'data:image/png;base64,' + (await fs.readFile('public/art/bird-swimmers.png')).toString('base64');
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium', headless: true });
   const atlas = { textures: [] };
   try {
@@ -16,7 +14,7 @@ export async function buildBirdAtlas({ inspectOnly = false } = {}) {
     for (const species of ['duck', 'gull', 'coot']) {
       const image = `bird-${species}-swimming.png`;
       const png = 'data:image/png;base64,' + (await fs.readFile(`public/art/${image}`)).toString('base64');
-      const inspected = await page.evaluate(async ({ png, originalPNG, original, species, directions }) => {
+      const inspected = await page.evaluate(async ({ png, species }) => {
         async function decode(png) {
           const image = new Image(); image.src = png; await image.decode();
           const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
@@ -58,32 +56,14 @@ export async function buildBirdAtlas({ inspectOnly = false } = {}) {
             w: Math.min(width, box.right + 2) - Math.max(0, box.left - 2),
             h: Math.min(height, box.bottom + 2) - Math.max(0, box.top - 2) };
         }
-        // Preserve the established bird sizes, excluding cyan wakes from the
-        // original reference measurements. This mask is for measurement only.
-        const base = await decode(originalPNG);
-        const targets = directions.map(direction => {
-          const entry = original.frames[`${species}-${direction}-0`], frame = entry.frame;
-          let left = Infinity, top = Infinity, right = 0, bottom = 0;
-          for (let y = frame.y; y < frame.y + frame.h; y++) for (let x = frame.x; x < frame.x + frame.w; x++) {
-            const i = (y * base.width + x) * 4;
-            const [r, g, b, a] = base.pixels.subarray(i, i + 4);
-            if (a < 220) continue;
-            const max = Math.max(r, g, b), min = Math.min(r, g, b), delta = max - min;
-            let hue = !delta ? 0 : max === r ? (g - b) / delta % 6 : max === g ? (b - r) / delta + 2 : (r - g) / delta + 4;
-            hue = (hue * 60 + 360) % 360;
-            if (hue >= 169 && hue <= 220 && max && delta / max >= 100 / 255) continue;
-            left = Math.min(left, x); top = Math.min(top, y); right = Math.max(right, x + 1); bottom = Math.max(bottom, y + 1);
-          }
-          return Math.max(right - left, bottom - top) / entry.sourceSize.h;
-        });
-        return { width, height, boxes, targets };
-      }, { png, originalPNG, original, species, directions: DIRECTIONS });
+        return { width, height, boxes };
+      }, { png, species });
       const frames = [];
       let maxVariation = 0;
       for (const [column, direction] of DIRECTIONS.entries()) {
         const poses = [0, 1, 2, 3].map(row => inspected.boxes[row * 8 + column]);
-        const lengths = poses.map(box => Math.max(box.right - box.left, box.bottom - box.top)).sort((a, b) => a - b);
-        const referenceHeight = (lengths[1] + lengths[2]) / 2 / inspected.targets[column];
+        const heights = poses.map(box => box.bottom - box.top).sort((a, b) => a - b);
+        const referenceHeight = (heights[1] + heights[2]) / 2 / ANIMAL_DIMENSIONS[species].height;
         const waterY = referenceHeight * .2;
         const sourceSize = {
           w: 2 * Math.ceil(Math.max(...poses.map(box => Math.max(box.axis - box.frame.x, box.frame.x + box.frame.w - box.axis)))) + 8,

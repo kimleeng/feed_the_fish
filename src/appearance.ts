@@ -5,6 +5,17 @@ export const DIRECTIONS = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'] as const;
 export type Direction = typeof DIRECTIONS[number];
 const OCTANT = Math.PI / 4;
 
+// Physical artwork dimensions, relative to an animal's profile.size. These are
+// shared by every direction and stroke; a new view never supplies a new size.
+// Birds keep their waterline-to-crown height. Submerged animals keep their
+// length in the pond plane, with the same mild depth foreshortening throughout.
+export const ANIMAL_DIMENSIONS = {
+  duck: { height: .53 }, gull: { height: .51 }, coot: { height: .46 },
+  koi: { length: .69 }, carp: { length: .71 }, minnow: { length: .67 },
+  'musk-turtle': { length: .91, headLength: .22 },
+} as const;
+export const POND_ART_DEPTH_SCALE = .85;
+
 export function directionForHeading(heading: number, previous?: Direction): Direction {
   if (previous) {
     const center = DIRECTIONS.indexOf(previous) * OCTANT;

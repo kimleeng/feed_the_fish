@@ -3,6 +3,8 @@ import type Phaser from 'phaser';
 import type { PondScene } from '../../src/game.ts';
 import type { PondSimulation } from '../../src/simulation.ts';
 import type { AnimationFrameData } from '../../src/animation-frames.ts';
+import { TURTLE_HEAD_OFFSETS } from '../../src/turtle-pins.ts';
+import { DIRECTIONS } from '../../src/appearance.ts';
 
 type InspectedWindow = Window & { inspectedPond: PondScene };
 
@@ -667,6 +669,110 @@ test('bird bodies keep their size and waterline through every paddle and chewing
     for (const pose of cycle) expect(Math.abs(pose.waterY - pose.expectedWaterY)).toBeLessThan(.2);
   }
   await page.screenshot({ path: testInfo.outputPath('registered-bird-cycles.png'), fullPage: true });
+});
+
+test('each animal keeps its dimensions and appearance through a complete turn', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  const turns = await page.evaluate(({ headOffsets, directions }) => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.pause(); scene.world.paused = true;
+    const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+    const spriteFor = (animal: PondSimulation['animals'][number]) =>
+      (animal.profile.kind === 'bird' ? scene.children : layer).getByName('animal-' + animal.id) as Phaser.GameObjects.Sprite;
+    const attributes = () => scene.world.animals.map(animal => ({ id: animal.id, profile: { ...animal.profile },
+      tint: spriteFor(animal).tintTopLeft, atlas: spriteFor(animal).texture.key }));
+    const before = attributes();
+    const animals = ['duck', 'gull', 'coot', 'koi', 'carp', 'minnow', 'musk-turtle']
+      .map(id => scene.world.animals.find(animal => animal.profile.id === id)!);
+    const canvases = new Map<CanvasImageSource, { data: Uint8ClampedArray; width: number }>();
+    function measure(sprite: Phaser.GameObjects.Sprite) {
+      const frame = sprite.frame, image = frame.source.image;
+      if (!canvases.has(image)) {
+        const canvas = document.createElement('canvas'); canvas.width = frame.source.width; canvas.height = frame.source.height;
+        const context = canvas.getContext('2d', { willReadFrequently: true })!; context.drawImage(image, 0, 0);
+        canvases.set(image, { data: context.getImageData(0, 0, canvas.width, canvas.height).data, width: canvas.width });
+      }
+      const { data, width } = canvases.get(image)!;
+      const edges: { x: number; y: number }[] = [];
+      let top = Infinity, bottom = 0;
+      for (let y = 0; y < frame.cutHeight; y++) {
+        let left = Infinity, right = -Infinity;
+        for (let x = 0; x < frame.cutWidth; x++) {
+          if (data[((frame.cutY + y) * width + frame.cutX + x) * 4 + 3] < 128) continue;
+          left = Math.min(left, x); right = Math.max(right, x); top = Math.min(top, y); bottom = Math.max(bottom, y + 1);
+        }
+        if (left < Infinity) edges.push({ x: left * sprite.scaleX, y: y * sprite.scaleY / .85 },
+          { x: right * sprite.scaleX, y: y * sprite.scaleY / .85 });
+      }
+      // An independent pixel-diameter check, rather than the builder's fitted
+      // long axis. Undo only the common pond-depth projection, never rotation.
+      let diameter = 0;
+      for (let i = 0; i < edges.length; i++) for (let j = 0; j < i; j++) {
+        diameter = Math.max(diameter, Math.hypot(edges[i].x - edges[j].x, edges[i].y - edges[j].y));
+      }
+      return { frame: frame.name, height: (bottom - top) * sprite.scaleY, diameter,
+        uniformScale: sprite.scaleX === sprite.scaleY, flipped: sprite.flipX || sprite.flipY };
+    }
+    const review = document.createElement('canvas'); review.id = 'animal-turn-review'; review.width = 1200; review.height = 840;
+    review.style.cssText = 'position:fixed;inset:0;z-index:10000;width:1200px;height:840px'; document.body.append(review);
+    const context = review.getContext('2d')!;
+    context.fillStyle = '#dce8dc'; context.fillRect(0, 0, review.width, review.height);
+    context.imageSmoothingEnabled = false;
+    const results = animals.map((animal, row) => {
+      const poses = [], heads = [], headAnchorErrors = [];
+      Object.assign(animal, { state: 'roaming', moving: true, phase: 0, surfaceLeft: 2 });
+      for (let heading = 0; heading < 8; heading++) {
+        animal.heading = heading * Math.PI / 4;
+        for (let step = 0; step < 4; step++) {
+          scene.world.elapsed = (step + .25) / ((animal.profile.kind === 'bird' ? 1.4 : animal.profile.speed / 24) * 2);
+          scene.update(0, 0);
+          const sprite = spriteFor(animal);
+          poses.push(measure(sprite));
+          if (animal.profile.kind === 'turtle') heads.push(measure(scene.children.getByName('turtle-head-' + animal.id) as Phaser.GameObjects.Sprite));
+          if (step === 0) {
+            const frame = sprite.frame, scale = sprite.scaleX * 2;
+            context.globalAlpha = animal.profile.kind === 'turtle' ? .65 : 1;
+            context.drawImage(frame.source.image, frame.cutX, frame.cutY, frame.cutWidth, frame.cutHeight,
+              heading * 150 + 75 + (frame.x - sprite.displayOriginX) * scale,
+              row * 120 + 62 + (frame.y - sprite.displayOriginY) * scale, frame.cutWidth * scale, frame.cutHeight * scale);
+            context.globalAlpha = 1;
+            if (animal.profile.kind === 'turtle') {
+              const head = scene.children.getByName('turtle-head-' + animal.id) as Phaser.GameObjects.Sprite;
+              const cut = head.frame, headScale = head.scaleX * 2, offset = headOffsets[directions[heading]];
+              const x = (cut.x + cut.cutWidth / 2 - head.displayOriginX) * head.scaleX;
+              const y = (cut.y + cut.cutHeight / 2 - head.displayOriginY) * head.scaleY;
+              // Original source annotations locate the underwater head in the
+              // base drawing; the raised head must still share that anchor.
+              headAnchorErrors.push(Math.hypot(x - offset.x * frame.realHeight * sprite.scaleX,
+                y - offset.y * frame.realHeight * sprite.scaleY));
+              context.drawImage(cut.source.image, cut.cutX, cut.cutY, cut.cutWidth, cut.cutHeight,
+                heading * 150 + 75 + (cut.x - head.displayOriginX) * headScale,
+                row * 120 + 62 + (cut.y - head.displayOriginY) * headScale + (head.y - animal.y) * 2,
+                cut.cutWidth * headScale, cut.cutHeight * headScale);
+            }
+            context.fillStyle = '#314a3c'; context.font = '12px monospace';
+            context.fillText(frame.name, heading * 150 + 10, row * 120 + 110);
+          }
+        }
+      }
+      return { species: animal.profile.id, kind: animal.profile.kind, poses, heads, headAnchorErrors };
+    });
+    return { before, after: attributes(), results };
+  }, { headOffsets: TURTLE_HEAD_OFFSETS, directions: DIRECTIONS });
+  expect(turns.after).toEqual(turns.before);
+  for (const animal of turns.results) {
+    expect(new Set(animal.poses.map(pose => pose.frame)).size).toBe(32);
+    expect(animal.poses.every(pose => pose.uniformScale && !pose.flipped)).toBe(true);
+    const sizes = animal.poses.map(pose => animal.kind === 'bird' ? pose.height : pose.diameter);
+    expect(Math.max(...sizes) / Math.min(...sizes) - 1, `${animal.species} keeps its physical size through every turn and stroke`).toBeLessThan(.05);
+    if (animal.heads.length) {
+      const heads = animal.heads.map(pose => pose.diameter);
+      expect(Math.max(...heads) / Math.min(...heads) - 1, 'The surfaced turtle head keeps its size too').toBeLessThan(.05);
+      expect(Math.max(...animal.headAnchorErrors), 'The raised head stays over its underwater anchor').toBeLessThan(.2);
+    }
+  }
+  await page.locator('#animal-turn-review').screenshot({ path: testInfo.outputPath('all-animal-directions.png') });
 });
 
 test('the dock character keeps planted feet through three throws, releases from the drawn hand, and earns lucky bonuses', async ({ page }, testInfo) => {
