@@ -1,11 +1,11 @@
 import type { Observer } from './observers.ts';
-import { WALK_DISTANCE, walkingFrame } from './walking.ts';
+import { walkingDistance, walkingFrame, type WalkingDesign } from './walking.ts';
 
 // Heights in game pixels, measured against the existing foreground benches.
 const HEIGHTS = { adult: [158, 153, 149], kid: [109, 115, 96] };
 
 export function observerFrame(person: Observer): string {
-  const pose = person.state === 'watching' ? 'watch' : `gait-${walkingFrame(person.stride / 4)}`;
+  const pose = person.state === 'watching' ? 'watch' : `step-${walkingFrame(person.stride / 4)}`;
   return `observer-${person.age}-${person.look}-${pose}`;
 }
 
@@ -15,5 +15,5 @@ export function observerHeight(person: Observer): number {
 }
 
 export function walkingCycleDistance(person: Observer): number {
-  return observerHeight(person) * WALK_DISTANCE[person.age];
+  return walkingDistance(`observer-${person.age}-${person.look}` as WalkingDesign, observerHeight(person));
 }

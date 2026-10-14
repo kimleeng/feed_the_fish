@@ -65,15 +65,28 @@ Regression checks cover braking and departure in both directions, stationary str
 
 Validation passed: the production build, all 50 unit tests, all 13 production browser scenarios (including phone controls), and all 330 animation cuts. The assembled walkers and cycle sheets were visually inspected.
 
-## Hand HUD and grounded walking, 14 October 2026
+## Hand HUD and segmented walking attempt, 14 October 2026 (walking superseded)
 
 The HUD uses a new 4×4 hand sheet: ten regular arrangements of four small pellets, two lucky arrangements with a golden pellet, and an empty palm. The regular images shuffle without repeating within a group of ten; lucky images use a separate two-image deck. The next handful changes on an accepted throw and stays unchanged through ordinary state updates, pauses, invalid input, and refills. Gameplay randomness is independent of the presentation shuffle. Desktop and phone screenshots were reviewed at their actual display sizes.
 
-Walking now uses 48 cached poses for each of the six visitors and the employee. A continuous lower-leg rig uses the existing artwork and intact shoes, replaces the exaggerated raised-knee poses, and maintains a longer planted phase. Child stride lengths are shorter, producing more footfalls over the same distance. Between pose samples, a positional correction prevents the supporting shoe from drifting as the body moves forward. No cycle has both feet airborne, and foot clearance is limited to a few game pixels. The prior authored walk sheets remain available for reference; the runtime uses the new cache.
+This attempt used 48 cached poses for each of the six visitors and the employee. A continuous lower-leg rig uses the existing artwork and intact shoes, replaces the exaggerated raised-knee poses, and maintains a longer planted phase. Child stride lengths are shorter, producing more footfalls over the same distance. Between pose samples, a positional correction prevents the supporting shoe from drifting as the body moves forward. No cycle has both feet airborne, and foot clearance is limited to a few game pixels. The prior authored walk sheets remain available for reference; the runtime uses the new cache.
 
-`node scripts/review-walking.mjs` produces a sheet of all seven designs, an assembled scene, and motion sequences sampled every quarter second at the game's movement speeds. The rig was reviewed for knee and hip joins, shoe shape, scale, mirroring, and actual travel. Browser checks cover all 48 poses, painted soles at the ground contacts, horizontal foot locking during movement in both directions, and the unchanged stopping, refilling, and watching behavior.
+`node scripts/review-walking.mjs` produces a sheet of all seven designs, an assembled scene, and motion sequences sampled every quarter second at the game's movement speeds. The initial review covered knee and hip joins, shoe shape, scale, mirroring, and actual travel. Browser checks cover all 48 poses, painted soles at the ground contacts, horizontal foot locking during movement in both directions, and the unchanged stopping, refilling, and watching behavior.
+
+The user subsequently rejected this gait: the segmented legs looked much worse. Passing geometric checks did not establish acceptable animation quality. The rig and its procedural shoe-locking code have now been removed.
 
 Validation passed: 55 unit tests, the TypeScript/production build, and all 14 browser scenarios in both development and production. The walking scenario checks 392 painted supporting-foot contacts across the 336 cached frames and stationary support positions while the seven characters move. Desktop and phone HUDs and the walking motion sheets were visually reviewed.
+
+
+## Complete illustrated walks, 14 October 2026
+
+The segmented walking attempt was rejected for visibly poor legs. It is replaced by eight complete illustrations for each of the six visitors and the employee. Every cel contains the entire person. The runtime loads those original PNGs directly and changes frames according to distance traveled. The leg rig, generated canvas texture, and procedural shoe-position correction are removed.
+
+The new atlas builder writes only whole-person frame rectangles, hip/sole registration, one reference height per design, and a cycle distance measured from the two contact drawings. It does not alter PNG pixels or assemble anatomy. Earlier generated sheets that repeated one lead-leg pose were rejected during review. The accepted sheets use an explicit walking-pose reference for the contact, passing, and opposite-step sequence.
+
+Regression checks now verify that the renderer uses the original complete PNG drawings, visits every pose in both travel directions, maintains uniform scale and sole alignment, and preserves watching, stopping, refilling, and the random handful HUD. Pose sheets and samples of actual movement provide the visual review; numerical contact checks alone cannot establish a convincing walk.
+
+Validation: all 56 complete walk drawings passed atlas bounds and overlap checks; 55 unit tests and the TypeScript/production build passed. All 14 production browser scenarios passed, with the new walking scenario rerun after correcting its image-source check for Phaser’s blob URLs. All seven pose sheets, quarter-second movement samples, and the assembled garden were visually inspected. The source PNGs are unchanged copies of the generated full-body drawings.
 
 ## Reproduce the review
 

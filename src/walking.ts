@@ -1,23 +1,15 @@
-export const WALK_FRAMES = 48;
-export const WALK_DISTANCE = { adult: 0.46, kid: 0.4, employee: 0.5 };
-export const WALK_STANCE = 0.58;
+import { WALKING_GAIT } from './walking-gait.ts';
+
+export const WALK_ATLAS = 'people-walking';
+export const WALK_FRAMES = 8;
+export type WalkingDesign = keyof typeof WALKING_GAIT;
 
 export function walkingFrame(cycles: number): number {
   return Math.min(WALK_FRAMES - 1, Math.floor((cycles - Math.floor(cycles)) * WALK_FRAMES + 1e-7));
 }
 
-// Hold the supporting shoe still between the small, baked gait samples.
-export function walkingOffset(cycles: number, distance: number): number {
-  const phase = cycles - Math.floor(cycles);
-  return -(phase - walkingFrame(cycles) / WALK_FRAMES) * distance;
-}
-
-export function walkingFoot(cycles: number, leg: number, distance: number, lift: number) {
-  const phase = (cycles + leg * 0.5) - Math.floor(cycles + leg * 0.5);
-  const reach = distance * WALK_STANCE / 2;
-  if (phase <= WALK_STANCE) return { x: reach - phase * distance, y: 0, planted: true };
-  const swing = (phase - WALK_STANCE) / (1 - WALK_STANCE);
-  return { x: -reach + 2 * reach * pathBlend(swing), y: -(Math.sin(Math.PI * swing) ** 2) * lift, planted: false };
+export function walkingDistance(design: WalkingDesign, height: number): number {
+  return WALKING_GAIT[design].distance * height;
 }
 
 export function walkingAdvance(velocity: number, speed: number, remaining: number,

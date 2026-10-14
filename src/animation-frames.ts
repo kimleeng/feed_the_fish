@@ -9,7 +9,7 @@ export interface AnimationFrameData {
   referenceHeight: number;
   hand?: { x: number; y: number };
   pour?: { x: number; y: number };
-  feet?: { x: number; y: number; planted?: boolean }[];
+  feet?: { x: number; y: number }[];
 }
 
 export function animationFrameData(frame: { customData: object }): AnimationFrameData {

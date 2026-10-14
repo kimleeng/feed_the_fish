@@ -57,7 +57,7 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
   expect(initial.some(person => person.state === 'watching')).toBe(true);
   expect(initial.some(person => person.state !== 'watching')).toBe(true);
   for (const person of initial) {
-    expect(person.atlas).toBe(person.state === 'watching' ? 'garden-observers' : 'grounded-walkers');
+    expect(person.atlas).toBe(person.state === 'watching' ? 'garden-observers' : 'people-walking');
     expect(person.interactive).toBe(false);
     expect(person.frame).toContain('observer-' + person.age);
     expect(person.height).toBeGreaterThan(person.age === 'adult' ? 130 : 80);
@@ -149,7 +149,7 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
   await expect(page.locator('#machine-dialog')).toBeVisible();
 });
 
-test('all seven walkers keep their supporting shoe fixed during actual travel, in both directions', async ({ page }, testInfo) => {
+test('all seven walkers play complete illustrated frames while traveling in both directions', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();
   const result = await page.evaluate(() => {
@@ -161,66 +161,45 @@ test('all seven walkers keep their supporting shoe fixed during actual travel, i
       x: 200 + (group * 3 + look) * 140, y: 776, lane: 776, direction: (look === 1 ? -1 : 1) as -1 | 1,
       state: 'walking' as const, stop: null, hasWatched: true, speed: age === 'adult' ? 38 : 44, velocity: age === 'adult' ? 38 : 44,
     })));
-    // A horizontal route isolates shoe slip from the employee's usual depth change.
     Object.assign(scene.world.employee, { phase: 'leaving', x: 1150, y: 778, velocity: 52 });
-    const summaries = Array.from({ length: 7 }, () => ({ frames: new Set<string>(), maxSlip: 0, maxLift: 0,
-      minHeight: Infinity, maxHeight: 0, airborne: 0, steps: 0, soles: 0, flipped: false }));
-    const atlas = scene.textures.get('grounded-walkers').getSourceImage() as HTMLCanvasElement;
-    const pixels = atlas.getContext('2d')!.getImageData(0, 0, atlas.width, atlas.height).data;
-    let paintedContacts = 0;
-    for (const frame of Object.values(scene.textures.get('grounded-walkers').frames)) {
-      const data = frame.customData as AnimationFrameData;
-      for (const foot of data.feet ?? []) {
-        if (!foot.planted) continue;
-        const x = Math.round(frame.cutX - frame.x + foot.x), y = Math.round(frame.cutY - frame.y + foot.y);
-        let ink = 0;
-        for (let py = y - 3; py < y; py++) for (let px = x - 4; px <= x + 4; px++) {
-          if (pixels[(py * atlas.width + px) * 4 + 3] > 100) ink++;
-        }
-        if (ink >= 5) paintedContacts++;
-      }
-    }
-    let previous: { x: number; planted: boolean }[][] = [];
+    const summaries = Array.from({ length: 7 }, () => ({ frames: new Set<string>(),
+      minHeight: Infinity, maxHeight: 0, grounded: 0, flipped: false, intact: true }));
+    const texture = scene.textures.get('people-walking');
+    const atlasFrames = Object.values(texture.frames).filter(frame => frame.name !== '__BASE');
+    const sources = new Set(atlasFrames.map(frame => frame.source.image));
+    // Phaser decodes loaded PNGs through blob URLs. Generated rig textures used
+    // canvases instead; each complete walk sheet must remain an image source.
+    const originalPNGs = [...sources].every(source => source instanceof HTMLImageElement);
     for (let tick = 0; tick < 480; tick++) {
       scene.update(tick * 1000 / 120, 1000 / 120);
       const people: { person: { y: number }; container: Phaser.GameObjects.Container; name: string }[] = scene.world.crowd.people.filter(person => person.id >= 100).map(person => ({ person,
         container: scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container, name: 'observer-art' }));
       people.push({ person: scene.world.employee,
         container: scene.children.getByName('machine-employee') as Phaser.GameObjects.Container, name: 'employee-art' });
-      previous = people.map(({ person, container, name }, index) => {
+      people.forEach(({ person, container, name }, index) => {
         const sprite = container.getByName(name) as Phaser.GameObjects.Sprite;
         const summary = summaries[index];
         const data = sprite.frame.customData as AnimationFrameData;
-        const feet = data.feet!.map(foot => ({
-          x: container.x + sprite.x + (foot.x - sprite.displayOriginX) * sprite.scaleX * (sprite.flipX ? -1 : 1),
-          y: container.y + (foot.y - sprite.displayOriginY) * sprite.scaleY, planted: !!foot.planted,
-        }));
         summary.frames.add(sprite.frame.name); summary.flipped = sprite.flipX;
+        summary.intact &&= sprite.texture.key === 'people-walking' && sprite.x === 0 && sprite.y === 0 &&
+          sprite.scaleX === sprite.scaleY && sprite.rotation === 0 && !sprite.isCropped &&
+          container.list.filter(child => child.type === 'Sprite').length === 1;
         const height = sprite.frame.cutHeight * sprite.scaleY;
         summary.minHeight = Math.min(summary.minHeight, height); summary.maxHeight = Math.max(summary.maxHeight, height);
-        if (!feet.some(foot => foot.planted)) summary.airborne++;
-        feet.forEach((foot, leg) => {
-          summary.maxLift = Math.max(summary.maxLift, person.y - foot.y);
-          if (foot.planted && Math.abs(foot.y - person.y) < 0.01) summary.soles++;
-          if (foot.planted && previous[index]?.[leg]?.planted) {
-            summary.steps++; summary.maxSlip = Math.max(summary.maxSlip, Math.abs(foot.x - previous[index][leg].x));
-          }
-        });
-        return feet;
+        if (data.feet?.some(foot => Math.abs(container.y + (foot.y - sprite.displayOriginY) * sprite.scaleY - person.y) < 0.01)) summary.grounded++;
       });
     }
-    return { paintedContacts, walkers: summaries.map(summary => ({ ...summary, frames: summary.frames.size })) };
+    return { originalPNGs, sources: sources.size, frameCount: atlasFrames.length,
+      walkers: summaries.map(summary => ({ ...summary, frames: summary.frames.size })) };
   });
-  expect(result.paintedContacts).toBe(392);
+  expect(result.originalPNGs).toBe(true);
+  expect(result.sources).toBe(7);
   for (const [index, walker] of result.walkers.entries()) {
-    expect(walker.frames).toBe(48);
-    expect(walker.maxSlip).toBeLessThan(0.001);
-    expect(walker.airborne).toBe(0);
-    expect(walker.maxLift).toBeGreaterThan(2);
-    expect(walker.maxLift).toBeLessThan(5);
-    expect(walker.maxHeight - walker.minHeight).toBeLessThan(8);
-    expect(walker.steps).toBeGreaterThan(300);
-    expect(walker.soles).toBeGreaterThan(480);
+    expect(walker.frames).toBe(result.frameCount / 7);
+    expect(walker.frames).toBeGreaterThanOrEqual(8);
+    expect(walker.intact).toBe(true);
+    expect(walker.grounded).toBe(480);
+    expect(walker.maxHeight - walker.minHeight).toBeLessThan(12);
     expect(walker.flipped).toBe(index === 1 || index === 4 || index === 6);
   }
   await page.screenshot({ path: testInfo.outputPath('walking-cycles-in-garden.png'), fullPage: true });
@@ -324,8 +303,8 @@ test('purchases lower the visible pellet level and an employee walks in to refil
   expect(low.stock).toBe(4);
   expect(low.employee).toBe('arriving');
   expect(low.visible).toBe(true);
-  expect(low.atlas).toBe('grounded-walkers');
-  expect(low.frame).toMatch(/^employee-gait-\d+$/);
+  expect(low.atlas).toBe('people-walking');
+  expect(low.frame).toMatch(/^employee-step-\d+$/);
   expect(low.money).toBe(105); expect(low.throws).toBe(210);
 
   const pouring = await page.evaluate(() => {
