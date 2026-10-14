@@ -10,6 +10,8 @@ const configs = [
     rows: ['bite', 'chew', 'swallow'].map(pose => ({ species, pose })) })),
   { image: 'eating-fish.png', kind: 'fish', rows: ['koi', 'carp', 'minnow'].flatMap(species =>
     ['bite', 'chew'].map(pose => ({ species, pose }))) },
+  { image: 'eating-fish-surface.png', kind: 'fish', surface: true, rows: ['koi', 'carp', 'minnow'].flatMap(species =>
+    ['surface-bite', 'surface-chew'].map(pose => ({ species, pose }))) },
   { image: 'eating-turtle.png', kind: 'turtle', rows: ['bite', 'chew', 'swallow'].map(pose => ({ species: 'musk-turtle', pose })) },
 ];
 const originals = Object.fromEntries(await Promise.all(['fish-swimmers', 'bird-swimmers', 'turtle-swimmer'].map(async name =>
@@ -52,20 +54,22 @@ try {
       boxes.sort((a, b) => a.top + a.bottom - b.top - b.bottom);
       for (let row = 0; row < config.rows.length; row++) boxes.splice(row * 8, 8, ...boxes.slice(row * 8, row * 8 + 8).sort((a, b) => a.left - b.left));
       function measure(source, box, bandHeight = box.bottom - box.top) {
-        const points = [], body = [];
+        const points = [], body = [], nose = [];
         let sx = 0, sy = 0, sxx = 0, syy = 0, sxy = 0;
         for (let y = box.top; y < box.bottom; y++) for (let x = box.left; x < box.right; x++) {
           if (source.data[(y * source.width + x) * 4 + 3] < 128) continue;
           const px = x - box.left, py = (y - box.top) / depthScale;
           points.push({ x: px, y: py }); sx += px; sy += py; sxx += px * px; syy += py * py; sxy += px * py;
           if (y > box.bottom - bandHeight * .4 && y < box.bottom - bandHeight * .1) body.push(x);
+          if (y < box.top + (box.bottom - box.top) * .16) nose.push(x);
         }
         const n = points.length;
         const angle = .5 * Math.atan2(2 * (sxy - sx * sy / n), sxx - sx * sx / n - (syy - sy * sy / n));
         const along = points.map(point => point.x * Math.cos(angle) + point.y * Math.sin(angle));
         body.sort((a, b) => a - b);
         return { length: Math.max(...along) - Math.min(...along) + 1,
-          axis: body[Math.floor(body.length / 2)], bodyWidth: body.at(-1) - body[0] + 1 };
+          axis: body[Math.floor(body.length / 2)], bodyWidth: body.at(-1) - body[0] + 1,
+          noseX: nose.reduce((sum, x) => sum + x, 0) / nose.length, noseWidth: Math.max(...nose) - Math.min(...nose) + 1 };
       }
       const reference = {};
       for (const texture of baseTextures) {
@@ -92,7 +96,8 @@ try {
       const base = inspected.reference[`${species}-${direction}-${config.kind === 'turtle' ? 'head' : '0'}`];
       const average = field => poses.reduce((sum, pose) => sum + pose[field], 0) / poses.length;
       const referenceHeight = config.kind === 'bird' ? base.referenceHeight * average('bodyWidth') / base.bodyWidth
-        : average('length') / (config.kind === 'turtle' ? ANIMAL_DIMENSIONS[species].headLength : ANIMAL_DIMENSIONS[species].length);
+        : average('length') / (config.kind === 'turtle' ? ANIMAL_DIMENSIONS[species].headLength
+          : ANIMAL_DIMENSIONS[species].length * (config.surface ? .85 : 1));
       for (const box of poses) {
         const frame = { x: Math.max(0, box.left - 2), y: Math.max(0, box.top - 2),
           w: Math.min(inspected.width, box.right + 2) - Math.max(0, box.left - 2),
@@ -106,10 +111,19 @@ try {
           h: 2 * Math.ceil(Math.max(Math.abs(oy - anchorY), Math.abs(oy + frame.h - anchorY))) + 8,
         };
         const x = sourceSize.w / 2 + ox - anchorX, y = sourceSize.h / 2 + oy - anchorY;
+        // All pitched drawings place the mouth uppermost. Its top silhouette
+        // registers the lip reveal, independent of tail direction or open jaw.
+        const lipWidth = Math.ceil(average('noseWidth') * 1.2);
+        const lipX = Math.max(frame.x, box.noseX - lipWidth / 2);
+        const lipY = box.top - 1;
+        const lipHeight = Math.ceil((box.bottom - box.top) * .19) + 1;
         frames.push({ filename: `${species}-${direction}-${box.pose}`, frame, rotated: false, trimmed: true,
           sourceSize, spriteSourceSize: { x, y, w: frame.w, h: frame.h }, referenceHeight,
           ...(config.kind === 'turtle' ? { surfaceOffset: base.surfaceOffset } : {}),
           ...(config.kind === 'bird' ? { waterline: { x: sourceSize.w / 2, y: sourceSize.h / 2 + oy } } : {}),
+          ...(config.surface ? { surfaceMouth: { x: x + lipX - frame.x, y: y + lipY - frame.y,
+            w: Math.min(lipWidth, frame.x + frame.w - lipX), h: lipHeight,
+            waterX: x + box.noseX - frame.x, waterY: y + lipY - frame.y + lipHeight } } : {}),
         });
       }
     }

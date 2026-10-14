@@ -36,3 +36,18 @@ export function eatingFrame(animal: Animal, direction: Direction): string | null
   const pose = stage === 'swallow' && animal.profile.kind === 'fish' ? 'chew' : stage;
   return `${animal.profile.texture}-${direction}-${pose}`;
 }
+
+// The same meal clock raises the carp's snout, holds it at the surface while
+// the mouth works, then lowers it smoothly even through the final resting pose.
+export function fishSurfaceAmount(animal: Animal): number {
+  if (animal.profile.kind !== 'fish' || animal.state !== 'chewing' || !animal.meal || animal.chewLeft <= 0) return 0;
+  const duration = animal.meal.duration;
+  const rise = Math.min(0.18, duration * 0.25);
+  const sink = Math.min(0.24, duration * 0.28);
+  const amount = Math.max(0, Math.min(1, (duration - animal.chewLeft) / rise, animal.chewLeft / sink));
+  return amount * amount * (3 - 2 * amount);
+}
+
+export function fishSurfaceFrame(animal: Animal, direction: Direction): string {
+  return `${animal.profile.texture}-${direction}-surface-${eatingStage(animal) === 'bite' ? 'bite' : 'chew'}`;
+}

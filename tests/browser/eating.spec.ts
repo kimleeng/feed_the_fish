@@ -103,8 +103,8 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
         lucky: false, bonusClaimed: false }));
       scene.update(0, 10);
       scene.world.paused = true;
-      selected.forEach(animal => { animal.surfaceLeft = animal.surfaceDuration - .5; });
-      scene.update(0, 0);
+      selected.forEach(animal => { animal.surfaceLeft = animal.surfaceDuration - .5; animal.chewLeft *= .67; });
+      scene.update(1000, 0);
       return selected.map(animal => ({ id: animal.id, meal: animal.meal, left: animal.chewLeft }));
     });
     const initial = await prepare();
@@ -127,3 +127,77 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
     expect(finished).toBe(true);
   });
 }
+
+test('feeding carp pitch up with only their lips above reflections in every direction and submerge after eating', async ({ page }, testInfo) => {
+  await arrive(page);
+  const results = await page.evaluate(async () => {
+    const scene = (window as PondWindow).inspectedPond;
+    scene.scene.pause(); scene.world.paused = true;
+    const water = scene.children.getByName('water-surface') as Phaser.GameObjects.Container;
+    const layer = scene.children.getByName('fish-layer') as Phaser.GameObjects.Container;
+    const mouths = scene.children.getByName('fish-mouths') as Phaser.GameObjects.Container;
+    const fish = ['koi', 'carp', 'minnow'].map(id => scene.world.animals.find(animal => animal.profile.id === id)!);
+    const directions = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'];
+    for (const child of layer.list) (child as Phaser.GameObjects.Sprite).setVisible(false);
+    for (const child of scene.children.list) if (child.name.startsWith('animal-')) (child as Phaser.GameObjects.Sprite).setVisible(false);
+    const sheet = document.createElement('canvas'); sheet.id = 'surface-feeding-review'; sheet.width = 1280; sheet.height = 540;
+    const ctx = sheet.getContext('2d')!; ctx.fillStyle = '#e6ecdf'; ctx.fillRect(0, 0, sheet.width, sheet.height);
+    ctx.font = '12px monospace'; ctx.imageSmoothingEnabled = false;
+    const snapshot = async () => {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      return scene.game.canvas.getContext('2d')!.getImageData(560, 349, 80, 80);
+    };
+    const results = [];
+    for (const [row, animal] of fish.entries()) for (const [column, direction] of directions.entries()) {
+      scene.world.animals = [animal];
+      Object.assign(animal, { x: 600, y: 389, heading: column * Math.PI / 4, state: 'roaming', meal: null, chewLeft: 0 });
+      const base = layer.getByName('animal-' + animal.id) as Phaser.GameObjects.Sprite;
+      const body = layer.getByName('feeding-fish-' + animal.id) as Phaser.GameObjects.Sprite;
+      const mouth = mouths.getByName('fish-mouth-' + animal.id) as Phaser.GameObjects.Sprite;
+      base.setVisible(true);
+      scene.world.food = [{ id: 998, x: 600, y: 389, origin: { x: 600, y: 389 }, target: { x: 600, y: 389 },
+        amount: animal.profile.bite, age: 0, phase: 'water', launchHeight: 0, flightTime: 1, flightDuration: 1,
+        height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false }];
+      scene.world.paused = false; scene.world.step(.01); scene.world.paused = true; scene.world.bites = [];
+      const duration = animal.meal!.duration;
+      const poses = [];
+      for (const [index, elapsed] of (row === 0 ? [.76, .34] : row === 1 ? [.584, .296] : [.322, .178]).entries()) {
+        animal.chewLeft = duration - elapsed; scene.update(0, 0);
+        const pixels = await snapshot();
+        const tile = document.createElement('canvas'); tile.width = 80; tile.height = 80; tile.getContext('2d')!.putImageData(pixels, 0, 0);
+        ctx.drawImage(tile, column * 160 + index * 80, row * 180 + 20, 80, 80);
+        const lip = (mouth.frame.customData as AnimationFrameData).surfaceMouth!;
+        poses.push({ frame: body.frame.name, mouthFrame: mouth.frame.name, cropped: mouth.isCropped, visible: mouth.visible,
+          bodyBelow: body.parentContainer!.depth < water.depth, mouthAbove: mouths.depth > water.depth,
+          aligned: body.x === mouth.x && body.y === mouth.y && body.scaleX === mouth.scaleX,
+          lipFraction: lip.h / mouth.frame.realHeight, alpha: mouth.alpha, baseAlpha: base.alpha });
+        if (index === 0) {
+          mouth.setVisible(false);
+          const submerged = await snapshot(); mouth.setVisible(true);
+          let revealed = 0;
+          for (let i = 0; i < pixels.data.length; i += 4) {
+            if (Math.abs(pixels.data[i] - submerged.data[i]) + Math.abs(pixels.data[i + 1] - submerged.data[i + 1]) + Math.abs(pixels.data[i + 2] - submerged.data[i + 2]) > 15) revealed++;
+          }
+          results.push({ species: animal.profile.id, direction, revealed, poses });
+        }
+      }
+      ctx.fillStyle = '#334d3b'; ctx.fillText(`${animal.profile.id} ${direction}`, column * 160 + 5, row * 180 + 120);
+      animal.chewLeft = .01;
+      scene.world.paused = false; scene.update(0, 20); scene.world.paused = true;
+      if (mouth.visible || body.visible || base.alpha < .8) throw new Error('Carp did not return beneath the surface');
+      base.setVisible(false);
+    }
+    scene.restart();
+    if (mouths.list.length !== 46 || mouths.list.some(child => (child as Phaser.GameObjects.Sprite).visible)) throw new Error('New visit leaked surface mouths');
+    document.body.append(sheet);
+    return results;
+  });
+  for (const fish of results) {
+    expect(fish.revealed, `${fish.species} ${fish.direction}: the lips visibly break the reflections`).toBeGreaterThan(2);
+    expect(fish.poses.map(pose => pose.frame)).toEqual([`${fish.species}-${fish.direction}-surface-bite`, `${fish.species}-${fish.direction}-surface-chew`]);
+    expect(fish.poses.every(pose => pose.aligned && pose.cropped && pose.visible && pose.bodyBelow && pose.mouthAbove &&
+      pose.frame === pose.mouthFrame && pose.lipFraction < .25 && pose.alpha > .99 && pose.baseAlpha < .01)).toBe(true);
+  }
+  await page.locator('#surface-feeding-review').screenshot({ path: testInfo.outputPath('surfaced-carp-directions.png') });
+});

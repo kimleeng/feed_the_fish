@@ -2965,6 +2965,1455 @@
       ]
     },
     {
+      "image": "eating-fish-surface.png",
+      "size": {
+        "w": 1448,
+        "h": 1086
+      },
+      "frames": [
+        {
+          "filename": "koi-e-surface-bite",
+          "frame": {
+            "x": 28,
+            "y": 53,
+            "w": 157,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 166,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 157,
+            "h": 145
+          },
+          "referenceHeight": 338.5006495017128,
+          "surfaceMouth": {
+            "x": 101.68077803203661,
+            "y": 5.5,
+            "w": 59.81922196796339,
+            "h": 28,
+            "waterX": 135.1807780320366,
+            "waterY": 33.5
+          }
+        },
+        {
+          "filename": "koi-e-surface-chew",
+          "frame": {
+            "x": 31,
+            "y": 228,
+            "w": 153,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 162,
+            "h": 148
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 153,
+            "h": 140
+          },
+          "referenceHeight": 338.5006495017128,
+          "surfaceMouth": {
+            "x": 99.36962365591398,
+            "y": 5,
+            "w": 58.13037634408602,
+            "h": 27,
+            "waterX": 132.86962365591398,
+            "waterY": 32
+          }
+        },
+        {
+          "filename": "koi-se-surface-bite",
+          "frame": {
+            "x": 219,
+            "y": 45,
+            "w": 123,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 158
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 123,
+            "h": 149
+          },
+          "referenceHeight": 299.4162941502608,
+          "surfaceMouth": {
+            "x": 58.27156177156178,
+            "y": 5.5,
+            "w": 59,
+            "h": 29,
+            "waterX": 87.77156177156178,
+            "waterY": 34.5
+          }
+        },
+        {
+          "filename": "koi-se-surface-chew",
+          "frame": {
+            "x": 219,
+            "y": 219,
+            "w": 123,
+            "h": 146
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 123,
+            "h": 146
+          },
+          "referenceHeight": 299.4162941502608,
+          "surfaceMouth": {
+            "x": 59.208762886597924,
+            "y": 5,
+            "w": 59,
+            "h": 28,
+            "waterX": 88.70876288659792,
+            "waterY": 33
+          }
+        },
+        {
+          "filename": "koi-s-surface-bite",
+          "frame": {
+            "x": 401,
+            "y": 43,
+            "w": 114,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 122,
+            "h": 158
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 114,
+            "h": 149
+          },
+          "referenceHeight": 288.97467767457624,
+          "surfaceMouth": {
+            "x": 32.160946745562114,
+            "y": 5.5,
+            "w": 56,
+            "h": 29,
+            "waterX": 60.160946745562114,
+            "waterY": 34.5
+          }
+        },
+        {
+          "filename": "koi-s-surface-chew",
+          "frame": {
+            "x": 402,
+            "y": 218,
+            "w": 112,
+            "h": 147
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 120,
+            "h": 156
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 112,
+            "h": 147
+          },
+          "referenceHeight": 288.97467767457624,
+          "surfaceMouth": {
+            "x": 31.436224489795904,
+            "y": 5.5,
+            "w": 56,
+            "h": 29,
+            "waterX": 59.436224489795904,
+            "waterY": 34.5
+          }
+        },
+        {
+          "filename": "koi-sw-surface-bite",
+          "frame": {
+            "x": 581,
+            "y": 44,
+            "w": 133,
+            "h": 151
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 160
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 133,
+            "h": 151
+          },
+          "referenceHeight": 308.6856430844595,
+          "surfaceMouth": {
+            "x": 11.568571428571431,
+            "y": 5.5,
+            "w": 62,
+            "h": 29,
+            "waterX": 42.56857142857143,
+            "waterY": 34.5
+          }
+        },
+        {
+          "filename": "koi-sw-surface-chew",
+          "frame": {
+            "x": 581,
+            "y": 219,
+            "w": 135,
+            "h": 146
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 144,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 135,
+            "h": 146
+          },
+          "referenceHeight": 308.6856430844595,
+          "surfaceMouth": {
+            "x": 11.529999999999973,
+            "y": 5,
+            "w": 62,
+            "h": 28,
+            "waterX": 42.52999999999997,
+            "waterY": 33
+          }
+        },
+        {
+          "filename": "koi-w-surface-bite",
+          "frame": {
+            "x": 765,
+            "y": 49,
+            "w": 142,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 150,
+            "h": 156
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 142,
+            "h": 148
+          },
+          "referenceHeight": 319.3091062613793,
+          "surfaceMouth": {
+            "x": 4,
+            "y": 5,
+            "w": 67,
+            "h": 29,
+            "waterX": 30.136853448275815,
+            "waterY": 34
+          }
+        },
+        {
+          "filename": "koi-w-surface-chew",
+          "frame": {
+            "x": 769,
+            "y": 225,
+            "w": 139,
+            "h": 143
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 148,
+            "h": 152
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 139,
+            "h": 143
+          },
+          "referenceHeight": 319.3091062613793,
+          "surfaceMouth": {
+            "x": 4.5,
+            "y": 5.5,
+            "w": 67,
+            "h": 28,
+            "waterX": 32.190976514215095,
+            "waterY": 33.5
+          }
+        },
+        {
+          "filename": "koi-nw-surface-bite",
+          "frame": {
+            "x": 950,
+            "y": 46,
+            "w": 134,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 156
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 134,
+            "h": 148
+          },
+          "referenceHeight": 300.7173362756634,
+          "surfaceMouth": {
+            "x": 14.18574766355141,
+            "y": 5,
+            "w": 61,
+            "h": 29,
+            "waterX": 44.68574766355141,
+            "waterY": 34
+          }
+        },
+        {
+          "filename": "koi-nw-surface-chew",
+          "frame": {
+            "x": 950,
+            "y": 220,
+            "w": 134,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 148
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 134,
+            "h": 140
+          },
+          "referenceHeight": 300.7173362756634,
+          "surfaceMouth": {
+            "x": 12.291505791505756,
+            "y": 5,
+            "w": 61,
+            "h": 27,
+            "waterX": 42.791505791505756,
+            "waterY": 32
+          }
+        },
+        {
+          "filename": "koi-n-surface-bite",
+          "frame": {
+            "x": 1105,
+            "y": 43,
+            "w": 111,
+            "h": 157
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 120,
+            "h": 166
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 111,
+            "h": 157
+          },
+          "referenceHeight": 303.01227851772336,
+          "surfaceMouth": {
+            "x": 31.764904386951685,
+            "y": 5.5,
+            "w": 57,
+            "h": 31,
+            "waterX": 60.264904386951685,
+            "waterY": 36.5
+          }
+        },
+        {
+          "filename": "koi-n-surface-chew",
+          "frame": {
+            "x": 1105,
+            "y": 218,
+            "w": 111,
+            "h": 153
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 120,
+            "h": 162
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 111,
+            "h": 153
+          },
+          "referenceHeight": 303.01227851772336,
+          "surfaceMouth": {
+            "x": 32.21095571095566,
+            "y": 5.5,
+            "w": 57,
+            "h": 30,
+            "waterX": 60.71095571095566,
+            "waterY": 35.5
+          }
+        },
+        {
+          "filename": "koi-ne-surface-bite",
+          "frame": {
+            "x": 1273,
+            "y": 44,
+            "w": 143,
+            "h": 153
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 152,
+            "h": 162
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 143,
+            "h": 153
+          },
+          "referenceHeight": 330.7409860005617,
+          "surfaceMouth": {
+            "x": 91.42640186915878,
+            "y": 5.5,
+            "w": 56.07359813084122,
+            "h": 30,
+            "waterX": 122.42640186915878,
+            "waterY": 35.5
+          }
+        },
+        {
+          "filename": "koi-ne-surface-chew",
+          "frame": {
+            "x": 1272,
+            "y": 220,
+            "w": 143,
+            "h": 151
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 152,
+            "h": 160
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 143,
+            "h": 151
+          },
+          "referenceHeight": 330.7409860005617,
+          "surfaceMouth": {
+            "x": 84.41008505467812,
+            "y": 5.5,
+            "w": 62,
+            "h": 29,
+            "waterX": 115.41008505467812,
+            "waterY": 34.5
+          }
+        },
+        {
+          "filename": "carp-e-surface-bite",
+          "frame": {
+            "x": 31,
+            "y": 403,
+            "w": 155,
+            "h": 146
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 164,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 155,
+            "h": 146
+          },
+          "referenceHeight": 332.5959873358654,
+          "surfaceMouth": {
+            "x": 98.32551799345691,
+            "y": 5,
+            "w": 61.17448200654309,
+            "h": 28,
+            "waterX": 132.3255179934569,
+            "waterY": 33
+          }
+        },
+        {
+          "filename": "carp-e-surface-chew",
+          "frame": {
+            "x": 35,
+            "y": 580,
+            "w": 147,
+            "h": 150
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 156,
+            "h": 158
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 147,
+            "h": 150
+          },
+          "referenceHeight": 332.5959873358654,
+          "surfaceMouth": {
+            "x": 92.83372641509433,
+            "y": 5,
+            "w": 58.66627358490567,
+            "h": 29,
+            "waterX": 126.83372641509433,
+            "waterY": 34
+          }
+        },
+        {
+          "filename": "carp-se-surface-bite",
+          "frame": {
+            "x": 219,
+            "y": 393,
+            "w": 123,
+            "h": 157
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 166
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 123,
+            "h": 157
+          },
+          "referenceHeight": 300.74004950834626,
+          "surfaceMouth": {
+            "x": 64.9230769230769,
+            "y": 5.5,
+            "w": 60,
+            "h": 31,
+            "waterX": 94.9230769230769,
+            "waterY": 36.5
+          }
+        },
+        {
+          "filename": "carp-se-surface-chew",
+          "frame": {
+            "x": 219,
+            "y": 576,
+            "w": 123,
+            "h": 146
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 132,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 123,
+            "h": 146
+          },
+          "referenceHeight": 300.74004950834626,
+          "surfaceMouth": {
+            "x": 58.814505776636736,
+            "y": 5,
+            "w": 60,
+            "h": 28,
+            "waterX": 88.81450577663674,
+            "waterY": 33
+          }
+        },
+        {
+          "filename": "carp-s-surface-bite",
+          "frame": {
+            "x": 400,
+            "y": 392,
+            "w": 115,
+            "h": 156
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 124,
+            "h": 164
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 115,
+            "h": 156
+          },
+          "referenceHeight": 291.8112657077462,
+          "surfaceMouth": {
+            "x": 34.53397508493771,
+            "y": 5,
+            "w": 56,
+            "h": 30,
+            "waterX": 62.53397508493771,
+            "waterY": 35
+          }
+        },
+        {
+          "filename": "carp-s-surface-chew",
+          "frame": {
+            "x": 403,
+            "y": 575,
+            "w": 112,
+            "h": 151
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 120,
+            "h": 160
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 112,
+            "h": 151
+          },
+          "referenceHeight": 291.8112657077462,
+          "surfaceMouth": {
+            "x": 32.10419161676646,
+            "y": 5.5,
+            "w": 56,
+            "h": 29,
+            "waterX": 60.10419161676646,
+            "waterY": 34.5
+          }
+        },
+        {
+          "filename": "carp-sw-surface-bite",
+          "frame": {
+            "x": 581,
+            "y": 393,
+            "w": 133,
+            "h": 155
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 164
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 133,
+            "h": 155
+          },
+          "referenceHeight": 303.6946221888167,
+          "surfaceMouth": {
+            "x": 7.4922651933701445,
+            "y": 5.5,
+            "w": 62,
+            "h": 30,
+            "waterX": 38.492265193370145,
+            "waterY": 35.5
+          }
+        },
+        {
+          "filename": "carp-sw-surface-chew",
+          "frame": {
+            "x": 580,
+            "y": 577,
+            "w": 133,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 133,
+            "h": 145
+          },
+          "referenceHeight": 303.6946221888167,
+          "surfaceMouth": {
+            "x": 11.784090909090878,
+            "y": 5.5,
+            "w": 62,
+            "h": 28,
+            "waterX": 42.78409090909088,
+            "waterY": 33.5
+          }
+        },
+        {
+          "filename": "carp-w-surface-bite",
+          "frame": {
+            "x": 766,
+            "y": 397,
+            "w": 143,
+            "h": 152
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 152,
+            "h": 160
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 143,
+            "h": 152
+          },
+          "referenceHeight": 316.8323041912415,
+          "surfaceMouth": {
+            "x": 4.5,
+            "y": 5,
+            "w": 65,
+            "h": 30,
+            "waterX": 28.81590656284766,
+            "waterY": 35
+          }
+        },
+        {
+          "filename": "carp-w-surface-chew",
+          "frame": {
+            "x": 766,
+            "y": 580,
+            "w": 141,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 150,
+            "h": 152
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 141,
+            "h": 144
+          },
+          "referenceHeight": 316.8323041912415,
+          "surfaceMouth": {
+            "x": 4.5,
+            "y": 5,
+            "w": 65,
+            "h": 28,
+            "waterX": 30.886699507389153,
+            "waterY": 33
+          }
+        },
+        {
+          "filename": "carp-nw-surface-bite",
+          "frame": {
+            "x": 953,
+            "y": 388,
+            "w": 131,
+            "h": 158
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 140,
+            "h": 166
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 131,
+            "h": 158
+          },
+          "referenceHeight": 300.8595175718697,
+          "surfaceMouth": {
+            "x": 10.657602663706939,
+            "y": 5,
+            "w": 62,
+            "h": 31,
+            "waterX": 41.65760266370694,
+            "waterY": 36
+          }
+        },
+        {
+          "filename": "carp-nw-surface-chew",
+          "frame": {
+            "x": 951,
+            "y": 578,
+            "w": 133,
+            "h": 139
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 148
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 133,
+            "h": 139
+          },
+          "referenceHeight": 300.8595175718697,
+          "surfaceMouth": {
+            "x": 10.967114093959708,
+            "y": 5.5,
+            "w": 62,
+            "h": 27,
+            "waterX": 41.96711409395971,
+            "waterY": 32.5
+          }
+        },
+        {
+          "filename": "carp-n-surface-bite",
+          "frame": {
+            "x": 1105,
+            "y": 391,
+            "w": 112,
+            "h": 170
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 120,
+            "h": 178
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 112,
+            "h": 170
+          },
+          "referenceHeight": 309.0564811654324,
+          "surfaceMouth": {
+            "x": 31.613660618996846,
+            "y": 5,
+            "w": 58,
+            "h": 33,
+            "waterX": 60.613660618996846,
+            "waterY": 38
+          }
+        },
+        {
+          "filename": "carp-n-surface-chew",
+          "frame": {
+            "x": 1105,
+            "y": 577,
+            "w": 111,
+            "h": 155
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 120,
+            "h": 164
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 111,
+            "h": 155
+          },
+          "referenceHeight": 309.0564811654324,
+          "surfaceMouth": {
+            "x": 32.559819413092555,
+            "y": 5.5,
+            "w": 58,
+            "h": 30,
+            "waterX": 61.559819413092555,
+            "waterY": 35.5
+          }
+        },
+        {
+          "filename": "carp-ne-surface-bite",
+          "frame": {
+            "x": 1273,
+            "y": 393,
+            "w": 144,
+            "h": 157
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 152,
+            "h": 166
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 144,
+            "h": 157
+          },
+          "referenceHeight": 327.20656796900226,
+          "surfaceMouth": {
+            "x": 90.3230852211434,
+            "y": 5.5,
+            "w": 57.6769147788566,
+            "h": 31,
+            "waterX": 122.8230852211434,
+            "waterY": 36.5
+          }
+        },
+        {
+          "filename": "carp-ne-surface-chew",
+          "frame": {
+            "x": 1272,
+            "y": 578,
+            "w": 143,
+            "h": 153
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 152,
+            "h": 162
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 143,
+            "h": 153
+          },
+          "referenceHeight": 327.20656796900226,
+          "surfaceMouth": {
+            "x": 85.49418604651169,
+            "y": 5.5,
+            "w": 62.005813953488314,
+            "h": 30,
+            "waterX": 117.99418604651169,
+            "waterY": 35.5
+          }
+        },
+        {
+          "filename": "minnow-e-surface-bite",
+          "frame": {
+            "x": 31,
+            "y": 762,
+            "w": 153,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 162,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 153,
+            "h": 145
+          },
+          "referenceHeight": 345.43696571617016,
+          "surfaceMouth": {
+            "x": 97.61709601873537,
+            "y": 5.5,
+            "w": 59.88290398126463,
+            "h": 28,
+            "waterX": 131.61709601873537,
+            "waterY": 33.5
+          }
+        },
+        {
+          "filename": "minnow-e-surface-chew",
+          "frame": {
+            "x": 34,
+            "y": 928,
+            "w": 150,
+            "h": 143
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 158,
+            "h": 152
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 150,
+            "h": 143
+          },
+          "referenceHeight": 345.43696571617016,
+          "surfaceMouth": {
+            "x": 94.04795321637428,
+            "y": 5.5,
+            "w": 59.95204678362572,
+            "h": 28,
+            "waterX": 128.04795321637428,
+            "waterY": 33.5
+          }
+        },
+        {
+          "filename": "minnow-se-surface-bite",
+          "frame": {
+            "x": 219,
+            "y": 750,
+            "w": 122,
+            "h": 156
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 130,
+            "h": 164
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 122,
+            "h": 156
+          },
+          "referenceHeight": 319.72413530714715,
+          "surfaceMouth": {
+            "x": 64.12155963302752,
+            "y": 5,
+            "w": 60,
+            "h": 30,
+            "waterX": 94.12155963302752,
+            "waterY": 35
+          }
+        },
+        {
+          "filename": "minnow-se-surface-chew",
+          "frame": {
+            "x": 217,
+            "y": 923,
+            "w": 125,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 134,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 125,
+            "h": 145
+          },
+          "referenceHeight": 319.72413530714715,
+          "surfaceMouth": {
+            "x": 65.33437892095355,
+            "y": 5.5,
+            "w": 60,
+            "h": 28,
+            "waterX": 95.33437892095355,
+            "waterY": 33.5
+          }
+        },
+        {
+          "filename": "minnow-s-surface-bite",
+          "frame": {
+            "x": 403,
+            "y": 746,
+            "w": 111,
+            "h": 161
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 120,
+            "h": 170
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 111,
+            "h": 161
+          },
+          "referenceHeight": 311.99221968359484,
+          "surfaceMouth": {
+            "x": 31.780721533258202,
+            "y": 5.5,
+            "w": 56,
+            "h": 31,
+            "waterX": 59.7807215332582,
+            "waterY": 36.5
+          }
+        },
+        {
+          "filename": "minnow-s-surface-chew",
+          "frame": {
+            "x": 402,
+            "y": 922,
+            "w": 113,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 122,
+            "h": 158
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 113,
+            "h": 149
+          },
+          "referenceHeight": 311.99221968359484,
+          "surfaceMouth": {
+            "x": 32.60994152046783,
+            "y": 5.5,
+            "w": 56,
+            "h": 29,
+            "waterX": 60.60994152046783,
+            "waterY": 34.5
+          }
+        },
+        {
+          "filename": "minnow-sw-surface-bite",
+          "frame": {
+            "x": 583,
+            "y": 752,
+            "w": 135,
+            "h": 155
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 144,
+            "h": 164
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 135,
+            "h": 155
+          },
+          "referenceHeight": 326.3069859181689,
+          "surfaceMouth": {
+            "x": 9.214131607335503,
+            "y": 5.5,
+            "w": 62,
+            "h": 30,
+            "waterX": 40.2141316073355,
+            "waterY": 35.5
+          }
+        },
+        {
+          "filename": "minnow-sw-surface-chew",
+          "frame": {
+            "x": 581,
+            "y": 924,
+            "w": 135,
+            "h": 146
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 144,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 135,
+            "h": 146
+          },
+          "referenceHeight": 326.3069859181689,
+          "surfaceMouth": {
+            "x": 8.204370179948569,
+            "y": 5,
+            "w": 62,
+            "h": 28,
+            "waterX": 39.20437017994857,
+            "waterY": 33
+          }
+        },
+        {
+          "filename": "minnow-w-surface-bite",
+          "frame": {
+            "x": 766,
+            "y": 758,
+            "w": 140,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 148,
+            "h": 158
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 140,
+            "h": 149
+          },
+          "referenceHeight": 329.76056968288907,
+          "surfaceMouth": {
+            "x": 4,
+            "y": 5.5,
+            "w": 65,
+            "h": 29,
+            "waterX": 30.910227272727298,
+            "waterY": 34.5
+          }
+        },
+        {
+          "filename": "minnow-w-surface-chew",
+          "frame": {
+            "x": 766,
+            "y": 928,
+            "w": 138,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 146,
+            "h": 152
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 138,
+            "h": 144
+          },
+          "referenceHeight": 329.76056968288907,
+          "surfaceMouth": {
+            "x": 4,
+            "y": 5,
+            "w": 65,
+            "h": 28,
+            "waterX": 29.948317307692264,
+            "waterY": 33
+          }
+        },
+        {
+          "filename": "minnow-nw-surface-bite",
+          "frame": {
+            "x": 951,
+            "y": 752,
+            "w": 133,
+            "h": 146
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 133,
+            "h": 146
+          },
+          "referenceHeight": 311.62760355391794,
+          "surfaceMouth": {
+            "x": 12.245478036175655,
+            "y": 5,
+            "w": 59,
+            "h": 28,
+            "waterX": 41.745478036175655,
+            "waterY": 33
+          }
+        },
+        {
+          "filename": "minnow-nw-surface-chew",
+          "frame": {
+            "x": 951,
+            "y": 924,
+            "w": 133,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 142,
+            "h": 154
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4.5,
+            "w": 133,
+            "h": 145
+          },
+          "referenceHeight": 311.62760355391794,
+          "surfaceMouth": {
+            "x": 12.602921646746381,
+            "y": 5.5,
+            "w": 59,
+            "h": 28,
+            "waterX": 42.10292164674638,
+            "waterY": 33.5
+          }
+        },
+        {
+          "filename": "minnow-n-surface-bite",
+          "frame": {
+            "x": 1104,
+            "y": 752,
+            "w": 112,
+            "h": 159
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 120,
+            "h": 168
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 112,
+            "h": 159
+          },
+          "referenceHeight": 313.1837710223492,
+          "surfaceMouth": {
+            "x": 32.63731170336041,
+            "y": 5.5,
+            "w": 56,
+            "h": 31,
+            "waterX": 60.63731170336041,
+            "waterY": 36.5
+          }
+        },
+        {
+          "filename": "minnow-n-surface-chew",
+          "frame": {
+            "x": 1105,
+            "y": 923,
+            "w": 111,
+            "h": 152
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 120,
+            "h": 160
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 111,
+            "h": 152
+          },
+          "referenceHeight": 313.1837710223492,
+          "surfaceMouth": {
+            "x": 32.645258103241304,
+            "y": 5,
+            "w": 56,
+            "h": 30,
+            "waterX": 60.645258103241304,
+            "waterY": 35
+          }
+        },
+        {
+          "filename": "minnow-ne-surface-bite",
+          "frame": {
+            "x": 1273,
+            "y": 752,
+            "w": 146,
+            "h": 153
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 154,
+            "h": 162
+          },
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4.5,
+            "w": 146,
+            "h": 153
+          },
+          "referenceHeight": 346.15531055583125,
+          "surfaceMouth": {
+            "x": 92.5258426966293,
+            "y": 5.5,
+            "w": 57.4741573033707,
+            "h": 30,
+            "waterX": 125.0258426966293,
+            "waterY": 35.5
+          }
+        },
+        {
+          "filename": "minnow-ne-surface-chew",
+          "frame": {
+            "x": 1274,
+            "y": 922,
+            "w": 141,
+            "h": 150
+          },
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 150,
+            "h": 158
+          },
+          "spriteSourceSize": {
+            "x": 4.5,
+            "y": 4,
+            "w": 141,
+            "h": 150
+          },
+          "referenceHeight": 346.15531055583125,
+          "surfaceMouth": {
+            "x": 86.23224351747467,
+            "y": 5,
+            "w": 59.26775648252533,
+            "h": 29,
+            "waterX": 118.73224351747467,
+            "waterY": 34
+          }
+        }
+      ]
+    },
+    {
       "image": "eating-turtle.png",
       "size": {
         "w": 1983,

@@ -141,6 +141,16 @@ Actual bites start a simulation-owned meal with its amount and duration. Full bi
 
 Validation passed: 71 unit tests, all 22 production browser scenarios, the TypeScript/production build, and the art audit of 474 animation drawings. The 56 species/direction combinations were checked in the running game for pose selection, stable scale, head/waterline anchors, and return to swimming. The eating contact sheet and assembled desktop and phone views were visually inspected.
 
+## Carp feeding at the surface, 14 October 2026
+
+All three carp profiles have 48 additional open/closed-mouth drawings with raised heads and tails sloping down into the water. The west and northeast views were corrected to preserve their swimming headings, and the closed-mouth poses keep a thin lip crease. The pitched bodies are modestly foreshortened and retain a single scale per heading.
+
+The renderer blends into the raised pose over the beginning of each meal. Its body remains beneath the reflections; an identically aligned copy reveals only the lip area above them. Mouth metadata registers the small light-and-shade ripple at that boundary. The final part of the meal gently lowers the fish, including during the resting pose. Transition timing follows the simulation, so short bites, suspended play, reduced motion, and new visits remain consistent.
+
+The source sheet, actual desktop and phone scenes, and a contact sheet of all 24 species/heading pairs were visually inspected. Browser checks compare visible pixels with the lip overlay enabled and disabled, verify that bodies stay below the reflections, check open/closed poses and alignment, and confirm that the overlays disappear after eating and reset without duplicates. The art audit passed all 522 animation drawings, including the new lip bounds.
+
+Validation passed: all 74 unit tests, all 26 production browser scenarios, and the TypeScript/production build. The browser suite also verifies the new original 90-second chiptune on desktop and phone: playback starts with the sound control, fades out while muted or suspended, resumes its position, and reuses one audio buffer through repeated toggles. Audio failure leaves the pond playable.
+
 ## Reproduce the review
 
 ```bash

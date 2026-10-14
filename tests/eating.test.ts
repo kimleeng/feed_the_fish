@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PondSimulation, SPECIES, MUSK_TURTLE, type AnimalProfile, type Food } from '../src/simulation.ts';
-import { eatingDuration, eatingFrame, eatingStage } from '../src/eating.ts';
+import { eatingDuration, eatingFrame, eatingStage, fishSurfaceAmount, fishSurfaceFrame } from '../src/eating.ts';
 import { turtleSurfaceAmount } from '../src/turtle.ts';
 
 function feed(profile: AnimalProfile, portion = 1) {
@@ -100,4 +100,31 @@ test('the turtle stays surfaced through its slow swallow and dips only after the
   assert.equal(animal.moving, false);
   advance(pond, 0.5);
   assert.equal(turtleSurfaceAmount(animal), 0);
+});
+
+test('all carp rise for a real meal, keep working their mouths at the surface, and sink smoothly before moving on', () => {
+  for (const profile of SPECIES.filter(profile => profile.kind === 'fish')) for (const portion of [1, .1]) {
+    const { pond, animal } = feed(profile, portion);
+    const duration = animal.meal!.duration;
+    assert.equal(fishSurfaceAmount(animal), 0);
+    advance(pond, duration * .05);
+    assert.ok(fishSurfaceAmount(animal) > 0 && fishSurfaceAmount(animal) < 1);
+    advance(pond, duration * .35);
+    assert.equal(fishSurfaceAmount(animal), 1);
+    const paused = fishSurfaceAmount(animal), pose = fishSurfaceFrame(animal, 's');
+    pond.paused = true; advance(pond, 2);
+    assert.equal(fishSurfaceAmount(animal), paused); assert.equal(fishSurfaceFrame(animal, 's'), pose);
+    pond.paused = false;
+    advance(pond, duration * .56);
+    assert.equal(eatingStage(animal), 'rest');
+    assert.ok(fishSurfaceAmount(animal) > 0 && fishSurfaceAmount(animal) < 1);
+    assert.equal(fishSurfaceFrame(animal, 's'), `${profile.texture}-s-surface-chew`);
+    advance(pond, duration * .04);
+    assert.equal(fishSurfaceAmount(animal), 0);
+    assert.equal(pond.bites.length, 1);
+  }
+  for (const profile of [...SPECIES.filter(profile => profile.kind === 'bird'), MUSK_TURTLE]) {
+    const { pond, animal } = feed(profile); advance(pond, .3);
+    assert.equal(fishSurfaceAmount(animal), 0);
+  }
 });

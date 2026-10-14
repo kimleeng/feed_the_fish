@@ -13,6 +13,9 @@ export interface AnimationFrameData {
   bodyBounds?: { x: number; y: number; w: number; h: number };
   waterline?: { x: number; y: number };
   surfaceOffset?: { x: number; y: number };
+  // Untrimmed source coordinates, shared by the underwater body and the
+  // identical cropped snout drawn above the reflections.
+  surfaceMouth?: { x: number; y: number; w: number; h: number; waterX: number; waterY: number };
 }
 
 export function animationFrameData(frame: { customData: object }): AnimationFrameData {

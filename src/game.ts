@@ -13,7 +13,7 @@ import { SHOW_TURTLE_UNDERWATER, turtleSurfaceAmount } from './turtle.ts';
 import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-frames.ts';
 import { WaterShimmer } from './water.ts';
 import type { WindState } from './wind.ts';
-import { EATING_ATLAS, eatingFrame } from './eating.ts';
+import { EATING_ATLAS, eatingFrame, fishSurfaceAmount, fishSurfaceFrame } from './eating.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; turtleFood: number; share: number;
@@ -30,11 +30,14 @@ export class PondScene extends Phaser.Scene {
   showTurtleUnderwater = SHOW_TURTLE_UNDERWATER;
   private creatures = new Map<number, Phaser.GameObjects.Sprite>();
   private turtleHeads = new Map<number, Phaser.GameObjects.Sprite>();
+  private feedingFish = new Map<number, { body: Phaser.GameObjects.Sprite; mouth: Phaser.GameObjects.Sprite }>();
   private observers = new Map<number, Phaser.GameObjects.Container>();
   private directions = new Map<number, Direction>();
   private pellets = new Map<number, Phaser.GameObjects.Container>();
   private waterMask!: Phaser.Display.Masks.GeometryMask;
   private fishLayer!: Phaser.GameObjects.Container;
+  private fishMouthLayer!: Phaser.GameObjects.Container;
+  private feedingRipples!: Phaser.GameObjects.Graphics;
   private birdWakes!: Phaser.GameObjects.Graphics;
   private waterShimmer!: Phaser.GameObjects.Graphics;
   private shimmerParticles = new WaterShimmer(this.world.wind.seed);
@@ -221,6 +224,8 @@ export class PondScene extends Phaser.Scene {
     this.add.container(0, 0, [reflections])
       .setName('water-surface').setDepth(20).setAlpha(0.33).setMask(this.waterMask);
     this.waterShimmer = this.add.graphics().setName('water-shimmer').setDepth(20.1).setMask(this.waterMask);
+    this.fishMouthLayer = this.add.container(0, 0).setName('fish-mouths').setDepth(25).setMask(this.waterMask);
+    this.feedingRipples = this.add.graphics().setName('fish-feeding-ripples').setDepth(25.1).setMask(this.waterMask);
     this.birdWakes = this.add.graphics().setName('bird-wakes').setDepth(26).setMask(this.waterMask);
   }
 
@@ -235,6 +240,15 @@ export class PondScene extends Phaser.Scene {
         .setDepth(underwater ? 10 : 30).setAlpha(underwater ? 0.83 + animal.id % 4 * 0.025 : 1);
       sprite.setScale(profile.size / animationFrameData(sprite.frame).referenceHeight);
       if (underwater) this.fishLayer.add(sprite);
+      if (profile.kind === 'fish') {
+        const frame = fishSurfaceFrame(animal, direction);
+        const body = this.add.sprite(animal.x, animal.y, EATING_ATLAS, frame)
+          .setName('feeding-fish-' + animal.id).setTint(profile.tint).setVisible(false);
+        const mouth = this.add.sprite(animal.x, animal.y, EATING_ATLAS, frame)
+          .setName('fish-mouth-' + animal.id).setTint(profile.tint).setVisible(false);
+        this.fishLayer.add(body); this.fishMouthLayer.add(mouth);
+        this.feedingFish.set(animal.id, { body, mouth });
+      }
       if (profile.kind === 'turtle') {
         sprite.setVisible(this.showTurtleUnderwater);
         const head = this.add.sprite(animal.x, animal.y, 'turtle-swimmer', `musk-turtle-${direction}-head`)
@@ -298,6 +312,8 @@ export class PondScene extends Phaser.Scene {
 
   restart(): void {
     this.creatures.forEach(sprite => sprite.destroy());
+    this.feedingFish.forEach(({ body, mouth }) => { body.destroy(); mouth.destroy(); });
+    this.feedingFish.clear(); this.feedingRipples.clear();
     this.turtleHeads.forEach(sprite => sprite.destroy());
     this.turtleHeads.clear();
     this.pellets.forEach(pellet => pellet.destroy());
@@ -375,6 +391,7 @@ export class PondScene extends Phaser.Scene {
     this.updateMachine();
     this.updateEmployee();
     this.birdWakes.clear();
+    this.feedingRipples.clear();
     this.updateWaterShimmer(this.world.elapsed - elapsedBefore);
     for (const animal of this.world.animals) {
       const sprite = this.creatures.get(animal.id)!;
@@ -391,6 +408,36 @@ export class PondScene extends Phaser.Scene {
       sprite.setScale(animal.profile.size / animationFrameData(sprite.frame).referenceHeight);
       const bob = bird ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
       sprite.setPosition(animal.x, animal.y + bob).setDepth((bird ? 30 : 10) + animal.y / 1000);
+      if (animal.profile.kind === 'fish') {
+        const amount = fishSurfaceAmount(animal);
+        const { body, mouth } = this.feedingFish.get(animal.id)!;
+        const underwaterAlpha = 0.83 + animal.id % 4 * 0.025;
+        sprite.setAlpha(underwaterAlpha * (1 - amount));
+        body.setVisible(amount > 0); mouth.setVisible(amount > 0);
+        if (amount > 0) {
+          const frame = fishSurfaceFrame(animal, direction);
+          body.setFrame(frame); mouth.setFrame(frame);
+          const data = animationFrameData(body.frame), lip = data.surfaceMouth!;
+          const scale = animal.profile.size / data.referenceHeight;
+          const y = animal.y - animal.profile.size * 0.055 * amount;
+          body.setPosition(animal.x, y).setScale(scale).setAlpha(underwaterAlpha * amount).setDepth(sprite.depth);
+          // Use the exact same complete drawing and transform on both sides
+          // of the water. Only the raised lips are revealed above reflections.
+          mouth.setPosition(animal.x, y).setScale(scale).setAlpha(amount).setDepth(animal.y)
+            .setCrop(lip.x, lip.y, lip.w, lip.h);
+          const x = animal.x + (lip.waterX - body.displayOriginX) * scale;
+          const waterY = y + (lip.waterY - body.displayOriginY) * scale;
+          const age = animal.meal!.duration - animal.chewLeft;
+          const spread = (age % 0.8) / 0.8;
+          const width = Math.max(6, lip.w * scale * 1.45);
+          this.feedingRipples.lineStyle(0.8, 0x264f40, amount * 0.55)
+            .strokeEllipse(x, waterY + 0.6, width, width * 0.27);
+          this.feedingRipples.lineStyle(1, 0xf4ecc5, amount * 0.8)
+            .strokeEllipse(x, waterY, width, width * 0.27);
+          this.feedingRipples.lineStyle(0.8, 0xd7e5be, amount * (1 - spread) * 0.4)
+            .strokeEllipse(x, waterY, width + spread * 12, width * 0.3 + spread * 4);
+        }
+      }
       if (animal.profile.kind === 'turtle') {
         const amount = turtleSurfaceAmount(animal);
         const bodyAmount = this.showTurtleUnderwater ? 1 : amount;
@@ -424,6 +471,7 @@ export class PondScene extends Phaser.Scene {
       }
     }
     this.fishLayer.sort('depth');
+    this.fishMouthLayer.sort('depth');
     const foodIds = new Set(this.world.food.map(food => food.id));
     this.pellets.forEach((pellet, id) => { if (!foodIds.has(id)) { pellet.destroy(); this.pellets.delete(id); } });
     for (const food of this.world.food) {

@@ -6,6 +6,7 @@ import { COIN_PRICE, THROWS_PER_COIN, type VendingPhase } from './vending.ts';
 import { LUCKY_BONUS_POINTS } from './throws.ts';
 import { pelletStockLevel } from './pellet-stock-art.ts';
 import { HandIconDeck } from './hand-icon.ts';
+import { PondMusic } from './music.ts';
 
 const element = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const guide = element<HTMLDialogElement>('guide-dialog');
@@ -17,6 +18,8 @@ let assistMode = false;
 let best = 0;
 let soundOn = false;
 let audio: AudioContext | undefined;
+let music: PondMusic | undefined;
+let soundRequest = 0;
 let lastPhase: VendingPhase = 'ready';
 let lastMachineFillLevel = -1;
 const handIcons = new HandIconDeck();
@@ -124,6 +127,7 @@ document.addEventListener('keydown', event => {
   if (event.code === 'Space' && !control) { event.preventDefault(); pond.scatter(); }
 });
 document.addEventListener('visibilitychange', () => {
+  if (document.hidden) music?.setPlaying(false);
   if (!pond?.ready) return;
   if (document.hidden) {
     pausedForVisibility = !pond.world.paused;
@@ -132,21 +136,34 @@ document.addEventListener('visibilitychange', () => {
     if (pond.world.paused) pond.togglePause();
     pausedForVisibility = false;
   }
+  syncMusic();
 });
 
 element('sound-button').addEventListener('click', async () => {
   soundOn = !soundOn;
+  const request = ++soundRequest;
+  updateSoundButton();
+  if (!soundOn) { music?.setPlaying(false); return; }
   if (soundOn) {
-    try { audio ??= new AudioContext(); await audio.resume(); } catch { soundOn = false; }
+    try {
+      audio ??= new AudioContext(); await audio.resume();
+      if (request !== soundRequest || !soundOn) return;
+      music ??= new PondMusic(audio); syncMusic();
+    } catch { if (request === soundRequest) { soundOn = false; updateSoundButton(); } }
   }
+});
+function syncMusic(): void { music?.setPlaying(soundOn && !document.hidden && !pond?.world.paused); }
+window.addEventListener('pagehide', () => music?.setPlaying(false));
+window.addEventListener('pageshow', syncMusic);
+function updateSoundButton(): void {
   const button = element('sound-button');
   button.setAttribute('aria-pressed', String(soundOn));
   button.setAttribute('aria-label', soundOn ? 'Turn sound off' : 'Turn sound on');
   button.querySelector('span')!.textContent = soundOn ? 'Sound on' : 'Sound off';
   button.querySelector('path')!.setAttribute('d', soundOn ? 'M11 4 6 8H3v8h3l5 4zM16 8c3 2 3 6 0 8M19 5c5 4 5 10 0 14' : 'M11 4 6 8H3v8h3l5 4zM16 9l5 6m0-6-5 6');
-});
+}
 function tone(frequency: number, duration = 0.12): void {
-  if (!soundOn || !audio) return;
+  if (!soundOn || !audio || document.hidden) return;
   const oscillator = audio.createOscillator();
   const volume = audio.createGain();
   oscillator.type = 'sine';
@@ -155,6 +172,7 @@ function tone(frequency: number, duration = 0.12): void {
   volume.gain.setValueAtTime(0.01, audio.currentTime);
   volume.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + duration);
   oscillator.connect(volume); volume.connect(audio.destination);
+  oscillator.onended = () => { oscillator.disconnect(); volume.disconnect(); };
   oscillator.start(); oscillator.stop(audio.currentTime + duration);
 }
 document.addEventListener('pond:toss', () => tone(480, 0.16));
@@ -171,6 +189,7 @@ const phaseText: Record<VendingPhase, string> = {
 };
 document.addEventListener('pond:state', event => {
   const state = (event as CustomEvent<PondState>).detail;
+  music?.setPlaying(soundOn && !state.paused && !document.hidden);
   element('food-count').textContent = String(state.handfuls);
   const hand = element('hand-icon');
   const handFrame = handIcons.update(state.handPreviewId, state.handfuls > 0, state.nextHandLucky);

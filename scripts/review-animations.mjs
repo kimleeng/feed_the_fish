@@ -27,6 +27,11 @@ export async function reviewAnimations(output, names = [...ANIMATED_ATLASES, EAT
           }
           if (name === 'dock-thrower' && (!entry.hand || entry.feet.length !== 2)) throw new Error(`Missing hand or planted shoes: ${entry.filename}`);
           if (name === 'garden-employee' && entry.filename.startsWith('pour') && !entry.pour) throw new Error('Missing sack mouth');
+          if (entry.filename.includes('-surface-')) {
+            const lip = entry.surfaceMouth;
+            if (!lip || lip.x < 0 || lip.y < 0 || lip.w <= 0 || lip.h <= 0 || lip.x + lip.w > size.w || lip.y + lip.h > size.h ||
+              lip.waterX < lip.x || lip.waterX > lip.x + lip.w || lip.waterY !== lip.y + lip.h) throw new Error(`Invalid surfaced mouth: ${entry.filename}`);
+          }
           for (const previous of texture.frames.slice(0, index)) {
             const other = previous.frame;
             if (Math.min(frame.x + frame.w, other.x + other.w) > Math.max(frame.x, other.x) &&
@@ -38,7 +43,7 @@ export async function reviewAnimations(output, names = [...ANIMATED_ATLASES, EAT
       }
       const directions = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'];
       const order = name === EATING_ATLAS ? ['koi', 'carp', 'minnow', 'duck', 'gull', 'coot', 'musk-turtle'].flatMap(species =>
-        directions.flatMap(direction => (['koi', 'carp', 'minnow'].includes(species) ? ['bite', 'chew'] : ['bite', 'chew', 'swallow'])
+        directions.flatMap(direction => (['koi', 'carp', 'minnow'].includes(species) ? ['bite', 'chew', 'surface-bite', 'surface-chew'] : ['bite', 'chew', 'swallow'])
           .map(pose => `${species}-${direction}-${pose}`)))
         : name === 'garden-observers' ? ['adult', 'kid'].flatMap(age => [0, 1, 2].flatMap(look =>
         [...WALK_CYCLE, 'watch'].map(pose => `observer-${age}-${look}-${pose}`)))
