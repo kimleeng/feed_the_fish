@@ -273,7 +273,7 @@ export class PondScene extends Phaser.Scene {
 
   scatter(point = this.lastPoint): void {
     if (!this.ready || this.world.paused) return;
-    if (!inPond(point)) { this.message('A little further into the water. The fish are waiting.'); return; }
+    if (!inPond(point)) { this.message('Choose a spot inside the pond.'); return; }
     if (!this.world.scatter(point)) {
       if (this.world.handfuls === 0 && !this.world.machine.busy) document.dispatchEvent(new CustomEvent('pond:needs-food'));
       return;
@@ -314,7 +314,6 @@ export class PondScene extends Phaser.Scene {
     this.updateMachine();
     this.updateEmployee();
     this.publishHud();
-    document.dispatchEvent(new CustomEvent('pond:needs-food'));
   }
 
   private ripple(x: number, y: number, color: number, alpha = 0.3, radius = 23): void {
@@ -345,7 +344,7 @@ export class PondScene extends Phaser.Scene {
 
   private message(text: string): void {
     document.querySelector('#instruction-text')!.textContent = text;
-    this.time.delayedCall(2500, () => { document.querySelector('#instruction-text')!.textContent = 'Pick a quiet spot in the water.'; });
+    this.time.delayedCall(2500, () => { document.querySelector('#instruction-text')!.textContent = 'Click the water or press Space to throw.'; });
   }
 
   private publishHud(): void {

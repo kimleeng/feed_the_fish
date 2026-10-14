@@ -14,6 +14,8 @@ The animation atlas has 24 actual full-body cuts: twelve original poses and twel
 
 The 2% lucky chance, hand indicator, fish-only +50 bonus, throw queue, and pause behavior use the existing throw events. The collecting hand in the machine dialog retains its separate artwork.
 
+Airborne food now samples the shared recorded wind over each flight interval. The breeze gradually shifts its landing target, which bends the visible arc and gives birds an updated point to approach. Wind starts at hand release, stops at splashdown, and affects longer overhand flights more. Landings stay inside the shoreline and create one splash at the shifted point. Simulation coverage includes calm air, both wind axes, changing gusts, queued releases, suspension, frame-rate consistency, and outward gusts along the curved shore.
+
 ## Reproduce the review
 
 ```bash

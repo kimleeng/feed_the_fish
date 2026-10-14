@@ -8,17 +8,18 @@
     <title>Feed the fish · A little stillness</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232d594b'/%3E%3Cpath d='M12 22v20l14-10z' fill='%23eda16e'/%3E%3Cellipse cx='36' cy='32' rx='19' ry='13' fill='%23efc278'/%3E%3Ccircle cx='44' cy='29' r='3' fill='%232d594b'/%3E%3C/svg%3E" />
   </head>
-  <body>
+  <body data-assist="off">
     <div class="site-shell">
       <header class="site-header">
         <a class="brand" href="./" aria-label="Feed the fish home"><span class="brand-fish" aria-hidden="true"></span>feed the fish<span class="brand-dot">.</span></a>
         <nav aria-label="Game tools">
-          <button class="nav-button" id="guide-button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5c4-1 7-1 9 1 2-2 5-2 9-1v14c-4-1-7-1-9 1-2-2-5-2-9-1zM12 6v14"/></svg>Field guide</button>
+          <button class="nav-button assist-button" id="assist-button" aria-label="Assist mode" aria-pressed="false"><span class="assist-indicator" aria-hidden="true"></span>Assist mode</button>
+          <button class="nav-button" id="guide-button" aria-label="Field guide" data-assist-only><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5c4-1 7-1 9 1 2-2 5-2 9-1v14c-4-1-7-1-9 1-2-2-5-2-9-1zM12 6v14"/></svg><span>Field guide</span></button>
           <button class="sound-button" id="sound-button" aria-label="Turn sound on" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4 6 8H3v8h3l5 4zM16 9l5 6m0-6-5 6"/></svg><span>Sound off</span></button>
         </nav>
       </header>
       <main>
-        <section class="introduction" aria-labelledby="page-title">
+        <section class="introduction" aria-labelledby="page-title" data-assist-only>
           <div><p class="eyebrow"><span class="little-star">✳</span> A LITTLE POND. A MOMENT TO YOURSELF.</p><h1 id="page-title">A little <em>stillness.</em></h1></div>
           <p class="intro-copy">The pond has all afternoon.<br>A few pellets. A few ripples. Just be here.</p>
         </section>
@@ -27,31 +28,29 @@
             <div id="pond" role="application" aria-label="Interactive pond. Click the water or press Space to throw pellets from the dock. Click the red machine beside the dock to refill, or use the Pellet machine button." tabindex="0"></div>
             <div class="loading" id="loading"><span class="brand-fish"></span><p>Finding a quiet spot…</p></div>
             <div class="pond-hud">
-              <div class="hud-food"><span class="hud-label">IN YOUR HAND</span><div><span id="hand-icon" class="food-icon" data-frame="12" aria-hidden="true"></span><strong id="food-count">0</strong><span>throws left</span></div><div class="food-track"><span id="food-bar" style="width:0%"></span></div></div>
-              <div class="hud-quiet"><span>No hurry</span><button id="pause-button" aria-label="Pause game" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg></button></div>
-              <div class="hud-score"><span class="hud-label">A LITTLE KINDNESS</span><div><strong id="score">0</strong><span>points</span></div><span class="fish-total"><strong id="fish-count">0</strong> different fish fed</span><span id="lucky-bonus" class="lucky-bonus" hidden></span><span id="best-score" class="best-score">A lovely place to begin</span></div>
+              <div class="hud-food"><span class="hud-label" data-assist-only>IN YOUR HAND</span><div><span id="hand-icon" class="food-icon" data-frame="12" aria-hidden="true"></span><strong id="food-count">0</strong><span>throws left</span></div><div class="food-track" data-assist-only><span id="food-bar" style="width:0%"></span></div></div>
+              <div class="hud-score"><span class="hud-label" data-assist-only>A LITTLE KINDNESS</span><div><strong id="score">0</strong><span>points</span></div><span class="fish-total" data-assist-only><strong id="fish-count">0</strong> different fish fed</span><span id="lucky-bonus" class="lucky-bonus" hidden></span><span id="best-score" class="best-score" data-assist-only>A lovely place to begin</span></div>
             </div>
-            <div class="pond-location"><span class="live-dot"></span> A TIVOLI AFTERNOON <span class="location-weather">COPENHAGEN</span></div>
-            <div class="pond-instruction"><span class="instruction-dot"></span><span id="instruction-text">Pick a quiet spot in the water.</span><kbd>SPACE</kbd></div>
-            <div class="paused-overlay" id="paused-overlay" hidden><p>Take a little breather.</p><button id="resume-button">Back to the pond <span>→</span></button></div>
+            <div class="pond-location" data-assist-only><span class="live-dot"></span> A TIVOLI AFTERNOON <span class="location-weather">COPENHAGEN</span></div>
+            <div class="pond-instruction" data-assist-only><span class="instruction-dot"></span><span id="instruction-text">Click the water or press Space to throw.</span><kbd>SPACE</kbd></div>
           </div>
           <div class="pond-bottom-bar">
-            <div class="share-block"><span class="share-label">WHO GOT THE PELLETS?</span><div class="share-meter" aria-label="Share of eaten food that went to fish"><span id="share-fill"></span></div><span class="share-value"><strong id="share-value">—</strong> to the fish</span></div>
+            <div class="share-block" data-assist-only><span class="share-label">WHO GOT THE PELLETS?</span><div class="share-meter" aria-label="Share of eaten food that went to fish"><span id="share-fill"></span></div><span class="share-value"><strong id="share-value">—</strong> to the fish</span></div>
             <div class="pond-actions"><button id="refill-button" class="small-button refill-button">Pellet machine <span>5 kr</span></button><button id="scatter-button" class="small-button" disabled>Throw pellets <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 12 8-8M4 4h8v8"/></svg></span></button><button id="restart-button" class="icon-button" aria-label="Begin a new visit" title="Begin a new visit">↻</button></div>
           </div>
-          <div class="visit-line"><p class="visit-note" id="visit-note" role="status">First, a coin and a little ritual at the pellet machine.</p><span class="spend-note">This visit <strong id="money-used">0 kr</strong></span></div>
+          <div class="visit-line"><p class="visit-note" id="visit-note" role="status" data-assist-only>Use the red pellet machine to fill your hand.</p><span class="spend-note">This visit <strong id="money-used">0 kr</strong></span></div>
         </section>
-        <section class="tips" aria-label="Pond tips">
+        <section class="tips" aria-label="Pond tips" data-assist-only>
           <article><span class="tip-number">01</span><div><h2>Watch it travel.</h2><p>Birds notice the arc through the air. Fish wait for that little splash.</p></div></article>
           <article><span class="tip-number">02</span><div><h2>Let everyone linger.</h2><p>Carp meander. Their young shoal. Each creature takes its own time to chew.</p></div></article>
           <article><span class="tip-number">03</span><div><h2>A little more, whenever.</h2><p>The red machine beside the dock brings ten more throws for one coin.</p></div></article>
         </section>
       </main>
-      <footer><span>Made for small moments of joy.</span><span>Inspired by an afternoon in Tivoli <span class="footer-star">✳</span></span></footer>
+      <footer data-assist-only><span>Made for small moments of joy.</span><span>Inspired by an afternoon in Tivoli <span class="footer-star">✳</span></span></footer>
     </div>
 
     <dialog id="machine-dialog" class="machine-dialog" aria-labelledby="machine-title">
-      <div class="dialog-top"><p class="eyebrow">THE LITTLE PELLET MACHINE</p><button id="close-machine" class="icon-button" aria-label="Close pellet machine">×</button></div>
+      <div class="dialog-top"><p class="eyebrow" data-assist-only>THE PELLET MACHINE</p><button id="close-machine" class="icon-button" aria-label="Close pellet machine">×</button></div>
       <div class="machine-body">
         <div id="vending-stage" class="vending-stage" data-phase="ready" aria-busy="false">
           <div class="machine-apparatus">
@@ -66,19 +65,19 @@
           <button id="insert-coin" class="coin-button" aria-label="Insert 5 kr coin"><span>5</span><small>kr</small></button>
         </div>
         <div class="machine-copy">
-          <p class="eyebrow">FIRST, A LITTLE RITUAL.</p><h2 id="machine-title">A handful of calm.</h2>
-          <p class="machine-description">Drop in a coin. Watch the handle turn. Hold out your hand for a little kindness to share.</p>
-          <div class="machine-offer"><strong id="coin-price">5 kr</strong><span>for <strong id="serving-count">10</strong> little throws</span></div>
-          <p id="machine-status" class="machine-status" role="status">Click the coin to begin.</p>
-          <div class="machine-receipt"><span>Coins this visit <strong id="machine-coins">0</strong></span><span>A little spent <strong id="machine-total">0 kr</strong></span></div>
-          <button id="machine-watch" class="text-button">Or just watch the pond for a while</button>
+          <h2 id="machine-title">Fish pellets</h2>
+          <p class="machine-description" data-assist-only>Insert a coin to turn the handle and collect a handful of pellets.</p>
+          <div class="machine-offer"><strong id="coin-price">5 kr</strong><span>for <strong id="serving-count">10</strong> throws</span></div>
+          <p id="machine-status" class="machine-status" role="status">Insert a coin.</p>
+          <div class="machine-receipt"><span>Coins this visit <strong id="machine-coins">0</strong></span><span>Total <strong id="machine-total">0 kr</strong></span></div>
+          <button id="machine-watch" class="text-button">Back to pond</button>
         </div>
       </div>
     </dialog>
-    <dialog id="guide-dialog" class="guide-dialog">
+    <dialog id="guide-dialog" class="guide-dialog" aria-labelledby="guide-title">
       <div class="dialog-top"><p class="eyebrow">GET TO KNOW THE NEIGHBORS</p><button id="close-guide" class="icon-button" aria-label="Close field guide">×</button></div>
-      <h2>Everyone has their own rhythm.</h2><p class="dialog-description">Some drift. Some dart. Some keep one eye on your hand.</p>
-      <div class="species-grid" id="species-grid"></div><p class="guide-footnote">The pond pauses while you’re getting acquainted.</p>
+      <h2 id="guide-title">Field guide</h2>
+      <div class="species-grid" id="species-grid"></div>
     </dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>

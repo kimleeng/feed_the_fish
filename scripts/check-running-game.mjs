@@ -12,6 +12,7 @@ try {
   const response = await page.goto(process.argv[2] || 'http://127.0.0.1:5173');
   assert.equal(response.status(), 200);
   await page.locator('#loading').waitFor({ state: 'hidden' });
+  await page.getByRole('button', { name: 'Pellet machine' }).click();
   await page.locator('#machine-dialog').waitFor({ state: 'visible' });
   await page.getByRole('button', { name: 'Insert 5 kr coin' }).click();
   await page.locator('#machine-dialog').waitFor({ state: 'hidden' });

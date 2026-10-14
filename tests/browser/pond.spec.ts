@@ -9,7 +9,7 @@ import { OBSERVER_DESIGNS, OBSERVER_LOOKS } from '../../src/observer-looks.ts';
 
 type InspectedWindow = Window & { inspectedPond: PondScene };
 
-async function arrive(page: Page): Promise<void> {
+async function arrive(page: Page, openMachine = true): Promise<void> {
   await page.addInitScript(() => {
     document.addEventListener('pond:ready', event => {
       (window as InspectedWindow).inspectedPond = (event as CustomEvent<PondScene>).detail;
@@ -17,8 +17,14 @@ async function arrive(page: Page): Promise<void> {
   });
   await page.goto('/');
   await expect(page.locator('#loading')).toBeHidden();
-  await expect(page.locator('#machine-dialog')).toBeVisible();
+  await expect(page.locator('#machine-dialog')).toBeHidden();
+  if (openMachine) await page.getByRole('button', { name: 'Pellet machine' }).click();
   await page.waitForFunction(() => [...document.querySelectorAll<HTMLImageElement>('#machine-dialog img')].every(image => image.complete && image.naturalWidth > 0));
+}
+async function openGuide(page: Page): Promise<void> {
+  const assist = page.getByRole('button', { name: 'Assist mode', exact: true });
+  if (await assist.getAttribute('aria-pressed') === 'false') await assist.click();
+  await page.getByRole('button', { name: 'Field guide', exact: true }).click();
 }
 async function buy(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Insert 5 kr coin' }).click();
@@ -85,6 +91,131 @@ async function gardenMachinePoint(page: Page): Promise<{ x: number; y: number }>
   return { x: bounds.x + point.x / 1200 * bounds.width, y: bounds.y + point.y / 800 * bounds.height };
 }
 
+test('the pond opens with a compact interface and opt-in Assist mode preserves play and remembers its setting', async ({ page }, testInfo) => {
+  await arrive(page, false);
+  const assist = page.getByRole('button', { name: 'Assist mode', exact: true });
+  await expect(assist).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('#pause-button, #resume-button, #paused-overlay, #clock')).toHaveCount(0);
+  expect(await page.locator('body').innerText()).not.toMatch(/no hurry|breather/i);
+  await page.locator('#pond').press('p');
+  expect(await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.paused)).toBe(false);
+  expect(await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const time = scene.world.elapsed;
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+    scene.update(1000, 100);
+    const suspended = scene.world.paused && scene.world.elapsed === time;
+    Reflect.deleteProperty(document, 'hidden');
+    document.dispatchEvent(new Event('visibilitychange'));
+    scene.update(1100, 100);
+    return suspended && !scene.world.paused && scene.world.elapsed > time;
+  })).toBe(true);
+  await page.locator('#pond').press('Space');
+  await expect(page.locator('#machine-dialog')).toBeVisible();
+  await expect(page.locator('.machine-description')).toBeHidden();
+  await expect(page.locator('.machine-offer')).toContainText('5 kr');
+  await buy(page);
+  await page.getByRole('button', { name: 'Throw pellets' }).click();
+  const seed = await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.wind.seed);
+
+  for (const [size, viewport] of [['desktop', { width: 1440, height: 1000 }], ['phone', { width: 390, height: 844 }]] as const) {
+    await page.setViewportSize(viewport);
+    for (const selector of ['.introduction', '.tips', '.pond-instruction', '#visit-note', '#guide-button', '.share-block', 'footer']) {
+      await expect(page.locator(selector)).toBeHidden();
+    }
+    expect((await page.locator('.hud-food').boundingBox())!.height).toBeLessThan(70);
+    expect((await page.locator('.hud-score').boundingBox())!.height).toBeLessThan(70);
+    await expect(page.locator('#food-count')).toHaveText('9');
+    await expect(page.locator('#machine-dialog')).toBeHidden();
+    await page.screenshot({ path: testInfo.outputPath(`quiet-pond-${size}.png`), fullPage: true });
+    await assist.click();
+    await expect(assist).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.tips')).toBeVisible();
+    await expect(page.locator('#guide-button')).toBeVisible();
+    await expect(page.locator('.pond-instruction')).toBeVisible();
+    expect(await page.evaluate(() => {
+      const scene = (window as InspectedWindow).inspectedPond;
+      return Math.abs(scene.scale.canvasBounds.top - scene.game.canvas.getBoundingClientRect().top - window.scrollY);
+    })).toBeLessThan(1);
+    await expect(page.locator('#food-count')).toHaveText('9');
+    expect(await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.wind.seed)).toBe(seed);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath(`assist-pond-${size}.png`), fullPage: true });
+    await assist.click();
+  }
+  await assist.focus();
+  await page.keyboard.press('Space');
+  await expect(assist).toHaveAttribute('aria-pressed', 'true');
+  await page.reload();
+  await expect(page.locator('#loading')).toBeHidden();
+  await expect(assist).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#machine-dialog')).toBeHidden();
+  await openGuide(page);
+  await expect(page.locator('.species-card')).toHaveCount(6);
+  expect(await page.evaluate(() => {
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+    Reflect.deleteProperty(document, 'hidden');
+    document.dispatchEvent(new Event('visibilitychange'));
+    return (window as InspectedWindow).inspectedPond.world.paused;
+  })).toBe(true);
+  await page.getByRole('button', { name: 'Close field guide' }).click();
+  await assist.click();
+  await page.reload();
+  await expect(page.locator('#loading')).toBeHidden();
+  await expect(assist).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('#guide-button')).toBeHidden();
+});
+
+test('rendered airborne pellets drift with the shared wind and land at the shifted water position', async ({ page }, testInfo) => {
+  await arrive(page, false);
+  const airborne = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.pause();
+    const Simulation = scene.world.constructor as new (seed: number, roll?: () => number) => PondSimulation;
+    scene.world = new Simulation(17, () => 0.75);
+    for (const animal of scene.world.animals) animal.chewLeft = 60;
+    scene.world.handfuls = 1;
+    scene.scatter({ x: 600, y: 389 });
+    const initial = structuredClone(scene.world.food);
+    const halfway = initial[0].releaseAt + initial[0].flightDuration * 0.6;
+    while (halfway - scene.world.elapsed > 1e-10) scene.update(2000, Math.min(100, (halfway - scene.world.elapsed) * 1000));
+    return scene.world.food.map((food, index) => {
+      const pellet = scene.children.getByName('pellet-' + food.id) as Phaser.GameObjects.Container;
+      const t = food.flightTime / food.flightDuration;
+      const calmX = food.origin.x + (initial[index].target.x - food.origin.x) * t;
+      return { shift: food.x - calmX, landingShift: food.target.x - initial[index].target.x,
+        x: food.x, y: food.y, renderedX: pellet.x, renderedY: pellet.y, visible: pellet.visible, depth: pellet.depth, height: food.height };
+    });
+  });
+  expect(airborne).toHaveLength(4);
+  for (const pellet of airborne) {
+    expect(pellet.shift).toBeGreaterThan(8);
+    expect(pellet.landingShift).toBeGreaterThan(14);
+    expect(pellet.renderedX).toBe(pellet.x); expect(pellet.renderedY).toBe(pellet.y);
+    expect(pellet.visible).toBe(true); expect(pellet.depth).toBe(45); expect(pellet.height).toBeGreaterThan(20);
+  }
+  await page.screenshot({ path: testInfo.outputPath('wind-blown-food.png'), fullPage: true });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const landed = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const targets = scene.world.food.map(food => ({ ...food.target }));
+    for (let frame = 0; frame < 20; frame++) scene.update(3000 + frame * 100, 100);
+    return scene.world.food.map((food, index) => {
+      const pellet = scene.children.getByName('pellet-' + food.id) as Phaser.GameObjects.Container;
+      return { phase: food.phase, height: food.height, x: food.x, y: food.y,
+        continuedDrift: food.target.x - targets[index].x, renderedX: pellet.x, renderedY: pellet.y, depth: pellet.depth };
+    });
+  });
+  for (const food of landed) {
+    expect(food.phase).toBe('water'); expect(food.height).toBe(0);
+    expect(food.continuedDrift).toBeGreaterThan(5);
+    expect(food.renderedX).toBe(food.x); expect(food.renderedY).toBe(food.y); expect(food.depth).toBe(21);
+    expect(((food.x - POND.x) / POND.rx) ** 2 + ((food.y - POND.y) / POND.ry) ** 2).toBeLessThan(1);
+  }
+});
+
 test('wind shimmer stays visible on desktop and phone and respects pause, recording, and live motion preferences', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();
@@ -117,7 +248,7 @@ test('wind shimmer stays visible on desktop and phone and respects pause, record
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   expect((await inspectShimmer(page)).pixels).toBe(0);
-  await page.getByRole('button', { name: 'Back to the pond' }).click();
+  await page.evaluate(() => (window as InspectedWindow).inspectedPond.togglePause());
   await expect.poll(() => page.evaluate(() => (window as InspectedWindow).inspectedPond.world.wind.current.time)).toBeGreaterThan(shared.elapsed + 0.2);
   expect((await inspectShimmer(page)).pixels).toBe(0);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -216,7 +347,7 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
       expect(new Set([person.frame, ...after.poses]).size).toBeGreaterThan(1);
     }
   }
-  await page.getByRole('button', { name: 'Pause game' }).click();
+  await openGuide(page);
   const frozen = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
     const before = JSON.stringify(scene.world.crowd);
@@ -224,7 +355,8 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
     return JSON.stringify(scene.world.crowd) === before;
   });
   expect(frozen).toBe(true);
-  await page.getByRole('button', { name: 'Back to the pond' }).click();
+  await page.getByRole('button', { name: 'Close field guide' }).click();
+  await expect.poll(() => page.evaluate(() => (window as InspectedWindow).inspectedPond.world.paused)).toBe(false);
   const afterDepartures = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
     for (let i = 0; i < 2000; i++) scene.world.step(0.1);
@@ -243,7 +375,7 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
   expect(restarted.count).toBeGreaterThanOrEqual(2);
   expect(restarted.count).toBeLessThanOrEqual(4);
   expect(restarted.rendered).toBe(restarted.count);
-  await expect(page.locator('#machine-dialog')).toBeVisible();
+  await expect(page.locator('#machine-dialog')).toBeHidden();
 });
 
 test('every visitor and employee plays complete walking frames in both directions and keeps their outfit when watching', async ({ page }, testInfo) => {
@@ -450,7 +582,7 @@ test('purchases lower the visible pellet level and an employee walks in to refil
   await page.getByRole('button', { name: 'Pellet machine' }).click();
   await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeDisabled();
   await expect(page.locator('#close-machine')).toBeEnabled();
-  await expect(page.locator('#machine-status')).toContainText('topping up');
+  await expect(page.locator('#machine-status')).toHaveText('Refilling…');
   await page.screenshot({ path: testInfo.outputPath('machine-half-refilled.png'), fullPage: true });
   const frozen = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
@@ -504,7 +636,7 @@ test('an empty globe blocks payment until the employee returns stock, and a new 
   await expect(page.locator('#machine-fill')).toHaveAttribute('data-level', '0');
   await expect(page.locator('#machine-fill')).toBeHidden();
   await expect(page.getByRole('button', { name: 'Insert 5 kr coin' })).toBeDisabled();
-  await expect(page.locator('#machine-status')).toContainText('Resume the pond');
+  await expect(page.locator('#machine-status')).toHaveText('Sold out. More pellets are on the way.');
   await expect(page.locator('#money-used')).toHaveText('125 kr');
   await page.screenshot({ path: testInfo.outputPath('machine-empty.png'), fullPage: true });
   const recovered = await page.evaluate(() => {
@@ -725,7 +857,7 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
     birdPoses.add(pose);
     return birdPoses.size;
   }, { timeout: 5000 }).toBe(4);
-  await page.getByRole('button', { name: 'Field guide' }).click();
+  await openGuide(page);
   await expect(page.getByRole('heading', { name: 'Little coot' })).toBeVisible();
   expect(await page.locator('.species-art').evaluateAll(images =>
     images.every(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0))).toBe(true);
@@ -1032,7 +1164,7 @@ test('the thrower faces each throw and keeps looking that way afterward, with fo
   expect(reset).toBe(false);
 });
 
-test('the opening animates the coin and crank, grants ten throws, and feeds an untimed pond', async ({ page }, testInfo) => {
+test('the pellet machine animates the coin and crank, grants ten throws, and feeds an untimed pond', async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await arrive(page);
@@ -1056,19 +1188,18 @@ test('the opening animates the coin and crank, grants ten throws, and feeds an u
   for (let i = 0; i < 2; i++) await page.getByRole('button', { name: 'Throw pellets' }).click();
   await expect(page.locator('#food-count')).toHaveText('6');
   await expect.poll(async () => Number(await page.locator('#score').textContent()), { timeout: 20_000 }).toBeGreaterThan(0);
-  await page.getByRole('button', { name: 'Pause game' }).click();
-  await expect(page.locator('#paused-overlay')).toBeVisible();
+  await openGuide(page);
   const score = await page.locator('#score').textContent();
   await page.waitForTimeout(1000);
   await expect(page.locator('#score')).toHaveText(score!);
-  await page.getByRole('button', { name: 'Back to the pond' }).click();
-  await page.keyboard.press('p');
-  await expect(page.locator('#paused-overlay')).toBeVisible();
-  await page.keyboard.press('p');
-  await expect(page.locator('#paused-overlay')).toBeHidden();
+  await page.getByRole('button', { name: 'Close field guide' }).click();
+  await page.getByRole('button', { name: 'Assist mode', exact: true }).click();
+  await pond.press('p');
+  expect(await page.evaluate(() => (window as InspectedWindow).inspectedPond.world.paused)).toBe(false);
+  await expect(page.locator('#pause-button, #paused-overlay')).toHaveCount(0);
   await page.screenshot({ path: testInfo.outputPath('zen-pond-desktop.png'), fullPage: true });
   await page.getByRole('button', { name: 'Begin a new visit' }).click();
-  await expect(page.locator('#machine-dialog')).toBeVisible();
+  await expect(page.locator('#machine-dialog')).toBeHidden();
   await expect(page.locator('#food-count')).toHaveText('0');
   await expect(page.locator('#score')).toHaveText('0');
   await expect(page.locator('#money-used')).toHaveText('0 kr');
@@ -1123,12 +1254,15 @@ test.describe('mobile touch controls', () => {
       return rig.getByName('lucky-pellet-indicator').visible;
     })).toBe(true);
     await page.screenshot({ path: testInfo.outputPath('lucky-thrower-mobile.png'), fullPage: true });
-    await page.getByRole('button', { name: 'Field guide' }).tap();
+    await page.getByRole('button', { name: 'Assist mode', exact: true }).tap();
+    await page.getByRole('button', { name: 'Field guide', exact: true }).tap();
     await expect(page.locator('#guide-dialog')).toBeVisible();
     await expect(page.locator('.species-card')).toHaveCount(6);
     await page.getByRole('button', { name: 'Close field guide' }).tap();
-    await expect(page.locator('#paused-overlay')).toBeHidden();
+    await expect.poll(() => page.evaluate(() => (window as InspectedWindow).inspectedPond.world.paused)).toBe(false);
+    await page.getByRole('button', { name: 'Assist mode', exact: true }).tap();
     await page.locator('#pond').tap();
+    await expect(page.locator('#food-count')).toHaveText('9');
     await page.getByRole('button', { name: 'Throw pellets' }).tap();
     await expect(page.locator('#food-count')).toHaveText('8');
     expect(await page.evaluate(() => {

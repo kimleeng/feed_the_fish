@@ -12,12 +12,28 @@ const guide = element<HTMLDialogElement>('guide-dialog');
 const machine = element<HTMLDialogElement>('machine-dialog');
 let pond: PondScene;
 let pausedForGuide = false;
+let pausedForVisibility = false;
+let assistMode = false;
 let best = 0;
 let soundOn = false;
 let audio: AudioContext | undefined;
 let lastPhase: VendingPhase = 'ready';
 let lastMachineFillLevel = -1;
 const handIcons = new HandIconDeck();
+
+try { assistMode = localStorage.getItem('feed-the-fish-assist') === 'on'; } catch { /* Storage is optional. */ }
+function updateAssistMode(): void {
+  document.body.dataset.assist = assistMode ? 'on' : 'off';
+  element('assist-button').setAttribute('aria-pressed', String(assistMode));
+  // Revealing the introduction moves the canvas without resizing the window.
+  if (pond?.ready) pond.scale.updateBounds();
+}
+updateAssistMode();
+element('assist-button').addEventListener('click', () => {
+  assistMode = !assistMode;
+  updateAssistMode();
+  try { localStorage.setItem('feed-the-fish-assist', assistMode ? 'on' : 'off'); } catch { /* Storage is optional. */ }
+});
 
 function updateMachineFill(fillFraction: number, scene = pond): void {
   const canvas = element<HTMLCanvasElement>('machine-fill');
@@ -66,7 +82,6 @@ for (const id of ['refill-button', 'machine-watch']) {
 element('close-machine').addEventListener('click', closeMachine);
 element('insert-coin').addEventListener('click', () => { pond.buyPellets(); });
 machine.addEventListener('cancel', event => { if (pond.world.machine.busy) event.preventDefault(); });
-document.addEventListener('pond:ready', openMachine);
 document.addEventListener('pond:ready', event => {
   const scene = (event as CustomEvent<PondScene>).detail;
   updateMachineFill(scene.world.machine.fillFraction, scene);
@@ -86,7 +101,7 @@ document.addEventListener('pond:machine', openMachine);
 document.addEventListener('pond:needs-food', openMachine);
 document.addEventListener('pond:dispensed', () => {
   machine.close();
-  element('instruction-text').textContent = 'Pick a quiet spot in the water.';
+  element('instruction-text').textContent = 'Click the water or press Space to throw.';
   element('pond').focus({ preventScroll: true });
   tone(660, 0.2);
 });
@@ -101,17 +116,22 @@ guide.addEventListener('close', () => {
   if (pausedForGuide && pond.world.paused) pond.togglePause();
   pausedForGuide = false;
 });
-for (const id of ['pause-button', 'resume-button']) element(id).addEventListener('click', () => pond.togglePause());
 element('scatter-button').addEventListener('click', () => pond.scatter({ x: 600, y: 389 }));
 element('restart-button').addEventListener('click', () => pond.restart());
 document.addEventListener('keydown', event => {
   if (guide.open || machine.open || (event.target instanceof HTMLElement && event.target.closest('input,textarea'))) return;
   const control = event.target instanceof HTMLElement && event.target.closest('button,a');
   if (event.code === 'Space' && !control) { event.preventDefault(); pond.scatter(); }
-  if (event.code === 'KeyP') pond.togglePause();
 });
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden && pond?.ready && !pond.world.paused && !machine.open && !guide.open) pond.togglePause();
+  if (!pond?.ready) return;
+  if (document.hidden) {
+    pausedForVisibility = !pond.world.paused;
+    if (pausedForVisibility) pond.togglePause();
+  } else if (pausedForVisibility) {
+    if (pond.world.paused) pond.togglePause();
+    pausedForVisibility = false;
+  }
 });
 
 element('sound-button').addEventListener('click', async () => {
@@ -143,11 +163,11 @@ document.addEventListener('pond:bite', event => tone((event as CustomEvent).deta
 document.addEventListener('pond:lucky', () => tone(1046, 0.22));
 
 const phaseText: Record<VendingPhase, string> = {
-  ready: 'Click the coin to begin.',
-  inserting: 'A little coin goes in…',
-  turning: 'A turn of the handle…',
-  dispensing: 'Here come the pellets…',
-  collecting: 'Hold out your hand. A little kindness awaits.',
+  ready: 'Insert a coin.',
+  inserting: 'Inserting coin…',
+  turning: 'Turning handle…',
+  dispensing: 'Dispensing pellets…',
+  collecting: 'Collecting pellets…',
 };
 document.addEventListener('pond:state', event => {
   const state = (event as CustomEvent<PondState>).detail;
@@ -168,21 +188,16 @@ document.addEventListener('pond:state', event => {
   const hasMeals = state.fishFood + state.birdFood + state.turtleFood > 0;
   element('share-value').textContent = hasMeals ? Math.round(state.share * 100) + '%' : '—';
   element('share-fill').style.width = hasMeals ? state.share * 100 + '%' : '0%';
-  element('paused-overlay').hidden = !state.paused;
-  const pause = element('pause-button');
-  pause.innerHTML = state.paused ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m5 3 8 5-8 5z"/></svg>' : '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg>';
-  pause.setAttribute('aria-pressed', String(state.paused));
-  pause.setAttribute('aria-label', state.paused ? 'Resume game' : 'Pause game');
   element<HTMLButtonElement>('scatter-button').disabled = state.paused || state.machinePhase !== 'ready' || state.handfuls === 0;
   const busy = state.machinePhase !== 'ready';
   element<HTMLButtonElement>('insert-coin').disabled = busy || state.machineRestocking || state.machineStock === 0;
   for (const id of ['close-machine', 'machine-watch']) element<HTMLButtonElement>(id).disabled = busy;
   updateMachineFill(state.machineFill);
   const status = busy ? phaseText[state.machinePhase] : state.machineRestocking
-    ? 'A fresh sack of pellets. The employee is topping up the globe.' : state.machineStock === 0
-    ? state.paused ? 'All out for a moment. Resume the pond to let the employee refill it.' : 'All out for a moment. An employee is bringing more.'
+    ? 'Refilling…' : state.machineStock === 0
+    ? 'Sold out. More pellets are on the way.'
     : state.employeePhase === 'arriving' || state.employeePhase === 'waiting'
-    ? 'An employee is bringing a fresh sack.' : phaseText.ready;
+    ? 'More pellets are on the way.' : phaseText.ready;
   if (element('machine-status').textContent !== status) element('machine-status').textContent = status;
   element('vending-stage').setAttribute('aria-busy', String(busy || state.machineRestocking));
   if (lastPhase !== state.machinePhase) {
@@ -190,10 +205,10 @@ document.addEventListener('pond:state', event => {
     if (state.machinePhase === 'turning') tone(230, 0.2);
     lastPhase = state.machinePhase;
   }
-  const visitNote = state.paused ? 'Take a breather. The pond will wait.' : state.luckyInHand
+  const visitNote = state.luckyInHand
     ? 'A golden pellet in your hand. A fish’s nibble brings +' + LUCKY_BONUS_POINTS + ' points.' : state.handfuls === 0
-    ? state.coinsUsed === 0 ? 'First, a coin and a little ritual at the pellet machine.' : 'Your hand is empty. Visit the red machine beside the dock for a little more.'
-    : 'Every throw leaves the dock. Aim where you like; there is no hurry.';
+    ? 'Use the red pellet machine to fill your hand.'
+    : 'Click the water or press Space to throw from the dock.';
   if (element('visit-note').textContent !== visitNote) element('visit-note').textContent = visitNote;
   if (state.score > best) {
     best = state.score;

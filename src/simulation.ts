@@ -31,6 +31,8 @@ export const TURTLE_SURFACE_SECONDS = 5;
 export const POND = { x: 600, y: 389, rx: 498, ry: 230 };
 export const THROW_ORIGIN = releaseOrigin('toss');
 export const FLOAT_SECONDS = 1.7;
+// Screen-space drift per second at full wind strength; depth is foreshortened.
+const AIRBORNE_WIND_DRIFT = { x: 48, y: 32 };
 export interface Point { x: number; y: number }
 export interface Animal extends Point {
   id: number; profile: AnimalProfile; destination: Point; heading: number;
@@ -48,7 +50,8 @@ export function shareCollisionLayer(first: Animal, second: Animal): boolean {
 export interface Food extends Point {
   origin: Point; launchHeight: number;
   id: number; amount: number; age: number; phase: 'air' | 'water';
-  target: Point; flightTime: number; flightDuration: number; height: number;
+  target: Point; // Landing point, adjusted by wind only while airborne.
+  flightTime: number; flightDuration: number; height: number;
   releaseAt: number; arcScale: number; lucky: boolean; bonusClaimed: boolean;
 }
 export interface BiteEvent extends Point { kind: AnimalKind; animal: number; amount: number; phase: 'air' | 'water'; bonus: number }
@@ -292,8 +295,23 @@ export class PondSimulation {
     }
     for (const food of this.food) {
       if (food.phase === 'air') {
-        const flightDt = Math.min(dt, Math.max(0, this.elapsed - food.releaseAt));
+        const flightStart = Math.max(this.elapsed - dt, food.releaseAt);
+        const flightDt = Math.min(this.elapsed - flightStart, food.flightDuration - food.flightTime);
         if (flightDt <= 0) continue;
+        // Integrate just the airborne part of the frame, including a partial
+        // release/landing frame. Midpoint sampling follows the shared weather
+        // and keeps drift consistent across render frame rates.
+        const wind = this.wind.sampleAt(flightStart + flightDt / 2);
+        let x = food.target.x + wind.x * AIRBORNE_WIND_DRIFT.x * flightDt;
+        let y = food.target.y + wind.y * AIRBORNE_WIND_DRIFT.y * flightDt;
+        const radius = Math.hypot((x - POND.x) / POND.rx, (y - POND.y) / POND.ry);
+        if (radius >= 1) {
+          x = POND.x + (x - POND.x) / radius * 0.9999;
+          y = POND.y + (y - POND.y) / radius * 0.9999;
+        }
+        // The arc approaches this moving destination smoothly; birds and the
+        // final splash use the same point, so food never snaps back on landing.
+        food.target = { x, y };
         food.flightTime = Math.min(food.flightDuration, food.flightTime + flightDt);
         Object.assign(food, flightPosition(food));
         if (food.flightTime >= food.flightDuration) {
