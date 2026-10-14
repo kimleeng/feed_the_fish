@@ -62,7 +62,7 @@ Animation follows actual distance covered, including approaches to the rail. Vis
 
 ## Wind and water
 
-A gentle breeze changes direction and strength over time. Small surface particles drift with it, fade in and out, and recycle within the pond mask. Stronger moments make the glints slightly longer and brighter. The particles freeze on pause, restart for a new visit, and are hidden when reduced motion is preferred, including changes to that preference during play. Wind itself continues to update and record when decorative motion is reduced.
+A gentle breeze changes direction and strength over time. Surface particles drift with it, fade in and out, and recycle within the pond mask. Paired light and shade keep the small ripples visible over the detailed reflections, including on phone screens. Stronger moments make the glints longer and brighter. The particles freeze on pause, restart for a new visit, and are hidden when reduced motion is preferred, including changes to that preference during play. Wind itself continues to update and record when decorative motion is reduced.
 
 Wind is shared simulation state for future effects, independent of animal and throw randomness:
 

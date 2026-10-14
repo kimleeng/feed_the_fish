@@ -465,11 +465,14 @@ export class PondScene extends Phaser.Scene {
     this.shimmerParticles.step(seconds, wind);
     for (const particle of this.shimmerParticles.particles) {
       const fade = Math.sin(particle.age / particle.lifetime * Math.PI) ** 2;
-      const alpha = fade * (0.07 + wind.strength * 0.23);
-      const width = particle.width * (0.8 + wind.strength);
+      const alpha = fade * (0.2 + wind.strength * 0.35);
+      const width = particle.width * (1 + wind.strength);
       const x = Math.round(particle.x); const y = Math.round(particle.y);
-      this.waterShimmer.fillStyle(0xe2edc4, alpha).fillRect(x, y, width, 1.2);
-      this.waterShimmer.fillStyle(0xc0daba, alpha * 0.4).fillRect(x + 3, y + 3, width * 0.45, 1);
+      // Paired light and shade keep a ripple readable over both gold reflections
+      // and dark water. Two-pixel crests also survive scaling to a phone screen.
+      this.waterShimmer.fillStyle(0x165d59, alpha * 0.45).fillRect(x + 2, y + 2, width, 2);
+      this.waterShimmer.fillStyle(0xfff3c4, alpha).fillRect(x, y, width, 2);
+      this.waterShimmer.fillStyle(0xe3efd0, alpha * 0.55).fillRect(x + 4, y + 5, width * 0.5, 1.5);
     }
   }
 }

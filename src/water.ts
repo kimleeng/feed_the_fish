@@ -10,7 +10,7 @@ export class WaterShimmer {
   private readonly pool: ShimmerParticle[];
   private readonly random: () => number;
 
-  constructor(seed: number, count = 84) {
+  constructor(seed: number, count = 128) {
     let value = seed ^ 0x39b4e721;
     this.random = () => {
       value += 0x6d2b79f5;
@@ -33,7 +33,7 @@ export class WaterShimmer {
     return {
       x: POND.x + Math.cos(angle) * POND.rx * radius,
       y: POND.y + Math.sin(angle) * POND.ry * radius,
-      age: 0, lifetime: 2.8 + this.random() * 4.2, width: 4 + this.random() * 9,
+      age: 0, lifetime: 2.8 + this.random() * 3.2, width: 8 + this.random() * 11,
     };
   }
 
@@ -41,8 +41,8 @@ export class WaterShimmer {
     if (seconds <= 0) return;
     for (const particle of this.pool) {
       particle.age += seconds;
-      particle.x += wind.x * seconds * (16 + particle.width * 0.3);
-      particle.y += wind.y * seconds * 10;
+      particle.x += wind.x * seconds * (25 + particle.width * 0.4);
+      particle.y += wind.y * seconds * 19;
       if (particle.age >= particle.lifetime || !inPond(particle)) Object.assign(particle, this.spawn());
     }
   }

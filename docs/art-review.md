@@ -127,6 +127,8 @@ Gentle surface particles drift with a shared, seeded breeze. Direction and stren
 
 Validation passed: all 61 unit tests, the TypeScript/production build, the art audit, and all 17 production browser scenarios. The garden regions and assembled desktop and phone scenes were visually reviewed, including the corrected reflections and the clear walking path.
 
+The follow-up visibility review found that the original one-pixel glints blended into the painted water. The effect now uses 128 wider, two-pixel crests with paired light and shade, slightly quicker drift, and a shorter fade cycle. The shared wind and visit recording still drive the effect. Desktop and phone captures were reviewed; the browser check now measures contrast after viewport scaling and clipping. All 61 unit tests, the production build, and the wind and mobile browser scenarios passed.
+
 ## Reproduce the review
 
 ```bash

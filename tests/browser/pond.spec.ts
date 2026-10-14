@@ -25,16 +25,28 @@ async function buy(page: Page): Promise<void> {
   await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
 }
 
-async function inspectShimmer(page: Page): Promise<{ pixels: number; outsideWater: number }> {
+async function inspectShimmer(page: Page): Promise<{ pixels: number; outsideWater: number; contrastCoverage: number }> {
   return page.evaluate(async bounds => {
     const scene = (window as InspectedWindow).inspectedPond;
     const paused = scene.world.paused;
     scene.world.paused = true;
     const shimmer = scene.children.getByName('water-shimmer') as Phaser.GameObjects.Graphics;
+    const canvas = scene.game.canvas;
+    const display = canvas.getBoundingClientRect();
+    const viewport = canvas.parentElement!.getBoundingClientRect();
+    const scaled = document.createElement('canvas');
+    scaled.width = Math.round(viewport.width); scaled.height = Math.round(viewport.height);
+    const scaledContext = scaled.getContext('2d')!;
+    scaledContext.imageSmoothingEnabled = false;
     const snapshot = async () => {
       await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
       await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
-      return scene.game.canvas.getContext('2d')!.getImageData(0, 0, 1200, 800).data;
+      scaledContext.clearRect(0, 0, scaled.width, scaled.height);
+      scaledContext.drawImage(canvas, display.left - viewport.left, display.top - viewport.top, display.width, display.height);
+      return {
+        full: canvas.getContext('2d')!.getImageData(0, 0, 1200, 800).data,
+        displayed: scaledContext.getImageData(0, 0, scaled.width, scaled.height).data,
+      };
     };
     shimmer.setVisible(true);
     const visible = await snapshot();
@@ -43,13 +55,22 @@ async function inspectShimmer(page: Page): Promise<{ pixels: number; outsideWate
     shimmer.setVisible(true);
     scene.world.paused = paused;
     let pixels = 0; let outsideWater = 0;
-    for (let index = 0; index < visible.length; index += 4) {
-      if (Math.abs(visible[index] - hidden[index]) + Math.abs(visible[index + 1] - hidden[index + 1]) + Math.abs(visible[index + 2] - hidden[index + 2]) <= 6) continue;
+    for (let index = 0; index < visible.full.length; index += 4) {
+      if (Math.abs(visible.full[index] - hidden.full[index]) + Math.abs(visible.full[index + 1] - hidden.full[index + 1]) + Math.abs(visible.full[index + 2] - hidden.full[index + 2]) <= 6) continue;
       pixels++;
       const x = index / 4 % 1200; const y = Math.floor(index / 4 / 1200);
       if (((x - bounds.x) / bounds.rx) ** 2 + ((y - bounds.y) / bounds.ry) ** 2 > 1.01) outsideWater++;
     }
-    return { pixels, outsideWater };
+    // Require visible contrast after the actual viewport's scaling and clipping,
+    // so a technically present effect cannot disappear into the painted water.
+    let contrasting = 0;
+    for (let index = 0; index < visible.displayed.length; index += 4) {
+      const difference = Math.abs(visible.displayed[index] - hidden.displayed[index])
+        + Math.abs(visible.displayed[index + 1] - hidden.displayed[index + 1])
+        + Math.abs(visible.displayed[index + 2] - hidden.displayed[index + 2]);
+      if (difference > 60) contrasting++;
+    }
+    return { pixels, outsideWater, contrastCoverage: contrasting / (scaled.width * scaled.height) };
   }, POND);
 }
 
@@ -64,7 +85,7 @@ async function gardenMachinePoint(page: Page): Promise<{ x: number; y: number }>
   return { x: bounds.x + point.x / 1200 * bounds.width, y: bounds.y + point.y / 800 * bounds.height };
 }
 
-test('wind is shared and recorded while subtle water particles respect pause and live motion preferences', async ({ page }, testInfo) => {
+test('wind shimmer stays visible on desktop and phone and respects pause, recording, and live motion preferences', async ({ page }, testInfo) => {
   await arrive(page);
   await page.locator('#machine-watch').click();
   const shared = await page.evaluate(() => {
@@ -80,10 +101,14 @@ test('wind is shared and recorded while subtle water particles respect pause and
   expect(shared.shared).toBe(true);
   expect(shared.wind.time).toBe(shared.elapsed);
   expect(shared.history.length).toBeGreaterThanOrEqual(5);
-  const shimmer = await inspectShimmer(page);
-  expect(shimmer.pixels).toBeGreaterThan(100);
-  expect(shimmer.pixels).toBeLessThan(5000);
-  expect(shimmer.outsideWater).toBe(0);
+  for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844 }]) {
+    await page.setViewportSize(viewport);
+    const shimmer = await inspectShimmer(page);
+    expect(shimmer.pixels).toBeGreaterThan(2000);
+    expect(shimmer.pixels).toBeLessThan(20000);
+    expect(shimmer.contrastCoverage).toBeGreaterThan(0.0006);
+    expect(shimmer.outsideWater).toBe(0);
+  }
   await page.waitForTimeout(250);
   expect(await page.evaluate(() => {
     const wind = (window as InspectedWindow).inspectedPond.world.wind;
@@ -96,7 +121,7 @@ test('wind is shared and recorded while subtle water particles respect pause and
   await expect.poll(() => page.evaluate(() => (window as InspectedWindow).inspectedPond.world.wind.current.time)).toBeGreaterThan(shared.elapsed + 0.2);
   expect((await inspectShimmer(page)).pixels).toBe(0);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  expect((await inspectShimmer(page)).pixels).toBeGreaterThan(100);
+  expect((await inspectShimmer(page)).contrastCoverage).toBeGreaterThan(0.0006);
   await page.screenshot({ path: testInfo.outputPath('wind-shimmer.png'), fullPage: true });
 
   await page.getByRole('button', { name: 'Begin a new visit' }).click();
