@@ -55,6 +55,16 @@ Throw direction is stored with each queued action. The character faces the selec
 
 Validation passed: all 330 animation cuts, 48 unit tests, the TypeScript/production build, and all 12 production browser scenarios. Visitor and swimmer scenarios passed again after the final spacing corrections. The cycle sheets and assembled desktop and phone scenes were visually inspected, including the character continuing to look right with an empty hand.
 
+## Walking mechanics, 14 October 2026
+
+The adult and employee cycles now use corrected weight-transfer, passing, and toe-off drawings. The raised leg passes forward while the support foot moves from ahead of the hip to behind it. Original heel-contact poses preserve the existing measured strides, and each source row is calibrated to the established height and sole baseline. Children retain their existing proportions and drawings. The animation count remains 330; 24 walking cuts are replaced rather than adding longer cycles.
+
+All seven walking designs use distance-based phase timing with a short heel-contact stage and longer weight transfer. Visitors brake before watching, stop with their soles on the path, and accelerate from a close-legged pose when leaving. Smooth path interpolation removes the abrupt bend at the start and end of the approach. The employee uses the same acceleration and braking, restarts its stride when departing, and has a planted waiting pose.
+
+Regression checks cover braking and departure in both directions, stationary stride clocks, the employee's waiting and departure poses, and the existing population and feeding behavior. A browser check inspects all eight poses of each design for grounded soles, stable scale, mirroring, and the adults' support foot moving behind the hip at toe-off. The atlas audit and cycle sheets check the actual packaged drawings.
+
+Validation passed: the production build, all 50 unit tests, all 13 production browser scenarios (including phone controls), and all 330 animation cuts. The assembled walkers and cycle sheets were visually inspected.
+
 ## Reproduce the review
 
 ```bash

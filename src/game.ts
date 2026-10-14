@@ -253,8 +253,7 @@ export class PondScene extends Phaser.Scene {
       const watching = person.state === 'watching';
       const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
       const shadow = visitor.getByName('observer-shadow') as Phaser.GameObjects.Ellipse;
-      const bob = watching ? Math.sin(crowd.elapsed * 1.3 + person.id) * 0.3 : 0;
-      sprite.setFrame(observerFrame(person)).setFlipX(!watching && person.direction === -1).setY(bob);
+      sprite.setFrame(observerFrame(person)).setFlipX(!watching && person.direction === -1).setY(0);
       sprite.setScale(observerHeight(person) / animationFrameData(sprite.frame).referenceHeight);
       shadow.setDisplaySize((person.age === 'adult' ? 44 : 30) * person.scale, person.age === 'adult' ? 8 : 6);
       visitor.setPosition(person.x, person.y).setDepth(40 + person.y / 1000);

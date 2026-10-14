@@ -1,5 +1,6 @@
 import { RESTOCK_THRESHOLD, type PelletMachine } from './vending.ts';
 import { EMPLOYEE_POUR_OFFSET } from './employee-pins.ts';
+import { walkingAdvance } from './walking.ts';
 
 export const MACHINE_POSITION = { x: 410, y: 746 };
 export const EMPLOYEE_HEIGHT = 153;
@@ -18,6 +19,7 @@ export class MachineEmployee {
   x = ENTRANCE.x;
   y = ENTRANCE.y;
   distanceWalked = 0;
+  velocity = 0;
   phaseTime = 0;
   get visible(): boolean { return this.phase !== 'away'; }
   get walking(): boolean { return this.phase === 'arriving' || this.phase === 'leaving'; }
@@ -30,7 +32,11 @@ export class MachineEmployee {
     return 0;
   }
 
-  private enter(phase: EmployeePhase): void { this.phase = phase; this.phaseTime = 0; }
+  private enter(phase: EmployeePhase): void {
+    this.phase = phase; this.phaseTime = 0;
+    this.velocity = 0;
+    if (this.walking) this.distanceWalked = 0;
+  }
 
   step(seconds: number, machine: PelletMachine): void {
     if (seconds <= 0) return;
@@ -43,7 +49,9 @@ export class MachineEmployee {
       const target = this.phase === 'arriving' ? EMPLOYEE_WORK_POSITION : ENTRANCE;
       const dx = target.x - this.x, dy = target.y - this.y;
       const remaining = Math.hypot(dx, dy);
-      const travel = Math.min(remaining, EMPLOYEE_SPEED * seconds);
+      const walk = walkingAdvance(this.velocity, EMPLOYEE_SPEED, remaining, 100, seconds);
+      const travel = walk.distance;
+      this.velocity = walk.velocity;
       if (remaining > 0) {
         this.x += dx / remaining * travel; this.y += dy / remaining * travel;
         this.distanceWalked += travel;

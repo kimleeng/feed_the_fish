@@ -2,6 +2,9 @@ import { test, expect, type Page } from '@playwright/test';
 import type Phaser from 'phaser';
 import type { PondScene } from '../../src/game.ts';
 import type { PondSimulation } from '../../src/simulation.ts';
+import type { AnimationFrameData } from '../../src/animation-frames.ts';
+import { EMPLOYEE_HEIGHT } from '../../src/restocking.ts';
+import { EMPLOYEE_STRIDE_RATIO } from '../../src/employee-pins.ts';
 
 type InspectedWindow = Window & { inspectedPond: PondScene };
 
@@ -146,6 +149,60 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
   expect(restarted.count).toBeLessThanOrEqual(4);
   expect(restarted.rendered).toBe(restarted.count);
   await expect(page.locator('#machine-dialog')).toBeVisible();
+});
+
+test('walkers keep all eight poses grounded and the adults carry their weight from heel contact through toe-off', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  const cycles = await page.evaluate(({ employeeHeight, employeeStride }) => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.pause();
+    const model = scene.world.crowd.people[0];
+    scene.world.crowd.people = (['adult', 'kid'] as const).flatMap((age, group) => [0, 1, 2].map(look => ({
+      ...model, id: group * 3 + look + 100, age, look, scale: 1, stride: 0,
+      x: 100 + (group * 3 + look) * 185, y: 776, lane: 784, direction: (look === 1 ? -1 : 1) as -1 | 1,
+      state: 'walking' as const, stop: null, hasWatched: true,
+    })));
+    Object.assign(scene.world.employee, { phase: 'arriving', x: 1110, y: 764 });
+    const cycles: { name: string; height: number; sole: number; ground: number; supportX: number; groundFeet: number[]; frame: string; flip: boolean; direction: number }[][] = [];
+    for (let phase = 0; phase < 8; phase++) {
+      for (const person of scene.world.crowd.people) person.stride = phase / 2 + 0.04;
+      scene.world.employee.distanceWalked = ((phase / 8 + 0.01 - 0.25 + 1) % 1) * employeeHeight * employeeStride;
+      scene.update(0, 0);
+      const people: { person: { y: number; direction: number }; container: Phaser.GameObjects.Container; name: string }[] =
+        scene.world.crowd.people.map(person => ({ person, container: scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container, name: 'observer-art' }));
+      const employee = scene.world.employee;
+      people.push({ person: employee, container: scene.children.getByName('machine-employee') as Phaser.GameObjects.Container, name: 'employee-art' });
+      cycles.push(people.map(({ person, container, name }) => {
+        const sprite = container.getByName(name) as Phaser.GameObjects.Sprite;
+        const feet = (sprite.frame.customData as AnimationFrameData).feet!;
+        const support = [...feet].sort((a, b) => b.y - a.y || b.x - a.x)[0];
+        const transform = sprite.getWorldTransformMatrix();
+        return { name: container.name, height: sprite.frame.cutHeight * sprite.scaleY,
+          sole: transform.transformPoint(support.x - sprite.displayOriginX, support.y - sprite.displayOriginY).y,
+          ground: person.y, supportX: (support.x - sprite.displayOriginX) * sprite.scaleX,
+          groundFeet: feet.filter(foot => foot.y === sprite.height).map(foot => (foot.x - sprite.displayOriginX) * sprite.scaleX),
+          frame: sprite.frame.name, flip: sprite.flipX, direction: person.direction };
+      }));
+    }
+    return cycles;
+  }, { employeeHeight: EMPLOYEE_HEIGHT, employeeStride: EMPLOYEE_STRIDE_RATIO });
+  for (let person = 0; person < 7; person++) {
+    const poses = cycles.map(cycle => cycle[person]);
+    expect(new Set(poses.map(pose => pose.frame)).size).toBe(8);
+    const heights = poses.map(pose => pose.height);
+    expect(Math.max(...heights) - Math.min(...heights)).toBeLessThan(8);
+    for (const pose of poses) {
+      expect(pose.sole).toBeCloseTo(pose.ground, 5);
+      expect(pose.flip).toBe(pose.direction === -1);
+    }
+    if (person >= 3 && person < 6) continue;
+    for (const half of [0, 4]) {
+      expect(poses[half + 2].supportX).toBeLessThan(poses[half].supportX);
+      expect(Math.min(...poses[half + 3].groundFeet)).toBeLessThan(0);
+    }
+  }
+  await page.screenshot({ path: testInfo.outputPath('walking-cycles-in-garden.png'), fullPage: true });
 });
 
 test('the machine on the garden path opens its coin ritual without throwing food', async ({ page }, testInfo) => {

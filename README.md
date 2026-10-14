@@ -52,6 +52,8 @@ Uneven arrivals keep about three visitors visible on average, usually two to fou
 
 The path has open cobblestone entrances at both image edges. Six shaded, detailed visitor designs (three adults and three kids) match the warm garden artwork, with eight alternating walking poses, back views for watching, and grounded shadows. Poses align at the hips and soles so changing foot positions does not shift the entire body. Walking progresses with actual distance traveled, including movement toward the rail. Each design's two contact poses determine its stride length; taller adults take longer steps than kids, with individual size and path-depth variation. Adult heights are based on the existing benches. The employee also has eight walking poses, plus intermediate reaching, lifting, and closing poses during refills.
 
+Walk cycles spend different amounts of time on heel contact, weight transfer, passing, and toe-off. Corrected adult and employee poses carry the raised leg forward and shift the planted foot behind the hips. The original contact drawings retain the established stride lengths. Visitors slow before reaching their watching spot, plant their feet while watching, and gradually build speed as they leave. Their route bends gently toward and away from the railing. The employee also eases into walking, slows at the machine, and waits with both feet planted. Animation follows the actual distance covered throughout these transitions.
+
 ## Validate
 
 ```bash
@@ -90,6 +92,8 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `src/thrower-art.ts` and `thrower-pins.ts`: dock placement, character height, and calibrated release positions.
 - `src/observers.ts`: visitor routes, age-dependent watching time, and variable foot traffic.
 - `src/observer-art.ts` and `observer-gait.ts`: visitor pose selection, height relative to the benches, and distance per walking cycle.
+- `src/walking.ts`: distance-based step timing, acceleration, braking, and path easing shared by visitors and the employee.
+- `public/art/observer-adult-*-walk.png` and `employee-walk.png`: corrected weight-transfer, passing, and toe-off drawings, packaged by `scripts/build-animation-atlases.mjs` alongside the original heel contacts.
 
 Sprites use nearest-neighbor scaling. The original side-view animal sheet is retained as an art source; the game and field guide use the new swimming atlases. Explicit trimmed rectangles and a shared frame size preserve transparent padding around every pose. The supplied vending-machine reference page was blocked by the cloud network policy, so the machine art uses the described classic round-globe form. Repository wiki notes were unavailable during initial setup.
 

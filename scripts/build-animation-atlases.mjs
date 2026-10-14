@@ -1,6 +1,6 @@
 import { chromium } from '@playwright/test';
 import fs from 'node:fs/promises';
-import { ANIMATED_ATLASES } from '../src/animation-frames.ts';
+import { ANIMATED_ATLASES, WALK_CYCLE } from '../src/animation-frames.ts';
 
 // Package the original drawings and generated in-betweens as multi-image atlases.
 // Only atlas metadata is written: neither source PNG is resampled or repainted.
@@ -22,6 +22,14 @@ const configs = ANIMATED_ATLASES.map(name => ({ name, asset: `${name}-inbetweens
 const fishConfig = configs.find(config => config.name === 'fish-swimmers');
 const youngNames = fishConfig.names.splice(40);
 configs.push({ name: 'fish-swimmers', asset: 'fish-young-inbetweens', body: false, columns: 4, names: youngNames });
+// Correct the weight-transfer, passing and toe-off drawings. Keep the original
+// heel-contact poses to preserve the established stride length and proportions.
+for (let look = 0; look < 3; look++) {
+  configs.push({ name: 'garden-observers', asset: `observer-adult-${look}-walk`, body: true, walking: true,
+    columns: 4, names: WALK_CYCLE.map(pose => `observer-adult-${look}-${pose}`) });
+}
+configs.push({ name: 'garden-employee', asset: 'employee-walk', body: true, walking: true,
+  columns: 4, names: [...WALK_CYCLE] });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium', headless: true });
 const inspections = {};
 try {
@@ -143,9 +151,15 @@ for (const config of configs) {
     return entry;
   });
   const atlas = atlases[config.name] ??= { textures: [{ image: `${config.name}.png`, size: base.meta.size, frames: baseFrames }] };
-  atlas.textures.push({ image: `${config.asset}.png`, size: { w: inspected.width, h: inspected.height }, frames: extraFrames });
+  const selectedFrames = config.walking ? extraFrames.filter((_, index) => index % 4 !== 0) : extraFrames;
+  if (config.walking) {
+    const replaced = new Set(selectedFrames.map(frame => frame.filename));
+    for (const texture of atlas.textures) texture.frames = texture.frames.filter(frame => !replaced.has(frame.filename));
+  }
+  atlas.textures.push({ image: `${config.asset}.png`, size: { w: inspected.width, h: inspected.height }, frames: selectedFrames });
 }
 for (const [name, atlas] of Object.entries(atlases)) {
+  atlas.textures = atlas.textures.filter(texture => texture.frames.length > 0);
   await fs.writeFile(`public/art/${name}-animation.json`, JSON.stringify(atlas, null, 2) + '\n');
   console.log(`${name}: ${atlas.textures.reduce((sum, texture) => sum + texture.frames.length, 0)} drawings`);
 }

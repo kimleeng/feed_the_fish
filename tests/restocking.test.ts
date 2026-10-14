@@ -60,6 +60,8 @@ test('the employee waits for the paid serving to finish before opening the machi
   machine.stock = 4;
   for (let tick = 0; tick < 240 && employee.phase !== 'waiting'; tick++) employee.step(0.05, machine);
   assert.equal(employee.phase, 'waiting');
+  assert.equal(employee.velocity, 0);
+  assert.equal(employeeFrame(employee), 'open-return', 'Both feet are planted while waiting');
   assert.ok(Math.abs(employee.x - EMPLOYEE_WORK_POSITION.x) < 0.00001);
   assert.equal(machine.insertCoin(), true);
   employee.step(0.05, machine);
@@ -71,6 +73,35 @@ test('the employee waits for the paid serving to finish before opening the machi
   assert.equal(machine.restocking, true);
   assert.equal(machine.insertCoin(), false);
   assert.equal(machine.coinsUsed, 1);
+});
+
+test('the employee accelerates with the sack and brakes at the machine in both walking directions', () => {
+  const employee = new MachineEmployee();
+  const machine = new PelletMachine();
+  machine.stock = 4;
+  const start = { x: employee.x, y: employee.y };
+  employee.step(0.05, machine);
+  assert.ok(Math.hypot(employee.x - start.x, employee.y - start.y) < 0.2);
+  assert.ok(employee.velocity > 0 && employee.velocity < EMPLOYEE_SPEED);
+  let approachingSlowly = false;
+  for (let step = 0; step < 1000 && employee.phase !== 'waiting'; step++) {
+    employee.step(1 / 60, machine);
+    if (Math.hypot(employee.x - EMPLOYEE_WORK_POSITION.x, employee.y - EMPLOYEE_WORK_POSITION.y) < 6 &&
+        employee.velocity > 0 && employee.velocity < EMPLOYEE_SPEED / 2) approachingSlowly = true;
+  }
+  assert.ok(approachingSlowly);
+  assert.equal(employee.phase, 'waiting');
+  assert.equal(employee.velocity, 0);
+  assert.equal(employee.x, EMPLOYEE_WORK_POSITION.x);
+  for (let step = 0; step < 1000 && employee.phase !== 'leaving'; step++) {
+    machine.step(0.05); employee.step(0.05, machine);
+  }
+  assert.equal(employee.phase, 'leaving');
+  assert.equal(employee.distanceWalked, 0);
+  employee.step(0.05, machine);
+  assert.equal(employee.direction, -1);
+  assert.ok(employee.distanceWalked < 0.2);
+  assert.ok(employee.velocity > 0 && employee.velocity < EMPLOYEE_SPEED);
 });
 
 test('restocking visibly pours to capacity once, leaves existing throws alone, and the employee walks away', () => {

@@ -1,4 +1,5 @@
 import { walkingCycleDistance } from './observer-art.ts';
+import { pathBlend, walkingAdvance } from './walking.ts';
 
 export type ObserverAge = 'adult' | 'kid';
 export type ObserverState = 'walking' | 'approaching' | 'watching' | 'leaving';
@@ -10,6 +11,7 @@ export interface Observer extends Point {
   state: ObserverState;
   direction: -1 | 1;
   speed: number;
+  velocity: number;
   lane: number;
   look: number;
   scale: number;
@@ -116,7 +118,7 @@ export class ObserverCrowd {
       id: this.nextId++, age, x, y: pathY(x, lane), lane, direction, stop: null,
       state: 'walking',
       speed: age === 'kid' ? this.between(37, 51) : this.between(32, 46),
-      look: Math.floor(this.random() * 3), scale: this.between(0.92, 1.1),
+      velocity: 0, look: Math.floor(this.random() * 3), scale: this.between(0.92, 1.1),
       stride: this.random() * 4, watchDuration: 0, watchRemaining: 0,
       interest: this.sceneInterest, quietAfter: this.between(5, 10), stopRoll: this.random(), hasWatched: false,
     };
@@ -126,6 +128,7 @@ export class ObserverCrowd {
       person.x = person.stop.x; person.y = person.stop.y; person.state = 'watching'; person.hasWatched = true;
       person.watchRemaining *= this.between(0.3, 1);
     }
+    if (progress > 0 && person.state !== 'watching') person.velocity = person.speed;
     this.people.push(person);
   }
 
@@ -138,9 +141,14 @@ export class ObserverCrowd {
     for (const person of this.people) {
       if (quietFor > person.quietAfter) person.interest = Math.max(0.8, person.interest - dt * 0.018);
       if (person.state === 'watching') {
+        person.velocity = 0;
         const watchRate = 1 + (1 - person.interest) * 0.6;
         person.watchRemaining = Math.max(0, person.watchRemaining - dt * watchRate);
-        if (person.watchRemaining === 0) person.state = 'leaving';
+        if (person.watchRemaining === 0) {
+          person.state = 'leaving';
+          // Begin with the legs together instead of restarting in a wide stride.
+          person.stride = 1;
+        }
         continue;
       }
       const before = { x: person.x, y: person.y };
@@ -148,16 +156,20 @@ export class ObserverCrowd {
         person.stopRoll >= this.stopChance(person)) {
         person.state = 'walking'; person.stop = null; person.watchDuration = 0; person.watchRemaining = 0;
       }
-      person.x += person.direction * person.speed * dt;
+      const remaining = person.state === 'approaching' && person.stop ? Math.abs(person.stop.x - person.x) : Infinity;
+      const walk = walkingAdvance(person.velocity, person.speed, remaining, person.age === 'kid' ? 130 : 100, dt);
+      person.velocity = walk.velocity;
+      person.x += person.direction * walk.distance;
       if (person.state === 'approaching' && person.stop) {
         if ((person.stop.x - person.x) * person.direction <= 0) {
           person.x = person.stop.x; person.y = person.stop.y; person.state = 'watching'; person.hasWatched = true;
+          person.velocity = 0;
         } else {
-          const approach = Math.max(0, 1 - Math.abs(person.x - person.stop.x) / 80);
+          const approach = pathBlend(1 - Math.abs(person.x - person.stop.x) / 80);
           person.y = pathY(person.x, person.lane) * (1 - approach) + person.stop.y * approach;
         }
       } else if (person.state === 'leaving' && person.stop) {
-        const departure = Math.min(1, Math.abs(person.x - person.stop.x) / 80);
+        const departure = pathBlend(Math.abs(person.x - person.stop.x) / 80);
         person.y = person.stop.y * (1 - departure) + pathY(person.x, person.lane) * departure;
         if (departure === 1) { person.state = 'walking'; person.stop = null; }
       } else person.y = pathY(person.x, person.lane);

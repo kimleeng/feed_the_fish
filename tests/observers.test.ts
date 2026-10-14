@@ -37,27 +37,56 @@ test('footfall progress follows actual travel including approach depth, and stay
   for (const direction of [-1, 1] as const) {
     const crowd = new ObserverCrowd(12);
     const person = crowd.people[0];
-    Object.assign(person, { x: 600 - direction * 35, y: 762, lane: 773, direction, speed: 40, stride: 0,
+    Object.assign(person, { x: 600 - direction * 35, y: 762, lane: 773, direction, speed: 40, velocity: 40, stride: 0,
       state: 'approaching', stop: { x: 600, y: 738 }, stopRoll: 0, watchRemaining: 30 });
     crowd.people = [person];
-    const straight = new ObserverCrowd(12);
-    const passing = { ...person, state: 'walking' as const, stop: null,
-      y: person.lane - Math.sin(person.x / 1200 * Math.PI) * 7 };
-    straight.people = [passing];
     let distance = 0;
-    for (let step = 0; step < 10; step++) {
+    for (let step = 0; step < 20 && person.state !== 'watching'; step++) {
       const before = { x: person.x, y: person.y };
       crowd.step(0.1);
-      straight.step(0.1);
       const travel = Math.hypot(person.x - before.x, person.y - before.y);
       distance += travel;
     }
     assert.ok(distance > 35, 'Walking toward the rail includes travel up the path');
-    assert.ok(person.stride > passing.stride, 'The diagonal route takes more steps despite covering less horizontal distance');
+    assert.ok(person.stride > 35 * 4 / walkingCycleDistance(person), 'The diagonal route includes steps toward the rail');
     assert.equal(person.state, 'watching');
     const stopped = person.stride;
     crowd.step(0.1); crowd.step(0);
     assert.equal(person.stride, stopped);
+  }
+});
+
+test('visitors brake before watching, plant their feet, and build up speed again when leaving', () => {
+  for (const age of ['adult', 'kid'] as const) for (const direction of [-1, 1] as const) {
+    const crowd = new ObserverCrowd(12);
+    const person = crowd.people[0];
+    Object.assign(person, { age, direction, x: 600 - direction * 60, y: 760, lane: 773,
+      speed: 40, velocity: 40, state: 'approaching', stop: { x: 600, y: 738 },
+      stopRoll: 0, watchRemaining: 30 });
+    crowd.people = [person];
+    let brakingSteps = 0;
+    for (let step = 0; step < 180 && person.state !== 'watching'; step++) {
+      const before = person.x;
+      crowd.step(1 / 60);
+      assert.ok((person.x - before) * direction >= -1e-8, 'Never step backward while braking');
+      assert.ok((600 - person.x) * direction >= -1e-8, 'Never overshoot the watching spot');
+      if (person.velocity > 0 && person.velocity < 30) brakingSteps++;
+    }
+    assert.ok(brakingSteps > 5, 'Slows visibly instead of snapping to a stop');
+    assert.equal(person.state, 'watching');
+    assert.equal(person.velocity, 0);
+    assert.equal(person.x, 600); assert.equal(person.y, 738);
+    const stride = person.stride;
+    advance(crowd, 1);
+    assert.equal(person.stride, stride);
+    person.watchRemaining = 0;
+    crowd.step(0.05);
+    assert.equal(person.state, 'leaving');
+    crowd.step(0.05);
+    assert.ok(Math.abs(person.x - 600) < 0.2, 'The first departing step eases out of rest');
+    assert.ok(person.velocity > 0 && person.velocity < person.speed);
+    advance(crowd, 1);
+    assert.equal(person.velocity, person.speed);
   }
 });
 
