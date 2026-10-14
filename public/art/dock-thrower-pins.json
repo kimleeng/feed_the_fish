@@ -1,0 +1,14 @@
+{
+  "empty": { "x": 230, "y": 190 },
+  "rest": { "x": 514, "y": 132 },
+  "toss-windup": { "x": 902, "y": 198 },
+  "toss-release": { "x": 1208, "y": 106 },
+  "toss-follow": { "x": 151, "y": 412 },
+  "overhand-windup": { "x": 572, "y": 358 },
+  "overhand-release": { "x": 861, "y": 364 },
+  "overhand-follow": { "x": 1228, "y": 466 },
+  "spread-windup": { "x": 138, "y": 808 },
+  "spread-release": { "x": 508, "y": 758 },
+  "spread-follow": { "x": 842, "y": 786 },
+  "recover": { "x": 1279, "y": 798 }
+}

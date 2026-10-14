@@ -1,3 +1,5 @@
+import { walkingCycleDistance } from './observer-art.ts';
+
 export type ObserverAge = 'adult' | 'kid';
 export type ObserverState = 'walking' | 'approaching' | 'watching' | 'leaving';
 interface Point { x: number; y: number }
@@ -22,7 +24,7 @@ export interface Observer extends Point {
 }
 
 export const OBSERVER_PATH = { start: -50, end: 1250, lanes: [760, 773, 784] };
-// Dry paving in front of the railing, leaving the machine and throwing arm clear.
+// Dry paving in front of the railing, leaving the machine and dock character clear.
 export const WATCH_SPOTS: readonly Point[] = [
   { x: 270, y: 738 }, { x: 335, y: 735 }, { x: 490, y: 740 },
   { x: 725, y: 738 }, { x: 800, y: 735 }, { x: 870, y: 738 }, { x: 935, y: 744 },
@@ -141,7 +143,7 @@ export class ObserverCrowd {
         if (person.watchRemaining === 0) person.state = 'leaving';
         continue;
       }
-      const before = person.x;
+      const before = { x: person.x, y: person.y };
       if (person.state === 'approaching' && person.stop && Math.abs(person.x - person.stop.x) > 80 &&
         person.stopRoll >= this.stopChance(person)) {
         person.state = 'walking'; person.stop = null; person.watchDuration = 0; person.watchRemaining = 0;
@@ -159,7 +161,8 @@ export class ObserverCrowd {
         person.y = person.stop.y * (1 - departure) + pathY(person.x, person.lane) * departure;
         if (departure === 1) { person.state = 'walking'; person.stop = null; }
       } else person.y = pathY(person.x, person.lane);
-      person.stride += Math.abs(person.x - before) / 9;
+      const travel = Math.hypot(person.x - before.x, person.y - before.y);
+      person.stride += travel * 4 / walkingCycleDistance(person);
     }
     this.people = this.people.filter(person => person.x >= OBSERVER_PATH.start && person.x <= OBSERVER_PATH.end);
     this.arrivalIn -= dt;

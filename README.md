@@ -13,9 +13,9 @@ npm ci
 npm run dev
 ```
 
-Click or tap the water, press **Space**, or use **Throw pellets**. Every throw travels in an arc from the same dock position toward your chosen point. Birds see the pellets while airborne and may intercept them; fish only react after they land on the water. Floating food is available to birds for a short time, while fish can still eat it after it sinks.
+Click or tap the water, press **Space**, or use **Throw pellets**. A person on the dock throws food from their hand toward your chosen point. Birds see the pellets while airborne and may intercept them near the surface; fish only react after they land on the water. Floating food is available to birds for a short time, while fish can still eat it after it sinks.
 
-The right forearm enters from the lower right. Three motions use a quick underhand toss (60%), a raised overhand throw (30%), and a sideways spread throw (10%). The hand opens into a different release pose for each motion, with four fingers and one thumb. Every motion releases from the same point on the right side of the dock and follows through before returning to rest. The quick toss has a short flick; the overhand throw sends pellets on a higher arc; the spread throw fans four pellets across a wider patch centered on your aim. Targets remain inside the pond. Rapid clicks reserve throws in a queue, so every hand animation plays. Pause also freezes the throwing hand and queued releases.
+The dock character keeps their feet planted and a pellet pouch in the other hand. Three full-body motions use a quick underhand toss (60%), a raised overhand throw (30%), and a sideways spread throw (10%). Each has a separate windup, open-hand release, and follow-through before returning to rest. Food releases from the actual drawn hand, at a different height for each motion. The quick toss has a short flick; the overhand throw sends pellets on a higher arc; the spread throw fans four pellets across a wider patch centered on your aim. Targets remain inside the pond. Rapid clicks reserve throws in a queue, so every animation plays. Pause freezes the character's pose and queued releases.
 
 Each throw has an independent 2% chance of containing one lucky pellet. A gold star and **LUCKY PELLET** label appear over the palm before a lucky throw, and the golden pellet glints as it travels. The first fish to nibble that pellet earns **+50 bonus points**, golden ripples, a small star celebration, and an optional soft chime. The bonus is awarded once per pellet, even when fish share it. Birds can eat lucky pellets but earn no bonus. The score includes ordinary feeding points and lucky bonuses; the food-share meter still measures food amounts.
 
@@ -42,7 +42,7 @@ Actual pellet releases and food eaten by fish or birds gently increase interest,
 
 Uneven arrivals keep about three visitors visible on average, usually two to four. Busy periods reduce the chance of another arrival, making more than eight unusual; ten is the absolute limit. Visitors reserve separate watching places on dry paving and resume their original route afterward. Pause and the field guide freeze their movement and watching time, and a new visit starts with a fresh small crowd. Foot traffic has its own random stream so it does not affect fish behavior or lucky throws.
 
-The path has open cobblestone entrances at both image edges. Six shaded, detailed visitor designs (three adults and three kids) match the warm garden artwork, with walking poses, back views for watching, and grounded shadows. Adult heights are based on the existing benches; children are shorter, and both age groups vary in height and scale slightly with depth along the path.
+The path has open cobblestone entrances at both image edges. Six shaded, detailed visitor designs (three adults and three kids) match the warm garden artwork, with four alternating walking poses, back views for watching, and grounded shadows. Poses align at the hips and soles so changing foot positions does not shift the entire body. Walking progresses with actual distance traveled, including movement toward the rail. Each design's two contact poses determine its stride length; taller adults take longer steps than kids, with individual size and path-depth variation. Adult heights are based on the existing benches.
 
 ## Validate
 
@@ -63,26 +63,28 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/bird-swimmers.png` and `bird-swimmers.json`: original floating mallard, gull, and coot atlas, with eight headings and two paddling poses each.
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
 - `public/art/scene-machine.png` and `scene-machine.json`: separate garden machine on an iron pedestal, grounded on the path and clickable without throwing pellets.
-- `public/art/garden-observers.png` and `garden-observers.json`: transparent visitor atlas with 24 trimmed walking and watching cuts and a shared foot baseline.
+- `public/art/garden-observers.png` and `garden-observers.json`: transparent visitor atlas with 30 trimmed walking and watching cuts, hip/sole anchors, and measured stride ratios.
+- `public/art/dock-thrower.png` and `dock-thrower.json`: twelve full-body throw stages aligned at the planted feet.
+- `public/art/dock-thrower-pins.json`: source-image hand annotations used to generate atlas hand pins and release offsets.
 - `public/art/hand.png`: original hand used for collecting pellets at the machine.
-- `public/art/right-hand-cup.png`, `right-hand-quick.png`, `right-hand-overhand.png`, and `right-hand-spread.png`: four right-hand/long-forearm cutouts for holding, quick release, pronated overhand release, and a fanned spread release.
-- `public/art/right-arm-throws.json`: a multi-texture atlas with twelve named motion stages, reusing the four checked drawings with grip pivots. The earlier `throw-hand.png` is retained as an art source.
+- `public/art/right-hand-*.png`, `right-arm-throws.json`, and `throw-hand.png`: retained artwork from the earlier foreground-arm version.
 - `src/vending.ts`: coin price, twenty-throw servings, and the guarded dispenser cycle.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
-- `src/game.ts`: rendering, throws, hand motion, and landing ripples.
+- `src/game.ts`: rendering, dock-character motion, and landing ripples.
 - `src/appearance.ts`: directional frame names and stable heading selection while turning.
-- `src/throws.ts`: weighted throw choices, hand motion keyframes, and lucky-pellet chance and bonus.
+- `src/throws.ts`: weighted throw choices, full-body pose timing, per-motion release origins, and lucky-pellet chance and bonus.
+- `src/thrower-art.ts` and `thrower-pins.ts`: dock placement, character height, and calibrated release positions.
 - `src/observers.ts`: visitor routes, age-dependent watching time, and variable foot traffic.
-- `src/observer-art.ts`: visitor pose selection and height relative to the garden benches.
+- `src/observer-art.ts` and `observer-gait.ts`: visitor pose selection, height relative to the benches, and distance per walking cycle.
 
 Sprites use nearest-neighbor scaling. The original side-view animal sheet is retained as an art source; the game and field guide use the new swimming atlases. Explicit trimmed rectangles and a shared frame size preserve transparent padding around every pose. The supplied vending-machine reference page was blocked by the cloud network policy, so the machine art uses the described classic round-globe form. Repository wiki notes were unavailable during initial setup.
 
-For the image audit and decisions, see [the art review](docs/art-review.md). Generate a contact sheet of all 48 actual fish crops and six full-detail garden regions with:
+For the image audit and decisions, see [the art review](docs/art-review.md) and [the throw review](docs/throw-review.md). Generate contact sheets of all actual fish, visitor, and dock-character crops and six full-detail garden regions with:
 
 ```bash
 npm run review:art
 ```
 
-The review command rejects missing directions or visitor poses, out-of-bounds cuts, overlapping rectangles, and PNG/atlas size mismatches before saving images under ignored `test-results/art-review`. It also renders all 24 actual visitor cuts and checks their common foot baseline. When replacing generated source art, `node scripts/build-art-atlas.mjs fish`, `machine`, or `observers` reads alpha to rebuild frame metadata without altering PNG pixels. Inspect every resulting pose before committing the art; the bounds checks cannot judge anatomy or perspective.
+The review command rejects missing poses, out-of-bounds cuts, overlapping rectangles, and PNG/atlas size mismatches before saving images under ignored `test-results/art-review`. It also checks body anchors and foot baselines and renders the dock character's hand pins over a separate review sheet. When replacing generated source art, `node scripts/build-art-atlas.mjs fish`, `machine`, `observers`, or `thrower` reads alpha to rebuild frame metadata without altering PNG pixels. Observer packaging regenerates `src/observer-gait.ts`; thrower packaging reads the hand annotations and regenerates `src/thrower-pins.ts`. Inspect every resulting pose before committing the art; bounds checks cannot judge anatomy or perspective.
 
-Use `npm run review:hands` for close-ups of every actual throw stage and a full-forearm sheet under ignored `test-results/hand-review`. The hand review validates frame names, source bounds and dimensions; finger counts and wrist anatomy require visual inspection. `node scripts/build-art-atlas.mjs hand` packages the four individual cutouts without editing their pixels. See [the throw review](docs/throw-review.md) for the animation and anatomy checks.
+`npm run review:hands` and `node scripts/build-art-atlas.mjs hand` remain available for reviewing and packaging the archived foreground-arm artwork.

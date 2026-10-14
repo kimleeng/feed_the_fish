@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ObserverCrowd, WATCH_SPOTS, type ObserverAge } from '../src/observers.ts';
 import { PondSimulation, inPond } from '../src/simulation.ts';
+import { THROW_MOTIONS } from '../src/throws.ts';
+import { observerFrame, walkingCycleDistance } from '../src/observer-art.ts';
 
 function advance(simulation: { step(seconds: number): void }, seconds: number): void {
   for (let i = 0; i < Math.ceil(seconds / 0.05); i++) simulation.step(0.05);
@@ -14,6 +16,50 @@ function quietWatcher(crowd: ObserverCrowd) {
   crowd.people = [person];
   return person;
 }
+
+test('larger visitors take longer steps and alternate both contact and passing poses', () => {
+  const crowd = new ObserverCrowd(12);
+  const adult = crowd.people.find(person => person.age === 'adult')!;
+  const kid = { ...adult, age: 'kid' as const };
+  Object.assign(adult, { look: 0, scale: 1, y: 760, stride: 0, state: 'walking' });
+  Object.assign(kid, { look: 0, scale: 1, y: 760, stride: 0, state: 'walking' });
+  assert.ok(walkingCycleDistance(adult) > 100 && walkingCycleDistance(adult) < 120);
+  assert.ok(walkingCycleDistance(kid) > 80 && walkingCycleDistance(kid) < 100);
+  assert.ok(walkingCycleDistance(adult) > walkingCycleDistance(kid));
+  const distance = walkingCycleDistance(adult);
+  adult.scale = 1.1;
+  assert.ok(Math.abs(walkingCycleDistance(adult) - distance * 1.1) < 0.000001);
+  assert.deepEqual([0, 1, 2, 3, 4].map(stride => observerFrame({ ...adult, stride })),
+    [0, 1, 2, 3, 0].map(phase => `observer-adult-0-walk-${phase}`));
+});
+
+test('footfall progress follows actual travel including approach depth, and stays still when stationary', () => {
+  for (const direction of [-1, 1] as const) {
+    const crowd = new ObserverCrowd(12);
+    const person = crowd.people[0];
+    Object.assign(person, { x: 600 - direction * 35, y: 762, lane: 773, direction, speed: 40, stride: 0,
+      state: 'approaching', stop: { x: 600, y: 738 }, stopRoll: 0, watchRemaining: 30 });
+    crowd.people = [person];
+    const straight = new ObserverCrowd(12);
+    const passing = { ...person, state: 'walking' as const, stop: null,
+      y: person.lane - Math.sin(person.x / 1200 * Math.PI) * 7 };
+    straight.people = [passing];
+    let distance = 0;
+    for (let step = 0; step < 10; step++) {
+      const before = { x: person.x, y: person.y };
+      crowd.step(0.1);
+      straight.step(0.1);
+      const travel = Math.hypot(person.x - before.x, person.y - before.y);
+      distance += travel;
+    }
+    assert.ok(distance > 35, 'Walking toward the rail includes travel up the path');
+    assert.ok(person.stride > passing.stride, 'The diagonal route takes more steps despite covering less horizontal distance');
+    assert.equal(person.state, 'watching');
+    const stopped = person.stride;
+    crowd.step(0.1); crowd.step(0);
+    assert.equal(person.stride, stopped);
+  }
+});
 
 test('interest fades after each observer’s five-to-ten-second threshold and throwing resets that quiet period', () => {
   const crowd = new ObserverCrowd(12);
@@ -72,13 +118,13 @@ test('observers respond once per actual release, and queued input, refills, and 
   assert.equal(pond.scatter({ x: 600, y: 389 }), true);
   assert.equal(pond.scatter({ x: 600, y: 389 }), true);
   assert.equal(person.interest, before);
-  advance(pond, 0.1);
+  advance(pond, THROW_MOTIONS.toss.releaseDelay - 0.05);
   assert.equal(person.interest, before, 'Windup is not a visible throw');
   advance(pond, 0.1);
   assert.ok(Math.abs(person.interest - before - 0.04) < 0.000001);
   advance(pond, 0.1);
   assert.ok(Math.abs(person.interest - before - 0.04) < 0.000001, 'A release counts only once');
-  advance(pond, 0.3);
+  advance(pond, THROW_MOTIONS.toss.duration);
   assert.ok(Math.abs(person.interest - before - 0.08) < 0.000001, 'The second queued throw boosts on its own release');
   pond.paused = true;
   const frozen = JSON.stringify(pond.crowd);
@@ -92,7 +138,8 @@ test('both fish and bird bites raise interest by the amount actually eaten', () 
     const animal = pond.animals.find(animal => animal.profile.id === species)!;
     animal.x = 600; animal.y = 389;
     pond.animals = [animal];
-    pond.food = [{ id: 1, x: 600, y: 389, target: { x: 600, y: 389 }, amount: 1, age: 0,
+    pond.food = [{ id: 1, x: 600, y: 389, origin: { x: 600, y: 389 }, launchHeight: 0,
+      target: { x: 600, y: 389 }, amount: 1, age: 0,
       phase: 'water', flightTime: 1, flightDuration: 1, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false }];
     const observer = pond.crowd.people[0];
     pond.step(0.05);

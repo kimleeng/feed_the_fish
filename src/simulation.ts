@@ -1,5 +1,5 @@
 import { PelletMachine } from './vending.ts';
-import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, type ThrowPlan, type ThrowEvent } from './throws.ts';
+import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent } from './throws.ts';
 import { ObserverCrowd } from './observers.ts';
 
 export type AnimalKind = 'fish' | 'bird';
@@ -19,7 +19,7 @@ export const SPECIES: AnimalProfile[] = [
   { ...ANIMAL_BASELINE, id: 'coot', name: 'Little coot', kind: 'bird', texture: 'coot', movement: 'drift', speed: 38, vision: 150, bite: 0.45, chew: 1.8, size: 42, count: 5, description: 'A few quiet paddle strokes, then a gentle drift near the edge of the pond.' },
 ];
 export const POND = { x: 600, y: 389, rx: 498, ry: 230 };
-export const THROW_ORIGIN = { x: 640, y: 694 };
+export const THROW_ORIGIN = releaseOrigin('toss');
 export const FLOAT_SECONDS = 1.7;
 export interface Point { x: number; y: number }
 export interface Animal extends Point {
@@ -28,6 +28,7 @@ export interface Animal extends Point {
   school: number; phase: number;
 }
 export interface Food extends Point {
+  origin: Point; launchHeight: number;
   id: number; amount: number; age: number; phase: 'air' | 'water';
   target: Point; flightTime: number; flightDuration: number; height: number;
   releaseAt: number; arcScale: number; lucky: boolean; bonusClaimed: boolean;
@@ -41,8 +42,10 @@ function distance(a: Point, b: Point): number { return Math.hypot(a.x - b.x, a.y
 function angleDelta(from: number, to: number): number { return Math.atan2(Math.sin(to - from), Math.cos(to - from)); }
 export function flightPosition(food: Food, time = food.flightTime): Point & { height: number } {
   const t = Math.min(1, Math.max(0, time / food.flightDuration));
-  const height = Math.sin(Math.PI * t) * (85 + distance(THROW_ORIGIN, food.target) * 0.12) * food.arcScale;
-  return { x: THROW_ORIGIN.x + (food.target.x - THROW_ORIGIN.x) * t, y: THROW_ORIGIN.y + (food.target.y - THROW_ORIGIN.y) * t - height, height };
+  const arc = Math.sin(Math.PI * t) * (85 + distance(food.origin, food.target) * 0.12) * food.arcScale;
+  const height = food.launchHeight * (1 - t) + arc;
+  return { x: food.origin.x + (food.target.x - food.origin.x) * t,
+    y: food.origin.y + (food.target.y - food.origin.y) * t - arc, height };
 }
 
 export class PondSimulation {
@@ -104,14 +107,15 @@ export class PondSimulation {
     if (this.paused || this.machine.busy || this.handfuls <= 0 || !inPond(point)) return false;
     const plan = this.nextThrow ?? planThrow(this.throwRandom);
     const motion = THROW_MOTIONS[plan.animation];
+    const origin = releaseOrigin(plan.animation);
     const queued = this.throwQueue.at(-1);
     const startedAt = queued ? Math.max(this.elapsed, queued.startedAt + THROW_MOTIONS[queued.animation].duration) : this.elapsed;
     const action = { ...plan, id: this.nextThrowId++, startedAt };
     this.throwQueue.push(action);
     this.lastThrow = action;
     this.handfuls -= 1;
-    const aimDistance = Math.max(1, distance(THROW_ORIGIN, point));
-    const forward = { x: (point.x - THROW_ORIGIN.x) / aimDistance, y: (point.y - THROW_ORIGIN.y) / aimDistance };
+    const aimDistance = Math.max(1, distance(origin, point));
+    const forward = { x: (point.x - origin.x) / aimDistance, y: (point.y - origin.y) / aimDistance };
     for (let i = 0; i < 4; i++) {
       const sideJitter = this.random() - 0.5;
       const forwardJitter = this.random() - 0.5;
@@ -122,9 +126,10 @@ export class PondSimulation {
         : { x: point.x + sideJitter * 36, y: point.y + forwardJitter * 24 };
       const target = inPond(offset) ? offset : { ...point };
       this.food.push({
-        ...THROW_ORIGIN, id: this.nextFood++, amount: 1, age: 0, phase: 'air', target,
-        flightTime: 0, flightDuration: (0.65 + distance(THROW_ORIGIN, target) / 700) * motion.flightScale,
-        height: 0, releaseAt: startedAt + motion.releaseDelay, arcScale: motion.arcScale,
+        ...origin, origin: { ...origin }, launchHeight: releaseHeight(plan.animation),
+        id: this.nextFood++, amount: 1, age: 0, phase: 'air', target,
+        flightTime: 0, flightDuration: (0.65 + distance(origin, target) / 700) * motion.flightScale,
+        height: releaseHeight(plan.animation), releaseAt: startedAt + motion.releaseDelay, arcScale: motion.arcScale,
         lucky: plan.lucky && i === 0, bonusClaimed: false,
       });
     }

@@ -92,7 +92,7 @@ test('kids and adults visibly walk, face the pond while watching, and freeze and
   const moved = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
     const poses = new Map<number, Set<string>>();
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       scene.update(i * 100, 100);
       for (const person of scene.world.crowd.people) {
         const visitor = scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container;
@@ -258,7 +258,7 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
   await page.screenshot({ path: testInfo.outputPath('swimming-field-guide.png'), fullPage: true });
 });
 
-test('three hand motions keep the sleeve edge off-screen, and a lucky fish bite celebrates its bonus', async ({ page }, testInfo) => {
+test('the dock character keeps planted feet through three throws, releases from the drawn hand, and earns lucky bonuses', async ({ page }, testInfo) => {
   await arrive(page);
   await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
@@ -271,8 +271,8 @@ test('three hand motions keep the sleeve edge off-screen, and a lucky fish bite 
   for (const animation of ['toss', 'overhand', 'spread']) {
     if (animation === 'spread') {
       await expect.poll(() => page.evaluate(() => {
-        const rig = (window as InspectedWindow).inspectedPond.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
-        return rig.getByName('lucky-hand-indicator').visible;
+        const rig = (window as InspectedWindow).inspectedPond.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
+        return rig.getByName('lucky-pellet-indicator').visible;
       })).toBe(true);
       await expect(page.locator('#visit-note')).toContainText('golden pellet');
       await page.screenshot({ path: testInfo.outputPath('lucky-pellet-in-hand.png'), fullPage: true });
@@ -280,20 +280,27 @@ test('three hand motions keep the sleeve edge off-screen, and a lucky fish bite 
     await page.getByRole('button', { name: 'Throw pellets' }).click();
     const frames = await page.evaluate(async expected => {
       const scene = (window as InspectedWindow).inspectedPond;
-      const rig = scene.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
-      const image = rig.getByName('hand-art') as Phaser.GameObjects.Image;
+      const rig = scene.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
+      const image = rig.getByName('thrower-art') as Phaser.GameObjects.Image;
       const action = scene.world.currentThrow!;
       if (action.animation !== expected) throw new Error('Wrong throw animation');
-      const result: { x: number; y: number; leftBottom: number; rightBottom: number; canvasHeight: number; frame: string; flipped: boolean }[] = [];
+      const atlas = await (await fetch('/art/dock-thrower.json')).json();
+      const delays = { toss: 0.26, overhand: 0.44, spread: 0.32 };
+      const result: { x: number; y: number; top: number; bottom: number; sole: number; frame: string; flipped: boolean;
+        hand: { x: number; y: number }; origins: { x: number; y: number }[] }[] = [];
       await new Promise<void>(resolve => {
         const sample = () => {
           if (scene.world.currentThrow?.id !== action.id) { resolve(); return; }
           const transform = image.getWorldTransformMatrix();
           const cut = image.frame;
-          const left = transform.transformPoint(cut.x - image.displayOriginX, cut.y + cut.height - image.displayOriginY);
-          const right = transform.transformPoint(cut.x + cut.width - image.displayOriginX, cut.y + cut.height - image.displayOriginY);
-          result.push({ x: rig.x, y: rig.y, leftBottom: left.y, rightBottom: right.y, canvasHeight: scene.game.canvas.height,
-            frame: cut.name, flipped: image.flipX });
+          const pin = atlas.meta.hands[cut.name];
+          const hand = transform.transformPoint(pin.x - image.displayOriginX, pin.y - image.displayOriginY);
+          const feet = atlas.meta.anchors[cut.name].feet as { x: number; y: number }[];
+          const sole = Math.max(...feet.map(foot => transform.transformPoint(foot.x - image.displayOriginX, foot.y - image.displayOriginY).y));
+          const bounds = image.getBounds();
+          const released = scene.world.food.filter(food => Math.abs(food.releaseAt - action.startedAt - delays[action.animation]) < 0.000001);
+          result.push({ x: rig.x, y: rig.y, top: bounds.top, bottom: bounds.bottom, sole, frame: cut.name,
+            flipped: image.flipX, hand: { x: hand.x, y: hand.y }, origins: released.map(food => food.origin) });
           requestAnimationFrame(sample);
         };
         sample();
@@ -302,19 +309,17 @@ test('three hand motions keep the sleeve edge off-screen, and a lucky fish bite 
     }, animation);
     expect(frames.length).toBeGreaterThan(5);
     for (const frame of frames) {
-      expect(frame.leftBottom).toBeGreaterThan(frame.canvasHeight);
-      expect(frame.rightBottom).toBeGreaterThan(frame.canvasHeight);
+      expect(frame.x).toBe(600); expect(frame.y).toBe(684);
+      expect(frame.top).toBeGreaterThan(400); expect(frame.bottom).toBeLessThan(800);
+      expect(frame.sole).toBeCloseTo(684, 3);
       expect(frame.flipped).toBe(false);
     }
-    expect(frames.some(frame => frame.frame === `${animation}-release`)).toBe(true);
-    if (animation === 'toss') expect(frames.some(frame => frame.frame === 'toss-windup')).toBe(true);
-    if (animation === 'overhand') {
-      expect(Math.min(...frames.map(frame => frame.y))).toBeLessThan(640);
-      expect(frames.some(frame => frame.frame === 'overhand-windup')).toBe(true);
-    }
-    if (animation === 'spread') {
-      expect(Math.max(...frames.map(frame => frame.x)) - Math.min(...frames.map(frame => frame.x))).toBeGreaterThan(65);
-      expect(frames.some(frame => frame.frame === 'spread-follow')).toBe(true);
+    for (const stage of ['windup', 'release', 'follow']) expect(frames.some(frame => frame.frame === `${animation}-${stage}`)).toBe(true);
+    const release = frames.find(frame => frame.frame === `${animation}-release`)!;
+    expect(release.origins).toHaveLength(4);
+    for (const origin of release.origins) {
+      expect(origin.x).toBeCloseTo(release.hand.x, 3);
+      expect(origin.y).toBeCloseTo(release.hand.y, 3);
     }
   }
   await expect(page.locator('#food-count')).toHaveText('17');
@@ -419,10 +424,10 @@ test.describe('mobile touch controls', () => {
     await expect(page.locator('#machine-dialog')).toBeHidden({ timeout: 10_000 });
     await expect(page.locator('#food-count')).toHaveText('20');
     await expect.poll(() => page.evaluate(() => {
-      const rig = (window as InspectedWindow).inspectedPond.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
-      return rig.getByName('lucky-hand-indicator').visible;
+      const rig = (window as InspectedWindow).inspectedPond.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
+      return rig.getByName('lucky-pellet-indicator').visible;
     })).toBe(true);
-    await page.screenshot({ path: testInfo.outputPath('lucky-hand-mobile.png'), fullPage: true });
+    await page.screenshot({ path: testInfo.outputPath('lucky-thrower-mobile.png'), fullPage: true });
     await page.getByRole('button', { name: 'Field guide' }).tap();
     await expect(page.locator('#guide-dialog')).toBeVisible();
     await expect(page.locator('.species-card')).toHaveCount(6);
@@ -433,13 +438,10 @@ test.describe('mobile touch controls', () => {
     await expect(page.locator('#food-count')).toHaveText('18');
     expect(await page.evaluate(() => {
       const scene = (window as InspectedWindow).inspectedPond;
-      const rig = scene.children.getByName('throwing-hand') as Phaser.GameObjects.Container;
-      const image = rig.getByName('hand-art') as Phaser.GameObjects.Image;
-      const transform = image.getWorldTransformMatrix();
-      const cut = image.frame;
-      const left = transform.transformPoint(cut.x - image.displayOriginX, cut.y + cut.height - image.displayOriginY);
-      const right = transform.transformPoint(cut.x + cut.width - image.displayOriginX, cut.y + cut.height - image.displayOriginY);
-      return Math.min(left.y, right.y) > scene.game.canvas.height;
+      const rig = scene.children.getByName('dock-thrower') as Phaser.GameObjects.Container;
+      const image = rig.getByName('thrower-art') as Phaser.GameObjects.Image;
+      const bounds = image.getBounds();
+      return rig.x === 600 && rig.y === 684 && bounds.top > 0 && bounds.bottom <= scene.game.canvas.height;
     })).toBe(true);
     const machinePoint = await gardenMachinePoint(page);
     await page.touchscreen.tap(machinePoint.x, machinePoint.y);

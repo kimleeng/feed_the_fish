@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { PondSimulation, FLOAT_SECONDS, THROW_ORIGIN, flightPosition, inPond, type Food } from '../src/simulation.ts';
 import { PelletMachine } from '../src/vending.ts';
 import { DIRECTIONS, directionForHeading } from '../src/appearance.ts';
-import { THROW_MOTIONS, LUCKY_BONUS_POINTS, handPose } from '../src/throws.ts';
+import { THROW_MOTIONS, LUCKY_BONUS_POINTS, throwerPose, releaseOrigin } from '../src/throws.ts';
 
 test('all eight headings select a distinct view, wrap correctly, and stay stable at turn boundaries', () => {
   for (let i = 0; i < 8; i++) {
@@ -23,10 +23,10 @@ function refill(pond: PondSimulation): void {
   advance(pond, 3.5);
 }
 function waterFood(x = 600, y = 389, age = 0): Food {
-  return { id: 99, x, y, target: { x, y }, amount: 1, age, phase: 'water', flightTime: 1, flightDuration: 1, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
+  return { id: 99, x, y, origin: { ...THROW_ORIGIN }, launchHeight: 0, target: { x, y }, amount: 1, age, phase: 'water', flightTime: 1, flightDuration: 1, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
 }
 function airFood(): Food {
-  const food: Food = { ...THROW_ORIGIN, id: 1, target: { x: 600, y: 389 }, amount: 1, age: 0, phase: 'air', flightTime: 1.45, flightDuration: 3, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
+  const food: Food = { ...THROW_ORIGIN, origin: { ...THROW_ORIGIN }, launchHeight: 0, id: 1, target: { x: 600, y: 389 }, amount: 1, age: 0, phase: 'air', flightTime: 1.45, flightDuration: 3, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
   Object.assign(food, flightPosition(food));
   return food;
 }
@@ -69,7 +69,7 @@ test('a visit starts empty, and refills add twenty throws while preserving unuse
   assert.equal(pond.machine.moneyUsed, 10);
 });
 
-test('throws share a fixed origin, follow an arc, and splash once at their intended water targets', () => {
+test('throws start at the dock character’s hand, follow an arc, and splash once at their intended water targets', () => {
   const pond = new PondSimulation(3);
   pond.animals = [];
   refill(pond);
@@ -77,10 +77,10 @@ test('throws share a fixed origin, follow an arc, and splash once at their inten
   assert.equal(pond.handfuls, 20);
   pond.scatter({ x: 690, y: 320 });
   assert.equal(pond.handfuls, 19);
-  assert.ok(pond.food.every(food => food.x === THROW_ORIGIN.x && food.y === THROW_ORIGIN.y && food.phase === 'air'));
+  assert.ok(pond.food.every(food => food.x === food.origin.x && food.y === food.origin.y && food.phase === 'air'));
   const pellet = pond.food[0];
   advance(pond, pellet.releaseAt - pond.elapsed + 0.35);
-  const linearY = THROW_ORIGIN.y + (pellet.target.y - THROW_ORIGIN.y) * pellet.flightTime / pellet.flightDuration;
+  const linearY = pellet.origin.y + (pellet.target.y - pellet.origin.y) * pellet.flightTime / pellet.flightDuration;
   assert.ok(pellet.y < linearY - 10);
   assert.equal(pond.splashes.length, 0);
   advance(pond, 2);
@@ -279,10 +279,10 @@ test('invalid input and refills preserve the lucky preview, while an accepted th
   assert.equal(pond.food.filter(food => food.lucky).length, 1);
 });
 
-test('rapid throws queue all three motions and launch food only when each hand reaches the fixed release point', () => {
+test('rapid throws queue all three motions and launch food from the dock character’s actual release hand', () => {
   for (const animation of ['toss', 'overhand', 'spread'] as const) {
-    const pose = handPose(animation, THROW_MOTIONS[animation].releaseDelay);
-    assert.equal(pose.x, 0); assert.equal(pose.y, 0);
+    const pose = throwerPose(animation, THROW_MOTIONS[animation].releaseDelay);
+    assert.deepEqual(pose.hand, releaseOrigin(animation));
     assert.equal(pose.frame, `${animation}-release`);
   }
   const rolls = [0.1, 0.5, 0.75, 0.5, 0.95, 0.01]; let index = 0;
@@ -295,7 +295,10 @@ test('rapid throws queue all three motions and launch food only when each hand r
   assert.equal(first.releaseAt, THROW_MOTIONS.toss.releaseDelay);
   assert.equal(second.releaseAt, THROW_MOTIONS.toss.duration + THROW_MOTIONS.overhand.releaseDelay);
   advance(pond, first.releaseAt / 2);
-  assert.ok(pond.food.every(food => food.x === THROW_ORIGIN.x && food.y === THROW_ORIGIN.y && food.flightTime === 0));
+  assert.ok(pond.food.every(food => food.x === food.origin.x && food.y === food.origin.y && food.flightTime === 0));
+  assert.deepEqual(first.origin, releaseOrigin('toss'));
+  assert.deepEqual(second.origin, releaseOrigin('overhand'));
+  assert.deepEqual(third.origin, releaseOrigin('spread'));
   advance(pond, first.releaseAt - pond.elapsed + 0.02);
   assert.ok(first.flightTime > 0);
   assert.equal(second.flightTime, 0); assert.equal(third.flightTime, 0);

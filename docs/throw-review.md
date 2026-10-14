@@ -1,29 +1,28 @@
-# Right-handed throwing review
+# Dock-character throwing review
 
-The previous animation translated and rotated one palm-up cutout for all three motions. Its central, almost vertical sleeve and fixed wrist pose made the arm direction difficult to read.
+A full-body person now stands on the wooden feeding platform, replacing the foreground forearm. The character faces the water, keeps both shoes planted, and holds a pellet pouch in the other hand. Separate windup, release, follow-through, and recovery drawings use the same throwing arm throughout.
 
-The new hand rests on the right side of the dock. A long right forearm approaches the wrist from the lower right. Separate release drawings change the palm and finger articulation while motion keyframes supply the windup and follow-through. The grip pivots keep the pellet release attached to the hand; all three throws release at the same world position. The sleeve end continues below the game viewport.
+| Motion | Chance | Release / full duration | Behavior |
+| --- | --- | --- | --- |
+| Quick toss | 60% | 0.26 / 0.84 seconds | Hand drops toward the hip, then opens forward for a short underhand flick. |
+| Overhand | 30% | 0.44 / 1.08 seconds | Elbow bends with the loaded hand above the shoulder, followed by a high open-hand release and a higher pellet arc. |
+| Spread | 10% | 0.32 / 0.96 seconds | A low reach opens into a sideways sweep; four pellets fan across the selected patch. |
 
-| Motion | Chance | Behavior |
-| --- | --- | --- |
-| Quick toss | 60% | A short cup-and-flick motion, palm opening upward; release at 0.11 seconds, return to rest at 0.40 seconds. |
-| Overhand | 30% | Raises the loaded right hand, turns it toward the pond, and releases with the back of the hand visible; higher pellet arc. |
-| Spread | 10% | A short sideways wrist motion and open fanned fingers; four pellets land in a wider fan centered on the selected point. |
+The atlas has twelve actual full-body cuts. Frames align around the two shoe centers and share a sole baseline, so extending the arm does not translate or rotate the entire character. The standing height is 145 game pixels, slightly smaller than the nearer visitors. The contact shadow sits on the dock boards.
 
-The twelve named stages reuse four individual drawings: cupped hand, open quick release, pronated overhand release, and spread release. This keeps finger proportions and wrist joins consistent when several stages share a hand pose. The 2% lucky chance, palm indicator, fish-only +50 bonus, queued throws, and pause behavior continue to use the same throw events.
+`dock-thrower-pins.json` annotates the throwing hand in each source drawing. Packaging converts those points into atlas coordinates and the release offsets used by the simulation. Each pellet stores its own origin and launch height; its arc starts at the corresponding release hand. Birds can only intercept it when its height falls near the surface.
 
-## Anatomy review
+The 2% lucky chance, hand indicator, fish-only +50 bonus, throw queue, and pause behavior use the existing throw events. The collecting hand in the machine dialog retains its separate artwork.
 
-Check the collecting hand and every throwing drawing for **four fingers and one thumb**. Open views should show index, middle, ring, and a shorter little finger. Curled fingers should have four distinct pads or knuckle paths. Palm-up and pronated views must remain the same right hand with a natural wrist connection. The palm indicator must sit over the loaded hand and disappear when food releases.
-
-The draft sheet exposed a missing finger in the quick release and an extra finger in a spread pose. Those draft sprites are excluded from the game; the final atlas packages individually reviewed cutouts.
+## Reproduce the review
 
 ```bash
-npm run review:hands
+node scripts/build-art-atlas.mjs thrower
+npm run review:art
 ```
 
-This renders `hand-details.png` and `right-arm-poses.png` from the actual multi-texture atlas. Automated checks cover all twelve stage names, PNG dimensions, source bounds, and accidental crop overlap. Reusing an identical crop for another motion stage is intentional. Image dimensions cannot establish correct finger anatomy, so review the contact sheets visually.
+Inspect `thrower-frames.png` for complete shoes, the pouch staying in the other hand, arm continuity, and windup/release/follow-through direction. `thrower-hand-pins.png` overlays the annotated hand positions on the actual cuts. Review overlays do not alter the source PNG.
 
-Browser checks sample the real rendered quick, overhand, and spread motions, require their separate release stages, verify the arm is not mirrored and the trimmed sleeve ends stay below the canvas, and exercise the lucky hand cue and fish bonus. Simulation tests verify the weighted mix, queued release timing, higher overhand arc, wider spread fan, and shoreline containment.
+Browser checks sample all three rendered motions, require the windup/release/follow-through stages, verify the character stays on the dock with a fixed sole baseline, and compare pellet origins to the transformed atlas hand pins. Desktop and phone checks exercise lucky indicators, bonuses, queued input, and restart. Simulation checks cover the weighted mix, release timing, independent per-motion origins, higher overhand arcs, the spread fan, and shoreline containment.
 
-Verified on 13 October 2026: all four source drawings and twelve rendered stages were visually checked for four fingers and one thumb, as was the existing collecting hand. The hand-atlas review, TypeScript/production build, all 20 simulation tests, and all seven browser scenarios passed in both development and production. Final desktop and phone screenshots were reviewed for the right-arm direction and the lucky cue.
+Reviewed on 14 October 2026 alongside the corrected visitor gait and assembled desktop and phone scenes. All 29 simulation/observer tests, the TypeScript/production build, art validation, and all eight browser scenarios passed in development and production. The previous foreground-arm source files and their review command remain available as archived artwork.

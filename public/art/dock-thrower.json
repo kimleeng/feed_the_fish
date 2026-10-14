@@ -1,0 +1,461 @@
+{
+  "frames": {
+    "empty": {
+      "frame": {
+        "x": 215,
+        "y": 6,
+        "w": 131,
+        "h": 323
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 127,
+        "y": 14,
+        "w": 131,
+        "h": 323
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "rest": {
+      "frame": {
+        "x": 496,
+        "y": 6,
+        "w": 173,
+        "h": 323
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 85,
+        "y": 14,
+        "w": 173,
+        "h": 323
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "toss-windup": {
+      "frame": {
+        "x": 890,
+        "y": 6,
+        "w": 133,
+        "h": 323
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 126,
+        "y": 14,
+        "w": 133,
+        "h": 323
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "toss-release": {
+      "frame": {
+        "x": 1183,
+        "y": 5,
+        "w": 230,
+        "h": 324
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 30,
+        "y": 13,
+        "w": 230,
+        "h": 324
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "toss-follow": {
+      "frame": {
+        "x": 130,
+        "y": 342,
+        "w": 229,
+        "h": 328
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 34,
+        "y": 9,
+        "w": 229,
+        "h": 328
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "overhand-windup": {
+      "frame": {
+        "x": 522,
+        "y": 344,
+        "w": 169,
+        "h": 325
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 95,
+        "y": 12,
+        "w": 169,
+        "h": 325
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "overhand-release": {
+      "frame": {
+        "x": 836,
+        "y": 347,
+        "w": 220,
+        "h": 324
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 41,
+        "y": 13,
+        "w": 220,
+        "h": 324
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "overhand-follow": {
+      "frame": {
+        "x": 1213,
+        "y": 347,
+        "w": 200,
+        "h": 324
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 60,
+        "y": 13,
+        "w": 200,
+        "h": 324
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "spread-windup": {
+      "frame": {
+        "x": 118,
+        "y": 676,
+        "w": 240,
+        "h": 325
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 22,
+        "y": 12,
+        "w": 240,
+        "h": 325
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "spread-release": {
+      "frame": {
+        "x": 476,
+        "y": 676,
+        "w": 240,
+        "h": 325
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 21,
+        "y": 12,
+        "w": 240,
+        "h": 325
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "spread-follow": {
+      "frame": {
+        "x": 815,
+        "y": 676,
+        "w": 258,
+        "h": 329
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 6,
+        "y": 8,
+        "w": 258,
+        "h": 329
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    },
+    "recover": {
+      "frame": {
+        "x": 1269,
+        "y": 676,
+        "w": 141,
+        "h": 327
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 122,
+        "y": 10,
+        "w": 141,
+        "h": 327
+      },
+      "sourceSize": {
+        "w": 396,
+        "h": 337
+      }
+    }
+  },
+  "meta": {
+    "image": "dock-thrower.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1536,
+      "h": 1024
+    },
+    "scale": "1",
+    "anchors": {
+      "empty": {
+        "axis": 197.75,
+        "feet": [
+          {
+            "x": 161,
+            "y": 337
+          },
+          {
+            "x": 234.5,
+            "y": 322
+          }
+        ]
+      },
+      "rest": {
+        "axis": 197.75,
+        "feet": [
+          {
+            "x": 161,
+            "y": 337
+          },
+          {
+            "x": 234.5,
+            "y": 323
+          }
+        ]
+      },
+      "toss-windup": {
+        "axis": 198,
+        "feet": [
+          {
+            "x": 161,
+            "y": 337
+          },
+          {
+            "x": 235,
+            "y": 322
+          }
+        ]
+      },
+      "toss-release": {
+        "axis": 198.25,
+        "feet": [
+          {
+            "x": 161,
+            "y": 337
+          },
+          {
+            "x": 235.5,
+            "y": 322
+          }
+        ]
+      },
+      "toss-follow": {
+        "axis": 197.75,
+        "feet": [
+          {
+            "x": 161,
+            "y": 337
+          },
+          {
+            "x": 234.5,
+            "y": 323
+          }
+        ]
+      },
+      "overhand-windup": {
+        "axis": 198,
+        "feet": [
+          {
+            "x": 160.5,
+            "y": 337
+          },
+          {
+            "x": 235.5,
+            "y": 324
+          }
+        ]
+      },
+      "overhand-release": {
+        "axis": 197.75,
+        "feet": [
+          {
+            "x": 160.5,
+            "y": 337
+          },
+          {
+            "x": 235,
+            "y": 323
+          }
+        ]
+      },
+      "overhand-follow": {
+        "axis": 198,
+        "feet": [
+          {
+            "x": 161,
+            "y": 337
+          },
+          {
+            "x": 235,
+            "y": 323
+          }
+        ]
+      },
+      "spread-windup": {
+        "axis": 198,
+        "feet": [
+          {
+            "x": 160,
+            "y": 337
+          },
+          {
+            "x": 236,
+            "y": 322
+          }
+        ]
+      },
+      "spread-release": {
+        "axis": 198.25,
+        "feet": [
+          {
+            "x": 159.5,
+            "y": 337
+          },
+          {
+            "x": 237,
+            "y": 322
+          }
+        ]
+      },
+      "spread-follow": {
+        "axis": 197.75,
+        "feet": [
+          {
+            "x": 156.5,
+            "y": 337
+          },
+          {
+            "x": 239,
+            "y": 321
+          }
+        ]
+      },
+      "recover": {
+        "axis": 198.25,
+        "feet": [
+          {
+            "x": 159,
+            "y": 337
+          },
+          {
+            "x": 237.5,
+            "y": 321
+          }
+        ]
+      }
+    },
+    "hands": {
+      "empty": {
+        "x": 142,
+        "y": 198
+      },
+      "rest": {
+        "x": 103,
+        "y": 140
+      },
+      "toss-windup": {
+        "x": 138,
+        "y": 206
+      },
+      "toss-release": {
+        "x": 55,
+        "y": 114
+      },
+      "toss-follow": {
+        "x": 55,
+        "y": 79
+      },
+      "overhand-windup": {
+        "x": 145,
+        "y": 26
+      },
+      "overhand-release": {
+        "x": 66,
+        "y": 30
+      },
+      "overhand-follow": {
+        "x": 75,
+        "y": 132
+      },
+      "spread-windup": {
+        "x": 42,
+        "y": 144
+      },
+      "spread-release": {
+        "x": 53,
+        "y": 94
+      },
+      "spread-follow": {
+        "x": 33,
+        "y": 118
+      },
+      "recover": {
+        "x": 132,
+        "y": 132
+      }
+    }
+  }
+}

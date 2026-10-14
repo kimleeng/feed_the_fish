@@ -2,482 +2,602 @@
   "frames": {
     "observer-adult-0-walk-0": {
       "frame": {
-        "x": 130,
-        "y": 28,
-        "w": 146,
-        "h": 254
+        "x": 54,
+        "y": 24,
+        "w": 155,
+        "h": 285
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 2,
-        "y": 13,
-        "w": 146,
-        "h": 254
+        "x": 36,
+        "y": 12,
+        "w": 155,
+        "h": 285
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-adult-0-walk-1": {
       "frame": {
-        "x": 367,
-        "y": 28,
-        "w": 92,
-        "h": 256
+        "x": 273,
+        "y": 29,
+        "w": 121,
+        "h": 279
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 29,
-        "y": 11,
-        "w": 92,
-        "h": 256
+        "x": 48,
+        "y": 18,
+        "w": 121,
+        "h": 279
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-adult-0-walk-2": {
       "frame": {
-        "x": 564,
+        "x": 456,
         "y": 29,
-        "w": 140,
-        "h": 253
+        "w": 154,
+        "h": 278
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 5,
-        "y": 14,
-        "w": 140,
-        "h": 253
+        "x": 37,
+        "y": 19,
+        "w": 154,
+        "h": 278
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-adult-0-walk-3": {
+      "frame": {
+        "x": 673,
+        "y": 29,
+        "w": 111,
+        "h": 279
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 53,
+        "y": 18,
+        "w": 111,
+        "h": 279
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
       }
     },
     "observer-adult-0-watch": {
       "frame": {
-        "x": 805,
-        "y": 28,
-        "w": 95,
-        "h": 254
+        "x": 867,
+        "y": 29,
+        "w": 112,
+        "h": 280
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 27,
-        "y": 13,
-        "w": 95,
-        "h": 254
+        "x": 52,
+        "y": 17,
+        "w": 112,
+        "h": 280
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-adult-1-walk-0": {
       "frame": {
-        "x": 134,
-        "y": 306,
-        "w": 142,
-        "h": 257
+        "x": 56,
+        "y": 319,
+        "w": 161,
+        "h": 288
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 4,
-        "y": 10,
-        "w": 142,
-        "h": 257
+        "x": 46,
+        "y": 9,
+        "w": 161,
+        "h": 288
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-adult-1-walk-1": {
       "frame": {
-        "x": 364,
-        "y": 306,
-        "w": 99,
-        "h": 260
+        "x": 272,
+        "y": 320,
+        "w": 127,
+        "h": 288
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 25,
-        "y": 7,
-        "w": 99,
-        "h": 260
+        "x": 50,
+        "y": 9,
+        "w": 127,
+        "h": 288
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-adult-1-walk-2": {
       "frame": {
-        "x": 562,
-        "y": 306,
-        "w": 141,
-        "h": 257
+        "x": 456,
+        "y": 319,
+        "w": 164,
+        "h": 289
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 4,
-        "y": 10,
-        "w": 141,
-        "h": 257
+        "x": 46,
+        "y": 8,
+        "w": 164,
+        "h": 289
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-adult-1-walk-3": {
+      "frame": {
+        "x": 671,
+        "y": 321,
+        "w": 129,
+        "h": 287
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 47,
+        "y": 10,
+        "w": 129,
+        "h": 287
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
       }
     },
     "observer-adult-1-watch": {
       "frame": {
-        "x": 806,
-        "y": 304,
-        "w": 92,
-        "h": 258
+        "x": 868,
+        "y": 321,
+        "w": 118,
+        "h": 288
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 49,
+        "y": 9,
+        "w": 118,
+        "h": 288
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-adult-2-walk-0": {
+      "frame": {
+        "x": 56,
+        "y": 615,
+        "w": 148,
+        "h": 278
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 43,
+        "y": 19,
+        "w": 148,
+        "h": 278
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-adult-2-walk-1": {
+      "frame": {
+        "x": 267,
+        "y": 618,
+        "w": 125,
+        "h": 275
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 40,
+        "y": 22,
+        "w": 125,
+        "h": 275
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-adult-2-walk-2": {
+      "frame": {
+        "x": 456,
+        "y": 617,
+        "w": 162,
+        "h": 276
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 40,
+        "y": 21,
+        "w": 162,
+        "h": 276
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-adult-2-walk-3": {
+      "frame": {
+        "x": 680,
+        "y": 617,
+        "w": 114,
+        "h": 276
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 51,
+        "y": 21,
+        "w": 114,
+        "h": 276
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-adult-2-watch": {
+      "frame": {
+        "x": 863,
+        "y": 622,
+        "w": 119,
+        "h": 272
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 49,
+        "y": 25,
+        "w": 119,
+        "h": 272
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-kid-0-walk-0": {
+      "frame": {
+        "x": 62,
+        "y": 904,
+        "w": 140,
+        "h": 236
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 44,
+        "y": 61,
+        "w": 140,
+        "h": 236
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-kid-0-walk-1": {
+      "frame": {
+        "x": 278,
+        "y": 903,
+        "w": 109,
+        "h": 237
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 55,
+        "y": 60,
+        "w": 109,
+        "h": 237
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-kid-0-walk-2": {
+      "frame": {
+        "x": 456,
+        "y": 903,
+        "w": 152,
+        "h": 237
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
         "x": 29,
-        "y": 9,
-        "w": 92,
-        "h": 258
+        "y": 60,
+        "w": 152,
+        "h": 237
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
-    "observer-adult-2-walk-0": {
+    "observer-kid-0-walk-3": {
       "frame": {
-        "x": 132,
-        "y": 586,
-        "w": 141,
-        "h": 263
+        "x": 676,
+        "y": 905,
+        "w": 114,
+        "h": 235
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 4,
-        "y": 4,
-        "w": 141,
-        "h": 263
+        "x": 49,
+        "y": 62,
+        "w": 114,
+        "h": 235
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
-      }
-    },
-    "observer-adult-2-walk-1": {
-      "frame": {
-        "x": 370,
-        "y": 586,
-        "w": 89,
-        "h": 263
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 30,
-        "y": 4,
-        "w": 89,
-        "h": 263
-      },
-      "sourceSize": {
-        "w": 150,
-        "h": 267
-      }
-    },
-    "observer-adult-2-walk-2": {
-      "frame": {
-        "x": 562,
-        "y": 586,
-        "w": 142,
-        "h": 263
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 4,
-        "y": 4,
-        "w": 142,
-        "h": 263
-      },
-      "sourceSize": {
-        "w": 150,
-        "h": 267
-      }
-    },
-    "observer-adult-2-watch": {
-      "frame": {
-        "x": 804,
-        "y": 585,
-        "w": 98,
-        "h": 261
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 26,
-        "y": 6,
-        "w": 98,
-        "h": 261
-      },
-      "sourceSize": {
-        "w": 150,
-        "h": 267
-      }
-    },
-    "observer-kid-0-walk-0": {
-      "frame": {
-        "x": 134,
-        "y": 866,
-        "w": 134,
-        "h": 213
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 8,
-        "y": 54,
-        "w": 134,
-        "h": 213
-      },
-      "sourceSize": {
-        "w": 150,
-        "h": 267
-      }
-    },
-    "observer-kid-0-walk-1": {
-      "frame": {
-        "x": 374,
-        "y": 866,
-        "w": 75,
-        "h": 213
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 37,
-        "y": 54,
-        "w": 75,
-        "h": 213
-      },
-      "sourceSize": {
-        "w": 150,
-        "h": 267
-      }
-    },
-    "observer-kid-0-walk-2": {
-      "frame": {
-        "x": 564,
-        "y": 867,
-        "w": 127,
-        "h": 213
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 11,
-        "y": 54,
-        "w": 127,
-        "h": 213
-      },
-      "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-kid-0-watch": {
       "frame": {
-        "x": 812,
-        "y": 866,
-        "w": 79,
-        "h": 212
+        "x": 873,
+        "y": 906,
+        "w": 99,
+        "h": 234
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 35,
-        "y": 55,
-        "w": 79,
-        "h": 212
+        "x": 59,
+        "y": 63,
+        "w": 99,
+        "h": 234
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-kid-1-walk-0": {
       "frame": {
-        "x": 133,
-        "y": 1097,
-        "w": 133,
-        "h": 218
+        "x": 62,
+        "y": 1146,
+        "w": 144,
+        "h": 217
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 8,
-        "y": 49,
-        "w": 133,
-        "h": 218
+        "x": 42,
+        "y": 80,
+        "w": 144,
+        "h": 217
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-kid-1-walk-1": {
       "frame": {
-        "x": 369,
-        "y": 1095,
-        "w": 89,
-        "h": 221
+        "x": 278,
+        "y": 1145,
+        "w": 110,
+        "h": 218
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 30,
-        "y": 46,
-        "w": 89,
-        "h": 221
+        "x": 45,
+        "y": 79,
+        "w": 110,
+        "h": 218
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-kid-1-walk-2": {
       "frame": {
-        "x": 564,
-        "y": 1098,
-        "w": 134,
+        "x": 456,
+        "y": 1145,
+        "w": 147,
         "h": 218
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 8,
-        "y": 49,
-        "w": 134,
+        "x": 36,
+        "y": 79,
+        "w": 147,
         "h": 218
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-kid-1-walk-3": {
+      "frame": {
+        "x": 673,
+        "y": 1147,
+        "w": 117,
+        "h": 216
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 42,
+        "y": 81,
+        "w": 117,
+        "h": 216
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
       }
     },
     "observer-kid-1-watch": {
       "frame": {
-        "x": 813,
-        "y": 1096,
-        "w": 82,
-        "h": 220
+        "x": 873,
+        "y": 1150,
+        "w": 102,
+        "h": 213
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 34,
-        "y": 47,
-        "w": 82,
-        "h": 220
+        "x": 57,
+        "y": 84,
+        "w": 102,
+        "h": 213
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-kid-2-walk-0": {
       "frame": {
-        "x": 146,
-        "y": 1331,
-        "w": 112,
-        "h": 183
+        "x": 72,
+        "y": 1364,
+        "w": 117,
+        "h": 169
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 19,
-        "y": 84,
-        "w": 112,
-        "h": 183
+        "x": 48,
+        "y": 128,
+        "w": 117,
+        "h": 169
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-kid-2-walk-1": {
       "frame": {
-        "x": 378,
-        "y": 1331,
-        "w": 75,
-        "h": 183
+        "x": 293,
+        "y": 1364,
+        "w": 101,
+        "h": 168
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 37,
-        "y": 84,
-        "w": 75,
-        "h": 183
+        "x": 58,
+        "y": 129,
+        "w": 101,
+        "h": 168
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     },
     "observer-kid-2-walk-2": {
       "frame": {
-        "x": 572,
-        "y": 1333,
-        "w": 115,
-        "h": 181
+        "x": 477,
+        "y": 1364,
+        "w": 113,
+        "h": 169
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 17,
-        "y": 86,
-        "w": 115,
-        "h": 181
+        "x": 52,
+        "y": 128,
+        "w": 113,
+        "h": 169
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
+      }
+    },
+    "observer-kid-2-walk-3": {
+      "frame": {
+        "x": 684,
+        "y": 1365,
+        "w": 102,
+        "h": 167
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 55,
+        "y": 130,
+        "w": 102,
+        "h": 167
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 297
       }
     },
     "observer-kid-2-watch": {
       "frame": {
-        "x": 811,
-        "y": 1328,
-        "w": 82,
-        "h": 185
+        "x": 881,
+        "y": 1364,
+        "w": 88,
+        "h": 169
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 34,
-        "y": 82,
-        "w": 82,
-        "h": 185
+        "x": 65,
+        "y": 128,
+        "w": 88,
+        "h": 169
       },
       "sourceSize": {
-        "w": 150,
-        "h": 267
+        "w": 216,
+        "h": 297
       }
     }
   },
@@ -488,6 +608,406 @@
       "w": 1024,
       "h": 1536
     },
-    "scale": "1"
+    "scale": "1",
+    "anchors": {
+      "observer-adult-0-walk-0": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 66,
+            "y": 295
+          },
+          {
+            "x": 162,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-0-walk-1": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 75.5,
+            "y": 292
+          },
+          {
+            "x": 139,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-0-walk-2": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 66,
+            "y": 294
+          },
+          {
+            "x": 162,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-0-walk-3": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 106.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-0-watch": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 84,
+            "y": 297
+          },
+          {
+            "x": 134.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-1-walk-0": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 72.5,
+            "y": 297
+          },
+          {
+            "x": 178.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-1-walk-1": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 80.5,
+            "y": 290
+          },
+          {
+            "x": 148.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-1-walk-2": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 73,
+            "y": 294
+          },
+          {
+            "x": 181.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-1-walk-3": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 72,
+            "y": 289
+          },
+          {
+            "x": 135,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-1-watch": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 84.5,
+            "y": 297
+          },
+          {
+            "x": 130.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-2-walk-0": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 71,
+            "y": 293
+          },
+          {
+            "x": 162.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-2-walk-1": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 71,
+            "y": 293
+          },
+          {
+            "x": 134,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-2-walk-2": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 67,
+            "y": 295
+          },
+          {
+            "x": 174.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-2-walk-3": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 77.5,
+            "y": 287
+          },
+          {
+            "x": 130,
+            "y": 297
+          }
+        ]
+      },
+      "observer-adult-2-watch": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 86,
+            "y": 297
+          },
+          {
+            "x": 134,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-0-walk-0": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 69.5,
+            "y": 296
+          },
+          {
+            "x": 158.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-0-walk-1": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 81,
+            "y": 296
+          },
+          {
+            "x": 139,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-0-walk-2": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 55.5,
+            "y": 296
+          },
+          {
+            "x": 156,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-0-walk-3": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 77,
+            "y": 293
+          },
+          {
+            "x": 137,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-0-watch": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 86,
+            "y": 297
+          },
+          {
+            "x": 130.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-1-walk-0": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 68,
+            "y": 296
+          },
+          {
+            "x": 161.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-1-walk-1": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 73,
+            "y": 292
+          },
+          {
+            "x": 129.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-1-walk-2": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 66,
+            "y": 293
+          },
+          {
+            "x": 158.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-1-walk-3": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 77.5,
+            "y": 294
+          },
+          {
+            "x": 131.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-1-watch": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 87,
+            "y": 297
+          },
+          {
+            "x": 127,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-2-walk-0": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 70,
+            "y": 296
+          },
+          {
+            "x": 139.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-2-walk-1": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 79.5,
+            "y": 294
+          },
+          {
+            "x": 127,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-2-walk-2": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 73.5,
+            "y": 296
+          },
+          {
+            "x": 142,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-2-walk-3": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 78,
+            "y": 296
+          },
+          {
+            "x": 132.5,
+            "y": 297
+          }
+        ]
+      },
+      "observer-kid-2-watch": {
+        "axis": 108,
+        "feet": [
+          {
+            "x": 89,
+            "y": 297
+          },
+          {
+            "x": 128,
+            "y": 297
+          }
+        ]
+      }
+    },
+    "strideRatios": {
+      "adult": [
+        0.67368,
+        0.74479,
+        0.71583
+      ],
+      "kid": [
+        0.80297,
+        0.85714,
+        0.81657
+      ]
+    }
   }
 }
