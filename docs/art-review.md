@@ -88,6 +88,16 @@ Regression checks now verify that the renderer uses the original complete PNG dr
 
 Validation: all 56 complete walk drawings passed atlas bounds and overlap checks; 55 unit tests and the TypeScript/production build passed. All 14 production browser scenarios passed, with the new walking scenario rerun after correcting its image-source check for Phaser’s blob URLs. All seven pose sheets, quarter-second movement samples, and the assembled garden were visually inspected. The source PNGs are unchanged copies of the generated full-body drawings.
 
+## Stable bird cycles, 14 October 2026
+
+The prior four-frame bird cycle alternated drawings from two sheets with different body proportions and painted ripple rings. Per-frame scaling based on the full silhouette, including those ripples, made the difference more visible. The repeated change read as a pulse instead of paddling.
+
+Mallards, gulls, and coots now each have one consistent sheet: four complete poses in each of eight directions, with clean transparency around the bird and no painted water. The existing scene draws the water rings and wakes. The atlas registers the lower body and waterline, uses one fixed scale for all four poses of a heading, and retains the original bird sizes using body-only reference measurements. Initial spawning uses the same scale as subsequent updates.
+
+All 96 drawings were reviewed in cycle order. Width and height variation within a cycle stays below 2.5%; painted-area variation stays below 3%. Browser regression checks measure actual PNG pixels through both paddling and chewing cycles in all directions, including the waterline, body center, dimensions, painted area, and unchanged rendering scale. These checks accompany visual review of the birds on the pond.
+
+Validation passed: all 96 bird atlas cuts, 55 unit tests, the TypeScript/production build, and all 15 production browser scenarios. Desktop and phone pond screenshots were reviewed. Rebuilding all animation atlases reproduces the bird update without changing the other species or character atlases.
+
 ## Reproduce the review
 
 ```bash

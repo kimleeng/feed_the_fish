@@ -614,6 +614,61 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
   await page.screenshot({ path: testInfo.outputPath('swimming-field-guide.png'), fullPage: true });
 });
 
+test('bird bodies keep their size and waterline through every paddle and chewing cycle', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  const cycles = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.scene.pause(); scene.world.paused = true;
+    const birds = ['duck', 'gull', 'coot'].map(id => scene.world.animals.find(animal => animal.profile.id === id)!);
+    const canvases = new Map<CanvasImageSource, { data: Uint8ClampedArray; width: number }>();
+    const results = [];
+    for (const state of ['roaming', 'chewing'] as const) for (let heading = 0; heading < 8; heading++) {
+      const samples = birds.map(() => [] as { frame: string; scale: number; width: number; height: number; area: number; centerX: number; waterY: number; expectedWaterY: number }[]);
+      for (const bird of birds) Object.assign(bird, { state, heading: heading * Math.PI / 4, phase: 0, moving: true });
+      for (let step = 0; step < 4; step++) {
+        scene.world.elapsed = (step + .25) / ((state === 'chewing' ? .6 : 1.4) * 2);
+        scene.update(0, 0);
+        birds.forEach((bird, index) => {
+          const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
+          const frame = sprite.frame, source = frame.source.image;
+          if (!canvases.has(source)) {
+            const canvas = document.createElement('canvas'); canvas.width = frame.source.width; canvas.height = frame.source.height;
+            const context = canvas.getContext('2d', { willReadFrequently: true })!; context.drawImage(source, 0, 0);
+            canvases.set(source, { data: context.getImageData(0, 0, canvas.width, canvas.height).data, width: canvas.width });
+          }
+          const { data, width } = canvases.get(source)!;
+          let left = Infinity, top = Infinity, right = 0, bottom = 0, area = 0;
+          for (let y = 0; y < frame.cutHeight; y++) for (let x = 0; x < frame.cutWidth; x++) {
+            if (data[((frame.cutY + y) * width + frame.cutX + x) * 4 + 3] < 128) continue;
+            left = Math.min(left, x); top = Math.min(top, y); right = Math.max(right, x + 1); bottom = Math.max(bottom, y + 1); area++;
+          }
+          samples[index].push({ frame: frame.name, scale: sprite.scaleX,
+            width: (right - left) * sprite.scaleX, height: (bottom - top) * sprite.scaleY,
+            area: area * sprite.scaleX * sprite.scaleY,
+            centerX: (frame.x + (left + right) / 2 - sprite.displayOriginX) * sprite.scaleX,
+            waterY: (frame.y + bottom - sprite.displayOriginY) * sprite.scaleY, expectedWaterY: bird.profile.size * .2 });
+        });
+      }
+      results.push(...samples);
+    }
+    return results;
+  });
+  expect(cycles).toHaveLength(48);
+  for (const cycle of cycles) {
+    expect(cycle.map(pose => Number(pose.frame.split('-').at(-1)))).toEqual([0, 2, 1, 3]);
+    expect(new Set(cycle.map(pose => pose.scale)).size).toBe(1);
+    for (const metric of ['width', 'height', 'area'] as const) {
+      const values = cycle.map(pose => pose[metric]);
+      expect((Math.max(...values) - Math.min(...values)) / Math.min(...values)).toBeLessThan(.035);
+    }
+    const centers = cycle.map(pose => pose.centerX);
+    expect(Math.max(...centers) - Math.min(...centers)).toBeLessThan(.7);
+    for (const pose of cycle) expect(Math.abs(pose.waterY - pose.expectedWaterY)).toBeLessThan(.2);
+  }
+  await page.screenshot({ path: testInfo.outputPath('registered-bird-cycles.png'), fullPage: true });
+});
+
 test('the dock character keeps planted feet through three throws, releases from the drawn hand, and earns lucky bonuses', async ({ page }, testInfo) => {
   await arrive(page);
   await page.evaluate(() => {

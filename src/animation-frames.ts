@@ -10,6 +10,8 @@ export interface AnimationFrameData {
   hand?: { x: number; y: number };
   pour?: { x: number; y: number };
   feet?: { x: number; y: number }[];
+  bodyBounds?: { x: number; y: number; w: number; h: number };
+  waterline?: { x: number; y: number };
 }
 
 export function animationFrameData(frame: { customData: object }): AnimationFrameData {

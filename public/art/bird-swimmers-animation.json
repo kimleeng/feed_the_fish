@@ -1,2132 +1,3101 @@
 {
   "textures": [
     {
-      "image": "bird-swimmers.png",
-      "size": {
-        "w": 1448,
-        "h": 1086
-      },
-      "frames": [
-        {
-          "filename": "duck-e-0",
-          "frame": {
-            "x": 12,
-            "y": 88,
-            "w": 184,
-            "h": 130
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 20,
-            "y": 47,
-            "w": 184,
-            "h": 130
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-se-0",
-          "frame": {
-            "x": 217,
-            "y": 87,
-            "w": 145,
-            "h": 135
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 39,
-            "y": 44,
-            "w": 145,
-            "h": 135
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-s-0",
-          "frame": {
-            "x": 395,
-            "y": 84,
-            "w": 134,
-            "h": 138
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 45,
-            "y": 43,
-            "w": 134,
-            "h": 138
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-sw-0",
-          "frame": {
-            "x": 562,
-            "y": 84,
-            "w": 150,
-            "h": 136
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 37,
-            "y": 44,
-            "w": 150,
-            "h": 136
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-w-0",
-          "frame": {
-            "x": 734,
-            "y": 88,
-            "w": 179,
-            "h": 132
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 22,
-            "y": 46,
-            "w": 179,
-            "h": 132
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-nw-0",
-          "frame": {
-            "x": 930,
-            "y": 85,
-            "w": 139,
-            "h": 137
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 42,
-            "y": 43,
-            "w": 139,
-            "h": 137
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-n-0",
-          "frame": {
-            "x": 1107,
-            "y": 82,
-            "w": 123,
-            "h": 143
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 50,
-            "y": 40,
-            "w": 123,
-            "h": 143
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-ne-0",
-          "frame": {
-            "x": 1257,
-            "y": 90,
-            "w": 148,
-            "h": 136
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 38,
-            "y": 44,
-            "w": 148,
-            "h": 136
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-e-1",
-          "frame": {
-            "x": 16,
-            "y": 240,
-            "w": 179,
-            "h": 134
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 22,
-            "y": 45,
-            "w": 179,
-            "h": 134
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-se-1",
-          "frame": {
-            "x": 213,
-            "y": 238,
-            "w": 149,
-            "h": 142
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 37,
-            "y": 41,
-            "w": 149,
-            "h": 142
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-s-1",
-          "frame": {
-            "x": 397,
-            "y": 241,
-            "w": 134,
-            "h": 135
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 45,
-            "y": 44,
-            "w": 134,
-            "h": 135
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-sw-1",
-          "frame": {
-            "x": 563,
-            "y": 241,
-            "w": 146,
-            "h": 138
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 39,
-            "y": 43,
-            "w": 146,
-            "h": 138
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-w-1",
-          "frame": {
-            "x": 738,
-            "y": 241,
-            "w": 170,
-            "h": 135
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 27,
-            "y": 44,
-            "w": 170,
-            "h": 135
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-nw-1",
-          "frame": {
-            "x": 931,
-            "y": 244,
-            "w": 148,
-            "h": 135
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 38,
-            "y": 44,
-            "w": 148,
-            "h": 135
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-n-1",
-          "frame": {
-            "x": 1104,
-            "y": 242,
-            "w": 121,
-            "h": 135
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 51,
-            "y": 44,
-            "w": 121,
-            "h": 135
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "duck-ne-1",
-          "frame": {
-            "x": 1267,
-            "y": 244,
-            "w": 139,
-            "h": 135
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 42,
-            "y": 44,
-            "w": 139,
-            "h": 135
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-e-0",
-          "frame": {
-            "x": 12,
-            "y": 412,
-            "w": 180,
-            "h": 129
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 22,
-            "y": 47,
-            "w": 180,
-            "h": 129
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-se-0",
-          "frame": {
-            "x": 210,
-            "y": 417,
-            "w": 154,
-            "h": 125
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 35,
-            "y": 49,
-            "w": 154,
-            "h": 125
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-s-0",
-          "frame": {
-            "x": 393,
-            "y": 416,
-            "w": 135,
-            "h": 121
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 44,
-            "y": 51,
-            "w": 135,
-            "h": 121
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-sw-0",
-          "frame": {
-            "x": 564,
-            "y": 417,
-            "w": 151,
-            "h": 125
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 36,
-            "y": 49,
-            "w": 151,
-            "h": 125
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-w-0",
-          "frame": {
-            "x": 734,
-            "y": 414,
-            "w": 175,
-            "h": 128
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 24,
-            "y": 48,
-            "w": 175,
-            "h": 128
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-nw-0",
-          "frame": {
-            "x": 937,
-            "y": 417,
-            "w": 144,
-            "h": 125
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 40,
-            "y": 49,
-            "w": 144,
-            "h": 125
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-n-0",
-          "frame": {
-            "x": 1101,
-            "y": 413,
-            "w": 130,
-            "h": 129
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 47,
-            "y": 47,
-            "w": 130,
-            "h": 129
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-ne-0",
-          "frame": {
-            "x": 1258,
-            "y": 417,
-            "w": 154,
-            "h": 125
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 35,
-            "y": 49,
-            "w": 154,
-            "h": 125
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-e-1",
-          "frame": {
-            "x": 12,
-            "y": 566,
-            "w": 172,
-            "h": 131
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 26,
-            "y": 46,
-            "w": 172,
-            "h": 131
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-se-1",
-          "frame": {
-            "x": 206,
-            "y": 573,
-            "w": 157,
-            "h": 124
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 33,
-            "y": 50,
-            "w": 157,
-            "h": 124
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-s-1",
-          "frame": {
-            "x": 391,
-            "y": 570,
-            "w": 131,
-            "h": 128
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 46,
-            "y": 48,
-            "w": 131,
-            "h": 128
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-sw-1",
-          "frame": {
-            "x": 564,
-            "y": 571,
-            "w": 153,
-            "h": 126
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 35,
-            "y": 49,
-            "w": 153,
-            "h": 126
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-w-1",
-          "frame": {
-            "x": 742,
-            "y": 567,
-            "w": 168,
-            "h": 130
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 28,
-            "y": 47,
-            "w": 168,
-            "h": 130
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-nw-1",
-          "frame": {
-            "x": 937,
-            "y": 570,
-            "w": 147,
-            "h": 127
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 38,
-            "y": 48,
-            "w": 147,
-            "h": 127
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-n-1",
-          "frame": {
-            "x": 1106,
-            "y": 569,
-            "w": 124,
-            "h": 129
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 50,
-            "y": 47,
-            "w": 124,
-            "h": 129
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "gull-ne-1",
-          "frame": {
-            "x": 1264,
-            "y": 573,
-            "w": 152,
-            "h": 121
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 36,
-            "y": 51,
-            "w": 152,
-            "h": 121
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-e-0",
-          "frame": {
-            "x": 19,
-            "y": 745,
-            "w": 166,
-            "h": 126
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 29,
-            "y": 49,
-            "w": 166,
-            "h": 126
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-se-0",
-          "frame": {
-            "x": 212,
-            "y": 749,
-            "w": 151,
-            "h": 125
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 36,
-            "y": 49,
-            "w": 151,
-            "h": 125
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-s-0",
-          "frame": {
-            "x": 397,
-            "y": 749,
-            "w": 136,
-            "h": 123
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 44,
-            "y": 50,
-            "w": 136,
-            "h": 123
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-sw-0",
-          "frame": {
-            "x": 564,
-            "y": 752,
-            "w": 151,
-            "h": 122
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 36,
-            "y": 51,
-            "w": 151,
-            "h": 122
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-w-0",
-          "frame": {
-            "x": 743,
-            "y": 746,
-            "w": 165,
-            "h": 127
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 29,
-            "y": 48,
-            "w": 165,
-            "h": 127
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-nw-0",
-          "frame": {
-            "x": 937,
-            "y": 744,
-            "w": 147,
-            "h": 130
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 38,
-            "y": 47,
-            "w": 147,
-            "h": 130
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-n-0",
-          "frame": {
-            "x": 1103,
-            "y": 741,
-            "w": 128,
-            "h": 140
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 48,
-            "y": 42,
-            "w": 128,
-            "h": 140
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-ne-0",
-          "frame": {
-            "x": 1264,
-            "y": 747,
-            "w": 152,
-            "h": 130
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 36,
-            "y": 47,
-            "w": 152,
-            "h": 130
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-e-1",
-          "frame": {
-            "x": 22,
-            "y": 904,
-            "w": 162,
-            "h": 127
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 31,
-            "y": 48,
-            "w": 162,
-            "h": 127
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-se-1",
-          "frame": {
-            "x": 201,
-            "y": 905,
-            "w": 161,
-            "h": 129
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 31,
-            "y": 47,
-            "w": 161,
-            "h": 129
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-s-1",
-          "frame": {
-            "x": 393,
-            "y": 903,
-            "w": 137,
-            "h": 131
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 43,
-            "y": 46,
-            "w": 137,
-            "h": 131
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-sw-1",
-          "frame": {
-            "x": 565,
-            "y": 905,
-            "w": 150,
-            "h": 131
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 37,
-            "y": 46,
-            "w": 150,
-            "h": 131
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-w-1",
-          "frame": {
-            "x": 743,
-            "y": 904,
-            "w": 162,
-            "h": 130
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 31,
-            "y": 47,
-            "w": 162,
-            "h": 130
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-nw-1",
-          "frame": {
-            "x": 934,
-            "y": 901,
-            "w": 150,
-            "h": 133
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 37,
-            "y": 45,
-            "w": 150,
-            "h": 133
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-n-1",
-          "frame": {
-            "x": 1104,
-            "y": 897,
-            "w": 127,
-            "h": 140
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 48,
-            "y": 42,
-            "w": 127,
-            "h": 140
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-ne-1",
-          "frame": {
-            "x": 1266,
-            "y": 906,
-            "w": 146,
-            "h": 130
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 39,
-            "y": 47,
-            "w": 146,
-            "h": 130
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        }
-      ]
-    },
-    {
-      "image": "bird-swimmers-inbetweens.png",
+      "image": "bird-duck-swimming.png",
       "size": {
         "w": 1536,
         "h": 1024
       },
       "frames": [
         {
+          "filename": "duck-e-0",
+          "frame": {
+            "x": 14,
+            "y": 123,
+            "w": 180,
+            "h": 128
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 16,
+            "y": 4,
+            "w": 180,
+            "h": 128
+          },
+          "sourceSize": {
+            "w": 200,
+            "h": 170
+          },
+          "referenceHeight": 226.57471264367817,
+          "bodyBounds": {
+            "x": 18,
+            "y": 6,
+            "w": 176,
+            "h": 124
+          },
+          "waterline": {
+            "x": 100,
+            "y": 130
+          }
+        },
+        {
           "filename": "duck-e-2",
           "frame": {
-            "x": 27,
-            "y": 73,
+            "x": 13,
+            "y": 348,
+            "w": 180,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 16,
+            "y": 5,
+            "w": 180,
+            "h": 127
+          },
+          "sourceSize": {
+            "w": 200,
+            "h": 170
+          },
+          "referenceHeight": 226.57471264367817,
+          "bodyBounds": {
+            "x": 18,
+            "y": 7,
+            "w": 176,
+            "h": 123
+          },
+          "waterline": {
+            "x": 100,
+            "y": 130
+          }
+        },
+        {
+          "filename": "duck-e-1",
+          "frame": {
+            "x": 12,
+            "y": 571,
+            "w": 181,
+            "h": 128
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 15,
+            "y": 4,
+            "w": 181,
+            "h": 128
+          },
+          "sourceSize": {
+            "w": 200,
+            "h": 170
+          },
+          "referenceHeight": 226.57471264367817,
+          "bodyBounds": {
+            "x": 17,
+            "y": 6,
+            "w": 177,
+            "h": 124
+          },
+          "waterline": {
+            "x": 100,
+            "y": 130
+          }
+        },
+        {
+          "filename": "duck-e-3",
+          "frame": {
+            "x": 13,
+            "y": 796,
+            "w": 180,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 16,
+            "y": 5,
+            "w": 180,
+            "h": 127
+          },
+          "sourceSize": {
+            "w": 200,
+            "h": 170
+          },
+          "referenceHeight": 226.57471264367817,
+          "bodyBounds": {
+            "x": 18,
+            "y": 7,
+            "w": 176,
+            "h": 123
+          },
+          "waterline": {
+            "x": 100,
+            "y": 130
+          }
+        },
+        {
+          "filename": "duck-se-0",
+          "frame": {
+            "x": 205,
+            "y": 125,
+            "w": 175,
+            "h": 129
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 9,
+            "y": 6,
+            "w": 175,
+            "h": 129
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 148
+          },
+          "referenceHeight": 294.6461538461538,
+          "bodyBounds": {
+            "x": 11,
+            "y": 8,
+            "w": 171,
+            "h": 125
+          },
+          "waterline": {
+            "x": 94,
+            "y": 133
+          }
+        },
+        {
+          "filename": "duck-se-2",
+          "frame": {
+            "x": 206,
+            "y": 349,
+            "w": 174,
+            "h": 129
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 10,
+            "y": 6,
+            "w": 174,
+            "h": 129
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 148
+          },
+          "referenceHeight": 294.6461538461538,
+          "bodyBounds": {
+            "x": 12,
+            "y": 8,
             "w": 170,
+            "h": 125
+          },
+          "waterline": {
+            "x": 94,
+            "y": 133
+          }
+        },
+        {
+          "filename": "duck-se-1",
+          "frame": {
+            "x": 205,
+            "y": 572,
+            "w": 175,
             "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 9,
+            "y": 5,
+            "w": 175,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 148
+          },
+          "referenceHeight": 294.6461538461538,
+          "bodyBounds": {
+            "x": 11,
+            "y": 7,
+            "w": 171,
+            "h": 126
+          },
+          "waterline": {
+            "x": 94,
+            "y": 133
+          }
+        },
+        {
+          "filename": "duck-se-3",
+          "frame": {
+            "x": 205,
+            "y": 796,
+            "w": 175,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 9,
+            "y": 5,
+            "w": 175,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 148
+          },
+          "referenceHeight": 294.6461538461538,
+          "bodyBounds": {
+            "x": 11,
+            "y": 7,
+            "w": 171,
+            "h": 126
+          },
+          "waterline": {
+            "x": 94,
+            "y": 133
+          }
+        },
+        {
+          "filename": "duck-s-0",
+          "frame": {
+            "x": 417,
+            "y": 118,
+            "w": 136,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 5,
+            "w": 136,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 144,
+            "h": 174
+          },
+          "referenceHeight": 263.6460176991151,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 132,
+            "h": 133
+          },
+          "waterline": {
+            "x": 72,
+            "y": 140
+          }
+        },
+        {
+          "filename": "duck-s-2",
+          "frame": {
+            "x": 418,
+            "y": 342,
+            "w": 135,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 135,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 144,
+            "h": 174
+          },
+          "referenceHeight": 263.6460176991151,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 131,
+            "h": 133
+          },
+          "waterline": {
+            "x": 72,
+            "y": 140
+          }
+        },
+        {
+          "filename": "duck-s-1",
+          "frame": {
+            "x": 418,
+            "y": 566,
+            "w": 135,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 135,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 144,
+            "h": 174
+          },
+          "referenceHeight": 263.6460176991151,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 131,
+            "h": 133
+          },
+          "waterline": {
+            "x": 72,
+            "y": 140
+          }
+        },
+        {
+          "filename": "duck-s-3",
+          "frame": {
+            "x": 418,
+            "y": 790,
+            "w": 134,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 134,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 144,
+            "h": 174
+          },
+          "referenceHeight": 263.6460176991151,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 130,
+            "h": 133
+          },
+          "waterline": {
+            "x": 72,
+            "y": 140
+          }
+        },
+        {
+          "filename": "duck-sw-0",
+          "frame": {
+            "x": 586,
+            "y": 122,
+            "w": 172,
+            "h": 132
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 172,
+            "h": 132
+          },
+          "sourceSize": {
+            "w": 184,
+            "h": 154
+          },
+          "referenceHeight": 287.2671755725191,
+          "bodyBounds": {
+            "x": 6,
+            "y": 6,
+            "w": 168,
+            "h": 128
+          },
+          "waterline": {
+            "x": 92,
+            "y": 134
+          }
+        },
+        {
+          "filename": "duck-sw-2",
+          "frame": {
+            "x": 586,
+            "y": 346,
+            "w": 172,
+            "h": 132
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 172,
+            "h": 132
+          },
+          "sourceSize": {
+            "w": 184,
+            "h": 154
+          },
+          "referenceHeight": 287.2671755725191,
+          "bodyBounds": {
+            "x": 6,
+            "y": 6,
+            "w": 168,
+            "h": 128
+          },
+          "waterline": {
+            "x": 92,
+            "y": 134
+          }
+        },
+        {
+          "filename": "duck-sw-1",
+          "frame": {
+            "x": 586,
+            "y": 570,
+            "w": 172,
+            "h": 132
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 172,
+            "h": 132
+          },
+          "sourceSize": {
+            "w": 184,
+            "h": 154
+          },
+          "referenceHeight": 287.2671755725191,
+          "bodyBounds": {
+            "x": 6,
+            "y": 6,
+            "w": 168,
+            "h": 128
+          },
+          "waterline": {
+            "x": 92,
+            "y": 134
+          }
+        },
+        {
+          "filename": "duck-sw-3",
+          "frame": {
+            "x": 586,
+            "y": 794,
+            "w": 172,
+            "h": 132
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4,
+            "w": 172,
+            "h": 132
+          },
+          "sourceSize": {
+            "w": 184,
+            "h": 154
+          },
+          "referenceHeight": 287.2671755725191,
+          "bodyBounds": {
+            "x": 7,
+            "y": 6,
+            "w": 168,
+            "h": 128
+          },
+          "waterline": {
+            "x": 92,
+            "y": 134
+          }
+        },
+        {
+          "filename": "duck-w-0",
+          "frame": {
+            "x": 767,
+            "y": 123,
+            "w": 189,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4,
+            "w": 189,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 208,
+            "h": 166
+          },
+          "referenceHeight": 245.20710059171597,
+          "bodyBounds": {
+            "x": 7,
+            "y": 6,
+            "w": 185,
+            "h": 126
+          },
+          "waterline": {
+            "x": 104,
+            "y": 132
+          }
+        },
+        {
+          "filename": "duck-w-2",
+          "frame": {
+            "x": 767,
+            "y": 348,
+            "w": 188,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 4,
+            "w": 188,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 208,
+            "h": 166
+          },
+          "referenceHeight": 245.20710059171597,
+          "bodyBounds": {
+            "x": 8,
+            "y": 6,
+            "w": 184,
+            "h": 126
+          },
+          "waterline": {
+            "x": 104,
+            "y": 132
+          }
+        },
+        {
+          "filename": "duck-w-1",
+          "frame": {
+            "x": 767,
+            "y": 572,
+            "w": 190,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 190,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 208,
+            "h": 166
+          },
+          "referenceHeight": 245.20710059171597,
+          "bodyBounds": {
+            "x": 6,
+            "y": 6,
+            "w": 186,
+            "h": 126
+          },
+          "waterline": {
+            "x": 104,
+            "y": 132
+          }
+        },
+        {
+          "filename": "duck-w-3",
+          "frame": {
+            "x": 767,
+            "y": 796,
+            "w": 189,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4,
+            "w": 189,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 208,
+            "h": 166
+          },
+          "referenceHeight": 245.20710059171597,
+          "bodyBounds": {
+            "x": 7,
+            "y": 6,
+            "w": 185,
+            "h": 126
+          },
+          "waterline": {
+            "x": 104,
+            "y": 132
+          }
+        },
+        {
+          "filename": "duck-nw-0",
+          "frame": {
+            "x": 966,
+            "y": 119,
+            "w": 179,
+            "h": 139
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 6,
+            "w": 179,
+            "h": 139
+          },
+          "sourceSize": {
+            "w": 198,
+            "h": 166
+          },
+          "referenceHeight": 300.4031007751938,
+          "bodyBounds": {
+            "x": 6,
+            "y": 8,
+            "w": 175,
+            "h": 135
+          },
+          "waterline": {
+            "x": 99,
+            "y": 143
+          }
+        },
+        {
+          "filename": "duck-nw-2",
+          "frame": {
+            "x": 966,
+            "y": 343,
+            "w": 175,
+            "h": 139
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 6,
+            "w": 175,
+            "h": 139
+          },
+          "sourceSize": {
+            "w": 198,
+            "h": 166
+          },
+          "referenceHeight": 300.4031007751938,
+          "bodyBounds": {
+            "x": 7,
+            "y": 8,
+            "w": 171,
+            "h": 135
+          },
+          "waterline": {
+            "x": 99,
+            "y": 143
+          }
+        },
+        {
+          "filename": "duck-nw-1",
+          "frame": {
+            "x": 967,
+            "y": 568,
+            "w": 179,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 7,
+            "w": 179,
+            "h": 138
+          },
+          "sourceSize": {
+            "w": 198,
+            "h": 166
+          },
+          "referenceHeight": 300.4031007751938,
+          "bodyBounds": {
+            "x": 7,
+            "y": 9,
+            "w": 175,
+            "h": 134
+          },
+          "waterline": {
+            "x": 99,
+            "y": 143
+          }
+        },
+        {
+          "filename": "duck-nw-3",
+          "frame": {
+            "x": 967,
+            "y": 789,
+            "w": 175,
+            "h": 141
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4,
+            "w": 175,
+            "h": 141
+          },
+          "sourceSize": {
+            "w": 198,
+            "h": 166
+          },
+          "referenceHeight": 300.4031007751938,
+          "bodyBounds": {
+            "x": 7,
+            "y": 6,
+            "w": 171,
+            "h": 137
+          },
+          "waterline": {
+            "x": 99,
+            "y": 143
+          }
+        },
+        {
+          "filename": "duck-n-0",
+          "frame": {
+            "x": 1177,
+            "y": 118,
+            "w": 130,
+            "h": 143
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 6,
+            "w": 130,
+            "h": 143
+          },
+          "sourceSize": {
+            "w": 138,
+            "h": 188
+          },
+          "referenceHeight": 263.864406779661,
+          "bodyBounds": {
+            "x": 6,
+            "y": 8,
+            "w": 126,
+            "h": 139
+          },
+          "waterline": {
+            "x": 69,
+            "y": 147
+          }
+        },
+        {
+          "filename": "duck-n-2",
+          "frame": {
+            "x": 1177,
+            "y": 342,
+            "w": 130,
+            "h": 143
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 6,
+            "w": 130,
+            "h": 143
+          },
+          "sourceSize": {
+            "w": 138,
+            "h": 188
+          },
+          "referenceHeight": 263.864406779661,
+          "bodyBounds": {
+            "x": 6,
+            "y": 8,
+            "w": 126,
+            "h": 139
+          },
+          "waterline": {
+            "x": 69,
+            "y": 147
+          }
+        },
+        {
+          "filename": "duck-n-1",
+          "frame": {
+            "x": 1177,
+            "y": 567,
+            "w": 130,
+            "h": 142
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 7,
+            "w": 130,
+            "h": 142
+          },
+          "sourceSize": {
+            "w": 138,
+            "h": 188
+          },
+          "referenceHeight": 263.864406779661,
+          "bodyBounds": {
+            "x": 6,
+            "y": 9,
+            "w": 126,
+            "h": 138
+          },
+          "waterline": {
+            "x": 69,
+            "y": 147
+          }
+        },
+        {
+          "filename": "duck-n-3",
+          "frame": {
+            "x": 1177,
+            "y": 790,
+            "w": 130,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 5,
+            "w": 130,
+            "h": 144
+          },
+          "sourceSize": {
+            "w": 138,
+            "h": 188
+          },
+          "referenceHeight": 263.864406779661,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 126,
+            "h": 140
+          },
+          "waterline": {
+            "x": 69,
+            "y": 147
+          }
+        },
+        {
+          "filename": "duck-ne-0",
+          "frame": {
+            "x": 1340,
+            "y": 122,
+            "w": 179,
+            "h": 136
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
             "x": 18,
-            "y": 38,
-            "w": 170,
-            "h": 130
-          },
-          "sourceSize": {
-            "w": 207,
-            "h": 207
-          },
-          "referenceHeight": 206.95652173913044
-        },
-        {
-          "filename": "duck-se-2",
-          "frame": {
-            "x": 227,
-            "y": 75,
-            "w": 157,
-            "h": 128
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 43,
-            "y": 57,
-            "w": 157,
-            "h": 128
-          },
-          "sourceSize": {
-            "w": 243,
-            "h": 243
-          },
-          "referenceHeight": 242.53793103448277
-        },
-        {
-          "filename": "duck-s-2",
-          "frame": {
-            "x": 424,
-            "y": 70,
-            "w": 135,
-            "h": 133
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 42,
-            "y": 43,
-            "w": 135,
-            "h": 133
-          },
-          "sourceSize": {
-            "w": 220,
-            "h": 220
-          },
-          "referenceHeight": 219.1304347826087
-        },
-        {
-          "filename": "duck-sw-2",
-          "frame": {
-            "x": 598,
-            "y": 73,
-            "w": 157,
-            "h": 130
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 39,
-            "y": 52,
-            "w": 157,
-            "h": 130
-          },
-          "sourceSize": {
-            "w": 235,
-            "h": 235
-          },
-          "referenceHeight": 234.45333333333335
-        },
-        {
-          "filename": "duck-w-2",
-          "frame": {
-            "x": 789,
-            "y": 75,
-            "w": 173,
-            "h": 129
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 22,
-            "y": 44,
-            "w": 173,
-            "h": 129
-          },
-          "sourceSize": {
-            "w": 217,
-            "h": 217
-          },
-          "referenceHeight": 216.49162011173183
-        },
-        {
-          "filename": "duck-nw-2",
-          "frame": {
-            "x": 987,
-            "y": 67,
-            "w": 154,
-            "h": 135
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 47,
-            "y": 57,
-            "w": 154,
-            "h": 135
-          },
-          "sourceSize": {
-            "w": 249,
-            "h": 249
-          },
-          "referenceHeight": 248.1726618705036
-        },
-        {
-          "filename": "duck-n-2",
-          "frame": {
-            "x": 1174,
-            "y": 68,
-            "w": 131,
-            "h": 136
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 41,
-            "y": 39,
-            "w": 131,
+            "y": 4,
+            "w": 179,
             "h": 136
           },
           "sourceSize": {
-            "w": 214,
-            "h": 214
+            "w": 202,
+            "h": 158
           },
-          "referenceHeight": 213.03496503496504
+          "referenceHeight": 295.27272727272725,
+          "bodyBounds": {
+            "x": 20,
+            "y": 6,
+            "w": 175,
+            "h": 132
+          },
+          "waterline": {
+            "x": 101,
+            "y": 138
+          }
         },
         {
           "filename": "duck-ne-2",
           "frame": {
-            "x": 1336,
-            "y": 73,
-            "w": 160,
-            "h": 129
+            "x": 1344,
+            "y": 346,
+            "w": 175,
+            "h": 136
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 41,
-            "y": 57,
-            "w": 160,
-            "h": 129
+            "x": 21,
+            "y": 4,
+            "w": 175,
+            "h": 136
           },
           "sourceSize": {
-            "w": 243,
-            "h": 243
+            "w": 202,
+            "h": 158
           },
-          "referenceHeight": 242.16216216216216
+          "referenceHeight": 295.27272727272725,
+          "bodyBounds": {
+            "x": 23,
+            "y": 6,
+            "w": 171,
+            "h": 132
+          },
+          "waterline": {
+            "x": 101,
+            "y": 138
+          }
         },
         {
-          "filename": "duck-e-3",
+          "filename": "duck-ne-1",
           "frame": {
-            "x": 26,
-            "y": 230,
-            "w": 171,
-            "h": 134
+            "x": 1340,
+            "y": 570,
+            "w": 179,
+            "h": 136
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
             "x": 19,
-            "y": 37,
-            "w": 171,
-            "h": 134
-          },
-          "sourceSize": {
-            "w": 209,
-            "h": 209
-          },
-          "referenceHeight": 208.17391304347825
-        },
-        {
-          "filename": "duck-se-3",
-          "frame": {
-            "x": 229,
-            "y": 227,
-            "w": 155,
-            "h": 137
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 42,
-            "y": 51,
-            "w": 155,
-            "h": 137
-          },
-          "sourceSize": {
-            "w": 240,
-            "h": 240
-          },
-          "referenceHeight": 239.44827586206895
-        },
-        {
-          "filename": "duck-s-3",
-          "frame": {
-            "x": 424,
-            "y": 230,
-            "w": 135,
-            "h": 134
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 42,
-            "y": 43,
-            "w": 135,
-            "h": 134
-          },
-          "sourceSize": {
-            "w": 220,
-            "h": 220
-          },
-          "referenceHeight": 219.1304347826087
-        },
-        {
-          "filename": "duck-sw-3",
-          "frame": {
-            "x": 598,
-            "y": 228,
-            "w": 156,
-            "h": 136
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 38,
-            "y": 48,
-            "w": 156,
+            "y": 4,
+            "w": 179,
             "h": 136
           },
           "sourceSize": {
-            "w": 233,
-            "h": 233
+            "w": 202,
+            "h": 158
           },
-          "referenceHeight": 232.96
-        },
-        {
-          "filename": "duck-w-3",
-          "frame": {
-            "x": 790,
-            "y": 230,
-            "w": 171,
-            "h": 134
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
+          "referenceHeight": 295.27272727272725,
+          "bodyBounds": {
             "x": 21,
-            "y": 40,
-            "w": 171,
-            "h": 134
+            "y": 6,
+            "w": 175,
+            "h": 132
           },
-          "sourceSize": {
-            "w": 214,
-            "h": 214
-          },
-          "referenceHeight": 213.98882681564245
-        },
-        {
-          "filename": "duck-nw-3",
-          "frame": {
-            "x": 987,
-            "y": 230,
-            "w": 157,
-            "h": 134
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 48,
-            "y": 60,
-            "w": 157,
-            "h": 134
-          },
-          "sourceSize": {
-            "w": 254,
-            "h": 254
-          },
-          "referenceHeight": 253.0071942446043
-        },
-        {
-          "filename": "duck-n-3",
-          "frame": {
-            "x": 1174,
-            "y": 230,
-            "w": 133,
-            "h": 134
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 38,
-            "y": 38,
-            "w": 133,
-            "h": 134
-          },
-          "sourceSize": {
-            "w": 210,
-            "h": 210
-          },
-          "referenceHeight": 209.9020979020979
+          "waterline": {
+            "x": 101,
+            "y": 138
+          }
         },
         {
           "filename": "duck-ne-3",
           "frame": {
-            "x": 1336,
-            "y": 230,
-            "w": 159,
-            "h": 134
+            "x": 1342,
+            "y": 794,
+            "w": 177,
+            "h": 136
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 41,
-            "y": 53,
-            "w": 159,
-            "h": 134
+            "x": 19,
+            "y": 4,
+            "w": 177,
+            "h": 136
           },
           "sourceSize": {
-            "w": 241,
-            "h": 241
+            "w": 202,
+            "h": 158
           },
-          "referenceHeight": 240.64864864864865
+          "referenceHeight": 295.27272727272725,
+          "bodyBounds": {
+            "x": 21,
+            "y": 6,
+            "w": 173,
+            "h": 132
+          },
+          "waterline": {
+            "x": 101,
+            "y": 138
+          }
+        }
+      ]
+    },
+    {
+      "image": "bird-gull-swimming.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "gull-e-0",
+          "frame": {
+            "x": 28,
+            "y": 98,
+            "w": 173,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 17,
+            "y": 4,
+            "w": 173,
+            "h": 119
+          },
+          "sourceSize": {
+            "w": 194,
+            "h": 154
+          },
+          "referenceHeight": 221.38011695906434,
+          "bodyBounds": {
+            "x": 19,
+            "y": 6,
+            "w": 169,
+            "h": 115
+          },
+          "waterline": {
+            "x": 97,
+            "y": 121
+          }
         },
         {
           "filename": "gull-e-2",
           "frame": {
-            "x": 26,
-            "y": 394,
-            "w": 172,
-            "h": 129
+            "x": 28,
+            "y": 323,
+            "w": 173,
+            "h": 118
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 21,
-            "y": 43,
-            "w": 172,
-            "h": 129
+            "x": 17,
+            "y": 5,
+            "w": 173,
+            "h": 118
           },
           "sourceSize": {
-            "w": 215,
-            "h": 215
+            "w": 194,
+            "h": 154
           },
-          "referenceHeight": 214.04444444444445
+          "referenceHeight": 221.38011695906434,
+          "bodyBounds": {
+            "x": 19,
+            "y": 7,
+            "w": 169,
+            "h": 114
+          },
+          "waterline": {
+            "x": 97,
+            "y": 121
+          }
+        },
+        {
+          "filename": "gull-e-1",
+          "frame": {
+            "x": 28,
+            "y": 547,
+            "w": 173,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 16,
+            "y": 5,
+            "w": 173,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 194,
+            "h": 154
+          },
+          "referenceHeight": 221.38011695906434,
+          "bodyBounds": {
+            "x": 18,
+            "y": 7,
+            "w": 169,
+            "h": 114
+          },
+          "waterline": {
+            "x": 97,
+            "y": 121
+          }
+        },
+        {
+          "filename": "gull-e-3",
+          "frame": {
+            "x": 28,
+            "y": 771,
+            "w": 173,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 16,
+            "y": 4,
+            "w": 173,
+            "h": 119
+          },
+          "sourceSize": {
+            "w": 194,
+            "h": 154
+          },
+          "referenceHeight": 221.38011695906434,
+          "bodyBounds": {
+            "x": 18,
+            "y": 6,
+            "w": 169,
+            "h": 115
+          },
+          "waterline": {
+            "x": 97,
+            "y": 121
+          }
+        },
+        {
+          "filename": "gull-se-0",
+          "frame": {
+            "x": 227,
+            "y": 99,
+            "w": 159,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4,
+            "w": 159,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 168,
+            "h": 144
+          },
+          "referenceHeight": 240.33333333333331,
+          "bodyBounds": {
+            "x": 7,
+            "y": 6,
+            "w": 155,
+            "h": 114
+          },
+          "waterline": {
+            "x": 84,
+            "y": 120
+          }
         },
         {
           "filename": "gull-se-2",
           "frame": {
-            "x": 232,
-            "y": 396,
-            "w": 152,
-            "h": 128
+            "x": 227,
+            "y": 324,
+            "w": 159,
+            "h": 117
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 35,
-            "y": 47,
-            "w": 152,
-            "h": 128
+            "x": 4,
+            "y": 5,
+            "w": 159,
+            "h": 117
           },
           "sourceSize": {
-            "w": 222,
-            "h": 222
+            "w": 168,
+            "h": 144
           },
-          "referenceHeight": 221.0909090909091
+          "referenceHeight": 240.33333333333331,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 155,
+            "h": 113
+          },
+          "waterline": {
+            "x": 84,
+            "y": 120
+          }
+        },
+        {
+          "filename": "gull-se-1",
+          "frame": {
+            "x": 228,
+            "y": 548,
+            "w": 158,
+            "h": 117
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 158,
+            "h": 117
+          },
+          "sourceSize": {
+            "w": 168,
+            "h": 144
+          },
+          "referenceHeight": 240.33333333333331,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 154,
+            "h": 113
+          },
+          "waterline": {
+            "x": 84,
+            "y": 120
+          }
+        },
+        {
+          "filename": "gull-se-3",
+          "frame": {
+            "x": 228,
+            "y": 771,
+            "w": 158,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4,
+            "w": 158,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 168,
+            "h": 144
+          },
+          "referenceHeight": 240.33333333333331,
+          "bodyBounds": {
+            "x": 7,
+            "y": 6,
+            "w": 154,
+            "h": 114
+          },
+          "waterline": {
+            "x": 84,
+            "y": 120
+          }
+        },
+        {
+          "filename": "gull-s-0",
+          "frame": {
+            "x": 433,
+            "y": 99,
+            "w": 123,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4,
+            "w": 123,
+            "h": 119
+          },
+          "sourceSize": {
+            "w": 132,
+            "h": 144
+          },
+          "referenceHeight": 246.8148148148148,
+          "bodyBounds": {
+            "x": 7,
+            "y": 6,
+            "w": 119,
+            "h": 115
+          },
+          "waterline": {
+            "x": 66,
+            "y": 121
+          }
         },
         {
           "filename": "gull-s-2",
           "frame": {
-            "x": 424,
-            "y": 396,
-            "w": 134,
-            "h": 128
+            "x": 433,
+            "y": 324,
+            "w": 123,
+            "h": 117
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 44,
-            "y": 47,
-            "w": 134,
-            "h": 128
+            "x": 5,
+            "y": 6,
+            "w": 123,
+            "h": 117
           },
           "sourceSize": {
-            "w": 223,
-            "h": 223
+            "w": 132,
+            "h": 144
           },
-          "referenceHeight": 222.34074074074073
+          "referenceHeight": 246.8148148148148,
+          "bodyBounds": {
+            "x": 7,
+            "y": 8,
+            "w": 119,
+            "h": 113
+          },
+          "waterline": {
+            "x": 66,
+            "y": 121
+          }
+        },
+        {
+          "filename": "gull-s-1",
+          "frame": {
+            "x": 433,
+            "y": 547,
+            "w": 123,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 123,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 132,
+            "h": 144
+          },
+          "referenceHeight": 246.8148148148148,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 119,
+            "h": 114
+          },
+          "waterline": {
+            "x": 66,
+            "y": 121
+          }
+        },
+        {
+          "filename": "gull-s-3",
+          "frame": {
+            "x": 433,
+            "y": 772,
+            "w": 123,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 123,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 132,
+            "h": 144
+          },
+          "referenceHeight": 246.8148148148148,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 119,
+            "h": 114
+          },
+          "waterline": {
+            "x": 66,
+            "y": 121
+          }
+        },
+        {
+          "filename": "gull-sw-0",
+          "frame": {
+            "x": 602,
+            "y": 97,
+            "w": 157,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 5,
+            "w": 157,
+            "h": 119
+          },
+          "sourceSize": {
+            "w": 166,
+            "h": 144
+          },
+          "referenceHeight": 248.3478260869565,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 153,
+            "h": 115
+          },
+          "waterline": {
+            "x": 83,
+            "y": 122
+          }
         },
         {
           "filename": "gull-sw-2",
           "frame": {
-            "x": 594,
-            "y": 396,
-            "w": 161,
-            "h": 127
+            "x": 602,
+            "y": 322,
+            "w": 157,
+            "h": 118
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 39,
-            "y": 56,
-            "w": 161,
-            "h": 127
+            "x": 4,
+            "y": 6,
+            "w": 157,
+            "h": 118
           },
           "sourceSize": {
-            "w": 239,
-            "h": 239
+            "w": 166,
+            "h": 144
           },
-          "referenceHeight": 238.83443708609272
+          "referenceHeight": 248.3478260869565,
+          "bodyBounds": {
+            "x": 6,
+            "y": 8,
+            "w": 153,
+            "h": 114
+          },
+          "waterline": {
+            "x": 83,
+            "y": 122
+          }
+        },
+        {
+          "filename": "gull-sw-1",
+          "frame": {
+            "x": 602,
+            "y": 546,
+            "w": 157,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 6,
+            "w": 157,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 166,
+            "h": 144
+          },
+          "referenceHeight": 248.3478260869565,
+          "bodyBounds": {
+            "x": 6,
+            "y": 8,
+            "w": 153,
+            "h": 114
+          },
+          "waterline": {
+            "x": 83,
+            "y": 122
+          }
+        },
+        {
+          "filename": "gull-sw-3",
+          "frame": {
+            "x": 602,
+            "y": 770,
+            "w": 157,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 5,
+            "w": 157,
+            "h": 119
+          },
+          "sourceSize": {
+            "w": 166,
+            "h": 144
+          },
+          "referenceHeight": 248.3478260869565,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 153,
+            "h": 115
+          },
+          "waterline": {
+            "x": 83,
+            "y": 122
+          }
+        },
+        {
+          "filename": "gull-w-0",
+          "frame": {
+            "x": 783,
+            "y": 99,
+            "w": 171,
+            "h": 117
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 5,
+            "w": 171,
+            "h": 117
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 150
+          },
+          "referenceHeight": 226.03636363636363,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 167,
+            "h": 113
+          },
+          "waterline": {
+            "x": 95,
+            "y": 120
+          }
         },
         {
           "filename": "gull-w-2",
           "frame": {
-            "x": 786,
-            "y": 396,
-            "w": 174,
-            "h": 127
+            "x": 784,
+            "y": 324,
+            "w": 170,
+            "h": 116
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 24,
-            "y": 48,
-            "w": 174,
-            "h": 127
+            "x": 5,
+            "y": 6,
+            "w": 170,
+            "h": 116
           },
           "sourceSize": {
-            "w": 223,
-            "h": 223
+            "w": 190,
+            "h": 150
           },
-          "referenceHeight": 222.72
+          "referenceHeight": 226.03636363636363,
+          "bodyBounds": {
+            "x": 7,
+            "y": 8,
+            "w": 166,
+            "h": 112
+          },
+          "waterline": {
+            "x": 95,
+            "y": 120
+          }
+        },
+        {
+          "filename": "gull-w-1",
+          "frame": {
+            "x": 784,
+            "y": 548,
+            "w": 170,
+            "h": 117
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 170,
+            "h": 117
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 150
+          },
+          "referenceHeight": 226.03636363636363,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 166,
+            "h": 113
+          },
+          "waterline": {
+            "x": 95,
+            "y": 120
+          }
+        },
+        {
+          "filename": "gull-w-3",
+          "frame": {
+            "x": 783,
+            "y": 772,
+            "w": 171,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 171,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 150
+          },
+          "referenceHeight": 226.03636363636363,
+          "bodyBounds": {
+            "x": 6,
+            "y": 6,
+            "w": 167,
+            "h": 114
+          },
+          "waterline": {
+            "x": 95,
+            "y": 120
+          }
+        },
+        {
+          "filename": "gull-nw-0",
+          "frame": {
+            "x": 966,
+            "y": 98,
+            "w": 164,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 164,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 186,
+            "h": 132
+          },
+          "referenceHeight": 280,
+          "bodyBounds": {
+            "x": 6,
+            "y": 6,
+            "w": 160,
+            "h": 116
+          },
+          "waterline": {
+            "x": 93,
+            "y": 122
+          }
         },
         {
           "filename": "gull-nw-2",
           "frame": {
-            "x": 991,
-            "y": 399,
-            "w": 154,
-            "h": 123
+            "x": 966,
+            "y": 322,
+            "w": 164,
+            "h": 119
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 43,
-            "y": 58,
-            "w": 154,
-            "h": 123
+            "x": 4,
+            "y": 5,
+            "w": 164,
+            "h": 119
           },
           "sourceSize": {
-            "w": 240,
-            "h": 240
+            "w": 186,
+            "h": 132
           },
-          "referenceHeight": 239.55555555555554
+          "referenceHeight": 280,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 160,
+            "h": 115
+          },
+          "waterline": {
+            "x": 93,
+            "y": 122
+          }
+        },
+        {
+          "filename": "gull-nw-1",
+          "frame": {
+            "x": 966,
+            "y": 547,
+            "w": 164,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 5,
+            "w": 164,
+            "h": 119
+          },
+          "sourceSize": {
+            "w": 186,
+            "h": 132
+          },
+          "referenceHeight": 280,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 160,
+            "h": 115
+          },
+          "waterline": {
+            "x": 93,
+            "y": 122
+          }
+        },
+        {
+          "filename": "gull-nw-3",
+          "frame": {
+            "x": 966,
+            "y": 771,
+            "w": 164,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 4,
+            "w": 164,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 186,
+            "h": 132
+          },
+          "referenceHeight": 280,
+          "bodyBounds": {
+            "x": 7,
+            "y": 6,
+            "w": 160,
+            "h": 116
+          },
+          "waterline": {
+            "x": 93,
+            "y": 122
+          }
+        },
+        {
+          "filename": "gull-n-0",
+          "frame": {
+            "x": 1173,
+            "y": 90,
+            "w": 115,
+            "h": 129
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 115,
+            "h": 129
+          },
+          "sourceSize": {
+            "w": 124,
+            "h": 160
+          },
+          "referenceHeight": 259.9245283018868,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 111,
+            "h": 125
+          },
+          "waterline": {
+            "x": 62,
+            "y": 132
+          }
         },
         {
           "filename": "gull-n-2",
           "frame": {
             "x": 1173,
-            "y": 394,
-            "w": 132,
-            "h": 129
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 48,
-            "y": 49,
-            "w": 132,
-            "h": 129
-          },
-          "sourceSize": {
-            "w": 228,
-            "h": 228
-          },
-          "referenceHeight": 227.44615384615383
-        },
-        {
-          "filename": "gull-ne-2",
-          "frame": {
-            "x": 1335,
-            "y": 399,
-            "w": 163,
-            "h": 125
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 37,
-            "y": 56,
-            "w": 163,
-            "h": 125
-          },
-          "sourceSize": {
-            "w": 238,
-            "h": 238
-          },
-          "referenceHeight": 237.0909090909091
-        },
-        {
-          "filename": "gull-e-3",
-          "frame": {
-            "x": 26,
-            "y": 554,
-            "w": 171,
-            "h": 128
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 21,
-            "y": 42,
-            "w": 171,
-            "h": 128
-          },
-          "sourceSize": {
-            "w": 213,
-            "h": 213
-          },
-          "referenceHeight": 212.8
-        },
-        {
-          "filename": "gull-se-3",
-          "frame": {
-            "x": 230,
-            "y": 555,
-            "w": 155,
-            "h": 127
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 35,
-            "y": 49,
-            "w": 155,
-            "h": 127
-          },
-          "sourceSize": {
-            "w": 226,
-            "h": 226
-          },
-          "referenceHeight": 225.45454545454547
-        },
-        {
-          "filename": "gull-s-3",
-          "frame": {
-            "x": 423,
-            "y": 556,
-            "w": 135,
+            "y": 316,
+            "w": 115,
             "h": 126
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 44,
-            "y": 49,
-            "w": 135,
+            "x": 5,
+            "y": 8,
+            "w": 115,
             "h": 126
           },
           "sourceSize": {
-            "w": 224,
-            "h": 224
+            "w": 124,
+            "h": 160
           },
-          "referenceHeight": 224
+          "referenceHeight": 259.9245283018868,
+          "bodyBounds": {
+            "x": 7,
+            "y": 10,
+            "w": 111,
+            "h": 122
+          },
+          "waterline": {
+            "x": 62,
+            "y": 132
+          }
         },
         {
-          "filename": "gull-sw-3",
+          "filename": "gull-n-1",
           "frame": {
-            "x": 596,
-            "y": 555,
-            "w": 159,
+            "x": 1173,
+            "y": 540,
+            "w": 115,
             "h": 127
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 38,
-            "y": 54,
-            "w": 159,
+            "x": 5,
+            "y": 7,
+            "w": 115,
             "h": 127
           },
           "sourceSize": {
-            "w": 236,
-            "h": 236
+            "w": 124,
+            "h": 160
           },
-          "referenceHeight": 235.86754966887418
-        },
-        {
-          "filename": "gull-w-3",
-          "frame": {
-            "x": 790,
-            "y": 555,
-            "w": 170,
-            "h": 127
+          "referenceHeight": 259.9245283018868,
+          "bodyBounds": {
+            "x": 7,
+            "y": 9,
+            "w": 111,
+            "h": 123
           },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 24,
-            "y": 45,
-            "w": 170,
-            "h": 127
-          },
-          "sourceSize": {
-            "w": 218,
-            "h": 218
-          },
-          "referenceHeight": 217.6
-        },
-        {
-          "filename": "gull-nw-3",
-          "frame": {
-            "x": 991,
-            "y": 556,
-            "w": 155,
-            "h": 126
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 43,
-            "y": 58,
-            "w": 155,
-            "h": 126
-          },
-          "sourceSize": {
-            "w": 242,
-            "h": 242
-          },
-          "referenceHeight": 241.11111111111111
+          "waterline": {
+            "x": 62,
+            "y": 132
+          }
         },
         {
           "filename": "gull-n-3",
           "frame": {
-            "x": 1174,
-            "y": 556,
-            "w": 131,
-            "h": 126
+            "x": 1173,
+            "y": 765,
+            "w": 115,
+            "h": 127
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 47,
-            "y": 50,
-            "w": 131,
-            "h": 126
+            "x": 5,
+            "y": 7,
+            "w": 115,
+            "h": 127
           },
           "sourceSize": {
-            "w": 226,
-            "h": 226
+            "w": 124,
+            "h": 160
           },
-          "referenceHeight": 225.72307692307692
+          "referenceHeight": 259.9245283018868,
+          "bodyBounds": {
+            "x": 7,
+            "y": 9,
+            "w": 111,
+            "h": 123
+          },
+          "waterline": {
+            "x": 62,
+            "y": 132
+          }
+        },
+        {
+          "filename": "gull-ne-0",
+          "frame": {
+            "x": 1336,
+            "y": 97,
+            "w": 172,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 15,
+            "y": 5,
+            "w": 172,
+            "h": 121
+          },
+          "sourceSize": {
+            "w": 192,
+            "h": 144
+          },
+          "referenceHeight": 261.3333333333333,
+          "bodyBounds": {
+            "x": 17,
+            "y": 7,
+            "w": 168,
+            "h": 117
+          },
+          "waterline": {
+            "x": 96,
+            "y": 124
+          }
+        },
+        {
+          "filename": "gull-ne-2",
+          "frame": {
+            "x": 1336,
+            "y": 322,
+            "w": 172,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 15,
+            "y": 6,
+            "w": 172,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 192,
+            "h": 144
+          },
+          "referenceHeight": 261.3333333333333,
+          "bodyBounds": {
+            "x": 17,
+            "y": 8,
+            "w": 168,
+            "h": 116
+          },
+          "waterline": {
+            "x": 96,
+            "y": 124
+          }
+        },
+        {
+          "filename": "gull-ne-1",
+          "frame": {
+            "x": 1336,
+            "y": 546,
+            "w": 172,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 16,
+            "y": 5,
+            "w": 172,
+            "h": 121
+          },
+          "sourceSize": {
+            "w": 192,
+            "h": 144
+          },
+          "referenceHeight": 261.3333333333333,
+          "bodyBounds": {
+            "x": 18,
+            "y": 7,
+            "w": 168,
+            "h": 117
+          },
+          "waterline": {
+            "x": 96,
+            "y": 124
+          }
         },
         {
           "filename": "gull-ne-3",
           "frame": {
             "x": 1336,
-            "y": 556,
-            "w": 162,
-            "h": 126
+            "y": 770,
+            "w": 172,
+            "h": 122
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 37,
-            "y": 55,
-            "w": 162,
-            "h": 126
+            "x": 16,
+            "y": 4,
+            "w": 172,
+            "h": 122
           },
           "sourceSize": {
-            "w": 236,
-            "h": 236
+            "w": 192,
+            "h": 144
           },
-          "referenceHeight": 235.63636363636363
+          "referenceHeight": 261.3333333333333,
+          "bodyBounds": {
+            "x": 18,
+            "y": 6,
+            "w": 168,
+            "h": 118
+          },
+          "waterline": {
+            "x": 96,
+            "y": 124
+          }
+        }
+      ]
+    },
+    {
+      "image": "bird-coot-swimming.png",
+      "size": {
+        "w": 1536,
+        "h": 1024
+      },
+      "frames": [
+        {
+          "filename": "coot-e-0",
+          "frame": {
+            "x": 27,
+            "y": 138,
+            "w": 180,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 24,
+            "y": 4,
+            "w": 180,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 208,
+            "h": 144
+          },
+          "referenceHeight": 252.18064516129033,
+          "bodyBounds": {
+            "x": 26,
+            "y": 6,
+            "w": 176,
+            "h": 116
+          },
+          "waterline": {
+            "x": 104,
+            "y": 122
+          }
         },
         {
           "filename": "coot-e-2",
           "frame": {
-            "x": 28,
-            "y": 713,
-            "w": 165,
-            "h": 125
+            "x": 30,
+            "y": 345,
+            "w": 177,
+            "h": 118
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 29,
-            "y": 49,
-            "w": 165,
-            "h": 125
+            "x": 25,
+            "y": 6,
+            "w": 177,
+            "h": 118
           },
           "sourceSize": {
-            "w": 223,
-            "h": 223
+            "w": 208,
+            "h": 144
           },
-          "referenceHeight": 222.65060240963857
+          "referenceHeight": 252.18064516129033,
+          "bodyBounds": {
+            "x": 27,
+            "y": 8,
+            "w": 173,
+            "h": 114
+          },
+          "waterline": {
+            "x": 104,
+            "y": 122
+          }
+        },
+        {
+          "filename": "coot-e-1",
+          "frame": {
+            "x": 28,
+            "y": 557,
+            "w": 179,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 24,
+            "y": 4,
+            "w": 179,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 208,
+            "h": 144
+          },
+          "referenceHeight": 252.18064516129033,
+          "bodyBounds": {
+            "x": 26,
+            "y": 6,
+            "w": 175,
+            "h": 116
+          },
+          "waterline": {
+            "x": 104,
+            "y": 122
+          }
+        },
+        {
+          "filename": "coot-e-3",
+          "frame": {
+            "x": 29,
+            "y": 762,
+            "w": 178,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 24,
+            "y": 4,
+            "w": 178,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 208,
+            "h": 144
+          },
+          "referenceHeight": 252.18064516129033,
+          "bodyBounds": {
+            "x": 26,
+            "y": 6,
+            "w": 174,
+            "h": 116
+          },
+          "waterline": {
+            "x": 104,
+            "y": 122
+          }
+        },
+        {
+          "filename": "coot-se-0",
+          "frame": {
+            "x": 228,
+            "y": 146,
+            "w": 163,
+            "h": 115
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 9,
+            "y": 5,
+            "w": 163,
+            "h": 115
+          },
+          "sourceSize": {
+            "w": 178,
+            "h": 126
+          },
+          "referenceHeight": 276.9612403100775,
+          "bodyBounds": {
+            "x": 11,
+            "y": 7,
+            "w": 159,
+            "h": 111
+          },
+          "waterline": {
+            "x": 89,
+            "y": 118
+          }
         },
         {
           "filename": "coot-se-2",
           "frame": {
             "x": 227,
-            "y": 719,
-            "w": 157,
-            "h": 121
+            "y": 350,
+            "w": 164,
+            "h": 115
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 38,
-            "y": 56,
-            "w": 157,
-            "h": 121
+            "x": 9,
+            "y": 5,
+            "w": 164,
+            "h": 115
           },
           "sourceSize": {
-            "w": 233,
-            "h": 233
-          },
-          "referenceHeight": 232.90066225165563
-        },
-        {
-          "filename": "coot-s-2",
-          "frame": {
-            "x": 423,
-            "y": 713,
-            "w": 136,
-            "h": 127
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 44,
-            "y": 48,
-            "w": 136,
-            "h": 127
-          },
-          "sourceSize": {
-            "w": 224,
-            "h": 224
-          },
-          "referenceHeight": 224
-        },
-        {
-          "filename": "coot-sw-2",
-          "frame": {
-            "x": 598,
-            "y": 717,
-            "w": 159,
-            "h": 123
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 38,
-            "y": 56,
-            "w": 159,
-            "h": 123
-          },
-          "sourceSize": {
-            "w": 236,
-            "h": 236
-          },
-          "referenceHeight": 235.86754966887418
-        },
-        {
-          "filename": "coot-w-2",
-          "frame": {
-            "x": 793,
-            "y": 714,
-            "w": 167,
+            "w": 178,
             "h": 126
           },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 30,
-            "y": 50,
-            "w": 167,
-            "h": 126
-          },
-          "sourceSize": {
-            "w": 227,
-            "h": 227
-          },
-          "referenceHeight": 226.71515151515152
-        },
-        {
-          "filename": "coot-nw-2",
-          "frame": {
-            "x": 987,
-            "y": 713,
-            "w": 159,
-            "h": 127
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 42,
-            "y": 58,
-            "w": 159,
-            "h": 127
-          },
-          "sourceSize": {
-            "w": 243,
-            "h": 243
-          },
-          "referenceHeight": 242.28571428571428
-        },
-        {
-          "filename": "coot-n-2",
-          "frame": {
-            "x": 1172,
-            "y": 713,
-            "w": 135,
-            "h": 132
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 40,
-            "y": 42,
-            "w": 135,
-            "h": 132
-          },
-          "sourceSize": {
-            "w": 216,
-            "h": 216
-          },
-          "referenceHeight": 216
-        },
-        {
-          "filename": "coot-ne-2",
-          "frame": {
-            "x": 1338,
-            "y": 714,
+          "referenceHeight": 276.9612403100775,
+          "bodyBounds": {
+            "x": 11,
+            "y": 7,
             "w": 160,
-            "h": 126
+            "h": 111
           },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 38,
-            "y": 55,
-            "w": 160,
-            "h": 126
-          },
-          "sourceSize": {
-            "w": 236,
-            "h": 236
-          },
-          "referenceHeight": 235.78947368421052
+          "waterline": {
+            "x": 89,
+            "y": 118
+          }
         },
         {
-          "filename": "coot-e-3",
+          "filename": "coot-se-1",
           "frame": {
-            "x": 26,
-            "y": 868,
-            "w": 165,
-            "h": 131
+            "x": 225,
+            "y": 564,
+            "w": 166,
+            "h": 115
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 29,
-            "y": 46,
-            "w": 165,
-            "h": 131
+            "x": 8,
+            "y": 5,
+            "w": 166,
+            "h": 115
           },
           "sourceSize": {
-            "w": 223,
-            "h": 223
+            "w": 178,
+            "h": 126
           },
-          "referenceHeight": 222.65060240963857
+          "referenceHeight": 276.9612403100775,
+          "bodyBounds": {
+            "x": 10,
+            "y": 7,
+            "w": 162,
+            "h": 111
+          },
+          "waterline": {
+            "x": 89,
+            "y": 118
+          }
         },
         {
           "filename": "coot-se-3",
           "frame": {
-            "x": 225,
-            "y": 870,
-            "w": 159,
-            "h": 129
+            "x": 228,
+            "y": 767,
+            "w": 163,
+            "h": 116
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 38,
-            "y": 53,
-            "w": 159,
-            "h": 129
+            "x": 10,
+            "y": 4,
+            "w": 163,
+            "h": 116
           },
           "sourceSize": {
-            "w": 236,
-            "h": 236
+            "w": 178,
+            "h": 126
           },
-          "referenceHeight": 235.86754966887418
+          "referenceHeight": 276.9612403100775,
+          "bodyBounds": {
+            "x": 12,
+            "y": 6,
+            "w": 159,
+            "h": 112
+          },
+          "waterline": {
+            "x": 89,
+            "y": 118
+          }
+        },
+        {
+          "filename": "coot-s-0",
+          "frame": {
+            "x": 429,
+            "y": 136,
+            "w": 127,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 127,
+            "h": 126
+          },
+          "sourceSize": {
+            "w": 136,
+            "h": 160
+          },
+          "referenceHeight": 243.82300884955754,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 123,
+            "h": 122
+          },
+          "waterline": {
+            "x": 68,
+            "y": 129
+          }
+        },
+        {
+          "filename": "coot-s-2",
+          "frame": {
+            "x": 429,
+            "y": 343,
+            "w": 127,
+            "h": 124
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 7,
+            "w": 127,
+            "h": 124
+          },
+          "sourceSize": {
+            "w": 136,
+            "h": 160
+          },
+          "referenceHeight": 243.82300884955754,
+          "bodyBounds": {
+            "x": 7,
+            "y": 9,
+            "w": 123,
+            "h": 120
+          },
+          "waterline": {
+            "x": 68,
+            "y": 129
+          }
+        },
+        {
+          "filename": "coot-s-1",
+          "frame": {
+            "x": 429,
+            "y": 556,
+            "w": 127,
+            "h": 125
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 6,
+            "w": 127,
+            "h": 125
+          },
+          "sourceSize": {
+            "w": 136,
+            "h": 160
+          },
+          "referenceHeight": 243.82300884955754,
+          "bodyBounds": {
+            "x": 7,
+            "y": 8,
+            "w": 123,
+            "h": 121
+          },
+          "waterline": {
+            "x": 68,
+            "y": 129
+          }
         },
         {
           "filename": "coot-s-3",
           "frame": {
-            "x": 422,
-            "y": 870,
-            "w": 137,
-            "h": 132
+            "x": 429,
+            "y": 760,
+            "w": 127,
+            "h": 125
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 44,
-            "y": 47,
-            "w": 137,
-            "h": 132
+            "x": 5,
+            "y": 6,
+            "w": 127,
+            "h": 125
           },
           "sourceSize": {
-            "w": 226,
-            "h": 226
+            "w": 136,
+            "h": 160
           },
-          "referenceHeight": 225.64705882352942
+          "referenceHeight": 243.82300884955754,
+          "bodyBounds": {
+            "x": 7,
+            "y": 8,
+            "w": 123,
+            "h": 121
+          },
+          "waterline": {
+            "x": 68,
+            "y": 129
+          }
+        },
+        {
+          "filename": "coot-sw-0",
+          "frame": {
+            "x": 591,
+            "y": 146,
+            "w": 160,
+            "h": 115
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 6,
+            "w": 160,
+            "h": 115
+          },
+          "sourceSize": {
+            "w": 172,
+            "h": 132
+          },
+          "referenceHeight": 262.7368421052632,
+          "bodyBounds": {
+            "x": 8,
+            "y": 8,
+            "w": 156,
+            "h": 111
+          },
+          "waterline": {
+            "x": 86,
+            "y": 119
+          }
+        },
+        {
+          "filename": "coot-sw-2",
+          "frame": {
+            "x": 591,
+            "y": 349,
+            "w": 160,
+            "h": 116
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 5,
+            "w": 160,
+            "h": 116
+          },
+          "sourceSize": {
+            "w": 172,
+            "h": 132
+          },
+          "referenceHeight": 262.7368421052632,
+          "bodyBounds": {
+            "x": 8,
+            "y": 7,
+            "w": 156,
+            "h": 112
+          },
+          "waterline": {
+            "x": 86,
+            "y": 119
+          }
+        },
+        {
+          "filename": "coot-sw-1",
+          "frame": {
+            "x": 591,
+            "y": 564,
+            "w": 160,
+            "h": 115
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 6,
+            "w": 160,
+            "h": 115
+          },
+          "sourceSize": {
+            "w": 172,
+            "h": 132
+          },
+          "referenceHeight": 262.7368421052632,
+          "bodyBounds": {
+            "x": 7,
+            "y": 8,
+            "w": 156,
+            "h": 111
+          },
+          "waterline": {
+            "x": 86,
+            "y": 119
+          }
         },
         {
           "filename": "coot-sw-3",
           "frame": {
-            "x": 598,
-            "y": 870,
-            "w": 159,
-            "h": 129
+            "x": 591,
+            "y": 767,
+            "w": 161,
+            "h": 116
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 38,
-            "y": 53,
-            "w": 159,
-            "h": 129
+            "x": 4,
+            "y": 5,
+            "w": 161,
+            "h": 116
           },
           "sourceSize": {
-            "w": 236,
-            "h": 236
+            "w": 172,
+            "h": 132
           },
-          "referenceHeight": 235.86754966887418
+          "referenceHeight": 262.7368421052632,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 157,
+            "h": 112
+          },
+          "waterline": {
+            "x": 86,
+            "y": 119
+          }
+        },
+        {
+          "filename": "coot-w-0",
+          "frame": {
+            "x": 769,
+            "y": 143,
+            "w": 179,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 6,
+            "w": 179,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 200,
+            "h": 142
+          },
+          "referenceHeight": 254.94736842105263,
+          "bodyBounds": {
+            "x": 6,
+            "y": 8,
+            "w": 175,
+            "h": 114
+          },
+          "waterline": {
+            "x": 100,
+            "y": 122
+          }
+        },
+        {
+          "filename": "coot-w-2",
+          "frame": {
+            "x": 769,
+            "y": 347,
+            "w": 175,
+            "h": 118
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 6,
+            "w": 175,
+            "h": 118
+          },
+          "sourceSize": {
+            "w": 200,
+            "h": 142
+          },
+          "referenceHeight": 254.94736842105263,
+          "bodyBounds": {
+            "x": 8,
+            "y": 8,
+            "w": 171,
+            "h": 114
+          },
+          "waterline": {
+            "x": 100,
+            "y": 122
+          }
+        },
+        {
+          "filename": "coot-w-1",
+          "frame": {
+            "x": 769,
+            "y": 560,
+            "w": 178,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 5,
+            "w": 178,
+            "h": 119
+          },
+          "sourceSize": {
+            "w": 200,
+            "h": 142
+          },
+          "referenceHeight": 254.94736842105263,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 174,
+            "h": 115
+          },
+          "waterline": {
+            "x": 100,
+            "y": 122
+          }
         },
         {
           "filename": "coot-w-3",
           "frame": {
-            "x": 793,
-            "y": 870,
-            "w": 167,
-            "h": 129
+            "x": 769,
+            "y": 764,
+            "w": 176,
+            "h": 119
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 30,
-            "y": 49,
-            "w": 167,
-            "h": 129
+            "x": 4,
+            "y": 5,
+            "w": 176,
+            "h": 119
           },
           "sourceSize": {
-            "w": 227,
-            "h": 227
+            "w": 200,
+            "h": 142
           },
-          "referenceHeight": 226.71515151515152
+          "referenceHeight": 254.94736842105263,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 172,
+            "h": 115
+          },
+          "waterline": {
+            "x": 100,
+            "y": 122
+          }
+        },
+        {
+          "filename": "coot-nw-0",
+          "frame": {
+            "x": 970,
+            "y": 138,
+            "w": 167,
+            "h": 123
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 4,
+            "w": 167,
+            "h": 123
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 140
+          },
+          "referenceHeight": 277.00763358778624,
+          "bodyBounds": {
+            "x": 6,
+            "y": 6,
+            "w": 163,
+            "h": 119
+          },
+          "waterline": {
+            "x": 94,
+            "y": 125
+          }
+        },
+        {
+          "filename": "coot-nw-2",
+          "frame": {
+            "x": 970,
+            "y": 343,
+            "w": 166,
+            "h": 122
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 5,
+            "w": 166,
+            "h": 122
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 140
+          },
+          "referenceHeight": 277.00763358778624,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 162,
+            "h": 118
+          },
+          "waterline": {
+            "x": 94,
+            "y": 125
+          }
+        },
+        {
+          "filename": "coot-nw-1",
+          "frame": {
+            "x": 970,
+            "y": 556,
+            "w": 166,
+            "h": 122
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 4,
+            "y": 5,
+            "w": 166,
+            "h": 122
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 140
+          },
+          "referenceHeight": 277.00763358778624,
+          "bodyBounds": {
+            "x": 6,
+            "y": 7,
+            "w": 162,
+            "h": 118
+          },
+          "waterline": {
+            "x": 94,
+            "y": 125
+          }
         },
         {
           "filename": "coot-nw-3",
           "frame": {
-            "x": 991,
-            "y": 870,
-            "w": 155,
-            "h": 129
+            "x": 970,
+            "y": 762,
+            "w": 166,
+            "h": 121
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 41,
-            "y": 54,
-            "w": 155,
-            "h": 129
+            "x": 4,
+            "y": 6,
+            "w": 166,
+            "h": 121
           },
           "sourceSize": {
-            "w": 237,
-            "h": 237
+            "w": 188,
+            "h": 140
           },
-          "referenceHeight": 236.1904761904762
+          "referenceHeight": 277.00763358778624,
+          "bodyBounds": {
+            "x": 6,
+            "y": 8,
+            "w": 162,
+            "h": 117
+          },
+          "waterline": {
+            "x": 94,
+            "y": 125
+          }
+        },
+        {
+          "filename": "coot-n-0",
+          "frame": {
+            "x": 1171,
+            "y": 136,
+            "w": 125,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 5,
+            "w": 125,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 134,
+            "h": 166
+          },
+          "referenceHeight": 249.22522522522522,
+          "bodyBounds": {
+            "x": 7,
+            "y": 7,
+            "w": 121,
+            "h": 126
+          },
+          "waterline": {
+            "x": 67,
+            "y": 133
+          }
+        },
+        {
+          "filename": "coot-n-2",
+          "frame": {
+            "x": 1171,
+            "y": 343,
+            "w": 125,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 5,
+            "y": 8,
+            "w": 125,
+            "h": 127
+          },
+          "sourceSize": {
+            "w": 134,
+            "h": 166
+          },
+          "referenceHeight": 249.22522522522522,
+          "bodyBounds": {
+            "x": 7,
+            "y": 10,
+            "w": 121,
+            "h": 123
+          },
+          "waterline": {
+            "x": 67,
+            "y": 133
+          }
+        },
+        {
+          "filename": "coot-n-1",
+          "frame": {
+            "x": 1171,
+            "y": 555,
+            "w": 124,
+            "h": 128
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 6,
+            "y": 7,
+            "w": 124,
+            "h": 128
+          },
+          "sourceSize": {
+            "w": 134,
+            "h": 166
+          },
+          "referenceHeight": 249.22522522522522,
+          "bodyBounds": {
+            "x": 8,
+            "y": 9,
+            "w": 120,
+            "h": 124
+          },
+          "waterline": {
+            "x": 67,
+            "y": 133
+          }
         },
         {
           "filename": "coot-n-3",
           "frame": {
-            "x": 1172,
-            "y": 868,
-            "w": 135,
-            "h": 137
+            "x": 1171,
+            "y": 760,
+            "w": 125,
+            "h": 127
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 42,
-            "y": 41,
-            "w": 135,
-            "h": 137
+            "x": 5,
+            "y": 8,
+            "w": 125,
+            "h": 127
           },
           "sourceSize": {
-            "w": 220,
-            "h": 220
+            "w": 134,
+            "h": 166
           },
-          "referenceHeight": 219.2
+          "referenceHeight": 249.22522522522522,
+          "bodyBounds": {
+            "x": 7,
+            "y": 10,
+            "w": 121,
+            "h": 123
+          },
+          "waterline": {
+            "x": 67,
+            "y": 133
+          }
+        },
+        {
+          "filename": "coot-ne-0",
+          "frame": {
+            "x": 1333,
+            "y": 139,
+            "w": 165,
+            "h": 122
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 18,
+            "y": 5,
+            "w": 165,
+            "h": 122
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 146
+          },
+          "referenceHeight": 262.1449275362319,
+          "bodyBounds": {
+            "x": 20,
+            "y": 7,
+            "w": 161,
+            "h": 118
+          },
+          "waterline": {
+            "x": 94,
+            "y": 125
+          }
+        },
+        {
+          "filename": "coot-ne-2",
+          "frame": {
+            "x": 1333,
+            "y": 344,
+            "w": 165,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 18,
+            "y": 6,
+            "w": 165,
+            "h": 121
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 146
+          },
+          "referenceHeight": 262.1449275362319,
+          "bodyBounds": {
+            "x": 20,
+            "y": 8,
+            "w": 161,
+            "h": 117
+          },
+          "waterline": {
+            "x": 94,
+            "y": 125
+          }
+        },
+        {
+          "filename": "coot-ne-1",
+          "frame": {
+            "x": 1330,
+            "y": 556,
+            "w": 168,
+            "h": 122
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 16,
+            "y": 5,
+            "w": 168,
+            "h": 122
+          },
+          "sourceSize": {
+            "w": 188,
+            "h": 146
+          },
+          "referenceHeight": 262.1449275362319,
+          "bodyBounds": {
+            "x": 18,
+            "y": 7,
+            "w": 164,
+            "h": 118
+          },
+          "waterline": {
+            "x": 94,
+            "y": 125
+          }
         },
         {
           "filename": "coot-ne-3",
           "frame": {
-            "x": 1338,
-            "y": 871,
-            "w": 160,
-            "h": 128
+            "x": 1332,
+            "y": 760,
+            "w": 166,
+            "h": 123
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 38,
-            "y": 54,
-            "w": 160,
-            "h": 128
+            "x": 17,
+            "y": 4,
+            "w": 166,
+            "h": 123
           },
           "sourceSize": {
-            "w": 236,
-            "h": 236
+            "w": 188,
+            "h": 146
           },
-          "referenceHeight": 235.78947368421052
+          "referenceHeight": 262.1449275362319,
+          "bodyBounds": {
+            "x": 19,
+            "y": 6,
+            "w": 162,
+            "h": 119
+          },
+          "waterline": {
+            "x": 94,
+            "y": 125
+          }
         }
       ]
     }

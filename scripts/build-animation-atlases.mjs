@@ -1,6 +1,7 @@
 import { chromium } from '@playwright/test';
 import fs from 'node:fs/promises';
 import { ANIMATED_ATLASES, WALK_CYCLE } from '../src/animation-frames.ts';
+import { buildBirdAtlas } from './build-bird-atlas.mjs';
 
 // Package the original drawings and generated in-betweens as multi-image atlases.
 // Only atlas metadata is written: neither source PNG is resampled or repainted.
@@ -10,7 +11,7 @@ const throwNames = ['toss', 'overhand', 'spread'].flatMap(motion =>
   ['anticipate', 'drive', 'settle', 'return'].map(stage => `${motion}-${stage}`));
 const employeeNames = [0, 1, 2, 3].map(phase => `walk-${phase}-between`).concat(
   ['open-reach', 'open-return', 'lift-half', 'lift-ready', 'lift-tip', 'close-lower', 'close-reach', 'close-return']);
-const configs = ANIMATED_ATLASES.map(name => ({ name, asset: `${name}-inbetweens`, body: !name.includes('swim'),
+const configs = ANIMATED_ATLASES.filter(name => name !== 'bird-swimmers').map(name => ({ name, asset: `${name}-inbetweens`, body: !name.includes('swim'),
   columns: name.includes('swim') ? 8 : 4,
   names: name === 'dock-thrower' ? throwNames : name === 'garden-employee' ? employeeNames
     : name === 'garden-observers' ? ['adult', 'kid'].flatMap(age => [0, 1, 2].flatMap(look =>
@@ -94,6 +95,7 @@ try {
   }
 } finally { await browser.close(); }
 await fs.writeFile('/tmp/animation-boxes.json', JSON.stringify(inspections, null, 2));
+await buildBirdAtlas({ inspectOnly });
 if (inspectOnly) {
   for (const config of configs) if (inspections[config.asset]) console.log(config.asset, inspections[config.asset].boxes.map((box, index) => ({ name: config.names[index], ...box })));
   process.exit(0);

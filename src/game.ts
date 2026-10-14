@@ -224,8 +224,9 @@ export class PondScene extends Phaser.Scene {
       const underwater = profile.kind !== 'bird';
       const sprite = this.add.sprite(animal.x, animal.y, animalAtlas(profile.kind), animalFrame(profile.texture, direction))
         .setName('animal-' + animal.id)
-        .setDisplaySize(profile.size, profile.size).setTint(profile.tint)
+        .setTint(profile.tint)
         .setDepth(underwater ? 10 : 30).setAlpha(underwater ? 0.83 + animal.id % 4 * 0.025 : 1);
+      sprite.setScale(profile.size / animationFrameData(sprite.frame).referenceHeight);
       if (underwater) this.fishLayer.add(sprite);
       if (profile.kind === 'turtle') {
         sprite.setVisible(this.showTurtleUnderwater);
