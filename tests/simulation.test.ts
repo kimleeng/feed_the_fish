@@ -198,19 +198,18 @@ test('throws start at the dock character’s hand, follow an arc, and splash onc
   assert.equal(pond.splashes.length, 0);
 });
 
-test('ordinary throws give birds a visible flight before the slower pellets reach the water', () => {
+test('ordinary throws keep their original airtime while birds fly to food', () => {
   for (const animation of ['toss', 'overhand', 'spread'] as const) {
     const pond = new PondSimulation(41);
     pond.handfuls = 1; pond.nextThrow = { animation, lucky: false };
     assert.equal(pond.scatter({ x: 600, y: 389 }), true);
-    assert.ok(pond.food.every(food => food.flightDuration > 1.6 && food.flightDuration < 3.5));
-    advance(pond, THROW_MOTIONS[animation].releaseDelay + 0.7);
+    assert.ok(pond.food.every(food => food.flightDuration > 0.6 && food.flightDuration < 1.4));
+    advance(pond, THROW_MOTIONS[animation].releaseDelay + 0.5);
     assert.ok(pond.animals.some(animal => animal.state === 'flying' && animal.altitude > 20), `${animation}: birds should visibly fly during the pellet arc`);
     assert.ok(pond.food.every(food => food.phase === 'air'));
     assert.equal(pond.fishFood, 0);
-    advance(pond, 0.8);
-    assert.equal(pond.food.length, 4);
-    assert.ok(pond.food.every(food => food.phase === 'air'), `${animation}: pellets should still be airborne after 1.5 seconds`);
+    advance(pond, 1);
+    assert.ok(pond.food.every(food => food.phase === 'water'), `${animation}: pellets should have reached the water within 1.5 seconds`);
     advance(pond, 5);
     assert.ok(pond.food.every(food => food.phase === 'water'));
     assert.ok(pond.birdFood > 0, `${animation}: birds should be able to finish the trip and eat`);

@@ -1293,7 +1293,7 @@ test.describe('reduced motion', () => {
   });
 });
 
-test('ordinary pellet throws leave time to watch birds fly before the splash', async ({ page }, testInfo) => {
+test('ordinary pellet throws keep their original timing while birds take off', async ({ page }, testInfo) => {
   await arrive(page);
   await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
@@ -1305,13 +1305,15 @@ test('ordinary pellet throws leave time to watch birds fly before the splash', a
   await page.mouse.click(bounds.x + bounds.width / 2, bounds.y + bounds.height * 389 / 800);
   await page.waitForFunction(() => {
     const world = (window as InspectedWindow).inspectedPond.world;
-    return world.food.some(food => food.phase === 'air' && food.flightTime >= 0.5)
+    return world.food.some(food => food.phase === 'air' && food.flightTime >= 0.25)
       && world.animals.some(animal => animal.state === 'flying' && animal.altitude > 20);
   }, undefined, { timeout: 4000 });
   const flight = await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
     return {
       airbornePellets: scene.world.food.filter(food => food.phase === 'air').length,
+      durations: scene.world.food.map(food => food.flightDuration),
+      fishFood: scene.world.fishFood,
       birds: scene.world.animals.filter(animal => animal.flight).map(bird => {
         const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
         return { atlas: sprite.texture.key, raised: sprite.y < bird.y };
@@ -1319,18 +1321,13 @@ test('ordinary pellet throws leave time to watch birds fly before the splash', a
     };
   });
   expect(flight.airbornePellets).toBe(4);
+  expect(flight.durations.every(duration => duration > 0.6 && duration < 1.2)).toBe(true);
+  expect(flight.fishFood).toBe(0);
   expect(flight.birds.length).toBeGreaterThan(0);
   for (const bird of flight.birds) { expect(bird.atlas).toBe('bird-flyers'); expect(bird.raised).toBe(true); }
   await page.screenshot({ path: testInfo.outputPath('ordinary-throw-bird-flight.png'), fullPage: true });
-  await page.waitForFunction(() => (window as InspectedWindow).inspectedPond.world.food
-    .some(food => food.phase === 'air' && food.flightTime >= 1.5));
-  const stillAirborne = await page.evaluate(() => {
-    const world = (window as InspectedWindow).inspectedPond.world;
-    return { air: world.food.filter(food => food.phase === 'air').length, fishFood: world.fishFood };
-  });
-  expect(stillAirborne.air).toBe(4); expect(stillAirborne.fishFood).toBe(0);
   await expect.poll(() => page.evaluate(() => (window as InspectedWindow).inspectedPond.world.food
-    .some(food => food.phase === 'air')), { timeout: 5000 }).toBe(false);
+    .some(food => food.phase === 'air')), { timeout: 2500 }).toBe(false);
 });
 
 test('birds take off with directional wingbeats, cast shadows, and settle back into their swimming poses', async ({ page }, testInfo) => {
