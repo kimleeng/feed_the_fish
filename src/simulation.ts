@@ -1,5 +1,5 @@
 import { PelletMachine } from './vending.ts';
-import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, PELLET_FLIGHT_TIME_SCALE, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent, type ThrowFacing } from './throws.ts';
+import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent, type ThrowFacing } from './throws.ts';
 import { DOCK_POSITION } from './thrower-art.ts';
 import { ObserverCrowd } from './observers.ts';
 import { MachineEmployee } from './restocking.ts';
@@ -172,7 +172,7 @@ export class PondSimulation {
       this.food.push({
         ...origin, origin: { ...origin }, launchHeight: releaseHeight(plan.animation),
         id: this.nextFood++, amount: 1, age: 0, phase: 'air', target,
-        flightTime: 0, flightDuration: (0.65 + distance(origin, target) / 700) * motion.flightScale * PELLET_FLIGHT_TIME_SCALE,
+        flightTime: 0, flightDuration: (0.65 + distance(origin, target) / 700) * motion.flightScale,
         height: releaseHeight(plan.animation), releaseAt: startedAt + motion.releaseDelay, arcScale: motion.arcScale,
         lucky: plan.lucky && i === 0, bonusClaimed: false,
       });

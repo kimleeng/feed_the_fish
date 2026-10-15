@@ -18,8 +18,6 @@ interface ThrowMotion {
 
 export const LUCKY_CHANCE = 0.02;
 export const LUCKY_BONUS_POINTS = 50;
-// Let players follow the pellet arc and give birds time to react before it lands.
-export const PELLET_FLIGHT_TIME_SCALE = 2.5;
 export const THROW_MOTIONS: Record<ThrowAnimation, ThrowMotion> = {
   toss: {
     weight: 0.6, releaseDelay: 0.26, duration: 0.84, flightScale: 0.82, arcScale: 0.85,
