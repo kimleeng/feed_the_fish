@@ -23,16 +23,16 @@ function refill(pond: PondSimulation): void {
   advance(pond, 3.5);
 }
 function waterFood(x = 600, y = 389, age = 0): Food {
-  return { id: 99, x, y, origin: { ...THROW_ORIGIN }, launchHeight: 0, target: { x, y }, amount: 1, age, phase: 'water', flightTime: 1, flightDuration: 1, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
+  return { id: 99, throwId: 99, x, y, origin: { ...THROW_ORIGIN }, launchHeight: 0, target: { x, y }, amount: 1, age, phase: 'water', flightTime: 1, flightDuration: 1, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
 }
 function airFood(): Food {
-  const food: Food = { ...THROW_ORIGIN, origin: { ...THROW_ORIGIN }, launchHeight: 0, id: 1, target: { x: 600, y: 389 }, amount: 1, age: 0, phase: 'air', flightTime: 1.45, flightDuration: 3, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
+  const food: Food = { ...THROW_ORIGIN, origin: { ...THROW_ORIGIN }, launchHeight: 0, id: 1, throwId: 1, target: { x: 600, y: 389 }, amount: 1, age: 0, phase: 'air', flightTime: 1.45, flightDuration: 3, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
   Object.assign(food, flightPosition(food));
   return food;
 }
 
 function birdPursuit(species: string, targetDistance: number, food = airFood()) {
-  const pond = new PondSimulation(41);
+  const pond = new PondSimulation(41, undefined, () => 0);
   pond.wind.sampleAt = time => ({ time, direction: 0, strength: 0, x: 0, y: 0 });
   const bird = pond.animals.find(animal => animal.profile.id === species)!;
   bird.x = 300; bird.y = 389; bird.heading = 0;

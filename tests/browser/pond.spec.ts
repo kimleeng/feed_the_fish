@@ -1335,15 +1335,15 @@ test('birds take off with directional wingbeats, cast shadows, and settle back i
   await page.locator('#machine-watch').click();
   await page.evaluate(() => {
     const scene = (window as InspectedWindow).inspectedPond;
-    const Simulation = scene.world.constructor as new (seed: number) => PondSimulation;
-    scene.world = new Simulation(41);
+    const Simulation = scene.world.constructor as new (seed: number, throwRoll?: () => number, behaviorRoll?: () => number) => PondSimulation;
+    scene.world = new Simulation(41, undefined, () => 0);
     const world = scene.world;
     world.wind.sampleAt = time => ({ time, direction: 0, strength: 0, x: 0, y: 0 });
     for (const animal of world.animals) animal.chewLeft = 100;
     ['duck', 'gull', 'coot'].forEach((species, index) => {
       const bird = world.animals.find(animal => animal.profile.id === species)!;
       bird.x = 300; bird.y = 280 + index * 110; bird.heading = 0; bird.chewLeft = 0; bird.phase = 0;
-      world.food.push({ id: 100 + index, x: 600, y: 695, target: { x: 540, y: bird.y },
+      world.food.push({ id: 100 + index, throwId: index, x: 600, y: 695, target: { x: 540, y: bird.y },
         origin: { x: 600, y: 695 }, launchHeight: 0, amount: 1, age: 0, phase: 'air', flightTime: 0, flightDuration: 3, height: 0,
         releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false });
     });

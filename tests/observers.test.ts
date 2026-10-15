@@ -171,7 +171,7 @@ test('both fish and bird bites raise interest by the amount actually eaten', () 
     const animal = pond.animals.find(animal => animal.profile.id === species)!;
     animal.x = 600; animal.y = 389;
     pond.animals = [animal];
-    pond.food = [{ id: 1, x: 600, y: 389, origin: { x: 600, y: 389 }, launchHeight: 0,
+    pond.food = [{ id: 1, throwId: 1, x: 600, y: 389, origin: { x: 600, y: 389 }, launchHeight: 0,
       target: { x: 600, y: 389 }, amount: 1, age: 0,
       phase: 'water', flightTime: 1, flightDuration: 1, height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false }];
     const observer = pond.crowd.people[0];

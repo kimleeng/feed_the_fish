@@ -14,6 +14,7 @@ import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-fr
 import { WaterShimmer } from './water.ts';
 import type { WindState } from './wind.ts';
 import { EATING_ATLAS, eatingFrame, fishSurfaceAmount, fishSurfaceFrame } from './eating.ts';
+import { BOOST_SPEED_MULTIPLIER, hasEatenRecently } from './animal-energy.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; turtleFood: number; share: number;
@@ -40,6 +41,7 @@ export class PondScene extends Phaser.Scene {
   private feedingRipples!: Phaser.GameObjects.Graphics;
   private birdWakes!: Phaser.GameObjects.Graphics;
   private birdShadows!: Phaser.GameObjects.Graphics;
+  private boostMeters!: Phaser.GameObjects.Graphics;
   private waterShimmer!: Phaser.GameObjects.Graphics;
   private shimmerParticles = new WaterShimmer(this.world.wind.seed);
   private reducedMotion!: MediaQueryList;
@@ -230,6 +232,7 @@ export class PondScene extends Phaser.Scene {
     this.feedingRipples = this.add.graphics().setName('fish-feeding-ripples').setDepth(25.1).setMask(this.waterMask);
     this.birdWakes = this.add.graphics().setName('bird-wakes').setDepth(26).setMask(this.waterMask);
     this.birdShadows = this.add.graphics().setName('bird-shadows').setDepth(25).setMask(this.waterMask);
+    this.boostMeters = this.add.graphics().setName('animal-boost-meters').setDepth(47).setMask(this.waterMask);
   }
 
   private spawnCreatures(): void {
@@ -317,6 +320,7 @@ export class PondScene extends Phaser.Scene {
     this.creatures.forEach(sprite => sprite.destroy());
     this.feedingFish.forEach(({ body, mouth }) => { body.destroy(); mouth.destroy(); });
     this.feedingFish.clear(); this.feedingRipples.clear();
+    this.boostMeters.clear();
     this.turtleHeads.forEach(sprite => sprite.destroy());
     this.turtleHeads.clear();
     this.pellets.forEach(pellet => pellet.destroy());
@@ -396,6 +400,7 @@ export class PondScene extends Phaser.Scene {
     this.birdWakes.clear();
     this.birdShadows.clear();
     this.feedingRipples.clear();
+    this.boostMeters.clear();
     this.updateWaterShimmer(this.world.elapsed - elapsedBefore);
     for (const animal of this.world.animals) {
       const sprite = this.creatures.get(animal.id)!;
@@ -404,7 +409,7 @@ export class PondScene extends Phaser.Scene {
       const direction = directionForHeading(animal.heading, this.directions.get(animal.id));
       this.directions.set(animal.id, direction);
       const rate = airborne ? animal.profile.flight!.flapRate * (animal.state === 'taking-off' ? 1.5 : 1)
-        : bird ? 1.4 : animal.profile.speed / 24;
+        : (bird ? 1.4 : animal.profile.speed / 24) * (animal.boosting ? BOOST_SPEED_MULTIPLIER : 1);
       const stroke = airborne ? animal.state === 'landing' ? 0 : Math.floor(animal.flight!.elapsed * rate + animal.phase) % 2
         : animal.moving ? SWIM_CYCLE[Math.floor((this.world.elapsed * rate + animal.phase) * 2) % SWIM_CYCLE.length] : 0;
       const feeding = eatingFrame(animal, direction);
@@ -415,6 +420,14 @@ export class PondScene extends Phaser.Scene {
       const bob = bird && !airborne ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
       sprite.setPosition(animal.x, animal.y - animal.altitude + bob)
         .setDepth((airborne ? 46 : bird ? 30 : 10) + animal.y / 1000);
+      if (!airborne && animal.profile.kind !== 'turtle' && animal.state === 'approaching' && animal.moving) {
+        const width = Math.max(10, Math.min(16, animal.profile.size * 0.26));
+        const x = animal.x - width / 2;
+        const y = sprite.y + (sprite.frame.y - sprite.displayOriginY) * sprite.scaleY - 5;
+        const color = animal.boosting ? 0xf3d28c : hasEatenRecently(animal, this.world.elapsed) ? 0x9cafb5 : 0xaed1a0;
+        this.boostMeters.fillStyle(0x203c3b, 0.7).fillRoundedRect(x - 1, y - 1, width + 2, 4, 1.5);
+        this.boostMeters.fillStyle(color, 0.95).fillRect(x, y, width * animal.boostCharge, 2);
+      }
       if (animal.profile.kind === 'fish') {
         const amount = fishSurfaceAmount(animal);
         const { body, mouth } = this.feedingFish.get(animal.id)!;

@@ -38,7 +38,7 @@ The pond has 46 fish and 15 birds across six field-guide profiles, plus one secr
 - Gulls swim in wide loops and readily take wing for distant pellets.
 - Little coots alternate quiet paddles and drifts near the edge, occasionally making a low flight for food.
 
-Birds use distance from their position to the pellet's expected water landing point to choose a travel mode. Inside the inner radius they paddle, inside the flight band they take off, and beyond the outer radius they ignore the pellet. The bands are invisible and use game coordinates:
+Birds use distance from their position to the pellet's expected water landing point to choose a travel mode. Inside the inner radius they paddle; inside the flight band an eligible bird has a **50% chance of taking off**. A declined flight falls back to paddling within normal vision, otherwise the bird ignores the food. Beyond the outer radius they ignore the pellet. The bands are invisible and use game coordinates:
 
 | Bird | Takeoff distance | Farthest flight |
 | --- | ---: | ---: |
@@ -46,7 +46,11 @@ Birds use distance from their position to the pellet's expected water landing po
 | Mallard | 180 | 360 |
 | Coot | 150 | 260 |
 
-A remaining-food-time check prevents a flight that would finish after the pellet sinks. Each trip includes takeoff, directional wingbeats, a shadow on the water, and a gliding landing with ripples. Birds finish landing before eating and keep their chosen landing point if food disappears. Flying birds pass above collision bodies; ordinary body separation resumes on landing. Species flight bands, pace, height, and wingbeat rate live in `src/simulation.ts`.
+A remaining-food-time check prevents a flight that would finish after the pellet sinks. Each bird rolls once per handful, shared across its four pellets, so a declined flight cannot retry every frame. Separate behavior randomness preserves pellet scatter and lucky-throw rolls. Each trip includes takeoff, directional wingbeats, a shadow on the water, and a gliding landing with ripples. Birds finish landing before eating and keep their chosen landing point if food disappears. Flying birds pass above collision bodies; ordinary body separation resumes on landing. Species flight bands, pace, height, wingbeat rate, and `BIRD_FLIGHT_CHANCE` live in `src/simulation.ts`.
+
+Every animal stores `lastAteAt` and `totalEaten` independently of its current eating animation, so other behavior can reuse feeding history. A meal counts as recent for **20 seconds after the latest bite**. Fish and paddling birds automatically use a full boost reserve while chasing food: **40% extra speed for up to two seconds**, with a small meter above the animal during the chase. Gold means boosting, green means hungry, and muted blue means recently fed. Flight and the turtle keep their existing pace.
+
+Boosts recharge while waiting, roaming, chewing, or flying. The base recharge takes 30 seconds with a recently-fed modifier of 1; hungry animals use a modifier of 2 for a **15-second full recharge**. When the 20-second meal window expires, recharge immediately returns to the hungry rate (an empty reserve after one meal therefore fills in 25 seconds if the animal does not eat again). Interrupted bursts retain their remaining charge and must refill before restarting. Waiting at an airborne pellet's landing point conserves the reserve. These settings and reusable energy helpers live in `src/animal-energy.ts`; the pond clock freezes them on pause, and a new visit resets history and energy.
 
 Every species has eight directional views and four swimming poses per view. Intermediate tail and paddle poses smooth each cycle while preserving its original duration. Each animal keeps its profile size and appearance through every turn: birds share one crown-to-waterline height across headings, while fish and the turtle share one body length with consistent pond-depth foreshortening. Bird cycles retain a steady waterline and contain no painted water. Birds float low in the water, bob gently, and leave little wakes; they watch airborne food but can only catch it near the surface. Fish turn toward their swimming direction beneath a translucent layer of the pond's reflections and moving glints, so their shapes remain visible through the water.
 
@@ -134,6 +138,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `src/vending.ts`: coin price, servings of ten throws, and the guarded dispenser cycle.
 - `src/restocking.ts`: the 25-serving machine's employee arrival, wait, refill, and departure; `src/employee-art.ts` and `employee-pins.ts` align walking distance, planted work poses, and the pouring sack.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
+- `src/animal-energy.ts`: reusable feeding history, recent-meal checks, and hunger-based boost recharge.
 - `src/game.ts`: rendering, dock-character motion, and landing ripples.
 - `src/wind.ts`: shared seeded breeze, current state, per-second visit history, and replay.
 - `src/water.ts`: the wind-driven surface shimmer particle pool.

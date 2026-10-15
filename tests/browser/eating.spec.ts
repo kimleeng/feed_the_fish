@@ -40,7 +40,7 @@ test('real meals use distinct eating drawings in every direction, keep anchors, 
           x + (frame.x - sprite.displayOriginX) * scale, y + (frame.y - sprite.displayOriginY) * scale, frame.cutWidth * scale, frame.cutHeight * scale);
       }
       draw(0);
-      scene.world.food = [{ id: 999, x: 600, y: 389, origin: { x: 600, y: 389 }, target: { x: 600, y: 389 },
+      scene.world.food = [{ id: 999, throwId: 999, x: 600, y: 389, origin: { x: 600, y: 389 }, target: { x: 600, y: 389 },
         amount: animal.profile.bite, age: 0, phase: 'water', launchHeight: 0, flightTime: 1, flightDuration: 1,
         height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false }];
       animal.surfaceLeft = 0;
@@ -97,7 +97,7 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
       scene.world.animals = selected;
       selected.forEach((animal, index) => Object.assign(animal, { x: 510 + index % 3 * 90, y: 320 + Math.floor(index / 3) * 80,
         heading: Math.PI / 2, chewLeft: 0, meal: null, state: 'roaming' }));
-      scene.world.food = selected.map((animal, id) => ({ id: 500 + id, x: animal.x, y: animal.y,
+      scene.world.food = selected.map((animal, id) => ({ id: 500 + id, throwId: 500 + id, x: animal.x, y: animal.y,
         origin: { x: animal.x, y: animal.y }, target: { x: animal.x, y: animal.y }, amount: animal.profile.bite,
         age: 0, phase: 'water', launchHeight: 0, flightTime: 1, flightDuration: 1, height: 0, releaseAt: 0, arcScale: 1,
         lucky: false, bonusClaimed: false }));
@@ -156,7 +156,7 @@ test('feeding carp pitch up with only their lips above reflections in every dire
       const body = layer.getByName('feeding-fish-' + animal.id) as Phaser.GameObjects.Sprite;
       const mouth = mouths.getByName('fish-mouth-' + animal.id) as Phaser.GameObjects.Sprite;
       base.setVisible(true);
-      scene.world.food = [{ id: 998, x: 600, y: 389, origin: { x: 600, y: 389 }, target: { x: 600, y: 389 },
+      scene.world.food = [{ id: 998, throwId: 998, x: 600, y: 389, origin: { x: 600, y: 389 }, target: { x: 600, y: 389 },
         amount: animal.profile.bite, age: 0, phase: 'water', launchHeight: 0, flightTime: 1, flightDuration: 1,
         height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false }];
       scene.world.paused = false; scene.world.step(.01); scene.world.paused = true; scene.world.bites = [];

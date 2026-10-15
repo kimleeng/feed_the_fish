@@ -9,7 +9,7 @@ function feed(profile: AnimalProfile, portion = 1) {
   const animal = pond.animals.find(animal => animal.profile.id === profile.id)!;
   Object.assign(animal, { x: 600, y: 389, heading: 0 });
   pond.animals = [animal];
-  const food: Food = { id: 99, x: 600, y: 389, origin: { x: 600, y: 389 }, target: { x: 600, y: 389 },
+  const food: Food = { id: 99, throwId: 99, x: 600, y: 389, origin: { x: 600, y: 389 }, target: { x: 600, y: 389 },
     amount: profile.bite * portion, age: 0, phase: 'water', launchHeight: 0, flightTime: 1, flightDuration: 1,
     height: 0, releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
   pond.food = [food]; pond.step(0.01);
@@ -60,7 +60,7 @@ test('small scraps take less eating time while keeping the species pace and a re
 test('repeated mouth movements do not take more food or score, and a new meal waits for the first one to finish', () => {
   const profile = SPECIES.find(profile => profile.id === 'minnow')!;
   const { pond, animal } = feed(profile);
-  pond.food.push({ id: 100, x: 600, y: 389, origin: { x: 600, y: 389 }, target: { x: 600, y: 389 },
+  pond.food.push({ id: 100, throwId: 100, x: 600, y: 389, origin: { x: 600, y: 389 }, target: { x: 600, y: 389 },
     amount: 1, age: 0, phase: 'water', launchHeight: 0, flightTime: 1, flightDuration: 1,
     height: 0, releaseAt: 0, arcScale: 1, lucky: true, bonusClaimed: false });
   advance(pond, profile.chew - 0.001);

@@ -5,6 +5,7 @@ import { ObserverCrowd } from './observers.ts';
 import { MachineEmployee } from './restocking.ts';
 import { WindSimulation } from './wind.ts';
 import { eatingDuration, type Meal } from './eating.ts';
+import { createAnimalEnergy, recordFeeding, stepAnimalBoost, type AnimalEnergy } from './animal-energy.ts';
 
 export type AnimalKind = 'fish' | 'bird' | 'turtle';
 export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift' | 'amble';
@@ -38,18 +39,20 @@ export const THROW_ORIGIN = releaseOrigin('toss');
 export const FLOAT_SECONDS = 1.7;
 export const BIRD_TAKEOFF_SECONDS = 0.28;
 export const BIRD_LANDING_SECONDS = 0.32;
+export const BIRD_FLIGHT_CHANCE = 0.5;
 // Screen-space drift per second at full wind strength; depth is foreshortened.
 const AIRBORNE_WIND_DRIFT = { x: 48, y: 32 };
 export interface Point { x: number; y: number }
 export interface BirdFlight {
   origin: Point; destination: Point; elapsed: number; duration: number;
 }
-export interface Animal extends Point {
+export interface Animal extends Point, AnimalEnergy {
   id: number; profile: AnimalProfile; destination: Point; heading: number;
   chewLeft: number; state: 'roaming' | 'approaching' | 'chewing' | 'taking-off' | 'flying' | 'landing'; moving: boolean;
   meal: Meal | null;
   surfaceLeft: number; surfaceDuration: number;
   school: number; phase: number; altitude: number; flight: BirdFlight | null;
+  flightChoices: Record<number, boolean>;
 }
 // Small body cores leave fins, tails, and feathers free to overlap naturally.
 export function animalCollisionRadius(animal: Animal): number {
@@ -62,7 +65,7 @@ export function shareCollisionLayer(first: Animal, second: Animal): boolean {
 }
 export interface Food extends Point {
   origin: Point; launchHeight: number;
-  id: number; amount: number; age: number; phase: 'air' | 'water';
+  id: number; throwId: number; amount: number; age: number; phase: 'air' | 'water';
   target: Point; // Landing point, adjusted by wind only while airborne.
   flightTime: number; flightDuration: number; height: number;
   releaseAt: number; arcScale: number; lucky: boolean; bonusClaimed: boolean;
@@ -75,6 +78,15 @@ export function inPond(point: Point): boolean {
 }
 function distance(a: Point, b: Point): number { return Math.hypot(a.x - b.x, a.y - b.y); }
 function angleDelta(from: number, to: number): number { return Math.atan2(Math.sin(to - from), Math.cos(to - from)); }
+function seededRandom(seed: number): () => number {
+  let value = seed >>> 0;
+  return () => {
+    value += 0x6d2b79f5;
+    let t = Math.imul(value ^ value >>> 15, 1 | value);
+    t ^= t + Math.imul(t ^ t >>> 7, 61 | t);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
 export function flightPosition(food: Food, time = food.flightTime): Point & { height: number } {
   const t = Math.min(1, Math.max(0, time / food.flightDuration));
   const arc = Math.sin(Math.PI * t) * (85 + distance(food.origin, food.target) * 0.12) * food.arcScale;
@@ -107,23 +119,20 @@ export class PondSimulation {
   private nextFood = 0;
   private random: () => number;
   private throwRandom: () => number;
+  private behaviorRandom: () => number;
   private throwQueue: ThrowEvent[] = [];
   private nextThrowId = 0;
   private lastObservedThrow = -1;
   private schools = new Map<number, Point>();
 
-  constructor(seed = Date.now(), throwRandom?: () => number) {
+  constructor(seed = Date.now(), throwRandom?: () => number, behaviorRandom?: () => number) {
     this.wind = new WindSimulation(seed);
     // Independent randomness keeps foot traffic from affecting animals or lucky throws.
     this.crowd = new ObserverCrowd(seed ^ 0xa511e9b3);
-    let value = seed >>> 0;
-    this.random = () => {
-      value += 0x6d2b79f5;
-      let t = Math.imul(value ^ value >>> 15, 1 | value);
-      t ^= t + Math.imul(t ^ t >>> 7, 61 | t);
-      return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    };
+    this.random = seededRandom(seed);
     this.throwRandom = throwRandom ?? this.random;
+    // Takeoff decisions must not change pellet scatter, movement, or lucky-throw rolls.
+    this.behaviorRandom = behaviorRandom ?? seededRandom(seed ^ 0x7f4a7c15);
     for (const profile of [...SPECIES, MUSK_TURTLE]) {
       let schoolCenter = this.randomPoint(0, 0.7);
       for (let i = 0; i < profile.count; i++) {
@@ -132,7 +141,7 @@ export class PondSimulation {
         const point = school >= 0
           ? { x: schoolCenter.x + (this.random() - 0.5) * 50, y: schoolCenter.y + (this.random() - 0.5) * 30 }
           : this.randomPoint(profile.kind === 'bird' ? 0.65 : 0, 0.92);
-        this.animals.push({ ...point, id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, meal: null, surfaceLeft: 0, surfaceDuration: TURTLE_SURFACE_SECONDS, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2, altitude: 0, flight: null });
+        this.animals.push({ ...point, ...createAnimalEnergy(), id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, meal: null, surfaceLeft: 0, surfaceDuration: TURTLE_SURFACE_SECONDS, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2, altitude: 0, flight: null, flightChoices: {} });
         if (school >= 0 && !this.schools.has(school)) this.schools.set(school, this.randomPoint());
       }
     }
@@ -171,7 +180,7 @@ export class PondSimulation {
       const target = inPond(offset) ? offset : { ...point };
       this.food.push({
         ...origin, origin: { ...origin }, launchHeight: releaseHeight(plan.animation),
-        id: this.nextFood++, amount: 1, age: 0, phase: 'air', target,
+        id: this.nextFood++, throwId: action.id, amount: 1, age: 0, phase: 'air', target,
         flightTime: 0, flightDuration: (0.65 + distance(origin, target) / 700) * motion.flightScale,
         height: releaseHeight(plan.animation), releaseAt: startedAt + motion.releaseDelay, arcScale: motion.arcScale,
         lucky: plan.lucky && i === 0, bonusClaimed: false,
@@ -370,24 +379,35 @@ export class PondSimulation {
       }
     }
     this.updateSchools();
+    const activeThrows = new Set(this.food.filter(food => food.amount > 0.001 &&
+      (food.phase === 'air' || food.age <= FLOAT_SECONDS)).map(food => food.throwId));
     for (const animal of this.animals) {
+      for (const throwId of Object.keys(animal.flightChoices)) {
+        if (!activeThrows.has(Number(throwId))) delete animal.flightChoices[Number(throwId)];
+      }
       animal.moving = false;
       animal.surfaceLeft = Math.max(0, animal.surfaceLeft - dt);
       if (animal.flight) {
+        stepAnimalBoost(animal, this.elapsed, dt, false);
         this.updateFlight(animal, dt);
         continue;
       }
       if (animal.chewLeft > 0) {
+        stepAnimalBoost(animal, this.elapsed, dt, false);
         animal.chewLeft = Math.max(0, animal.chewLeft - dt);
         if (animal.chewLeft < 1e-9) animal.chewLeft = 0;
         animal.state = animal.chewLeft > 0 ? 'chewing' : 'roaming';
         if (!animal.chewLeft) animal.meal = null;
         continue;
       }
-      if (animal.profile.kind === 'turtle' && animal.surfaceLeft > 0) continue;
+      if (animal.profile.kind === 'turtle' && animal.surfaceLeft > 0) {
+        stepAnimalBoost(animal, this.elapsed, dt, false);
+        continue;
+      }
       const profile = animal.profile;
       let target: Food | undefined;
       let nearest = Infinity;
+      let flyToTarget = false;
       for (const food of this.food) {
         if (food.amount <= 0 || food.age > 13 || this.elapsed < food.releaseAt) continue;
         if (profile.kind !== 'bird' && food.phase !== 'water') continue;
@@ -396,12 +416,19 @@ export class PondSimulation {
         const d = distance(animal, food.phase === 'air' ? food.target : food);
         const flight = profile.kind === 'bird' ? profile.flight : undefined;
         if (d > (flight?.maxDistance ?? profile.vision)) continue;
+        let fly = false;
         if (flight && d >= flight.minDistance) {
           const available = food.phase === 'air' ? food.flightDuration - food.flightTime + FLOAT_SECONDS : FLOAT_SECONDS - food.age;
           const duration = BIRD_TAKEOFF_SECONDS + d / flight.speed + BIRD_LANDING_SECONDS;
           if (duration + dt >= available) continue;
+          if (d >= nearest) continue;
+          // One roll per bird per handful: neither frames nor sibling pellets
+          // give a declined flight another chance to turn into a takeoff.
+          animal.flightChoices[food.throwId] ??= this.behaviorRandom() < BIRD_FLIGHT_CHANCE;
+          fly = animal.flightChoices[food.throwId];
+          if (!fly && d > profile.vision) continue;
         } else if (d > profile.vision) continue;
-        if (d < nearest) { target = food; nearest = d; }
+        if (d < nearest) { target = food; nearest = d; flyToTarget = fly; }
       }
       let destination: Point;
       let pace: number;
@@ -411,7 +438,8 @@ export class PondSimulation {
         destination = target.phase === 'air' ? target.target : target;
         pace = 1;
         // Species distance bands decide when to fly, rather than comparing travel modes by speed.
-        if (profile.kind === 'bird' && profile.flight && nearest >= profile.flight.minDistance) {
+        if (flyToTarget) {
+          stepAnimalBoost(animal, this.elapsed, dt, false);
           this.startFlight(animal, destination);
           this.updateFlight(animal, dt);
           continue;
@@ -423,6 +451,8 @@ export class PondSimulation {
           animal.chewLeft = eatingDuration(profile, amount);
           animal.meal = { duration: animal.chewLeft, amount };
           animal.state = 'chewing';
+          stepAnimalBoost(animal, this.elapsed, dt, false);
+          recordFeeding(animal, amount, this.elapsed);
           let bonus = 0;
           if (profile.kind === 'fish') { this.fishFood += amount; this.fedFish.add(animal.id); }
           else if (profile.kind === 'turtle') {
@@ -448,7 +478,10 @@ export class PondSimulation {
       const desired = this.swimmingHeading(animal, destination, bend);
       const turn = profile.turnRate * (target ? 1.8 : 1) * dt;
       animal.heading += Math.max(-turn, Math.min(turn, angleDelta(animal.heading, desired)));
-      const travel = Math.min(distance(animal, destination), profile.speed * pace * dt);
+      const gap = distance(animal, destination);
+      const boost = stepAnimalBoost(animal, this.elapsed, dt,
+        !!target && profile.kind !== 'turtle' && gap >= Math.max(9, profile.size * 0.2));
+      const travel = Math.min(gap, profile.speed * pace * boost * dt);
       const next = { x: animal.x + Math.cos(animal.heading) * travel, y: animal.y + Math.sin(animal.heading) * travel };
       if (inPond(next)) { animal.x = next.x; animal.y = next.y; animal.moving = travel > 0.001; }
       else { animal.heading = Math.atan2(POND.y - animal.y, POND.x - animal.x); animal.destination = this.randomPoint(0, 0.7); }

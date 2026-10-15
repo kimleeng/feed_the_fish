@@ -12,7 +12,7 @@ function quietTurtle() {
   return { pond, turtle };
 }
 function foodAt(x = 600, y = 389): Food {
-  return { id: 99, x, y, origin: { x, y }, launchHeight: 0, target: { x, y }, amount: 1,
+  return { id: 99, throwId: 99, x, y, origin: { x, y }, launchHeight: 0, target: { x, y }, amount: 1,
     age: 3, phase: 'water', flightTime: 0, flightDuration: 10, height: 0,
     releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false };
 }
