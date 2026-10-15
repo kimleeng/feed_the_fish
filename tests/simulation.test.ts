@@ -31,6 +31,113 @@ function airFood(): Food {
   return food;
 }
 
+function birdPursuit(species: string, targetDistance: number, food = airFood()) {
+  const pond = new PondSimulation(41);
+  pond.wind.sampleAt = time => ({ time, direction: 0, strength: 0, x: 0, y: 0 });
+  const bird = pond.animals.find(animal => animal.profile.id === species)!;
+  bird.x = 300; bird.y = 389; bird.heading = 0;
+  food.target = { x: bird.x + targetDistance, y: bird.y };
+  if (food.phase === 'air') Object.assign(food, flightPosition(food));
+  else { food.x = food.target.x; food.y = food.target.y; }
+  pond.animals = [bird]; pond.food = [food];
+  return { pond, bird, food };
+}
+
+test('each bird paddles inside its flight band, flies at both band edges, and ignores food beyond it', () => {
+  for (const species of ['gull', 'duck', 'coot']) {
+    const { bird } = birdPursuit(species, 0);
+    const { minDistance, maxDistance } = bird.profile.flight!;
+    for (const [distance, expected] of [[minDistance - 1, 'approaching'], [minDistance, 'taking-off'],
+      [maxDistance, 'taking-off'], [maxDistance + 1, 'roaming']] as const) {
+      const { pond, bird } = birdPursuit(species, distance);
+      pond.step(0.05);
+      assert.equal(bird.state, expected, `${species} at ${distance}`);
+      assert.equal(!!bird.flight, expected === 'taking-off');
+    }
+  }
+});
+
+test('gulls take wing sooner and pursue farther than ducks, regardless of swimming speed', () => {
+  for (const [distance, gullState, duckState] of [[140, 'taking-off', 'approaching'], [400, 'taking-off', 'roaming']] as const) {
+    const gull = birdPursuit('gull', distance);
+    const duck = birdPursuit('duck', distance);
+    gull.bird.profile = { ...gull.bird.profile, speed: 5000 };
+    gull.pond.step(0.05); duck.pond.step(0.05);
+    assert.equal(gull.bird.state, gullState);
+    assert.equal(duck.bird.state, duckState);
+  }
+});
+
+test('the flight band uses the intended landing point rather than the airborne pellet position', () => {
+  for (const [distance, state] of [[90, 'approaching'], [521, 'roaming']] as const) {
+    const { pond, bird, food } = birdPursuit('gull', distance);
+    food.flightTime = 0;
+    Object.assign(food, flightPosition(food));
+    assert.ok(Math.hypot(food.x - bird.x, food.y - bird.y) > 100);
+    assert.ok(Math.hypot(food.x - bird.x, food.y - bird.y) < 520);
+    pond.step(0.05);
+    assert.equal(bird.state, state);
+    assert.equal(bird.flight, null);
+  }
+});
+
+test('birds wait for release and skip flights that cannot finish before floating food sinks', () => {
+  const queued = birdPursuit('gull', 200);
+  queued.food.releaseAt = 5;
+  queued.pond.step(0.05);
+  assert.equal(queued.bird.flight, null);
+  assert.equal(queued.bird.state, 'roaming');
+
+  const { pond, bird, food } = birdPursuit('gull', 200, waterFood(600, 389, FLOAT_SECONDS - 0.4));
+  pond.step(0.05);
+  assert.equal(bird.flight, null);
+  assert.equal(bird.state, 'roaming');
+  food.age = 0;
+  pond.step(0.05);
+  assert.equal(bird.state, 'taking-off');
+});
+
+test('a bird takes off, cruises, lands at its chosen target, then eats at the surface', () => {
+  const { pond, bird, food } = birdPursuit('gull', 320);
+  pond.step(0.05);
+  const states = new Set([bird.state]);
+  assert.ok(bird.altitude > 0);
+  for (let i = 0; bird.flight && i < 100; i++) {
+    pond.step(0.05); states.add(bird.state);
+    assert.equal(food.amount, 1, 'Flight must finish before the bird eats.');
+    assert.ok(inPond(bird));
+    assert.ok(bird.altitude >= 0 && bird.altitude <= bird.profile.flight!.height);
+  }
+  assert.deepEqual([...states], ['taking-off', 'flying', 'landing', 'approaching']);
+  assert.equal(bird.flight, null);
+  assert.equal(bird.altitude, 0);
+  assert.equal(bird.x, food.target.x); assert.equal(bird.y, food.target.y);
+  assert.deepEqual(pond.birdSplashes.map(event => event.phase), ['takeoff', 'landing']);
+  pond.step(0.05);
+  assert.equal(pond.birdFood, 1);
+  assert.equal(bird.state, 'chewing');
+});
+
+test('a paused flight freezes completely and safely finishes when its food disappears', () => {
+  const { pond, bird } = birdPursuit('duck', 240);
+  advance(pond, 0.5);
+  assert.equal(bird.state, 'flying');
+  const landingPoint = { ...bird.flight!.destination };
+  pond.paused = true;
+  const before = JSON.stringify({ animal: bird, elapsed: pond.elapsed });
+  advance(pond, 1);
+  assert.equal(JSON.stringify({ animal: bird, elapsed: pond.elapsed }), before);
+  pond.food = [];
+  pond.paused = false;
+  for (let i = 0; bird.flight && i < 100; i++) pond.step(0.05);
+  assert.equal(bird.flight, null); assert.equal(bird.altitude, 0);
+  assert.equal(bird.x, landingPoint.x); assert.equal(bird.y, landingPoint.y);
+  pond.step(0.05);
+  assert.equal(bird.state, 'roaming');
+  assert.equal(pond.birdFood, 0);
+  assert.equal(pond.birdSplashes.filter(event => event.phase === 'landing').length, 1);
+});
+
 test('one coin plays every vending stage and credits food only after collection, once', () => {
   const machine = new PelletMachine();
   assert.equal(machine.insertCoin(), true);
@@ -83,12 +190,31 @@ test('throws start at the dock character’s hand, follow an arc, and splash onc
   const linearY = pellet.origin.y + (pellet.target.y - pellet.origin.y) * pellet.flightTime / pellet.flightDuration;
   assert.ok(pellet.y < linearY - 10);
   assert.equal(pond.splashes.length, 0);
-  advance(pond, 2);
+  advance(pond, Math.max(...pond.food.map(food => food.flightDuration - food.flightTime)) + 0.1);
   assert.ok(pond.food.every(food => food.phase === 'water' && inPond(food)));
   assert.equal(pond.splashes.length, 4);
   pond.splashes.length = 0;
   advance(pond, 1);
   assert.equal(pond.splashes.length, 0);
+});
+
+test('ordinary throws give birds a visible flight before the slower pellets reach the water', () => {
+  for (const animation of ['toss', 'overhand', 'spread'] as const) {
+    const pond = new PondSimulation(41);
+    pond.handfuls = 1; pond.nextThrow = { animation, lucky: false };
+    assert.equal(pond.scatter({ x: 600, y: 389 }), true);
+    assert.ok(pond.food.every(food => food.flightDuration > 1.6 && food.flightDuration < 3.5));
+    advance(pond, THROW_MOTIONS[animation].releaseDelay + 0.7);
+    assert.ok(pond.animals.some(animal => animal.state === 'flying' && animal.altitude > 20), `${animation}: birds should visibly fly during the pellet arc`);
+    assert.ok(pond.food.every(food => food.phase === 'air'));
+    assert.equal(pond.fishFood, 0);
+    advance(pond, 0.8);
+    assert.equal(pond.food.length, 4);
+    assert.ok(pond.food.every(food => food.phase === 'air'), `${animation}: pellets should still be airborne after 1.5 seconds`);
+    advance(pond, 5);
+    assert.ok(pond.food.every(food => food.phase === 'water'));
+    assert.ok(pond.birdFood > 0, `${animation}: birds should be able to finish the trip and eat`);
+  }
 });
 
 test('fish ignore nearby airborne pellets and react when those pellets land', () => {

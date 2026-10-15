@@ -1292,3 +1292,143 @@ test.describe('reduced motion', () => {
     await expect(page.locator('#money-used')).toHaveText('5 kr');
   });
 });
+
+test('ordinary pellet throws leave time to watch birds fly before the splash', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const Simulation = scene.world.constructor as new (seed: number, roll?: () => number) => PondSimulation;
+    scene.world = new Simulation(41, () => 0.5);
+  });
+  await buy(page);
+  const bounds = (await page.locator('#pond canvas').boundingBox())!;
+  await page.mouse.click(bounds.x + bounds.width / 2, bounds.y + bounds.height * 389 / 800);
+  await page.waitForFunction(() => {
+    const world = (window as InspectedWindow).inspectedPond.world;
+    return world.food.some(food => food.phase === 'air' && food.flightTime >= 0.5)
+      && world.animals.some(animal => animal.state === 'flying' && animal.altitude > 20);
+  }, undefined, { timeout: 4000 });
+  const flight = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    return {
+      airbornePellets: scene.world.food.filter(food => food.phase === 'air').length,
+      birds: scene.world.animals.filter(animal => animal.flight).map(bird => {
+        const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
+        return { atlas: sprite.texture.key, raised: sprite.y < bird.y };
+      }),
+    };
+  });
+  expect(flight.airbornePellets).toBe(4);
+  expect(flight.birds.length).toBeGreaterThan(0);
+  for (const bird of flight.birds) { expect(bird.atlas).toBe('bird-flyers'); expect(bird.raised).toBe(true); }
+  await page.screenshot({ path: testInfo.outputPath('ordinary-throw-bird-flight.png'), fullPage: true });
+  await page.waitForFunction(() => (window as InspectedWindow).inspectedPond.world.food
+    .some(food => food.phase === 'air' && food.flightTime >= 1.5));
+  const stillAirborne = await page.evaluate(() => {
+    const world = (window as InspectedWindow).inspectedPond.world;
+    return { air: world.food.filter(food => food.phase === 'air').length, fishFood: world.fishFood };
+  });
+  expect(stillAirborne.air).toBe(4); expect(stillAirborne.fishFood).toBe(0);
+  await expect.poll(() => page.evaluate(() => (window as InspectedWindow).inspectedPond.world.food
+    .some(food => food.phase === 'air')), { timeout: 5000 }).toBe(false);
+});
+
+test('birds take off with directional wingbeats, cast shadows, and settle back into their swimming poses', async ({ page }, testInfo) => {
+  await arrive(page);
+  await page.locator('#machine-watch').click();
+  await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const Simulation = scene.world.constructor as new (seed: number) => PondSimulation;
+    scene.world = new Simulation(41);
+    const world = scene.world;
+    world.wind.sampleAt = time => ({ time, direction: 0, strength: 0, x: 0, y: 0 });
+    for (const animal of world.animals) animal.chewLeft = 100;
+    ['duck', 'gull', 'coot'].forEach((species, index) => {
+      const bird = world.animals.find(animal => animal.profile.id === species)!;
+      bird.x = 300; bird.y = 280 + index * 110; bird.heading = 0; bird.chewLeft = 0; bird.phase = 0;
+      world.food.push({ id: 100 + index, x: 600, y: 695, target: { x: 540, y: bird.y },
+        origin: { x: 600, y: 695 }, launchHeight: 0, amount: 1, age: 0, phase: 'air', flightTime: 0, flightDuration: 3, height: 0,
+        releaseAt: 0, arcScale: 1, lucky: false, bonusClaimed: false });
+    });
+    world.step(0.05); world.paused = true; scene.update(1000, 0);
+  });
+  const takeoff = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    return ['duck', 'gull', 'coot'].map(species => {
+      const bird = scene.world.animals.find(animal => animal.profile.id === species)!;
+      const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
+      return { state: bird.state, atlas: sprite.texture.key, raised: sprite.y < bird.y, depth: sprite.depth };
+    });
+  });
+  for (const bird of takeoff) {
+    expect(bird.state).toBe('taking-off'); expect(bird.atlas).toBe('bird-flyers');
+    expect(bird.raised).toBe(true); expect(bird.depth).toBeGreaterThan(45);
+  }
+
+  // Paint every shipped flight view and both wing poses through the real renderer.
+  for (let direction = 0; direction < 8; direction++) {
+    for (let stroke = 0; stroke < 2; stroke++) {
+      const frames = await page.evaluate(({ direction, stroke }) => {
+        const scene = (window as InspectedWindow).inspectedPond;
+        const birds = scene.world.animals.filter(animal => animal.flight);
+        for (const bird of birds) {
+          bird.heading = direction * Math.PI / 4;
+          bird.phase = 4.1 + stroke - bird.flight!.elapsed * bird.profile.flight!.flapRate * 1.5;
+        }
+        scene.update(1000, 0);
+        return birds.map(bird => {
+          const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
+          return { species: bird.profile.id, frame: sprite.frame.name, exists: sprite.texture.has(sprite.frame.name),
+            source: { w: sprite.frame.realWidth, h: sprite.frame.realHeight }, displaySize: sprite.displayWidth, bodySize: bird.profile.size };
+        });
+      }, { direction, stroke });
+      for (const frame of frames) {
+        expect(frame.frame).toBe(`${frame.species}-${['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'][direction]}-${stroke}`);
+        expect(frame.exists).toBe(true); expect(frame.source.w).toBe(320);
+        expect(frame.displaySize).toBe(frame.bodySize * 2);
+      }
+    }
+  }
+  await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    for (const bird of scene.world.animals.filter(animal => animal.flight)) { bird.heading = 0; bird.phase = 0; }
+    scene.world.paused = false;
+    for (let i = 0; i < 10; i++) scene.world.step(0.05);
+    scene.world.paused = true; scene.update(1000, 0);
+  });
+  await page.screenshot({ path: testInfo.outputPath('bird-flight.png'), fullPage: true,
+    style: '#paused-overlay { display: none !important; }' });
+  const shadowPixels = await page.evaluate(async () => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    const shadows = scene.children.getByName('bird-shadows') as Phaser.GameObjects.Graphics;
+    const snapshot = async () => {
+      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+      return scene.game.canvas.getContext('2d')!.getImageData(0, 0, 1200, 800).data;
+    };
+    const withShadows = await snapshot(); shadows.setVisible(false);
+    const withoutShadows = await snapshot(); shadows.setVisible(true);
+    let changed = 0;
+    for (let i = 0; i < withShadows.length; i += 4) {
+      if (Math.abs(withShadows[i] - withoutShadows[i]) + Math.abs(withShadows[i + 1] - withoutShadows[i + 1]) > 5) changed++;
+    }
+    return changed;
+  });
+  expect(shadowPixels).toBeGreaterThan(50);
+  const landed = await page.evaluate(() => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.world.paused = false;
+    for (let i = 0; i < 40; i++) scene.world.step(0.05);
+    scene.world.paused = true; scene.update(1000, 0);
+    return ['duck', 'gull', 'coot'].map(species => {
+      const bird = scene.world.animals.find(animal => animal.profile.id === species)!;
+      const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
+      return { altitude: bird.altitude, flight: bird.flight, atlas: sprite.texture.key, size: sprite.displayWidth, bodySize: bird.profile.size * sprite.frame.realWidth / (sprite.frame.customData as AnimationFrameData).referenceHeight };
+    });
+  });
+  for (const bird of landed) {
+    expect(bird.flight).toBeNull(); expect(bird.altitude).toBe(0);
+    expect(bird.atlas).toBe('bird-swimmers'); expect(bird.size).toBe(bird.bodySize);
+  }
+  await page.screenshot({ path: testInfo.outputPath('bird-landing.png'), fullPage: true,
+    style: '#paused-overlay { display: none !important; }' });
+});

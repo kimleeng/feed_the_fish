@@ -39,6 +39,7 @@ export class PondScene extends Phaser.Scene {
   private fishMouthLayer!: Phaser.GameObjects.Container;
   private feedingRipples!: Phaser.GameObjects.Graphics;
   private birdWakes!: Phaser.GameObjects.Graphics;
+  private birdShadows!: Phaser.GameObjects.Graphics;
   private waterShimmer!: Phaser.GameObjects.Graphics;
   private shimmerParticles = new WaterShimmer(this.world.wind.seed);
   private reducedMotion!: MediaQueryList;
@@ -66,6 +67,7 @@ export class PondScene extends Phaser.Scene {
     this.load.image('pond-art', '/art/pond.png');
     for (const atlas of ANIMATED_ATLASES) this.load.multiatlas(atlas, `/art/${atlas}-animation.json`, '/art');
     this.load.multiatlas(EATING_ATLAS, `/art/${EATING_ATLAS}-animation.json`, '/art');
+    this.load.atlas('bird-flyers', '/art/bird-flyers.png', '/art/bird-flyers.json');
     this.load.multiatlas(WALK_ATLAS, '/art/people-walking.json', '/art');
     this.load.atlas('pellet-stock', '/art/pellet-stock.png', '/art/pellet-stock.json');
     this.load.atlas('scene-machine-empty', '/art/scene-machine-empty.png', '/art/scene-machine-empty.json');
@@ -227,6 +229,7 @@ export class PondScene extends Phaser.Scene {
     this.fishMouthLayer = this.add.container(0, 0).setName('fish-mouths').setDepth(25).setMask(this.waterMask);
     this.feedingRipples = this.add.graphics().setName('fish-feeding-ripples').setDepth(25.1).setMask(this.waterMask);
     this.birdWakes = this.add.graphics().setName('bird-wakes').setDepth(26).setMask(this.waterMask);
+    this.birdShadows = this.add.graphics().setName('bird-shadows').setDepth(25).setMask(this.waterMask);
   }
 
   private spawnCreatures(): void {
@@ -391,23 +394,27 @@ export class PondScene extends Phaser.Scene {
     this.updateMachine();
     this.updateEmployee();
     this.birdWakes.clear();
+    this.birdShadows.clear();
     this.feedingRipples.clear();
     this.updateWaterShimmer(this.world.elapsed - elapsedBefore);
     for (const animal of this.world.animals) {
       const sprite = this.creatures.get(animal.id)!;
       const bird = animal.profile.kind === 'bird';
+      const airborne = bird && !!animal.flight;
       const direction = directionForHeading(animal.heading, this.directions.get(animal.id));
       this.directions.set(animal.id, direction);
-      const rate = bird ? 1.4 : animal.profile.speed / 24;
-      const stroke = animal.moving
-        ? SWIM_CYCLE[Math.floor((this.world.elapsed * rate + animal.phase) * 2) % SWIM_CYCLE.length] : 0;
+      const rate = airborne ? animal.profile.flight!.flapRate * (animal.state === 'taking-off' ? 1.5 : 1)
+        : bird ? 1.4 : animal.profile.speed / 24;
+      const stroke = airborne ? animal.state === 'landing' ? 0 : Math.floor(animal.flight!.elapsed * rate + animal.phase) % 2
+        : animal.moving ? SWIM_CYCLE[Math.floor((this.world.elapsed * rate + animal.phase) * 2) % SWIM_CYCLE.length] : 0;
       const feeding = eatingFrame(animal, direction);
       const feedingBody = feeding && animal.profile.kind !== 'turtle';
-      sprite.setTexture(feedingBody ? EATING_ATLAS : animalAtlas(animal.profile.kind),
+      sprite.setTexture(feedingBody ? EATING_ATLAS : animalAtlas(animal.profile.kind, airborne),
         feedingBody ? feeding : animalFrame(animal.profile.texture, direction, stroke));
       sprite.setScale(animal.profile.size / animationFrameData(sprite.frame).referenceHeight);
-      const bob = bird ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
-      sprite.setPosition(animal.x, animal.y + bob).setDepth((bird ? 30 : 10) + animal.y / 1000);
+      const bob = bird && !airborne ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
+      sprite.setPosition(animal.x, animal.y - animal.altitude + bob)
+        .setDepth((airborne ? 46 : bird ? 30 : 10) + animal.y / 1000);
       if (animal.profile.kind === 'fish') {
         const amount = fishSurfaceAmount(animal);
         const { body, mouth } = this.feedingFish.get(animal.id)!;
@@ -456,7 +463,12 @@ export class PondScene extends Phaser.Scene {
             .strokeEllipse(x, y + 2, 14 + Math.sin(this.world.elapsed * 2) * 2, 5);
         }
       }
-      if (bird) {
+      if (airborne) {
+        const altitude = animal.altitude / animal.profile.flight!.height;
+        this.birdShadows.fillStyle(0x172f32, 0.15 - altitude * 0.055)
+          .fillEllipse(animal.x + altitude * 5, animal.y + animal.profile.size * 0.13,
+            animal.profile.size * (0.65 - altitude * 0.15), animal.profile.size * 0.16);
+      } else if (bird) {
         const size = animal.profile.size;
         this.birdWakes.lineStyle(1, 0xc5ddc1, 0.2)
           .strokeEllipse(animal.x, animal.y + size * 0.2, size * 0.55, size * 0.13);
@@ -492,6 +504,9 @@ export class PondScene extends Phaser.Scene {
         .setAlpha(airborne || food.age <= 1.7 ? 1 : food.lucky ? 0.65 : 0.4);
     }
     for (const splash of this.world.splashes.splice(0)) this.ripple(splash.x, splash.y, 0xe4efcc, 0.45, 35);
+    for (const splash of this.world.birdSplashes.splice(0)) {
+      this.ripple(splash.x, splash.y, 0xd5e7d2, splash.phase === 'landing' ? 0.45 : 0.3, splash.phase === 'landing' ? 30 : 20);
+    }
     for (const bite of this.world.bites.splice(0)) {
       if (bite.phase === 'water') this.ripple(bite.x, bite.y, bite.kind === 'bird' ? 0xf7c187 : 0xe4f5ba);
       if (bite.kind === 'fish') {

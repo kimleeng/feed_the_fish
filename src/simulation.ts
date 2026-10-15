@@ -1,5 +1,5 @@
 import { PelletMachine } from './vending.ts';
-import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent, type ThrowFacing } from './throws.ts';
+import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, PELLET_FLIGHT_TIME_SCALE, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent, type ThrowFacing } from './throws.ts';
 import { DOCK_POSITION } from './thrower-art.ts';
 import { ObserverCrowd } from './observers.ts';
 import { MachineEmployee } from './restocking.ts';
@@ -8,19 +8,23 @@ import { eatingDuration, type Meal } from './eating.ts';
 
 export type AnimalKind = 'fish' | 'bird' | 'turtle';
 export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift' | 'amble';
+export interface BirdFlightProfile {
+  minDistance: number; maxDistance: number; speed: number; height: number; flapRate: number;
+}
 export interface AnimalProfile {
   id: string; name: string; kind: AnimalKind; texture: string;
   speed: number; vision: number; bite: number; chew: number; turnRate: number;
   size: number; count: number; tint: number; movement: MovementPattern; description: string;
+  flight?: BirdFlightProfile;
 }
 export const ANIMAL_BASELINE = { speed: 42, vision: 160, bite: 0.6, chew: 1.5, turnRate: 2.4, size: 42, count: 10, tint: 0xffffff };
 export const SPECIES: AnimalProfile[] = [
   { ...ANIMAL_BASELINE, id: 'koi', name: 'Golden carp', kind: 'fish', texture: 'koi', movement: 'glide', speed: 30, bite: 1, chew: 2.6, turnRate: 1.3, size: 54, count: 12, description: 'Warm golden scales and slow, sweeping glides. A big bite, then a contented chew.' },
   { ...ANIMAL_BASELINE, id: 'carp', name: 'Common carp', kind: 'fish', texture: 'carp', movement: 'meander', speed: 52, vision: 190, bite: 0.65, chew: 1.5, size: 46, count: 14, description: 'Olive-bronze scales and a sturdy body. Meanders in soft curves toward a landing pellet.' },
   { ...ANIMAL_BASELINE, id: 'minnow', name: 'Young carp', kind: 'fish', texture: 'minnow', movement: 'shoal', speed: 78, vision: 120, bite: 0.3, chew: 0.65, turnRate: 8, size: 30, count: 20, description: 'Slender young carp dart in little shoals, happy with a small nibble.' },
-  { ...ANIMAL_BASELINE, id: 'duck', name: 'Mallard', kind: 'bird', texture: 'duck', movement: 'paddle', speed: 48, vision: 230, bite: 1, chew: 2.2, size: 62, count: 6, description: 'Paddles in gentle curves and watches where the airborne crumbs will land.' },
-  { ...ANIMAL_BASELINE, id: 'gull', name: 'Cheeky gull', kind: 'bird', texture: 'gull', movement: 'sweep', speed: 68, vision: 310, bite: 1, chew: 0.9, turnRate: 3, size: 50, count: 4, description: 'Swims in broad loops and snatches low-flying pellets as they reach the water.' },
-  { ...ANIMAL_BASELINE, id: 'coot', name: 'Little coot', kind: 'bird', texture: 'coot', movement: 'drift', speed: 38, vision: 150, bite: 0.45, chew: 1.8, size: 42, count: 5, description: 'A few quiet paddle strokes, then a gentle drift near the edge of the pond.' },
+  { ...ANIMAL_BASELINE, id: 'duck', name: 'Mallard', kind: 'bird', texture: 'duck', movement: 'paddle', speed: 48, vision: 230, bite: 1, chew: 2.2, size: 62, count: 6, flight: { minDistance: 180, maxDistance: 360, speed: 270, height: 36, flapRate: 10 }, description: 'Prefers a gentle paddle, but takes a short flight when crumbs land farther away.' },
+  { ...ANIMAL_BASELINE, id: 'gull', name: 'Cheeky gull', kind: 'bird', texture: 'gull', movement: 'sweep', speed: 68, vision: 310, bite: 1, chew: 0.9, turnRate: 3, size: 50, count: 4, flight: { minDistance: 100, maxDistance: 520, speed: 330, height: 52, flapRate: 6 }, description: 'Quick to take wing for distant crumbs, then glides down to snatch them at the water.' },
+  { ...ANIMAL_BASELINE, id: 'coot', name: 'Little coot', kind: 'bird', texture: 'coot', movement: 'drift', speed: 38, vision: 150, bite: 0.45, chew: 1.8, size: 42, count: 5, flight: { minDistance: 150, maxDistance: 260, speed: 230, height: 26, flapRate: 11 }, description: 'Quietly paddles and drifts near the edge, with an occasional low flight for a tempting crumb.' },
 ];
 // A quiet extra resident, deliberately absent from the field guide's SPECIES list.
 export const MUSK_TURTLE: AnimalProfile = {
@@ -32,21 +36,28 @@ export const TURTLE_SURFACE_SECONDS = 5;
 export const POND = { x: 600, y: 389, rx: 498, ry: 230 };
 export const THROW_ORIGIN = releaseOrigin('toss');
 export const FLOAT_SECONDS = 1.7;
+export const BIRD_TAKEOFF_SECONDS = 0.28;
+export const BIRD_LANDING_SECONDS = 0.32;
 // Screen-space drift per second at full wind strength; depth is foreshortened.
 const AIRBORNE_WIND_DRIFT = { x: 48, y: 32 };
 export interface Point { x: number; y: number }
+export interface BirdFlight {
+  origin: Point; destination: Point; elapsed: number; duration: number;
+}
 export interface Animal extends Point {
   id: number; profile: AnimalProfile; destination: Point; heading: number;
-  chewLeft: number; state: 'roaming' | 'approaching' | 'chewing'; moving: boolean;
+  chewLeft: number; state: 'roaming' | 'approaching' | 'chewing' | 'taking-off' | 'flying' | 'landing'; moving: boolean;
   meal: Meal | null;
   surfaceLeft: number; surfaceDuration: number;
-  school: number; phase: number;
+  school: number; phase: number; altitude: number; flight: BirdFlight | null;
 }
 // Small body cores leave fins, tails, and feathers free to overlap naturally.
 export function animalCollisionRadius(animal: Animal): number {
   return animal.profile.size * (animal.profile.kind === 'fish' ? 0.14 : animal.profile.kind === 'turtle' ? 0.18 : 0.2);
 }
 export function shareCollisionLayer(first: Animal, second: Animal): boolean {
+  // Flying birds can pass above swimmers and one another; landing restores body separation.
+  if (first.flight || second.flight) return false;
   return (first.profile.kind === 'bird') === (second.profile.kind === 'bird');
 }
 export interface Food extends Point {
@@ -58,6 +69,7 @@ export interface Food extends Point {
 }
 export interface BiteEvent extends Point { kind: AnimalKind; animal: number; amount: number; phase: 'air' | 'water'; bonus: number }
 export interface Splash extends Point { food: number }
+export interface BirdSplash extends Point { animal: number; phase: 'takeoff' | 'landing' }
 export function inPond(point: Point): boolean {
   return ((point.x - POND.x) / POND.rx) ** 2 + ((point.y - POND.y) / POND.ry) ** 2 < 1;
 }
@@ -78,6 +90,7 @@ export class PondSimulation {
   food: Food[] = [];
   bites: BiteEvent[] = [];
   splashes: Splash[] = [];
+  birdSplashes: BirdSplash[] = [];
   machine = new PelletMachine();
   employee = new MachineEmployee();
   fedFish = new Set<number>();
@@ -119,7 +132,7 @@ export class PondSimulation {
         const point = school >= 0
           ? { x: schoolCenter.x + (this.random() - 0.5) * 50, y: schoolCenter.y + (this.random() - 0.5) * 30 }
           : this.randomPoint(profile.kind === 'bird' ? 0.65 : 0, 0.92);
-        this.animals.push({ ...point, id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, meal: null, surfaceLeft: 0, surfaceDuration: TURTLE_SURFACE_SECONDS, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2 });
+        this.animals.push({ ...point, id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, meal: null, surfaceLeft: 0, surfaceDuration: TURTLE_SURFACE_SECONDS, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2, altitude: 0, flight: null });
         if (school >= 0 && !this.schools.has(school)) this.schools.set(school, this.randomPoint());
       }
     }
@@ -159,7 +172,7 @@ export class PondSimulation {
       this.food.push({
         ...origin, origin: { ...origin }, launchHeight: releaseHeight(plan.animation),
         id: this.nextFood++, amount: 1, age: 0, phase: 'air', target,
-        flightTime: 0, flightDuration: (0.65 + distance(origin, target) / 700) * motion.flightScale,
+        flightTime: 0, flightDuration: (0.65 + distance(origin, target) / 700) * motion.flightScale * PELLET_FLIGHT_TIME_SCALE,
         height: releaseHeight(plan.animation), releaseAt: startedAt + motion.releaseDelay, arcScale: motion.arcScale,
         lucky: plan.lucky && i === 0, bonusClaimed: false,
       });
@@ -251,7 +264,7 @@ export class PondSimulation {
   }
 
   private separateAnimals(iterations = 16): void {
-    for (const animal of this.animals) this.keepBodyInPond(animal);
+    for (const animal of this.animals) if (!animal.flight) this.keepBodyInPond(animal);
     for (let pass = 0; pass < iterations; pass++) {
       let separated = false;
       for (let i = 0; i < this.animals.length; i++) for (let j = i + 1; j < this.animals.length; j++) {
@@ -275,6 +288,36 @@ export class PondSimulation {
         this.keepBodyInPond(first); this.keepBodyInPond(second);
       }
       if (!separated) break;
+    }
+  }
+
+  private startFlight(animal: Animal, destination: Point): void {
+    const profile = animal.profile.flight!;
+    animal.flight = {
+      origin: { x: animal.x, y: animal.y }, destination: { ...destination }, elapsed: 0,
+      duration: BIRD_TAKEOFF_SECONDS + distance(animal, destination) / profile.speed + BIRD_LANDING_SECONDS,
+    };
+    animal.heading = Math.atan2(destination.y - animal.y, destination.x - animal.x);
+    animal.state = 'taking-off';
+    this.birdSplashes.push({ x: animal.x, y: animal.y, animal: animal.id, phase: 'takeoff' });
+  }
+
+  private updateFlight(animal: Animal, dt: number): void {
+    const flight = animal.flight!;
+    flight.elapsed = Math.min(flight.duration, flight.elapsed + dt);
+    const t = flight.elapsed / flight.duration;
+    const progress = t * t * (3 - 2 * t);
+    animal.x = flight.origin.x + (flight.destination.x - flight.origin.x) * progress;
+    animal.y = flight.origin.y + (flight.destination.y - flight.origin.y) * progress;
+    const lift = Math.min(1, flight.elapsed / BIRD_TAKEOFF_SECONDS,
+      (flight.duration - flight.elapsed) / BIRD_LANDING_SECONDS);
+    animal.altitude = Math.sin(lift * Math.PI / 2) * animal.profile.flight!.height;
+    animal.moving = true;
+    animal.state = flight.elapsed < BIRD_TAKEOFF_SECONDS ? 'taking-off'
+      : flight.elapsed < flight.duration - BIRD_LANDING_SECONDS ? 'flying' : 'landing';
+    if (flight.elapsed >= flight.duration) {
+      animal.flight = null; animal.altitude = 0; animal.state = 'approaching'; animal.moving = false;
+      this.birdSplashes.push({ x: animal.x, y: animal.y, animal: animal.id, phase: 'landing' });
     }
   }
 
@@ -330,6 +373,10 @@ export class PondSimulation {
     for (const animal of this.animals) {
       animal.moving = false;
       animal.surfaceLeft = Math.max(0, animal.surfaceLeft - dt);
+      if (animal.flight) {
+        this.updateFlight(animal, dt);
+        continue;
+      }
       if (animal.chewLeft > 0) {
         animal.chewLeft = Math.max(0, animal.chewLeft - dt);
         if (animal.chewLeft < 1e-9) animal.chewLeft = 0;
@@ -340,13 +387,20 @@ export class PondSimulation {
       if (animal.profile.kind === 'turtle' && animal.surfaceLeft > 0) continue;
       const profile = animal.profile;
       let target: Food | undefined;
-      let nearest = profile.vision;
+      let nearest = Infinity;
       for (const food of this.food) {
         if (food.amount <= 0 || food.age > 13 || this.elapsed < food.releaseAt) continue;
         if (profile.kind !== 'bird' && food.phase !== 'water') continue;
         if (profile.kind === 'bird' && food.phase === 'water' && food.age > FLOAT_SECONDS) continue;
-        // Swimming birds watch the landing point while food is high in the air.
+        // Choose from the expected water landing point, including the current wind drift.
         const d = distance(animal, food.phase === 'air' ? food.target : food);
+        const flight = profile.kind === 'bird' ? profile.flight : undefined;
+        if (d > (flight?.maxDistance ?? profile.vision)) continue;
+        if (flight && d >= flight.minDistance) {
+          const available = food.phase === 'air' ? food.flightDuration - food.flightTime + FLOAT_SECONDS : FLOAT_SECONDS - food.age;
+          const duration = BIRD_TAKEOFF_SECONDS + d / flight.speed + BIRD_LANDING_SECONDS;
+          if (duration + dt >= available) continue;
+        } else if (d > profile.vision) continue;
         if (d < nearest) { target = food; nearest = d; }
       }
       let destination: Point;
@@ -356,6 +410,12 @@ export class PondSimulation {
         animal.state = 'approaching';
         destination = target.phase === 'air' ? target.target : target;
         pace = 1;
+        // Species distance bands decide when to fly, rather than comparing travel modes by speed.
+        if (profile.kind === 'bird' && profile.flight && nearest >= profile.flight.minDistance) {
+          this.startFlight(animal, destination);
+          this.updateFlight(animal, dt);
+          continue;
+        }
         const reachable = target.phase === 'water' || (target.height <= 22 && distance(animal, target) < Math.max(9, profile.size * 0.2));
         if (reachable && nearest < Math.max(9, profile.size * 0.2)) {
           const amount = Math.min(profile.bite, target.amount);

@@ -17,6 +17,8 @@ npm run dev
 
 Click or tap the water, press **Space**, or use **Throw pellets**. A person on the dock throws food from their hand toward your chosen point. Birds see the pellets while airborne and may intercept them near the surface; fish only react after they land on the water. Floating food is available to birds for a short time, while fish can still eat it after it sinks.
 
+Pellet arcs use an exaggerated 2.5× travel time so there is time to watch birds take off and approach the landing point. With the current dock character, center throws stay airborne for about 2 seconds for a quick toss, 2.4 seconds for an overhand throw, and 2.1 seconds for a spread. Hand wind-up and release remain responsive. The airtime multiplier is `PELLET_FLIGHT_TIME_SCALE` in `src/throws.ts`.
+
 The dock character keeps their feet planted and a pellet pouch in the other hand. Three full-body motions use a quick underhand toss (60%), a raised overhand throw (30%), and a sideways spread throw (10%). Each moves through anticipation, windup, drive, open-hand release, follow-through, and recovery drawings before returning to rest. Food releases from the actual drawn hand, at a different height for each motion. The quick toss has a short flick; the overhand throw sends pellets on a higher arc; the spread throw fans four pellets across a wider patch centered on your aim. Wind bends the airborne paths and shifts their landing points, keeping targets inside the pond. Rapid clicks reserve throws in a queue, so every animation plays. Each queued throw records its own left or right direction. The character turns when that throw starts and keeps looking that way afterward, including with an empty hand; a throw directly ahead retains the previous direction. The hand indicator and pellet origin mirror with the character.
 
 Each throw has an independent 2% chance of containing one lucky pellet. A gold star and **LUCKY PELLET** label appear over the palm before a lucky throw, and the golden pellet glints as it travels. The first fish to nibble that pellet earns **+50 bonus points**, golden ripples, a small star celebration, and an optional soft chime. The bonus is awarded once per pellet, even when fish share it. Birds can eat lucky pellets but earn no bonus. The score includes ordinary feeding points and lucky bonuses; the food-share meter still measures food amounts.
@@ -34,9 +36,19 @@ The pond has 46 fish and 15 birds across six field-guide profiles, plus one secr
 - Golden carp make slow, smooth glides.
 - Common carp meander in soft curves.
 - Young carp move together in small, darting shoals.
-- Mallards paddle with a gentle side-to-side rhythm.
-- Gulls swim in wide loops and watch for pellets arriving at the water.
-- Little coots alternate quiet paddle strokes with slower drifts near the edge.
+- Mallards prefer paddling, with short flights for food farther away.
+- Gulls swim in wide loops and readily take wing for distant pellets.
+- Little coots alternate quiet paddles and drifts near the edge, occasionally making a low flight for food.
+
+Birds use distance from their position to the pellet's expected water landing point to choose a travel mode. Inside the inner radius they paddle, inside the flight band they take off, and beyond the outer radius they ignore the pellet. The bands are invisible and use game coordinates:
+
+| Bird | Takeoff distance | Farthest flight |
+| --- | ---: | ---: |
+| Gull | 100 | 520 |
+| Mallard | 180 | 360 |
+| Coot | 150 | 260 |
+
+A remaining-food-time check prevents a flight that would finish after the pellet sinks. Each trip includes takeoff, directional wingbeats, a shadow on the water, and a gliding landing with ripples. Birds finish landing before eating and keep their chosen landing point if food disappears. Flying birds pass above collision bodies; ordinary body separation resumes on landing. Species flight bands, pace, height, and wingbeat rate live in `src/simulation.ts`.
 
 Every species has eight directional views and four swimming poses per view. Intermediate tail and paddle poses smooth each cycle while preserving its original duration. Each animal keeps its profile size and appearance through every turn: birds share one crown-to-waterline height across headings, while fish and the turtle share one body length with consistent pond-depth foreshortening. Bird cycles retain a steady waterline and contain no painted water. Birds float low in the water, bob gently, and leave little wakes; they watch airborne food but can only catch it near the surface. Fish turn toward their swimming direction beneath a translucent layer of the pond's reflections and moving glints, so their shapes remain visible through the water.
 
@@ -105,6 +117,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/pond.png`: original Tivoli-inspired garden scenery, with corrected benches, paving, ironwork, architecture and broadleaf-tree reflections, and an open foreground walking path.
 - `public/art/animals.png` and `animals.json`: transparent animal sprite sheet and explicit frame rectangles.
 - `public/art/fish-swimmers.png` and `fish-swimmers.json`: golden, common, and young carp swimming atlas, with eight headings and two tail strokes each. Natural carp snouts, scales, low dorsal fins, and one attached forked tail replace the ornate goldfish shapes. Internal frame IDs remain `koi`, `carp`, and `minnow`.
+- `public/art/bird-flyers.png` and `bird-flyers.json`: 48 directional flight poses in isolated, torso-anchored 320px slots, with a common scale through takeoff, wingbeats, and landing. `node scripts/build-art-atlas.mjs bird` rebuilds the flight sheet and metadata; `npm run review:art` validates every frame.
 - `public/art/bird-*-swimming.png` and `bird-swimmers-animation.json`: consistent four-pose cycles in eight directions for mallards, gulls, and coots. Whole-body frames use the species' fixed height across headings and a shared waterline, with no painted water. `node scripts/build-bird-atlas.mjs` rebuilds their registration without changing PNG pixels. The original `bird-swimmers.png`/`.json` remain as archived artwork and field-guide art.
 - `public/art/turtle-swimmer.png` and `turtle-swimmer.json`: musk turtle atlas with sixteen swimming cuts and eight separate raised heads. `turtle-swimmer-pins.json` aligns the heads with the swimming artwork.
 - `public/art/eating-*.png` and `animal-eating-animation.json`: 192 feeding drawings, including the tilted carp poses and their lip reveal rectangles. `node scripts/build-eating-atlas.mjs` rebuilds their registration without modifying the PNGs. `src/eating.ts` derives every pose and surface transition from the current meal.
