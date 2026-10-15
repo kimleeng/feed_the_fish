@@ -12,11 +12,17 @@ const observers = JSON.parse(await fs.readFile('public/art/garden-observers.json
 const thrower = JSON.parse(await fs.readFile('public/art/dock-thrower.json', 'utf8'));
 const employee = JSON.parse(await fs.readFile('public/art/garden-employee.json', 'utf8'));
 const pelletStock = JSON.parse(await fs.readFile('public/art/pellet-stock.json', 'utf8'));
+const flyers = JSON.parse(await fs.readFile('public/art/bird-flyers.json', 'utf8'));
 const directions = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne'];
 const expected = ['koi', 'carp', 'minnow'].flatMap(species => [0, 1].flatMap(stroke =>
   directions.map(direction => `${species}-${direction}-${stroke}`)));
 if (Object.keys(atlas.frames).length !== 48 || expected.some(name => !atlas.frames[name])) {
   throw new Error('The carp atlas must contain all 48 named swim frames.');
+}
+const flightNames = ['duck', 'gull', 'coot'].flatMap(species => [0, 1].flatMap(stroke =>
+  directions.map(direction => `${species}-${direction}-${stroke}`)));
+if (Object.keys(flyers.frames).length !== 48 || flightNames.some(name => !flyers.frames[name])) {
+  throw new Error('The flight atlas needs both wing poses in every direction for all three birds.');
 }
 const turtleNames = [0, 1, 'head'].flatMap(pose => directions.map(direction => `musk-turtle-${direction}-${pose}`));
 if (Object.keys(turtle.frames).length !== 24 || turtleNames.some(name => !turtle.frames[name])) {
@@ -74,7 +80,7 @@ for (const body of [observers, thrower, employee]) {
     }
   }
 }
-for (const swimmer of [atlas, turtle, pelletStock]) {
+for (const swimmer of [atlas, turtle, pelletStock, flyers]) {
   const frames = Object.entries(swimmer.frames);
   for (let i = 0; i < frames.length; i++) {
     const [name, { frame, spriteSourceSize, sourceSize }] = frames[i];
@@ -93,6 +99,7 @@ for (const swimmer of [atlas, turtle, pelletStock]) {
   }
 }
 const fish = 'data:image/png;base64,' + (await fs.readFile('public/art/fish-swimmers.png')).toString('base64');
+const flyerImage = 'data:image/png;base64,' + (await fs.readFile('public/art/bird-flyers.png')).toString('base64');
 const turtleImage = 'data:image/png;base64,' + (await fs.readFile('public/art/turtle-swimmer.png')).toString('base64');
 const pond = 'data:image/png;base64,' + (await fs.readFile('public/art/pond.png')).toString('base64');
 const observerImage = 'data:image/png;base64,' + (await fs.readFile('public/art/garden-observers.png')).toString('base64');
@@ -121,6 +128,7 @@ try {
   await page.screenshot({ path: path.join(output, 'fish-frames.png'), fullPage: true });
 
   for (const body of [
+    { atlas: flyers, png: flyerImage, columns: 8, title: 'Bird flight: every direction and wing stroke', output: 'bird-flight-frames.png' },
     { atlas: pelletStock, png: pelletStockImage, columns: 5, title: 'Pellet machine: 25 complete piles, from one serving to full', output: 'pellet-stock-frames.png' },
     { atlas: employee, png: employeeImage, columns: 4, title: 'Garden employee: walking and restocking the pellet machine', output: 'employee-frames.png' },
     { atlas: turtle, png: turtleImage, columns: 8, title: 'Musk turtle: gentle swimming and raised heads', output: 'turtle-frames.png' },

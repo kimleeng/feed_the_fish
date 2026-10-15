@@ -56,6 +56,23 @@ test('submerged fish can remain beneath a floating bird', () => {
   assert.ok(pond.animals.every(animal => animal.x === 600 && animal.y === 389));
 });
 
+test('flying birds pass above swimmers and regain collision space when they land', () => {
+  const pond = restingPair('bird');
+  const [flying, swimming] = pond.animals;
+  flying.chewLeft = 0;
+  flying.flight = { origin: { x: 580, y: 389 }, destination: { x: 620, y: 389 }, elapsed: 0.55, duration: 1.2 };
+  pond.step(0.05);
+  assert.ok(flying.altitude > 0);
+  assert.equal(shareCollisionLayer(flying, swimming), false);
+  assert.ok(gap(flying, swimming) < 0.001, 'A bird in the air must not push a swimmer aside.');
+  swimming.x = 620;
+  for (let tick = 0; flying.flight && tick < 30; tick++) pond.step(0.05);
+  assert.equal(flying.flight, null);
+  assert.equal(flying.altitude, 0);
+  assert.equal(shareCollisionLayer(flying, swimming), true);
+  assert.ok(gap(flying, swimming) >= animalCollisionRadius(flying) + animalCollisionRadius(swimming) - 0.01);
+});
+
 test('animals meeting head-on steer past one another and keep their bodies apart', () => {
   const pond = restingPair('fish');
   const [first, second] = pond.animals;

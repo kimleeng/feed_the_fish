@@ -3,6 +3,11 @@ import fs from 'node:fs/promises';
 
 // Inspect alpha to package generated art. The PNG is read without editing its pixels.
 const type = process.argv[2];
+if (type === 'bird') {
+  const { buildFlightAtlas } = await import('./build-flight-atlas.mjs');
+  await buildFlightAtlas();
+  process.exit(0);
+}
 if (!['fish', 'turtle', 'machine', 'hand', 'observers', 'thrower', 'employee'].includes(type)) throw new Error('Usage: node scripts/build-art-atlas.mjs fish|turtle|machine|hand|observers|thrower|employee');
 if (type === 'hand') {
   const sources = [

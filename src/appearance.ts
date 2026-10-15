@@ -26,8 +26,8 @@ export function directionForHeading(heading: number, previous?: Direction): Dire
   return DIRECTIONS[((Math.round(heading / OCTANT) % 8) + 8) % 8];
 }
 
-export function animalAtlas(kind: AnimalKind): string {
-  return kind === 'turtle' ? 'turtle-swimmer' : kind === 'fish' ? 'fish-swimmers' : 'bird-swimmers';
+export function animalAtlas(kind: AnimalKind, airborne = false): string {
+  return kind === 'turtle' ? 'turtle-swimmer' : kind === 'fish' ? 'fish-swimmers' : airborne ? 'bird-flyers' : 'bird-swimmers';
 }
 
 export function animalFrame(texture: string, direction: Direction, stroke = 0): string {
