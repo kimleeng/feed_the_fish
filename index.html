@@ -36,9 +36,24 @@
           </div>
           <div class="pond-bottom-bar">
             <div class="share-block" data-assist-only><span class="share-label">WHO GOT THE PELLETS?</span><div class="share-meter" aria-label="Share of eaten food that went to fish"><span id="share-fill"></span></div><span class="share-value"><strong id="share-value">—</strong> to the fish</span></div>
-            <div class="pond-actions"><button id="refill-button" class="small-button refill-button">Pellet machine <span>5 kr</span></button><button id="scatter-button" class="small-button" disabled>Throw pellets <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 12 8-8M4 4h8v8"/></svg></span></button><button id="restart-button" class="icon-button" aria-label="Begin a new visit" title="Begin a new visit">↻</button></div>
+            <div class="pond-actions"><button id="refill-button" class="small-button refill-button">Pellet machine <span>5 kr</span></button><button id="scatter-button" class="small-button" disabled>Throw pellets <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 12 8-8M4 4h8v8"/></svg></span></button><button id="debug-button" class="small-button debug-button" aria-label="Debug mode" aria-pressed="false" aria-expanded="false" aria-controls="debug-panel">Debug</button><button id="restart-button" class="icon-button" aria-label="Begin a new visit" title="Begin a new visit">↻</button></div>
           </div>
           <div class="visit-line"><p class="visit-note" id="visit-note" role="status" data-assist-only>Use the red pellet machine to fill your hand.</p><span class="spend-note">This visit <strong id="money-used">0 kr</strong></span></div>
+          <section id="debug-panel" class="debug-panel" aria-labelledby="debug-title" hidden>
+            <div class="debug-heading"><h2 id="debug-title">Debug mode</h2><span id="debug-clock"></span></div>
+            <p class="debug-note">Boost meters: gold while boosting, green when hungry, blue after a recent meal. The underwater turtle is visible.</p>
+            <dl class="debug-metrics">
+              <div><dt>Energy</dt><dd id="debug-energy">—</dd></div>
+              <div><dt>Airborne birds</dt><dd id="debug-flights">—</dd></div>
+              <div><dt>Pellets</dt><dd id="debug-pellets">—</dd></div>
+              <div><dt>Food eaten</dt><dd id="debug-eaten">—</dd></div>
+              <div><dt>Wind</dt><dd id="debug-wind">—</dd></div>
+              <div><dt>Machine</dt><dd id="debug-machine">—</dd></div>
+            </dl>
+            <div class="debug-table-scroll" tabindex="0" role="region" aria-label="Animal metrics. Scroll for more animals and columns.">
+              <table class="debug-table"><caption>Live animal metrics · base pace is the unboosted food-chase speed</caption><thead><tr><th scope="col">Animal</th><th scope="col">Action</th><th scope="col">Hunger</th><th scope="col">Boost</th><th scope="col">Last meal</th><th scope="col">Eaten</th><th scope="col">Base pace</th></tr></thead><tbody id="debug-animals"></tbody></table>
+            </div>
+          </section>
         </section>
         <section class="tips" aria-label="Pond tips" data-assist-only>
           <article><span class="tip-number">01</span><div><h2>Watch it travel.</h2><p>Birds notice the arc through the air. Fish wait for that little splash.</p></div></article>

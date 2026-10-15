@@ -15,6 +15,8 @@ let pond: PondScene;
 let pausedForGuide = false;
 let pausedForVisibility = false;
 let assistMode = false;
+let debugMode = false;
+const debugRows = new Map<number, HTMLTableRowElement>();
 let best = 0;
 let soundOn = false;
 let audio: AudioContext | undefined;
@@ -37,6 +39,54 @@ element('assist-button').addEventListener('click', () => {
   updateAssistMode();
   try { localStorage.setItem('feed-the-fish-assist', assistMode ? 'on' : 'off'); } catch { /* Storage is optional. */ }
 });
+
+try { debugMode = localStorage.getItem('feed-the-fish-debug') === 'on'; } catch { /* Storage is optional. */ }
+function updateDebugMode(): void {
+  const button = element('debug-button');
+  button.setAttribute('aria-pressed', String(debugMode));
+  button.setAttribute('aria-expanded', String(debugMode));
+  element('debug-panel').hidden = !debugMode;
+  if (pond?.ready) { pond.setDebugMode(debugMode); pond.scale.updateBounds(); }
+}
+updateDebugMode();
+element('debug-button').addEventListener('click', () => {
+  debugMode = !debugMode;
+  updateDebugMode();
+  try { localStorage.setItem('feed-the-fish-debug', debugMode ? 'on' : 'off'); } catch { /* Storage is optional. */ }
+});
+
+function updateDebugMetrics(state: PondState): void {
+  const metrics = state.debug;
+  if (!debugMode || !metrics) return;
+  const amount = (value: number) => Number(value.toFixed(2)).toString();
+  element('debug-clock').textContent = `${state.paused ? 'Paused' : 'Live'} · ${metrics.elapsed.toFixed(1)}s`;
+  element('debug-energy').textContent = `${metrics.hungry} hungry · ${metrics.recentlyFed} fed · ${metrics.boosting} boosting`;
+  element('debug-flights').textContent = String(metrics.airborneBirds);
+  const pellets = metrics.pellets;
+  element('debug-pellets').textContent = `${pellets.queued} queued · ${pellets.air} air · ${pellets.floating} floating · ${pellets.underwater} underwater`;
+  element('debug-eaten').textContent = `${amount(state.fishFood)} fish · ${amount(state.birdFood)} bird · ${amount(state.turtleFood)} turtle`;
+  const degrees = (Math.round(state.wind.direction * 180 / Math.PI) % 360 + 360) % 360;
+  element('debug-wind').textContent = `${degrees}° · ${Math.round(state.wind.strength * 100)}% strength`;
+  element('debug-machine').textContent = `${state.machineStock} servings · employee ${state.employeePhase}`;
+  const ids = new Set(metrics.animals.map(animal => animal.id));
+  for (const [id, row] of debugRows) if (!ids.has(id)) { row.remove(); debugRows.delete(id); }
+  for (const animal of metrics.animals) {
+    let row = debugRows.get(animal.id);
+    if (!row) {
+      row = document.createElement('tr');
+      row.dataset.animal = String(animal.id);
+      for (let column = 0; column < 7; column++) row.insertCell();
+      debugRows.set(animal.id, row);
+      element('debug-animals').append(row);
+    }
+    const values = [`${animal.name} #${animal.id + 1}`, animal.state.replaceAll('-', ' '),
+      animal.hungry ? 'Hungry' : 'Recently fed', animal.boostCharge === null ? '—'
+        : `${Math.round(animal.boostCharge * 100)}%${animal.boosting ? ' · active' : ''}`,
+      animal.secondsSinceMeal === null ? 'Never' : `${animal.secondsSinceMeal.toFixed(1)}s ago`,
+      amount(animal.totalEaten), `${animal.basePace} px/s`];
+    values.forEach((value, column) => { if (row.cells[column].textContent !== value) row.cells[column].textContent = value; });
+  }
+}
 
 function updateMachineFill(fillFraction: number, scene = pond): void {
   const canvas = element<HTMLCanvasElement>('machine-fill');
@@ -87,6 +137,7 @@ element('insert-coin').addEventListener('click', () => { pond.buyPellets(); });
 machine.addEventListener('cancel', event => { if (pond.world.machine.busy) event.preventDefault(); });
 document.addEventListener('pond:ready', event => {
   const scene = (event as CustomEvent<PondScene>).detail;
+  scene.setDebugMode(debugMode);
   updateMachineFill(scene.world.machine.fillFraction, scene);
   for (const profile of SPECIES) {
     const portrait = document.querySelector<HTMLImageElement>('[data-species="' + profile.id + '"]')!;
@@ -122,7 +173,7 @@ guide.addEventListener('close', () => {
 element('scatter-button').addEventListener('click', () => pond.scatter({ x: 600, y: 389 }));
 element('restart-button').addEventListener('click', () => pond.restart());
 document.addEventListener('keydown', event => {
-  if (guide.open || machine.open || (event.target instanceof HTMLElement && event.target.closest('input,textarea'))) return;
+  if (guide.open || machine.open || (event.target instanceof HTMLElement && event.target.closest('input,textarea,#debug-panel'))) return;
   const control = event.target instanceof HTMLElement && event.target.closest('button,a');
   if (event.code === 'Space' && !control) { event.preventDefault(); pond.scatter(); }
 });
@@ -189,6 +240,7 @@ const phaseText: Record<VendingPhase, string> = {
 };
 document.addEventListener('pond:state', event => {
   const state = (event as CustomEvent<PondState>).detail;
+  updateDebugMetrics(state);
   music?.setPlaying(soundOn && !state.paused && !document.hidden);
   element('food-count').textContent = String(state.handfuls);
   const hand = element('hand-icon');

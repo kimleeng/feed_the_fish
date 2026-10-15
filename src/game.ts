@@ -9,12 +9,13 @@ import { throwerPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 import { DOCK_POSITION, THROWER_HEIGHT, throwerHand } from './thrower-art.ts';
 import { observerAtlas, observerFrame, observerHeight } from './observer-art.ts';
 import { WALK_ATLAS } from './walking.ts';
-import { SHOW_TURTLE_UNDERWATER, turtleSurfaceAmount } from './turtle.ts';
+import { turtleSurfaceAmount } from './turtle.ts';
 import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-frames.ts';
 import { WaterShimmer } from './water.ts';
 import type { WindState } from './wind.ts';
 import { EATING_ATLAS, eatingFrame, fishSurfaceAmount, fishSurfaceFrame } from './eating.ts';
 import { BOOST_SPEED_MULTIPLIER, hasEatenRecently } from './animal-energy.ts';
+import { debugMetrics, type DebugMetrics } from './debug-metrics.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; turtleFood: number; share: number;
@@ -24,11 +25,12 @@ export interface PondState {
   luckyBonus: number; luckyInHand: boolean;
   handPreviewId: number; nextHandLucky: boolean;
   wind: WindState;
+  debug: DebugMetrics | null;
 }
 
 export class PondScene extends Phaser.Scene {
   world = new PondSimulation();
-  showTurtleUnderwater = SHOW_TURTLE_UNDERWATER;
+  debugMode = false;
   private creatures = new Map<number, Phaser.GameObjects.Sprite>();
   private turtleHeads = new Map<number, Phaser.GameObjects.Sprite>();
   private feedingFish = new Map<number, { body: Phaser.GameObjects.Sprite; mouth: Phaser.GameObjects.Sprite }>();
@@ -232,7 +234,7 @@ export class PondScene extends Phaser.Scene {
     this.feedingRipples = this.add.graphics().setName('fish-feeding-ripples').setDepth(25.1).setMask(this.waterMask);
     this.birdWakes = this.add.graphics().setName('bird-wakes').setDepth(26).setMask(this.waterMask);
     this.birdShadows = this.add.graphics().setName('bird-shadows').setDepth(25).setMask(this.waterMask);
-    this.boostMeters = this.add.graphics().setName('animal-boost-meters').setDepth(47).setMask(this.waterMask);
+    this.boostMeters = this.add.graphics().setName('animal-boost-meters').setDepth(47).setMask(this.waterMask).setVisible(this.debugMode);
   }
 
   private spawnCreatures(): void {
@@ -256,7 +258,7 @@ export class PondScene extends Phaser.Scene {
         this.feedingFish.set(animal.id, { body, mouth });
       }
       if (profile.kind === 'turtle') {
-        sprite.setVisible(this.showTurtleUnderwater);
+        sprite.setVisible(this.debugMode);
         const head = this.add.sprite(animal.x, animal.y, 'turtle-swimmer', `musk-turtle-${direction}-head`)
           .setName('turtle-head-' + animal.id).setDepth(30).setVisible(false);
         head.setScale(profile.size / animationFrameData(head.frame).referenceHeight);
@@ -313,6 +315,18 @@ export class PondScene extends Phaser.Scene {
 
   togglePause(): void {
     this.world.paused = !this.world.paused;
+    this.publishHud();
+  }
+
+  setDebugMode(enabled: boolean): void {
+    this.debugMode = enabled;
+    if (!this.ready) return;
+    this.boostMeters.setVisible(enabled);
+    if (!enabled) this.boostMeters.clear();
+    for (const animal of this.world.animals) if (animal.profile.kind === 'turtle') {
+      const amount = enabled ? 1 : turtleSurfaceAmount(animal);
+      this.creatures.get(animal.id)?.setVisible(amount > 0).setAlpha((0.83 + animal.id % 4 * 0.025) * amount);
+    }
     this.publishHud();
   }
 
@@ -385,6 +399,7 @@ export class PondScene extends Phaser.Scene {
       handPreviewId: (this.world.lastThrow?.id ?? -1) + 1,
       nextHandLucky: this.world.handfuls > 0 && !!this.world.nextThrow?.lucky,
       wind: this.world.wind.current,
+      debug: this.debugMode ? debugMetrics(this.world) : null,
     };
     document.dispatchEvent(new CustomEvent('pond:state', { detail }));
   }
@@ -420,7 +435,7 @@ export class PondScene extends Phaser.Scene {
       const bob = bird && !airborne ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
       sprite.setPosition(animal.x, animal.y - animal.altitude + bob)
         .setDepth((airborne ? 46 : bird ? 30 : 10) + animal.y / 1000);
-      if (!airborne && animal.profile.kind !== 'turtle' && animal.state === 'approaching' && animal.moving) {
+      if (this.debugMode && animal.profile.kind !== 'turtle') {
         const width = Math.max(10, Math.min(16, animal.profile.size * 0.26));
         const x = animal.x - width / 2;
         const y = sprite.y + (sprite.frame.y - sprite.displayOriginY) * sprite.scaleY - 5;
@@ -460,7 +475,7 @@ export class PondScene extends Phaser.Scene {
       }
       if (animal.profile.kind === 'turtle') {
         const amount = turtleSurfaceAmount(animal);
-        const bodyAmount = this.showTurtleUnderwater ? 1 : amount;
+        const bodyAmount = this.debugMode ? 1 : amount;
         sprite.setAlpha((0.83 + animal.id % 4 * 0.025) * bodyAmount).setVisible(bodyAmount > 0);
         const head = this.turtleHeads.get(animal.id)!;
         // The head frame shares the body's anchor, while the shell stays submerged.

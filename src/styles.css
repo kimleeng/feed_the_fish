@@ -1,4 +1,4 @@
-:root { font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif; color: #2e463d; background: #f6f3eb; font-synthesis: none; --green: #315b49; --muted: #7a8174; }
+:root { font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif; color: #2e463d; background: #f6f3eb; font-synthesis: none; --green: #315b49; --muted: #7a8174; --debug-surface: #eef0e5; --debug-border: #d7ddcc; }
 * { box-sizing: border-box; }
 body { margin: 0; }
 body[data-assist="off"] [data-assist-only] { display: none !important; }
@@ -52,19 +52,39 @@ h1 em { color: #859775; font-weight: normal; }
 .pond-instruction { pointer-events: none; position: absolute; bottom: 62px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; white-space: nowrap; padding: 12px 16px; background: #fffcf0f2; border: 1px solid #fff7e3; border-radius: 7px; font-size: 11px; box-shadow: 0 3px 15px #18352525; }
 .instruction-dot { background: #809d6b; }
 kbd { margin-left: 5px; color: #89907e; font: 8px ui-monospace, monospace; border: 1px solid #daddcf; padding: 3px 5px; border-radius: 3px; }
-.pond-bottom-bar { padding: 19px 0 0; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.pond-bottom-bar { padding: 19px 0 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; }
 .share-block { display: flex; align-items: center; gap: 14px; }
 .share-label { color: #8c8e7f; font: 8px ui-monospace, monospace; letter-spacing: 1px; }
 .share-meter { height: 5px; width: 125px; background: #e4d2b4; border-radius: 4px; overflow: hidden; }
 .share-meter span { display: block; height: 100%; background: #90a979; width: 0; transition: width .3s; }
 .share-value { font-size: 10px; color: #939586; }
 .share-value strong { color: #5b7350; font-weight: 600; }
-.pond-actions { display: flex; align-items: center; gap: 15px; }
+.pond-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 15px; }
 .small-button { background: #e8eade; border: 1px solid #dedfd1; border-radius: 5px; padding: 9px 13px; font-size: 10px; }
 .small-button span { margin-left: 18px; color: #7d9168; }
 .small-button svg { width: 11px; height: 11px; stroke: currentColor; stroke-width: 1.2; fill: none; vertical-align: -2px; }
 .icon-button { background: transparent; font-size: 22px; line-height: 1; padding: 4px; color: #828d76; }
 .visit-note { margin: 8px 0 0; font-size: 10px; color: #949789; }
+.debug-button[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #fffcef; }
+.debug-panel { margin-top: 18px; padding: 18px; min-width: 0; background: var(--debug-surface); border: 1px solid var(--debug-border); border-radius: 9px; }
+.debug-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 15px; }
+.debug-heading h2 { margin: 0; font: normal 21px Georgia, serif; }
+#debug-clock { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.debug-note { margin: 9px 0 16px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+.debug-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 22px; margin: 0 0 18px; }
+.debug-metrics dt { margin-bottom: 4px; color: var(--muted); font-size: 10px; }
+.debug-metrics dd { margin: 0; font-size: 12px; line-height: 1.6; font-variant-numeric: tabular-nums; }
+.debug-table-scroll { max-height: 320px; max-width: 100%; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--debug-border); border-radius: 5px; }
+.debug-table-scroll:focus-visible { outline: 3px solid #d3975f; outline-offset: 3px; }
+.debug-table { width: 100%; min-width: 750px; border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; text-align: left; }
+.debug-table caption { padding: 10px; color: var(--muted); font-size: 10px; text-align: left; }
+.debug-table th, .debug-table td { padding: 9px 10px; border-bottom: 1px solid var(--debug-border); white-space: nowrap; }
+.debug-table th { position: sticky; top: 0; background: var(--debug-surface); font-weight: 600; }
+@media (max-width: 540px) {
+  .debug-panel { padding: 13px; }
+  .debug-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .debug-metrics dd { font-size: 11px; }
+}
 .tips { margin: 31px 0 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding-top: 25px; border-top: 1px solid #e2e3d6; }
 .tips article { display: flex; align-items: baseline; gap: 13px; }
 .tip-number { font: 10px ui-monospace, monospace; color: #b4ad91; }

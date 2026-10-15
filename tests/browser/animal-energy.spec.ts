@@ -44,9 +44,10 @@ test('one handful can send a bird flying while another bird paddles with its boo
 });
 
 for (const viewport of [{ width: 1440, height: 960 }, { width: 390, height: 844 }]) {
-  test(`boost meters show chase energy at ${viewport.width}px and a new visit resets feeding history`, async ({ page }, testInfo) => {
+  test(`debug boost meters show chase energy at ${viewport.width}px and a new visit resets feeding history`, async ({ page }, testInfo) => {
     await page.setViewportSize(viewport);
     await arrive(page);
+    await page.getByRole('button', { name: 'Debug mode', exact: true }).click();
     const result = await page.evaluate(() => {
       const scene = (window as InspectedWindow).inspectedPond;
       const Simulation = scene.world.constructor as new (seed: number) => PondSimulation;

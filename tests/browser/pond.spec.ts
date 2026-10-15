@@ -845,18 +845,22 @@ test('swimmers turn through eight views, and visible fish sit beneath the water 
       }
     }
   }
-  await page.evaluate(() => { (window as InspectedWindow).inspectedPond.world.paused = false; });
-  const birdPoses = new Set<string>();
-  await expect.poll(async () => {
-    const pose = await page.evaluate(() => {
-      const scene = (window as InspectedWindow).inspectedPond;
-      const bird = scene.world.animals.find(animal => animal.profile.id === 'duck')!;
-      const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
-      return sprite.frame.name.split('-').at(-1)!;
-    });
-    birdPoses.add(pose);
-    return birdPoses.size;
-  }, { timeout: 5000 }).toBe(4);
+  const birdPoses = await page.evaluate(async () => {
+    const scene = (window as InspectedWindow).inspectedPond;
+    scene.world.paused = false;
+    const bird = scene.world.animals.find(animal => animal.profile.id === 'duck')!;
+    const sprite = scene.children.getByName('animal-' + bird.id) as Phaser.GameObjects.Sprite;
+    const poses = new Set<string>();
+    const deadline = performance.now() + 5000;
+    // Observe painted frames: increasing poll intervals can skip a short pose
+    // repeatedly even while the complete paddle cycle is rendering correctly.
+    while (poses.size < 4 && performance.now() < deadline) {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      poses.add(sprite.frame.name.split('-').at(-1)!);
+    }
+    return [...poses];
+  });
+  expect(birdPoses).toHaveLength(4);
   await openGuide(page);
   await expect(page.getByRole('heading', { name: 'Little coot' })).toBeVisible();
   expect(await page.locator('.species-art').evaluateAll(images =>
