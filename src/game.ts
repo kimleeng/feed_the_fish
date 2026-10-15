@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { PondSimulation, POND, inPond, type Point } from './simulation.ts';
+import { PondSimulation, POND, BIRD_TAKEOFF_SECONDS, inPond, type Point } from './simulation.ts';
 import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
 import { COIN_PRICE, type VendingPhase } from './vending.ts';
 import { MACHINE_POSITION, EMPLOYEE_HEIGHT, type EmployeePhase } from './restocking.ts';
@@ -423,9 +423,11 @@ export class PondScene extends Phaser.Scene {
       const airborne = bird && !!animal.flight;
       const direction = directionForHeading(animal.heading, this.directions.get(animal.id));
       this.directions.set(animal.id, direction);
-      const rate = airborne ? animal.profile.flight!.flapRate * (animal.state === 'taking-off' ? 1.5 : 1)
+      const rate = airborne ? animal.profile.flight!.flapRate
         : (bird ? 1.4 : animal.profile.speed / 24) * (animal.boosting ? BOOST_SPEED_MULTIPLIER : 1);
-      const stroke = airborne ? animal.state === 'landing' ? 0 : Math.floor(animal.flight!.elapsed * rate + animal.phase) % 2
+      // Accumulate the faster takeoff beats without resetting their phase at cruise.
+      const wingTime = animal.flight ? animal.flight.elapsed + Math.min(animal.flight.elapsed, BIRD_TAKEOFF_SECONDS) * 0.5 : 0;
+      const stroke = airborne ? animal.state === 'landing' ? 0 : Math.floor(wingTime * rate + animal.phase) % 2
         : animal.moving ? SWIM_CYCLE[Math.floor((this.world.elapsed * rate + animal.phase) * 2) % SWIM_CYCLE.length] : 0;
       const feeding = eatingFrame(animal, direction);
       const feedingBody = feeding && animal.profile.kind !== 'turtle';

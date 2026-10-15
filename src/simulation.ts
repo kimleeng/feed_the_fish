@@ -315,12 +315,11 @@ export class PondSimulation {
     const flight = animal.flight!;
     flight.elapsed = Math.min(flight.duration, flight.elapsed + dt);
     const t = flight.elapsed / flight.duration;
-    const progress = t * t * (3 - 2 * t);
-    animal.x = flight.origin.x + (flight.destination.x - flight.origin.x) * progress;
-    animal.y = flight.origin.y + (flight.destination.y - flight.origin.y) * progress;
-    const lift = Math.min(1, flight.elapsed / BIRD_TAKEOFF_SECONDS,
-      (flight.duration - flight.elapsed) / BIRD_LANDING_SECONDS);
-    animal.altitude = Math.sin(lift * Math.PI / 2) * animal.profile.flight!.height;
+    // Steady travel and one altitude curve make the entire trip a parabola;
+    // animation states never split movement into climb, cruise, and descent.
+    animal.x = flight.origin.x + (flight.destination.x - flight.origin.x) * t;
+    animal.y = flight.origin.y + (flight.destination.y - flight.origin.y) * t;
+    animal.altitude = 4 * t * (1 - t) * animal.profile.flight!.height;
     animal.moving = true;
     animal.state = flight.elapsed < BIRD_TAKEOFF_SECONDS ? 'taking-off'
       : flight.elapsed < flight.duration - BIRD_LANDING_SECONDS ? 'flying' : 'landing';

@@ -118,6 +118,37 @@ test('a bird takes off, cruises, lands at its chosen target, then eats at the su
   assert.equal(bird.state, 'chewing');
 });
 
+test('all birds follow a single parabolic arc with steady forward travel at different frame rates', () => {
+  for (const species of ['duck', 'gull', 'coot']) for (const frame of [1 / 30, 1 / 60, 1 / 144]) {
+    const { pond, bird } = birdPursuit(species, 240);
+    pond.step(frame);
+    const flight = bird.flight!;
+    const samples = [{ x: flight.origin.x, y: flight.origin.y, altitude: 0 }];
+    for (let section = 1; section <= 8; section++) {
+      const time = flight.duration * section / 8;
+      while (flight.elapsed < time - 1e-10) pond.step(Math.min(frame, time - flight.elapsed));
+      samples.push({ x: bird.x, y: bird.y, altitude: bird.altitude });
+    }
+    const label = `${species} at ${1 / frame} fps`;
+    const close = (actual: number, expected: number) => assert.ok(Math.abs(actual - expected) < 1e-7, label);
+    for (let section = 1; section <= 8; section++) {
+      close(samples[section].x - samples[section - 1].x, 30);
+      close(samples[section].y, flight.origin.y);
+      if (section <= 4) assert.ok(samples[section].altitude > samples[section - 1].altitude, `${label}: keep rising to one apex`);
+      else assert.ok(samples[section].altitude < samples[section - 1].altitude, `${label}: descend throughout the second half`);
+    }
+    close(samples[4].altitude, bird.profile.flight!.height);
+    close(samples[8].altitude, 0);
+    // A parabola has constant negative curvature, including across animation states.
+    const curvature = samples[2].altitude - 2 * samples[1].altitude + samples[0].altitude;
+    assert.ok(curvature < 0);
+    for (let section = 2; section < 8; section++) {
+      close(samples[section + 1].altitude - 2 * samples[section].altitude + samples[section - 1].altitude, curvature);
+      close(samples[section].altitude, samples[8 - section].altitude);
+    }
+  }
+});
+
 test('a paused flight freezes completely and safely finishes when its food disappears', () => {
   const { pond, bird } = birdPursuit('duck', 240);
   advance(pond, 0.5);
