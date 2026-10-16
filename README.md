@@ -1,12 +1,28 @@
 # Feed the fish
 
-An untimed, cozy browser game inspired by feeding fish at Tivoli Gardens in Copenhagen. The garden has an ivory Moorish facade, a Chinese-style pavilion, green ironwork, and benches facing the lake. A red round-globe pellet machine stands on the path beside the dock: click a 5 kr game coin, watch the chrome handle spin, and hold out a hand for ten throws. The money counter records pretend spending during this visit; the game has no payment service.
+An untimed, cozy game for the browser and Godot, inspired by feeding fish at Tivoli Gardens in Copenhagen. The garden has an ivory Moorish facade, a Chinese-style pavilion, green ironwork, and benches facing the lake. A red round-globe pellet machine stands on the path beside the dock: click a 5 kr game coin, watch the chrome handle spin, and hold out a hand for ten throws. The money counter records pretend spending during this visit; the game has no payment service.
 
 There is no countdown or game-over screen. Throw a little food, watch the pond, and refill whenever you like. Unused throws carry over when you buy another serving. Points credit the amount fish and the secret turtle actually eat, and the food-share meter shows the fish's share of all eaten pellets. Your best kindness score is saved in this browser.
 
 The pond opens directly with a compact hand counter, score, and feeding controls. **Assist mode** is off by default: the introduction, instructions, tips, food-share details, and field guide appear only when enabled. This lets players discover the wind and animal personalities by watching. The setting is saved in this browser when storage is available. Purchase price, serving size, and machine status remain visible in either mode.
 
-## Develop
+## Native Godot version
+
+Open **`project.godot` at the repository root in Godot 4.6+**, then press **F5** to play. No Node.js install is needed for a fresh checkout. The native port shares the existing artwork and keeps the browser game available.
+
+If this checkout already has `node_modules` or browser build output, run `npm run godot:prepare` once before opening the editor. Optional commands with Godot on your PATH:
+
+```bash
+npm run godot          # Play the native game
+npm run godot:editor   # Open the Godot project
+npm run godot:test     # Native gameplay, ambience/audio, and scene integration
+```
+
+The port uses a fixed 60 Hz simulation with interpolated rendering, articulated sprite meshes, continuous wing/tail motion, water effects, and native animated controls. It preserves the flight bands and 50% takeoff chance, original throw travel time, hunger boosts, feeding history, vending/restocking, lucky pellets, visitors, sound, Assist, and Debug. Settings and best scores are saved separately from the browser in Godot's `user://` directory.
+
+See [the Godot guide](godot/README.md) for architecture, data syncing, visual review, and desktop exports.
+
+## Browser development
 
 Requires Node.js 22.12+ (Node 24 is prepared in the cloud environment) and npm. No backend or API keys are required.
 
