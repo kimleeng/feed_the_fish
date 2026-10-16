@@ -11,13 +11,7 @@
     "test:browser": "playwright test",
     "check:running": "node scripts/check-running-game.mjs",
     "review:art": "node scripts/review-art.mjs",
-    "review:hands": "node scripts/review-hands.mjs",
-    "godot": "node godot/tools/run.mjs play",
-    "godot:editor": "node godot/tools/run.mjs editor",
-    "godot:prepare": "node godot/tools/prepare.mjs",
-    "godot:sync": "node --experimental-strip-types godot/tools/sync_browser_data.mjs",
-    "godot:test": "node godot/tools/run.mjs test",
-    "godot:review": "node godot/tools/run.mjs review"
+    "review:hands": "node scripts/review-hands.mjs"
   },
   "dependencies": { "phaser": "3.90.0" },
   "devDependencies": {

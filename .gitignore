@@ -2,10 +2,6 @@ node_modules/
 dist/
 test-results/
 playwright-report/
-.godot/
-*.import
-builds/
-godot/test-results/
 *.local
 .env
 .env.*
