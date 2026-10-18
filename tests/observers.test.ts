@@ -7,6 +7,7 @@ import { observerAtlas, observerFrame, observerHeight, walkingCycleDistance } fr
 import { OBSERVER_DESIGNS, OBSERVER_LOOKS } from '../src/observer-looks.ts';
 import { walkingFrames } from '../src/walking.ts';
 import { WALKING_GAIT } from '../src/walking-gait.ts';
+import { ORIGINAL_WALK_ATLAS } from '../src/original-walking.ts';
 
 function advance(simulation: { step(seconds: number): void }, seconds: number): void {
   for (let i = 0; i < Math.ceil(seconds / 0.05); i++) simulation.step(0.05);
@@ -19,6 +20,47 @@ function quietWatcher(crowd: ObserverCrowd) {
   crowd.people = [person];
   return person;
 }
+
+test('walking comparison immediately pairs current left arrivals with original right arrivals and repeats without stops', () => {
+  const crowd = new ObserverCrowd(42);
+  crowd.startWalkComparison();
+  assert.equal(crowd.people.length, 4);
+  const ids = crowd.people.map(person => person.id);
+  for (const age of ['adult', 'kid'] as const) {
+    const current = crowd.people.find(person => person.age === age && person.walkVersion === 'current')!;
+    const original = crowd.people.find(person => person.age === age && person.walkVersion === 'original')!;
+    assert.equal(current.direction, 1);
+    assert.equal(original.direction, -1);
+    assert.ok(current.x >= 260 && current.x < 600 && original.x > 600 && original.x <= 940);
+    assert.notEqual(current.lane, original.lane);
+    assert.equal(current.speed, original.speed);
+    assert.equal(observerHeight(current), observerHeight(original));
+    assert.equal(current.look, original.look);
+    assert.equal(observerAtlas(current), 'people-walking');
+    assert.equal(observerAtlas(original), ORIGINAL_WALK_ATLAS);
+    assert.ok(walkingCycleDistance(original) > walkingCycleDistance(current));
+  }
+  const frames = new Map(ids.map(id => [id, new Set<string>()]));
+  const previousX = new Map(crowd.people.map(person => [person.id, person.x]));
+  const wrapped = new Set<number>();
+  for (let step = 0; step < 60 * 70; step++) {
+    if (step % 60 === 0) crowd.noticeThrow();
+    crowd.step(1 / 60);
+    for (const person of crowd.people) {
+      frames.get(person.id)!.add(observerFrame(person));
+      assert.equal(person.state, 'walking');
+      assert.equal(person.velocity, person.speed);
+      if ((person.x - previousX.get(person.id)!) * person.direction < 0) wrapped.add(person.id);
+      previousX.set(person.id, person.x);
+    }
+  }
+  assert.deepEqual(crowd.people.map(person => person.id), ids);
+  assert.equal(wrapped.size, 4);
+  for (const person of crowd.people) assert.equal(frames.get(person.id)!.size, person.walkVersion === 'original' ? 8 : 13);
+  const frozen = crowd.people.map(person => [person.x, person.y, person.stride]);
+  crowd.step(0);
+  assert.deepEqual(crowd.people.map(person => [person.x, person.y, person.stride]), frozen);
+});
 
 test('larger visitors take longer steps and complete drawings follow distance traveled', () => {
   const crowd = new ObserverCrowd(12);

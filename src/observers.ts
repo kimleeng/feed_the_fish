@@ -24,6 +24,7 @@ export interface Observer extends Point {
   quietAfter: number;
   stopRoll: number;
   hasWatched: boolean;
+  walkVersion?: 'current' | 'original';
 }
 
 export const OBSERVER_PATH = { start: -50, end: 1250, lanes: [760, 773, 784] };
@@ -49,6 +50,7 @@ export class ObserverCrowd {
   private arrivalIn = 0;
   private lastThrowAt = 0;
   private sceneInterest = 1;
+  private comparingWalks = false;
 
   constructor(seed = Date.now()) {
     let value = seed >>> 0;
@@ -64,6 +66,24 @@ export class ObserverCrowd {
       this.arrive(progress, i === 0 ? 'adult' : i === 1 ? 'kid' : undefined);
     }
     this.arrivalIn = this.nextArrival();
+  }
+
+  startWalkComparison(): void {
+    this.comparingWalks = true;
+    // Start inside both the desktop view and the phone's narrower crop.
+    // Matching ages keep the same size and speed on the two separate lanes.
+    this.people = ([
+      { age: 'adult', walkVersion: 'current', direction: 1, x: 300, lane: 750 },
+      { age: 'kid', walkVersion: 'current', direction: 1, x: 500, lane: 750 },
+      { age: 'kid', walkVersion: 'original', direction: -1, x: 700, lane: 784 },
+      { age: 'adult', walkVersion: 'original', direction: -1, x: 900, lane: 784 },
+    ] as const).map(model => {
+      const speed = model.age === 'adult' ? 38 : 44;
+      return { ...model, id: this.nextId++, y: pathY(model.x, model.lane), look: 0, scale: 1,
+        state: 'walking', speed, velocity: speed, stride: 0, stop: null,
+        watchDuration: 0, watchRemaining: 0, interest: 1, quietAfter: Infinity,
+        stopRoll: 1, hasWatched: true };
+    });
   }
 
   private between(min: number, max: number): number { return min + this.random() * (max - min); }
@@ -179,6 +199,16 @@ export class ObserverCrowd {
       } else person.y = pathY(person.x, person.lane);
       const travel = Math.hypot(person.x - before.x, person.y - before.y);
       person.stride += travel * 4 / walkingCycleDistance(person);
+    }
+    if (this.comparingWalks) {
+      // Keep the comparison running without random arrivals or pond-watching stops.
+      for (const person of this.people) {
+        if (person.x < OBSERVER_PATH.start || person.x > OBSERVER_PATH.end) {
+          person.x = person.direction === 1 ? OBSERVER_PATH.start : OBSERVER_PATH.end;
+          person.y = pathY(person.x, person.lane);
+        }
+      }
+      return;
     }
     this.people = this.people.filter(person => person.x >= OBSERVER_PATH.start && person.x <= OBSERVER_PATH.end);
     this.arrivalIn -= dt;

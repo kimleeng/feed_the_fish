@@ -82,6 +82,8 @@ The path has open cobblestone entrances at both image edges. Six shaded visitor 
 
 Visitors and the employee use complete illustrated walking frames, including both legs, shoes, arms, and hands. The blue-jacket adult and yellow-jumper child have a four-key gait trial with 13 full poses each; the remaining designs retain their eight poses. The trial has distinct contact and passing drawings for each leg, with playback timed from the supporting shoes and actual travel. Shorter steps give a quicker cadence at the existing path speeds. The adult still has a visible gap after passing and needs more painted in-betweens. The runtime changes whole PNG frames.
 
+Open `/?walkCompare=1` to compare the trial with the original eight-pose drawings. A blue-jacket adult and yellow-jumper child start immediately from the left, labeled **NEW →**; the originals start from the right, labeled **← ORIGINAL**, on a separate lane. Matching ages have identical heights and travel speeds, while each version keeps its own stride timing. The four walkers keep passing without stopping to watch the pond. **Begin a new visit** replays their opening positions. The original atlas and cadence are frozen from commit `4fd2f3c` in `people-walking-original.json` and `src/original-walking.ts`; the PNGs remain unchanged.
+
 Animation follows actual distance covered, including approaches to the rail. Visitors brake before watching, stop while watching, and accelerate as they leave. Their route bends gently toward and away from the railing. The employee uses the same acceleration and braking, waits with both feet planted, and retains the existing reaching, lifting, pouring, and closing animations.
 
 ## Wind and water

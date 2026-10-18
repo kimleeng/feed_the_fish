@@ -9,6 +9,7 @@ import { throwerPose, THROW_MOTIONS, type ThrowEvent } from './throws.ts';
 import { DOCK_POSITION, THROWER_HEIGHT, throwerHand } from './thrower-art.ts';
 import { observerAtlas, observerFrame, observerHeight } from './observer-art.ts';
 import { WALK_ATLAS } from './walking.ts';
+import { ORIGINAL_WALK_ATLAS } from './original-walking.ts';
 import { turtleSurfaceAmount } from './turtle.ts';
 import { ANIMATED_ATLASES, SWIM_CYCLE, animationFrameData } from './animation-frames.ts';
 import { WaterShimmer } from './water.ts';
@@ -29,6 +30,7 @@ export interface PondState {
 }
 
 export class PondScene extends Phaser.Scene {
+  readonly walkComparison = new URLSearchParams(window.location.search).get('walkCompare') === '1';
   world = new PondSimulation();
   debugMode = false;
   private creatures = new Map<number, Phaser.GameObjects.Sprite>();
@@ -73,6 +75,7 @@ export class PondScene extends Phaser.Scene {
     this.load.multiatlas(EATING_ATLAS, `/art/${EATING_ATLAS}-animation.json`, '/art');
     this.load.atlas('bird-flyers', '/art/bird-flyers.png', '/art/bird-flyers.json');
     this.load.multiatlas(WALK_ATLAS, '/art/people-walking.json', '/art');
+    if (this.walkComparison) this.load.multiatlas(ORIGINAL_WALK_ATLAS, '/art/people-walking-original.json', '/art');
     this.load.atlas('pellet-stock', '/art/pellet-stock.png', '/art/pellet-stock.json');
     this.load.atlas('scene-machine-empty', '/art/scene-machine-empty.png', '/art/scene-machine-empty.json');
     this.load.on('loaderror', () => {
@@ -82,6 +85,7 @@ export class PondScene extends Phaser.Scene {
 
   create(): void {
     this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (this.walkComparison) this.world.crowd.startWalkComparison();
     this.add.image(600, 400, 'pond-art').setDisplaySize(1200, 800);
     this.effects = this.add.group();
     this.createWaterSurface();
@@ -282,6 +286,13 @@ export class PondScene extends Phaser.Scene {
         const sprite = this.add.sprite(0, 0, observerAtlas(person), observerFrame(person))
           .setName('observer-art').setOrigin(0.5, 1);
         visitor = this.add.container(person.x, person.y, [shadow, sprite]).setName('observer-' + person.id);
+        if (person.walkVersion) {
+          const label = this.add.text(0, -observerHeight(person) - 8, person.walkVersion === 'current' ? 'NEW →' : '← ORIGINAL', {
+            fontFamily: 'sans-serif', fontSize: '16px', color: '#234b3d', backgroundColor: '#fff5df',
+            padding: { x: 5, y: 3 },
+          }).setOrigin(0.5, 1).setName('walk-version-label');
+          visitor.add(label);
+        }
         this.observers.set(person.id, visitor);
       }
       const watching = person.state === 'watching';
@@ -343,6 +354,7 @@ export class PondScene extends Phaser.Scene {
     this.creatures.clear(); this.directions.clear(); this.pellets.clear();
     this.tweens.killAll(); this.effects.clear(true, true);
     this.world = new PondSimulation();
+    if (this.walkComparison) this.world.crowd.startWalkComparison();
     this.shimmerParticles = new WaterShimmer(this.world.wind.seed);
     this.waterShimmer.clear();
     this.lastServings = 0;
