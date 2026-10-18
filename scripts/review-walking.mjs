@@ -4,7 +4,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { OBSERVER_DESIGNS } from '../src/observer-looks.ts';
-import { walkingDistance, walkingFrames, walkingPace } from '../src/walking.ts';
+import { walkingDistance, walkingFrames } from '../src/walking.ts';
 
 const output = process.argv[3] || path.resolve('test-results/walking-review');
 await fs.mkdir(output, { recursive: true });
@@ -89,7 +89,7 @@ try {
   }
   for (const age of ['adult', 'kid']) {
     const design = `observer-${age}-0`, height = age === 'adult' ? 158 : 109;
-    const speed = walkingPace(design, height) ?? (age === 'adult' ? 38 : 44);
+    const speed = age === 'adult' ? 38 : 44;
     const distance = walkingDistance(design, height), duration = distance / speed, count = Math.round(duration * 30);
     const images = await page.evaluate(({ age, distance, count, speed }) => {
       const scene = window.pondReview, model = scene.world.crowd.people[0];

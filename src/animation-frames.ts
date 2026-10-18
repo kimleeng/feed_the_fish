@@ -10,13 +10,6 @@ export interface AnimationFrameData {
   hand?: { x: number; y: number };
   pour?: { x: number; y: number };
   feet?: { x: number; y: number }[];
-  supportFoot?: { x: number; y: number };
-  nearFoot?: { x: number; y: number };
-  farFoot?: { x: number; y: number };
-  hip?: { x: number; y: number };
-  supportLeg?: 'near' | 'far';
-  posePhase?: number;
-  keyPose?: 'near-contact' | 'far-passing' | 'far-contact' | 'near-passing';
   bodyBounds?: { x: number; y: number; w: number; h: number };
   waterline?: { x: number; y: number };
   surfaceOffset?: { x: number; y: number };

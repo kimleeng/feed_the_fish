@@ -8,6 +8,7 @@ import { WALKING_GAIT } from '../src/walking-gait.ts';
 test('complete walking cycles wrap in either direction and visit every drawing', () => {
   for (const design of [...OBSERVER_DESIGNS.map(person => person.design), 'employee'] as WalkingDesign[]) {
     const count = walkingFrames(design);
+    assert.equal(count, 8);
     for (const cycle of [-2, 0, 3]) {
       assert.deepEqual(WALKING_GAIT[design].phases.map(phase => walkingFrame(cycle + phase, design)),
         Array.from({ length: count }, (_, i) => i));
@@ -17,43 +18,27 @@ test('complete walking cycles wrap in either direction and visit every drawing',
   }
 });
 
-test('supporting-shoe annotations follow ground travel at authored phases', () => {
+test('the original adult and child use every cell of their unchanged eight-pose sheets in row order', () => {
   const atlas = JSON.parse(readFileSync(new URL('../public/art/people-walking.json', import.meta.url), 'utf8'));
   for (const design of ['observer-adult-0', 'observer-kid-0'] as const) {
-    const texture = atlas.textures.find((texture: { image: string }) => texture.image === design + '-walking-smooth.png');
-    const height = texture.frames[0].referenceHeight;
-    const distance = walkingDistance(design, height);
-    for (const leg of ['near', 'far']) {
-      const poses = texture.frames.filter((frame: { supportLeg?: string }) => frame.supportLeg === leg);
-      assert.ok(poses.length >= 4, `${design}: the ${leg} leg needs its own complete stance`);
-      const ground = poses.map((frame: { posePhase: number; supportFoot: { x: number }; sourceSize: { w: number } }) =>
-        frame.posePhase * distance + frame.supportFoot.x - frame.sourceSize.w / 2);
-      assert.ok(Math.max(...ground) - Math.min(...ground) < 1,
-        `${design}: the ${leg} supporting shoe jumps along the ground`);
-    }
-    const phases: readonly number[] = WALKING_GAIT[design].phases;
-    assert.equal(phases.length, walkingFrames(design));
-    for (let i = 0; i < phases.length; i++) assert.ok((phases[i + 1] ?? 1) - phases[i] >= .017);
-  }
-});
-
-test('the full-stride contact poses put each leg behind the hips and use even frame durations', () => {
-  const atlas = JSON.parse(readFileSync(new URL('../public/art/people-walking.json', import.meta.url), 'utf8'));
-  for (const design of ['observer-adult-0', 'observer-kid-0'] as const) {
-    const texture = atlas.textures.find((texture: { image: string }) => texture.image === design + '-walking-smooth.png');
-    const height = texture.frames[0].referenceHeight, phases = WALKING_GAIT[design].phases;
-    assert.equal(phases.length, 48);
-    for (let i = 0; i < phases.length; i++) assert.ok(Math.abs((phases[i + 1] ?? 1) - phases[i] - 1 / phases.length) < 1e-9);
-    const contacts = texture.frames.filter((frame: { keyPose?: string }) => frame.keyPose?.endsWith('contact'));
-    assert.equal(contacts.length, 2);
-    for (const contact of contacts) {
-      const front = contact.keyPose === 'near-contact' ? contact.nearFoot : contact.farFoot;
-      const back = contact.keyPose === 'near-contact' ? contact.farFoot : contact.nearFoot;
-      assert.ok(front && back && contact.hip, `${design}: both feet and the hip must be traced`);
-      assert.ok(front.x - contact.hip.x > height * .1, `${design}: the leading foot must reach forward`);
-      assert.ok(contact.hip.x - back.x > height * .1, `${design}: the trailing leg must extend behind the hips`);
+    const texture = atlas.textures.find((texture: { image: string }) => texture.image === design + '-walking.png');
+    assert.ok(texture);
+    assert.equal(texture.frames.length, 8);
+    const cellWidth = texture.size.w / 4, cellHeight = texture.size.h / 2;
+    assert.deepEqual(WALKING_GAIT[design].phases, [0, .125, .25, .375, .5, .625, .75, .875]);
+    for (const [index, entry] of texture.frames.entries()) {
+      const { frame } = entry;
+      assert.equal(entry.filename, `${design}-step-${index}`);
+      assert.equal(Math.floor(frame.x / cellWidth), index % 4);
+      assert.equal(Math.floor(frame.y / cellHeight), Math.floor(index / 4));
+      // The original wide adult contact touches the cell edge; its two-pixel
+      // soft-outline padding extends into the empty gap beyond that edge.
+      assert.ok(frame.x + frame.w <= (index % 4 + 1) * cellWidth + 2);
+      assert.ok(frame.y + frame.h <= (Math.floor(index / 4) + 1) * cellHeight);
     }
   }
+  assert.equal(walkingDistance('observer-adult-0', 1), .838266);
+  assert.equal(walkingDistance('observer-kid-0', 1), .773041);
 });
 
 test('each walker uses separate intact PNG drawings with one scale and a shared sole baseline', () => {
@@ -64,6 +49,7 @@ test('each walker uses separate intact PNG drawings with one scale and a shared 
     assert.equal(png.readUInt32BE(16), texture.size.w);
     assert.equal(png.readUInt32BE(20), texture.size.h);
     const design = texture.frames[0].filename.replace(/-step-0$/, '') as WalkingDesign;
+    assert.equal(texture.image, `${design}-walking.png`);
     const count = walkingFrames(design);
     const watching = OBSERVER_DESIGNS.find(person => person.design === design)?.watchingInSheet;
     assert.equal(texture.frames.length, count + (watching ? 1 : 0));

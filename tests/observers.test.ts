@@ -3,11 +3,10 @@ import assert from 'node:assert/strict';
 import { ObserverCrowd, WATCH_SPOTS, type ObserverAge } from '../src/observers.ts';
 import { PondSimulation, inPond } from '../src/simulation.ts';
 import { THROW_MOTIONS } from '../src/throws.ts';
-import { observerAtlas, observerFrame, observerHeight, observerPace, walkingCycleDistance } from '../src/observer-art.ts';
+import { observerAtlas, observerFrame, observerHeight, walkingCycleDistance } from '../src/observer-art.ts';
 import { OBSERVER_DESIGNS, OBSERVER_LOOKS } from '../src/observer-looks.ts';
 import { walkingFrames } from '../src/walking.ts';
 import { WALKING_GAIT } from '../src/walking-gait.ts';
-import { ORIGINAL_WALK_ATLAS, ORIGINAL_WALKING_GAIT } from '../src/original-walking.ts';
 
 function advance(simulation: { step(seconds: number): void }, seconds: number): void {
   for (let i = 0; i < Math.ceil(seconds / 0.05); i++) simulation.step(0.05);
@@ -21,24 +20,25 @@ function quietWatcher(crowd: ObserverCrowd) {
   return person;
 }
 
-test('walking comparison immediately pairs current left arrivals with original right arrivals and repeats without stops', () => {
+test('walking review immediately shows originals in both directions and repeats without stops', () => {
   const crowd = new ObserverCrowd(42);
-  crowd.startWalkComparison();
+  crowd.startWalkReview();
   assert.equal(crowd.people.length, 4);
   const ids = crowd.people.map(person => person.id);
   for (const age of ['adult', 'kid'] as const) {
-    const current = crowd.people.find(person => person.age === age && person.walkVersion === 'current')!;
-    const original = crowd.people.find(person => person.age === age && person.walkVersion === 'original')!;
-    assert.equal(current.direction, 1);
-    assert.equal(original.direction, -1);
-    assert.ok(current.x >= 260 && current.x < 600 && original.x > 600 && original.x <= 940);
-    assert.notEqual(current.lane, original.lane);
-    assert.equal(current.speed, original.speed);
-    assert.equal(observerHeight(current), observerHeight(original));
-    assert.equal(current.look, original.look);
-    assert.equal(observerAtlas(current), 'people-walking');
-    assert.equal(observerAtlas(original), ORIGINAL_WALK_ATLAS);
-    assert.equal(walkingCycleDistance(original), ORIGINAL_WALKING_GAIT[age].distance * observerHeight(original));
+    const rightward = crowd.people.find(person => person.age === age && person.direction === 1)!;
+    const leftward = crowd.people.find(person => person.age === age && person.direction === -1)!;
+    assert.ok(rightward.x >= 260 && rightward.x < 600 && leftward.x > 600 && leftward.x <= 940);
+    assert.notEqual(rightward.lane, leftward.lane);
+    assert.equal(rightward.speed, age === 'adult' ? 38 : 44);
+    assert.equal(rightward.speed, leftward.speed);
+    assert.equal(observerHeight(rightward), observerHeight(leftward));
+    assert.equal(rightward.look, leftward.look);
+    for (const person of [rightward, leftward]) {
+      assert.equal(person.walkReview, true);
+      assert.equal(observerAtlas(person), 'people-walking');
+      assert.equal(walkingCycleDistance(person), WALKING_GAIT[`observer-${age}-0`].distance * observerHeight(person));
+    }
   }
   const frames = new Map(ids.map(id => [id, new Set<string>()]));
   const previousX = new Map(crowd.people.map(person => [person.id, person.x]));
@@ -56,8 +56,7 @@ test('walking comparison immediately pairs current left arrivals with original r
   }
   assert.deepEqual(crowd.people.map(person => person.id), ids);
   assert.equal(wrapped.size, 4);
-  for (const person of crowd.people) assert.equal(frames.get(person.id)!.size,
-    person.walkVersion === 'original' ? 8 : walkingFrames(`observer-${person.age}-0`));
+  for (const person of crowd.people) assert.equal(frames.get(person.id)!.size, 8);
   const frozen = crowd.people.map(person => [person.x, person.y, person.stride]);
   crowd.step(0);
   assert.deepEqual(crowd.people.map(person => [person.x, person.y, person.stride]), frozen);
@@ -106,14 +105,13 @@ test('the yellow child visits each pose in order at display frame rates across w
   }
 });
 
-test('both full-stride walkers show every pose at their matched pace at 30, 60 and 120 fps', () => {
+test('both original walkers show every pose at their review pace at 30, 60 and 120 fps', () => {
   for (const age of ['adult', 'kid'] as const) for (const fps of [30, 60, 120]) {
     for (const scale of [.92, 1, 1.1]) for (const direction of [-1, 1] as const) {
       const crowd = new ObserverCrowd(42), person = crowd.people[0];
-      Object.assign(person, { age, look: 0, scale, direction, walkVersion: 'current',
+      Object.assign(person, { age, look: 0, scale, direction, walkReview: true,
         x: 600, y: 753, lane: 760, stride: .173 * 4, state: 'walking', stop: null, hasWatched: true });
-      person.speed = person.velocity = observerPace(person)!;
-      assert.ok(person.speed > 0);
+      person.speed = person.velocity = age === 'adult' ? 38 : 44;
       crowd.people = [person];
       const count = walkingFrames(`observer-${age}-0`), seen = new Set<number>();
       const index = () => Number(observerFrame(person).split('-step-')[1]);

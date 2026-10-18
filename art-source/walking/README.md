@@ -1,66 +1,67 @@
-# Full-stride motion trial
+# Original walking pose audit
 
-The blue-jacket adult and yellow-jumper child have 48 complete walking frames.
-Both contacts include a trailing leg behind the hips. The other eleven walking
-designs keep their existing drawings and pacing.
+The game uses the original, unchanged complete-character PNGs:
 
-Each `*-poses.png` contains 24 illustrated source poses in six columns. Its JSON
-records the common cell, height, ground, body anchor, and measured brown-shoe
-centers. Row order is the authored pose sequence: 0–23 and back to 0. Do not drop
-drawings because a tracked shoe repeats a position; the knee or other leg can
-still be moving, and foot tracking is ambiguous when the shoes overlap.
+- `public/art/observer-adult-0-walking.png` — blue-jacket adult.
+- `public/art/observer-kid-0-walking.png` — yellow-jumper child.
 
-`scripts/resample-walking.mjs` preserves all 24 source poses on even-numbered
-output frames and inserts one in-between on each odd frame. The two contacts
-are at phases 0 and .5; the passing poses are at .25 and .75. Shoe measurements
-calibrate ground distance and markers, rather than selecting or timing poses.
-`scripts/interpolate-walking.py`
-estimates dense motion between adjacent drawings, including the last-to-first
-pair, and generates 48 equally spaced phases. Each output warps one complete
-source drawing with its alpha, using the nearer endpoint to limit distortion.
-It never crossfades two silhouettes: that produced translucent duplicate limbs
-when the old block interpolator lost track of a crossing leg or arm.
+Both sheets contain eight drawings in four columns and two rows. Playback is
+0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 0, reading each row left to right.
+All eight cells are packaged and displayed. The engine does not omit or reverse
+any frames for leftward walking: it flips the complete character horizontally.
+Frame timing follows distance traveled at the original walking speeds.
 
-The motion field extends into transparent space and is integrated in small steps
-to keep moving contours continuous. Color is sampled with premultiplied alpha.
-FFmpeg only packs the resulting complete RGBA drawings into PNG sheets.
+The following numbered sheet uses the actual loaded frames at game size.
 
-The result is `*-cycle.png`, six columns of 512-pixel cells, with one shared
-450-pixel reference height and ground at y=498. `*-keys.png` extracts the two
-contacts and two passing phases for review. The main JSON records the 48 phases,
-supporting shoe, both shoe centers, body anchor, and the four key events.
-Its `sequence` records which adjacent source poses produced each output frame,
-including the 23-to-0 in-between at the loop boundary.
-The painted shoe and body markers follow the chosen drawing's motion field;
-the supporting-shoe ground marker records the intended constant-speed stance.
-These are distinct measurements, especially when one shoe is hidden by the other.
+![Original eight poses at game size](original-eight-poses.png)
 
-Rebuild from the project root with Python 3, Chromium, and FFmpeg installed.
-The Python packages are only needed to rebuild these assets; running or building
-the game still uses its existing npm dependencies.
+## What the drawings still need
 
-```bash
-python3 -m pip install -r scripts/walking-requirements.txt
-node scripts/resample-walking.mjs observer-adult-0
-node scripts/resample-walking.mjs observer-kid-0
-node scripts/build-walking-atlas.mjs
-```
+Eight frames is enough for a basic two-step walk when the two halves depict
+opposite legs performing the same sequence:
 
-The atlas builder applies one shared scale to each cycle and ships complete PNG
-poses at 260 pixels tall. Complete drawings register at the lowest painted sole;
-the atlas ground marker uses that same baseline, including poses whose painted
-bottom differs slightly from the source guide. Runtime movement follows the measured stride distance:
-the adult completes a cycle in two seconds and the child in 1.8 seconds at their
-normal pace. Both copies use the same travel speed in `/?walkCompare=1`.
+| Intended phase | First step | Opposite step |
+| --- | --- | --- |
+| Contact | 0 | 4 |
+| Down / weight acceptance | 1 | 5 |
+| Passing | 2 | 6 |
+| Up / recovery | 3 | 7 |
 
-This is a motion pass. Painted detail can still vary between the source drawings.
-Verify the actual pixels of the trailing shoe at both contacts,
-the swinging foot through the loop, and every displayed frame at 30/60/120 fps.
-Browser checks compare the pixels of all 24 authored drawings with their even
-output frames. Frame-number coverage and annotated shoe positions alone do not
-establish that the illustrated sequence is complete or that motion is natural.
+These are the intended roles, rather than claims that the existing art fulfills
+them. The second row repeats much of the first row's leg overlap and arm swing,
+especially in the wide-stride pairs 0/4 and 1/5. The passing poses 2/6 differ,
+but the surrounding poses do not consistently establish which leg is nearer
+the viewer. The recovery poses 3/7 also need review: wide strides alone do not
+show the trailing foot lifting and swinging through.
+
+The remaining issue is therefore missing or inconsistent *opposite-leg poses*,
+rather than missing atlas cells. Reordering the existing drawings or adding
+interpolations cannot reliably recover the intended leg identities. Keep the
+original appearance, make the two step sequences anatomically consistent, and
+then consider additional drawn in-betweens. Do not infer correctness from frame
+counts, shoe positions, or near/far annotations alone.
 
 The user's [walk-cycle body reference](https://1.bp.blogspot.com/-EhqNikTSBpY/TaY7f_MJY2I/AAAAAAAAA7U/H99z084fOTM/s1600/RW_modified_walk_lesson_07.jpg)
-is the guide for reviewing contact, down, passing, and up: weight drops just after
-contact, then the body rises after passing. Keep that body rhythm and opposing
-arm swing in mind when refining the source poses.
+guides contact, down, passing, and up, with opposing arm swing and a consistent
+near leg throughout the loop. Art corrections remain for a separate pass.
+
+## Review and rebuild
+
+`/?walkReview=1` starts the original adult and child immediately in both
+directions, with the same scale and pace for matching ages. The old
+`/?walkCompare=1` link remains an alias. The experimental generated sheets,
+interpolation tools, trial speed overrides, and duplicate original atlas have
+been removed; the trial remains in Git history.
+
+From the repository root:
+
+```bash
+node scripts/build-walking-atlas.mjs
+node scripts/review-walking.mjs http://127.0.0.1:5173
+```
+
+The builder reads the complete original PNGs and writes only atlas metadata
+and gait distances. It applies one shared scale and sole baseline per design.
+Browser checks verify that every original drawing is used, its opaque pixels
+are retained, and both directions play 0–7 without skips. The review script
+exports numbered pose sheets and motion previews from the actual loaded frames.
