@@ -15,6 +15,13 @@ npm ci
 npm run dev
 ```
 
+The header shows `v<package version>+<Git commit count>`, so each new commit gets
+a new build number. **Debug** shows the full commit hash and whether the source
+had local changes. Development reads this information on each page reload;
+production embeds it during `npm run build`, so an older `dist` identifies its
+own source until rebuilt. Source archives without Git show the package version
+and mark Git information unavailable.
+
 Click or tap the water, press **Space**, or use **Throw pellets**. A person on the dock throws food from their hand toward your chosen point. Birds see the pellets while airborne and may intercept them near the surface; fish only react after they land on the water. Floating food is available to birds for a short time, while fish can still eat it after it sinks.
 
 The dock character keeps their feet planted and a pellet pouch in the other hand. Three full-body motions use a quick underhand toss (60%), a raised overhand throw (30%), and a sideways spread throw (10%). Each moves through anticipation, windup, drive, open-hand release, follow-through, and recovery drawings before returning to rest. Food releases from the actual drawn hand, at a different height for each motion. The quick toss has a short flick; the overhand throw sends pellets on a higher arc; the spread throw fans four pellets across a wider patch centered on your aim. Wind bends the airborne paths and shifts their landing points, keeping targets inside the pond. Rapid clicks reserve throws in a queue, so every animation plays. Each queued throw records its own left or right direction. The character turns when that throw starts and keeps looking that way afterward, including with an empty hand; a throw directly ahead retains the previous direction. The hand indicator and pellet origin mirror with the character.

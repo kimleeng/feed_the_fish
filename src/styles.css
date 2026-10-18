@@ -10,6 +10,8 @@ button { border: 0; }
 [hidden] { display: none !important; }
 .site-shell { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
 .site-header { height: 98px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e4e4d8; }
+.brand-lockup { display: flex; flex-direction: column; gap: 2px; }
+.app-version { padding-left: 53px; color: var(--green); font-size: 11px; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .brand { display: flex; align-items: center; gap: 10px; color: #304c3f; font: 600 26px Georgia, serif; letter-spacing: -1px; text-decoration: none; }
 .brand-dot { color: #cd8554; margin-left: -9px; }
 .brand-fish { display: inline-block; width: 43px; height: 43px; background: url('/art/animals.png') 0 0 / 400% 400%; image-rendering: pixelated; flex-shrink: 0; }
@@ -74,6 +76,9 @@ kbd { margin-left: 5px; color: #89907e; font: 8px ui-monospace, monospace; borde
 .debug-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 22px; margin: 0 0 18px; }
 .debug-metrics dt { margin-bottom: 4px; color: var(--muted); font-size: 10px; }
 .debug-metrics dd { margin: 0; font-size: 12px; line-height: 1.6; font-variant-numeric: tabular-nums; }
+.debug-build { grid-column: 1 / -1; min-width: 0; }
+#debug-commit { font: 11px ui-monospace, monospace; overflow-wrap: anywhere; user-select: text; }
+#debug-source-state { display: block; color: var(--muted); font-size: 10px; }
 .debug-table-scroll { max-height: 320px; max-width: 100%; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--debug-border); border-radius: 5px; }
 .debug-table-scroll:focus-visible { outline: 3px solid #d3975f; outline-offset: 3px; }
 .debug-table { width: 100%; min-width: 750px; border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; text-align: left; }
@@ -137,6 +142,7 @@ dialog h2 { font: normal 33px Georgia, serif; margin: 16px 0 9px; letter-spacing
   .site-shell { padding: 0 14px; }
   .brand { font-size: 20px; gap: 5px; }
   .brand-fish { width: 34px; height: 34px; }
+  .app-version { padding-left: 39px; font-size: 10px; }
   .nav-button { font-size: 10px; gap: 5px; }
   #guide-button span { display: none; }
   nav { gap: 13px; }

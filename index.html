@@ -11,7 +11,10 @@
   <body data-assist="off">
     <div class="site-shell">
       <header class="site-header">
-        <a class="brand" href="./" aria-label="Feed the fish home"><span class="brand-fish" aria-hidden="true"></span>feed the fish<span class="brand-dot">.</span></a>
+        <div class="brand-lockup">
+          <a class="brand" href="./" aria-label="Feed the fish home"><span class="brand-fish" aria-hidden="true"></span>feed the fish<span class="brand-dot">.</span></a>
+          <span id="app-version" class="app-version" aria-label="Game version">__APP_VERSION__</span>
+        </div>
         <nav aria-label="Game tools">
           <button class="nav-button assist-button" id="assist-button" aria-label="Assist mode" aria-pressed="false"><span class="assist-indicator" aria-hidden="true"></span>Assist mode</button>
           <button class="nav-button" id="guide-button" aria-label="Field guide" data-assist-only><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5c4-1 7-1 9 1 2-2 5-2 9-1v14c-4-1-7-1-9 1-2-2-5-2-9-1zM12 6v14"/></svg><span>Field guide</span></button>
@@ -43,6 +46,7 @@
             <div class="debug-heading"><h2 id="debug-title">Debug mode</h2><span id="debug-clock"></span></div>
             <p class="debug-note">Boost meters: gold while boosting, green when hungry, blue after a recent meal. The underwater turtle is visible.</p>
             <dl class="debug-metrics">
+              <div class="debug-build"><dt>Commit</dt><dd><code id="debug-commit">__APP_COMMIT__</code><span id="debug-source-state">__APP_SOURCE_STATE__</span></dd></div>
               <div><dt>Energy</dt><dd id="debug-energy">—</dd></div>
               <div><dt>Airborne birds</dt><dd id="debug-flights">—</dd></div>
               <div><dt>Pellets</dt><dd id="debug-pellets">—</dd></div>

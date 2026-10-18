@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
+import { execFileSync } from 'node:child_process';
 import type Phaser from 'phaser';
 import type { PondScene } from '../../src/game.ts';
 import type { PondSimulation } from '../../src/simulation.ts';
@@ -29,6 +30,11 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
   test(`debug mode reveals energy, live metrics, and the turtle at ${viewport.width}px without changing play`, async ({ page }, testInfo) => {
     await page.setViewportSize(viewport);
     await arrive(page);
+    await expect(page.locator('#app-version')).toBeVisible();
+    await expect(page.locator('#app-version')).toHaveText(/^v\d+\.\d+\.\d+\+\d+$/);
+    const header = (await page.locator('.site-header').boundingBox())!;
+    const version = (await page.locator('#app-version').boundingBox())!;
+    expect(version.y + version.height).toBeLessThanOrEqual(header.y + header.height);
     await page.evaluate(() => {
       const scene = (window as InspectedWindow).inspectedPond;
       const Simulation = scene.world.constructor as new (seed: number, throwRoll?: () => number, behaviorRoll?: () => number) => PondSimulation;
@@ -69,6 +75,8 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
     await expect(debug).toHaveAttribute('aria-pressed', 'true');
     await expect(debug).toHaveAttribute('aria-expanded', 'true');
     await expect(page.locator('#debug-panel')).toBeVisible();
+    await expect(page.locator('#debug-commit')).toHaveText(execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim());
+    await expect(page.locator('#debug-source-state')).toHaveText(/^(Local changes|Committed source)$/);
     await expect.poll(() => visibility(page)).toEqual({ debug: true, turtle: true, meters: true });
     await expect(page.locator('#debug-animals tr')).toHaveCount(62);
     await expect(page.locator('#debug-energy')).toHaveText('61 hungry · 1 fed · 1 boosting');
