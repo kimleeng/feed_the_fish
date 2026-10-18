@@ -1,5 +1,48 @@
 # Garden and fish image review
 
+## Four-key walking trial, 18 October 2026
+
+The blue-jacket adult and yellow-jumper child now use four distinct whole-person
+keys: near-foot contact, far-leg passing, far-foot contact, and near-leg passing.
+The fixed keys are copied into the source cycles alongside complete painted
+in-betweens: 13 adult poses and 14 child poses. The original eight-pose PNGs and
+other eleven walking designs remain unchanged. The drawings retain the
+illustrated clothing, elbows, hands, and shoes; there are no limb cutouts or
+runtime deformation.
+
+Playback uses each design's pose phases, rather than assuming every sheet has
+eight equally spaced drawings. Supporting-shoe positions determine those phases
+and the full two-step ground distance. The shorter drawn steps give quicker leg
+cycles at the existing path speeds, without a global cadence multiplier. At
+158/109 game-pixel heights and 38/44 px/s, the adult and child cycles take about
+1.46 and 0.86 seconds respectively. Watching and pause still freeze walking.
+
+This is a gait trial, not a finished smooth animation. The adult has a sparse
+transition after the first passing pose: its largest interval covers about
+13 game pixels, so a visible pop/hold remains. The child's largest interval is
+about 6 game pixels. Generated candidates with unfinished legs and interpolated
+candidates with ghosting were rejected. Four distinct keys establish which leg
+is moving; more well-drawn in-betweens are still needed in the adult's gap.
+
+`art-source/walking` holds the selected full cycles, fixed four-key source sheets,
+and measured pose annotations. The atlas builder uniformly reduces the complete
+cycles from 450 to 300 pixels tall and packages them without editing anatomy.
+Original PNGs are never rewritten. The review script exports all thirteen pose
+sheets, actual movement samples, desktop/phone scenes, and separate looping GIFs
+at game size in both directions.
+
+Tests check complete-cycle playback, fixed whole-person scale and sole baseline,
+painted shoes at the annotated supporting points, and consistent world positions
+at authored phases. They do not prove foot locking between held cels or a natural
+gait; the motion previews are required for that judgment.
+
+Validation: 99 unit tests, the TypeScript/production build, and all 37 production
+browser scenarios passed. All 121 walking/watching atlas cuts passed bounds,
+overlap, frame-count, scale, and sole checks. The thirteen original walking PNGs
+and the other eleven walking atlas entries are unchanged. Desktop/phone scenes,
+pose sheets, and both game-size motion loops were reviewed; the adult transition
+described above remains visible.
+
 The review covered every rendered fish atlas cut (three profiles × eight headings × two tail strokes), all six regions of the complete pond image at full detail, and the assembled desktop and phone scene.
 
 | Area | Finding | Revision |

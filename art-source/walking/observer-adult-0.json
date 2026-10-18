@@ -1,0 +1,126 @@
+{
+  "version": 2,
+  "cell": 512,
+  "columns": 4,
+  "ground": 498,
+  "height": 450,
+  "output": {
+    "cell": 384,
+    "height": 300,
+    "ground": 368
+  },
+  "frames": 13,
+  "cyclePixels": 159.21914118403495,
+  "phases": [
+    0,
+    0.029289428611877687,
+    0.07354372469272574,
+    0.12823915959477902,
+    0.19394062466849937,
+    0.4245580711866699,
+    0.5063067261144226,
+    0.527297069316259,
+    0.6228967856013189,
+    0.785390929114854,
+    0.8723213090131402,
+    0.9138988053489931,
+    0.9360610498136775
+  ],
+  "poses": [
+    {
+      "keyPose": "near-contact",
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 280.38342402678944,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 275.7199863574352,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 268.67385534173854,
+        "y": 498
+      }
+    },
+    {
+      "keyPose": "far-passing",
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 259.96529516994633,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 249.5043643263757,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 212.7856525496975,
+        "y": 498
+      }
+    },
+    {
+      "keyPose": "far-contact",
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 285.8274952919021,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 282.48543087414754,
+        "y": 498
+      }
+    },
+    {
+      "keyPose": "near-passing",
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 267.2641261498029,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 241.39194817214252,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 227.5509677419355,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 220.93103448275863,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 217.40238095238095,
+        "y": 498
+      }
+    }
+  ]
+}

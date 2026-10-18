@@ -8,8 +8,9 @@ export function observerAtlas(person: Observer): string {
 }
 
 export function observerFrame(person: Observer): string {
-  const pose = person.state === 'watching' ? 'watch' : `step-${walkingFrame(person.stride / 4)}`;
-  return `observer-${person.age}-${person.look}-${pose}`;
+  const design = `observer-${person.age}-${person.look}` as WalkingDesign;
+  const pose = person.state === 'watching' ? 'watch' : `step-${walkingFrame(person.stride / 4, design)}`;
+  return `${design}-${pose}`;
 }
 
 export function observerHeight(person: Observer): number {

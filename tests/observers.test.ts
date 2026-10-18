@@ -5,7 +5,8 @@ import { PondSimulation, inPond } from '../src/simulation.ts';
 import { THROW_MOTIONS } from '../src/throws.ts';
 import { observerAtlas, observerFrame, observerHeight, walkingCycleDistance } from '../src/observer-art.ts';
 import { OBSERVER_DESIGNS, OBSERVER_LOOKS } from '../src/observer-looks.ts';
-import { WALK_FRAMES } from '../src/walking.ts';
+import { walkingFrames } from '../src/walking.ts';
+import { WALKING_GAIT } from '../src/walking-gait.ts';
 
 function advance(simulation: { step(seconds: number): void }, seconds: number): void {
   for (let i = 0; i < Math.ceil(seconds / 0.05); i++) simulation.step(0.05);
@@ -25,14 +26,15 @@ test('larger visitors take longer steps and complete drawings follow distance tr
   const kid = { ...adult, age: 'kid' as const };
   Object.assign(adult, { look: 0, scale: 1, y: 760, stride: 0, state: 'walking' });
   Object.assign(kid, { look: 0, scale: 1, y: 760, stride: 0, state: 'walking' });
-  assert.ok(walkingCycleDistance(adult) > 50 && walkingCycleDistance(adult) < 180);
-  assert.ok(walkingCycleDistance(kid) > 30 && walkingCycleDistance(kid) < 120);
+  assert.ok(walkingCycleDistance(adult) > observerHeight(adult) * .2 && walkingCycleDistance(adult) < observerHeight(adult) * 1.2);
+  assert.ok(walkingCycleDistance(kid) > observerHeight(kid) * .2 && walkingCycleDistance(kid) < observerHeight(kid) * 1.2);
   assert.ok(walkingCycleDistance(adult) > walkingCycleDistance(kid));
   const distance = walkingCycleDistance(adult);
   adult.scale = 1.1;
   assert.ok(Math.abs(walkingCycleDistance(adult) - distance * 1.1) < 0.000001);
-  const frames = Array.from({ length: WALK_FRAMES }, (_, index) => observerFrame({ ...adult, stride: index * 4 / WALK_FRAMES }));
-  assert.equal(new Set(frames).size, WALK_FRAMES);
+  const count = walkingFrames('observer-adult-0');
+  const frames = WALKING_GAIT['observer-adult-0'].phases.map(phase => observerFrame({ ...adult, stride: phase * 4 }));
+  assert.equal(new Set(frames).size, count);
   assert.equal(observerFrame({ ...adult, stride: 4 }), frames[0]);
   assert.equal(observerFrame({ ...kid, state: 'watching' }), 'observer-kid-0-watch');
 });

@@ -2,8 +2,8 @@ import { chromium } from '@playwright/test';
 import fs from 'node:fs/promises';
 import { OBSERVER_DESIGNS } from '../src/observer-looks.ts';
 
-// Package complete drawings. Only rectangles, alignment and stride metadata are
-// written; every PNG remains unchanged, and no body parts are cut or assembled.
+// Package complete drawings. Approved source cycles receive one uniform scale;
+// original PNGs remain unchanged and no body parts are cut or assembled.
 const designs = [...OBSERVER_DESIGNS, { design: 'employee', watchingInSheet: false }];
 const inspectOnly = process.argv.includes('--inspect');
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium', headless: true });
@@ -12,11 +12,47 @@ const gait = {};
 try {
   const page = await browser.newPage();
   for (const { design, watchingInSheet } of designs) {
-    const filename = `${design}-walking.png`;
+    let calibration;
+    try { calibration = JSON.parse(await fs.readFile(`art-source/walking/${design}.json`, 'utf8')); }
+    catch (error) { if (error.code !== 'ENOENT') throw error; }
+    if (calibration?.output) {
+      const source = await fs.readFile(`art-source/walking/${design}-cycle.png`);
+      const normalized = await page.evaluate(async ({ png, calibration }) => {
+        const image = new Image(); image.src = png; await image.decode();
+        const { cell, columns, frames, ground, height, output } = calibration;
+        const scale = output.height / height;
+        const canvas = document.createElement('canvas');
+        canvas.width = columns * output.cell; canvas.height = Math.ceil(frames / columns) * output.cell;
+        const context = canvas.getContext('2d');
+        for (let i = 0; i < frames; i++) context.drawImage(image,
+          i % columns * cell, Math.floor(i / columns) * cell, cell, cell,
+          i % columns * output.cell + output.cell / 2 - cell / 2 * scale,
+          Math.floor(i / columns) * output.cell + output.ground - ground * scale, cell * scale, cell * scale);
+        return canvas.toDataURL().split(',')[1];
+      }, { png: 'data:image/png;base64,' + source.toString('base64'), calibration });
+      if (!inspectOnly) await fs.writeFile(`public/art/${design}-walking-smooth.png`, Buffer.from(normalized, 'base64'));
+      const { cell, ground, height, output } = calibration, scale = output.height / height;
+      calibration = { ...calibration, cell: output.cell, cyclePixels: calibration.cyclePixels * scale,
+        poses: calibration.poses.map(pose => ({ ...pose, supportFoot: {
+          x: output.cell / 2 + (pose.supportFoot.x - cell / 2) * scale,
+          y: output.ground + (pose.supportFoot.y - ground) * scale,
+        } })) };
+    }
+    let filename = `${design}-walking.png`;
+    let count = watchingInSheet ? 9 : 8;
+    let columns = watchingInSheet ? 3 : 4;
+    let walkingFrames = 8;
+    try {
+      await fs.access(`public/art/${design}-walking-smooth.png`);
+      filename = `${design}-walking-smooth.png`;
+      walkingFrames = calibration?.frames ?? 16;
+      count = walkingFrames + (watchingInSheet ? 1 : 0);
+      columns = calibration?.columns ?? 4;
+    } catch (error) { if (error.code !== 'ENOENT') throw error; }
     let bytes;
     try { bytes = await fs.readFile(`public/art/${filename}`); }
     catch (error) { if (inspectOnly && error.code === 'ENOENT') continue; throw error; }
-    const inspected = await page.evaluate(async ({ png, watchingInSheet }) => {
+    const inspected = await page.evaluate(async ({ png, count, columns }) => {
       const image = new Image(); image.src = png; await image.decode();
       const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
       const context = canvas.getContext('2d', { willReadFrequently: true }); context.drawImage(image, 0, 0);
@@ -38,7 +74,6 @@ try {
         }
         if (queue.length > 300) boxes.push({ left, top, right, bottom, painted: queue.length });
       }
-      const count = watchingInSheet ? 9 : 8, columns = watchingInSheet ? 3 : 4;
       if (boxes.length !== count) throw new Error(`Expected ${count} complete silhouettes, found ${boxes.length}`);
       boxes.sort((a, b) => a.top + a.bottom - b.top - b.bottom);
       for (let row = 0; row < count / columns; row++) {
@@ -72,9 +107,10 @@ try {
         box.right = Math.min(width, box.right + 2);
       }
       return { width, height, boxes };
-    }, { png: 'data:image/png;base64,' + bytes.toString('base64'), watchingInSheet });
-    const heights = inspected.boxes.slice(0, 8).map(box => box.bottom - box.top).sort((a, b) => a - b);
-    const referenceHeight = (heights[3] + heights[4]) / 2;
+    }, { png: 'data:image/png;base64,' + bytes.toString('base64'), count, columns });
+    const heights = inspected.boxes.slice(0, walkingFrames).map(box => box.bottom - box.top).sort((a, b) => a - b);
+    const referenceHeight = (heights[Math.floor((walkingFrames - 1) / 2)] + heights[Math.floor(walkingFrames / 2)]) / 2;
+    if (calibration) inspected.boxes.forEach((box, i) => { box.axis = i % columns * calibration.cell + calibration.cell / 2; });
     const sourceSize = {
       w: Math.ceil(Math.max(...inspected.boxes.map(box => Math.max(box.axis - box.left, box.right - box.axis))) * 2) + 8,
       h: Math.max(...inspected.boxes.map(box => box.bottom - box.top)) + 8,
@@ -82,16 +118,24 @@ try {
     const frames = inspected.boxes.map((box, index) => {
       const frame = { x: box.left, y: box.top, w: box.right - box.left, h: box.bottom - box.top };
       const source = { x: Math.round(sourceSize.w / 2 - (box.axis - box.left)), y: sourceSize.h - frame.h };
-      return { filename: `${design}-${index === 8 ? 'watch' : `step-${index}`}`, frame, rotated: false, trimmed: true,
+      const measured = calibration?.poses[index];
+      const point = measured ? { x: index % columns * calibration.cell + measured.supportFoot.x,
+        y: Math.floor(index / columns) * calibration.cell + measured.supportFoot.y } : undefined;
+      return { filename: `${design}-${index === walkingFrames ? 'watch' : `step-${index}`}`, frame, rotated: false, trimmed: true,
         spriteSourceSize: { ...source, w: frame.w, h: frame.h }, sourceSize, referenceHeight,
         feet: box.feet.map(foot => ({ x: source.x + foot.x - frame.x, y: source.y + foot.y - frame.y })),
+        ...(point ? { supportFoot: { x: source.x + point.x - frame.x, y: source.y + point.y - frame.y },
+          supportLeg: measured.supportLeg, posePhase: calibration.phases[index],
+          ...(measured.keyPose ? { keyPose: measured.keyPose } : {}) } : {}),
       };
     });
-    const contacts = [0, 4].map(index => inspected.boxes[index].feet);
-    if (contacts.some(feet => feet.length !== 2)) throw new Error(`${design}: contact poses must show both complete shoes`);
-    const distance = contacts.reduce((sum, feet) => sum + feet[1].x - feet[0].x, 0) / referenceHeight;
+    const contacts = [0, Math.floor(walkingFrames / 2)].map(index => inspected.boxes[index].feet);
+    if (!calibration && contacts.some(feet => feet.length !== 2)) throw new Error(`${design}: contact poses must show both complete shoes`);
+    const distance = calibration ? calibration.cyclePixels / referenceHeight
+      : contacts.reduce((sum, feet) => sum + feet[1].x - feet[0].x, 0) / referenceHeight;
     if (distance < 0.2 || distance > 1.2) throw new Error(`${design}: implausible cycle distance ${distance}`);
-    gait[design] = { distance: Number(distance.toFixed(6)) };
+    gait[design] = { distance: Number(distance.toFixed(6)), frames: walkingFrames,
+      phases: calibration?.phases ?? Array.from({ length: walkingFrames }, (_, i) => i / walkingFrames) };
     atlas.textures.push({ image: filename, size: { w: inspected.width, h: inspected.height }, frames });
     console.log(`${design}: ${frames.length} intact drawings, cycle distance ${distance.toFixed(3)} × height, height variation ${((heights.at(-1) - heights[0]) / referenceHeight * 100).toFixed(1)}%`);
   }

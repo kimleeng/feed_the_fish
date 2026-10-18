@@ -1,16 +1,40 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { WALK_FRAMES, walkingDistance, walkingFrame, type WalkingDesign } from '../src/walking.ts';
+import { walkingDistance, walkingFrame, walkingFrames, type WalkingDesign } from '../src/walking.ts';
 import { OBSERVER_DESIGNS } from '../src/observer-looks.ts';
+import { WALKING_GAIT } from '../src/walking-gait.ts';
 
 test('complete walking cycles wrap in either direction and visit every drawing', () => {
-  for (const cycle of [-2, 0, 3]) {
-    assert.deepEqual(Array.from({ length: WALK_FRAMES }, (_, i) => walkingFrame(cycle + i / WALK_FRAMES)),
-      Array.from({ length: WALK_FRAMES }, (_, i) => i));
+  for (const design of [...OBSERVER_DESIGNS.map(person => person.design), 'employee'] as WalkingDesign[]) {
+    const count = walkingFrames(design);
+    for (const cycle of [-2, 0, 3]) {
+      assert.deepEqual(WALKING_GAIT[design].phases.map(phase => walkingFrame(cycle + phase, design)),
+        Array.from({ length: count }, (_, i) => i));
+    }
+    assert.equal(walkingFrame(1 - 1e-10, design), count - 1);
+    assert.equal(walkingFrame(1, design), 0);
   }
-  assert.equal(walkingFrame(1 - 1e-10), WALK_FRAMES - 1);
-  assert.equal(walkingFrame(1), 0);
+});
+
+test('drawn supporting shoes stay at the same ground position at authored phases', () => {
+  const atlas = JSON.parse(readFileSync(new URL('../public/art/people-walking.json', import.meta.url), 'utf8'));
+  for (const design of ['observer-adult-0', 'observer-kid-0'] as const) {
+    const texture = atlas.textures.find((texture: { image: string }) => texture.image === design + '-walking-smooth.png');
+    const height = texture.frames[0].referenceHeight;
+    const distance = walkingDistance(design, height);
+    for (const leg of ['near', 'far']) {
+      const poses = texture.frames.filter((frame: { supportLeg?: string }) => frame.supportLeg === leg);
+      assert.ok(poses.length >= 4, `${design}: the ${leg} leg needs its own complete stance`);
+      const ground = poses.map((frame: { posePhase: number; supportFoot: { x: number }; sourceSize: { w: number } }) =>
+        frame.posePhase * distance + frame.supportFoot.x - frame.sourceSize.w / 2);
+      assert.ok(Math.max(...ground) - Math.min(...ground) < 1,
+        `${design}: the ${leg} supporting shoe jumps along the ground`);
+    }
+    const phases: readonly number[] = WALKING_GAIT[design].phases;
+    assert.equal(phases.length, walkingFrames(design));
+    for (let i = 0; i < phases.length; i++) assert.ok((phases[i + 1] ?? 1) - phases[i] >= .017);
+  }
 });
 
 test('each walker uses separate intact PNG drawings with one scale and a shared sole baseline', () => {
@@ -21,8 +45,9 @@ test('each walker uses separate intact PNG drawings with one scale and a shared 
     assert.equal(png.readUInt32BE(16), texture.size.w);
     assert.equal(png.readUInt32BE(20), texture.size.h);
     const design = texture.frames[0].filename.replace(/-step-0$/, '') as WalkingDesign;
+    const count = walkingFrames(design);
     const watching = OBSERVER_DESIGNS.find(person => person.design === design)?.watchingInSheet;
-    assert.equal(texture.frames.length, WALK_FRAMES + (watching ? 1 : 0));
+    assert.equal(texture.frames.length, count + (watching ? 1 : 0));
     const height = texture.frames[0].referenceHeight;
     const distance = walkingDistance(design, height);
     assert.ok(distance > height * 0.2 && distance < height * 1.2);
@@ -30,7 +55,7 @@ test('each walker uses separate intact PNG drawings with one scale and a shared 
     const shapes = new Set<string>();
     for (const [index, entry] of texture.frames.entries()) {
       const { frame, sourceSize, spriteSourceSize: source } = entry;
-      assert.equal(entry.filename, `${design}-${index === WALK_FRAMES ? 'watch' : `step-${index}`}`);
+      assert.equal(entry.filename, `${design}-${index === count ? 'watch' : `step-${index}`}`);
       assert.equal(entry.referenceHeight, height);
       assert.equal(entry.rotated, false);
       assert.equal(source.w, frame.w); assert.equal(source.h, frame.h);

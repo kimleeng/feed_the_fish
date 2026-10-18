@@ -6,6 +6,7 @@ import type { AnimationFrameData } from '../../src/animation-frames.ts';
 import { TURTLE_HEAD_OFFSETS } from '../../src/turtle-pins.ts';
 import { DIRECTIONS } from '../../src/appearance.ts';
 import { OBSERVER_DESIGNS, OBSERVER_LOOKS } from '../../src/observer-looks.ts';
+import { walkingFrames, type WalkingDesign } from '../../src/walking.ts';
 
 type InspectedWindow = Window & { inspectedPond: PondScene };
 
@@ -436,9 +437,10 @@ test('every visitor and employee plays complete walking frames in both direction
   }, OBSERVER_DESIGNS);
   expect(result.originalPNGs).toBe(true);
   expect(result.sources).toBe(OBSERVER_DESIGNS.length + 1);
-  expect(result.frameCount).toBe((OBSERVER_DESIGNS.length + 1) * 8 + OBSERVER_DESIGNS.filter(design => design.watchingInSheet).length);
+  const counts = [...OBSERVER_DESIGNS.map(design => walkingFrames(design.design as WalkingDesign)), walkingFrames('employee')];
+  expect(result.frameCount).toBe(counts.reduce((sum, count) => sum + count, 0) + OBSERVER_DESIGNS.filter(design => design.watchingInSheet).length);
   for (const [index, walker] of result.walkers.entries()) {
-    expect(walker.frames).toBe(8);
+    expect(walker.frames).toBe(counts[index]);
     expect(walker.intact).toBe(true);
     expect(walker.grounded).toBe(960);
     expect(walker.maxHeight - walker.minHeight).toBeLessThan(12);

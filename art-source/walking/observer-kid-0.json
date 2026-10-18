@@ -1,0 +1,134 @@
+{
+  "version": 2,
+  "cell": 512,
+  "frames": 14,
+  "cyclePixels": 156.41141364084544,
+  "phases": [
+    0,
+    0.06819559086189984,
+    0.18505782515978395,
+    0.2758252536921303,
+    0.3768945362191461,
+    0.4240391100539922,
+    0.5803552286651801,
+    0.6641635506851575,
+    0.7571443247818248,
+    0.7937174889666256,
+    0.8142329513941204,
+    0.8603688739233368,
+    0.9412261486179129,
+    0.9740679371341924
+  ],
+  "poses": [
+    {
+      "keyPose": "near-contact",
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 310.307515589104,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 299.64094681832154,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 281.3623595505618,
+        "y": 498
+      }
+    },
+    {
+      "keyPose": "far-passing",
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 267.1652977412731,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "near",
+      "supportFoot": {
+        "x": 251.35690838555655,
+        "y": 498
+      }
+    },
+    {
+      "keyPose": "far-contact",
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 303.2318540024886,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 278.78222891566264,
+        "y": 498
+      }
+    },
+    {
+      "keyPose": "near-passing",
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 265.6736507936508,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 251.13039647577094,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 245.4099361643075,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 242.2010836845274,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 234.98489882210814,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 222.33789818398333,
+        "y": 498
+      }
+    },
+    {
+      "supportLeg": "far",
+      "supportFoot": {
+        "x": 217.20106761565836,
+        "y": 498
+      }
+    }
+  ],
+  "columns": 4,
+  "ground": 498,
+  "height": 450,
+  "output": {
+    "cell": 384,
+    "height": 300,
+    "ground": 368
+  }
+}

@@ -1,14 +1,24 @@
 import { WALKING_GAIT } from './walking-gait.ts';
 
 export const WALK_ATLAS = 'people-walking';
-export const WALK_FRAMES = 8;
 export type WalkingDesign = keyof typeof WALKING_GAIT;
 
-export function walkingFrame(cycles: number): number {
-  return Math.min(WALK_FRAMES - 1, Math.floor((cycles - Math.floor(cycles)) * WALK_FRAMES + 1e-7));
+export function walkingFrames(design: WalkingDesign): number {
+  return WALKING_GAIT[design].frames;
+}
+
+export function walkingFrame(cycles: number, design: WalkingDesign): number {
+  const phases: readonly number[] = WALKING_GAIT[design].phases;
+  const progress = cycles - Math.floor(cycles);
+  for (let index = phases.length - 1; index > 0; index--) {
+    if (progress + 1e-7 >= phases[index]) return index;
+  }
+  return 0;
 }
 
 export function walkingDistance(design: WalkingDesign, height: number): number {
+  // One complete pair of drawn steps must cover its measured ground distance.
+  // Shorter illustrated steps give a quicker cadence at the same path speed.
   return WALKING_GAIT[design].distance * height;
 }
 
