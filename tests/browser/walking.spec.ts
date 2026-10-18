@@ -6,6 +6,53 @@ import type { AnimationFrameData } from '../../src/animation-frames.ts';
 import { WALKING_GAIT } from '../../src/walking-gait.ts';
 import { walkingDistance } from '../../src/walking.ts';
 
+test('trial walkers keep opaque limbs through every in-between frame', async ({ page }, testInfo) => {
+  await page.addInitScript(() => document.addEventListener('pond:ready', event => {
+    (window as Window & { walkingReview: PondScene }).walkingReview = (event as CustomEvent<PondScene>).detail;
+  }));
+  await page.goto('/');
+  await expect(page.locator('#loading')).toBeHidden();
+  const measurements = await page.evaluate(() => {
+    const scene = (window as Window & { walkingReview: PondScene }).walkingReview;
+    scene.scene.pause();
+    const results = [];
+    for (const age of ['adult', 'kid']) {
+      for (let index = 0; index < 48; index++) {
+        const frame = scene.textures.getFrame('people-walking', `observer-${age}-0-step-${index}`)!;
+        const data = frame.customData as AnimationFrameData;
+        const canvas = document.createElement('canvas'); canvas.width = frame.cutWidth; canvas.height = frame.cutHeight;
+        const context = canvas.getContext('2d', { willReadFrequently: true })!;
+        context.drawImage(frame.source.image as HTMLImageElement, frame.cutX, frame.cutY, frame.cutWidth, frame.cutHeight,
+          0, 0, canvas.width, canvas.height);
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        let opaque = 0, trails = 0;
+        const top = Math.max(0, Math.floor(frame.realHeight - data.referenceHeight * .55 - frame.y));
+        for (let y = top; y < canvas.height; y++) for (let x = 0; x < canvas.width; x++) {
+          const alpha = pixels[(y * canvas.width + x) * 4 + 3];
+          if (alpha >= 220) opaque++;
+          if (alpha <= 24 || alpha >= 196) continue;
+          // Painted edge softness is fine. A translucent region several pixels
+          // away from any solid figure is the duplicate-limb trail we reject.
+          let edge = false;
+          for (let dy = -2; dy <= 2 && !edge; dy++) for (let dx = -2; dx <= 2; dx++) {
+            if (x + dx >= 0 && x + dx < canvas.width && y + dy >= 0 && y + dy < canvas.height &&
+              pixels[((y + dy) * canvas.width + x + dx) * 4 + 3] >= 220) { edge = true; break; }
+          }
+          if (!edge) trails++;
+        }
+        results.push({ age, index, opaque, trails, ratio: trails / opaque });
+      }
+    }
+    return results;
+  });
+  await fs.writeFile(testInfo.outputPath('walking-opacity.json'), JSON.stringify(measurements, null, 2));
+  expect(measurements).toHaveLength(96);
+  for (const frame of measurements) {
+    expect(frame.opaque, `${frame.age} frame ${frame.index} has no solid body`).toBeGreaterThan(1500);
+    expect(frame.ratio, `${frame.age} frame ${frame.index} has translucent limb trails`).toBeLessThan(.02);
+  }
+});
+
 test('both illustrated steps render supporting shoes and rear extension at their authored poses', async ({ page }, testInfo) => {
   await page.addInitScript(() => document.addEventListener('pond:ready', event => {
     (window as Window & { walkingReview: PondScene }).walkingReview = (event as CustomEvent<PondScene>).detail;

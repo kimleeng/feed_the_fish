@@ -1,7 +1,7 @@
 // Generated from complete contact drawings by scripts/build-walking-atlas.mjs.
 export const WALKING_GAIT = {
   "observer-adult-0": {
-    "distance": 0.778701,
+    "distance": 0.77574,
     "frames": 48,
     "phases": [
       0,
