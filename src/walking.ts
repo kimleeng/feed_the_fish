@@ -22,6 +22,11 @@ export function walkingDistance(design: WalkingDesign, height: number): number {
   return WALKING_GAIT[design].distance * height;
 }
 
+export function walkingPace(design: WalkingDesign, height: number): number | undefined {
+  const gait = WALKING_GAIT[design];
+  return 'seconds' in gait ? walkingDistance(design, height) / gait.seconds : undefined;
+}
+
 export function walkingAdvance(velocity: number, speed: number, remaining: number,
   acceleration: number, seconds: number): { velocity: number; distance: number } {
   if (seconds <= 0 || remaining <= 0) return { velocity, distance: 0 };

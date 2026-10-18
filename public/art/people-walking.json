@@ -3,471 +3,2333 @@
     {
       "image": "observer-adult-0-walking-smooth.png",
       "size": {
-        "w": 1536,
-        "h": 1536
+        "w": 1920,
+        "h": 2560
       },
       "frames": [
         {
           "filename": "observer-adult-0-step-0",
           "frame": {
-            "x": 124,
-            "y": 65,
-            "w": 124,
-            "h": 303
+            "x": 86,
+            "y": 45,
+            "w": 155,
+            "h": 263
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 26,
+            "x": 21,
             "y": 9,
-            "w": 124,
-            "h": 303
+            "w": 155,
+            "h": 263
           },
           "sourceSize": {
-            "w": 188,
-            "h": 312
+            "w": 190,
+            "h": 272
           },
-          "referenceHeight": 303,
+          "referenceHeight": 262,
           "feet": [
             {
-              "x": 88.5,
-              "y": 312
+              "x": 48.5,
+              "y": 271
+            },
+            {
+              "x": 147,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 110.25561601785964,
-            "y": 312
+            "x": 145.0313183649971,
+            "y": 272
           },
           "supportLeg": "near",
           "posePhase": 0,
+          "nearFoot": {
+            "x": 145.0313183649971,
+            "y": 260.9867587795049
+          },
+          "farFoot": {
+            "x": 47.78319513543394,
+            "y": 254.98463239358762
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          },
           "keyPose": "near-contact"
         },
         {
           "filename": "observer-adult-0-step-1",
           "frame": {
-            "x": 504,
-            "y": 65,
-            "w": 128,
-            "h": 303
+            "x": 411,
+            "y": 45,
+            "w": 146,
+            "h": 263
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 22,
+            "x": 26,
             "y": 9,
-            "w": 128,
-            "h": 303
+            "w": 146,
+            "h": 263
           },
           "sourceSize": {
-            "w": 188,
-            "h": 312
+            "w": 190,
+            "h": 272
           },
-          "referenceHeight": 303,
+          "referenceHeight": 262,
           "feet": [
             {
-              "x": 56.5,
-              "y": 299
+              "x": 50,
+              "y": 267
             },
             {
-              "x": 109.5,
-              "y": 312
+              "x": 142.5,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 107.14665757162345,
-            "y": 312
+            "x": 140.78090730947088,
+            "y": 272
           },
           "supportLeg": "near",
-          "posePhase": 0.029289428611877687
+          "posePhase": 0.020833333333333332,
+          "nearFoot": {
+            "x": 140.78090730947088,
+            "y": 261.3011773102799
+          },
+          "farFoot": {
+            "x": 48.56764473395458,
+            "y": 249.17912437414105
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
         },
         {
           "filename": "observer-adult-0-step-2",
           "frame": {
-            "x": 890,
-            "y": 64,
-            "w": 135,
-            "h": 304
+            "x": 730,
+            "y": 45,
+            "w": 143,
+            "h": 263
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 24,
-            "y": 8,
-            "w": 135,
-            "h": 304
+            "x": 25,
+            "y": 9,
+            "w": 143,
+            "h": 263
           },
           "sourceSize": {
-            "w": 188,
-            "h": 312
+            "w": 190,
+            "h": 272
           },
-          "referenceHeight": 303,
+          "referenceHeight": 262,
           "feet": [
             {
-              "x": 105,
-              "y": 312
+              "x": 56.5,
+              "y": 264
+            },
+            {
+              "x": 138.5,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 102.4492368944924,
-            "y": 312
+            "x": 136.53049625394476,
+            "y": 272
           },
           "supportLeg": "near",
-          "posePhase": 0.07354372469272574
+          "posePhase": 0.041666666666666664,
+          "nearFoot": {
+            "x": 136.53049625394476,
+            "y": 261.61559584105504
+          },
+          "farFoot": {
+            "x": 49.35209433247519,
+            "y": 243.37361635469443
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
         },
         {
           "filename": "observer-adult-0-step-3",
           "frame": {
-            "x": 1281,
-            "y": 65,
-            "w": 122,
-            "h": 303
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 31,
-            "y": 9,
-            "w": 122,
-            "h": 303
-          },
-          "sourceSize": {
-            "w": 188,
-            "h": 312
-          },
-          "referenceHeight": 303,
-          "feet": [
-            {
-              "x": 98.5,
-              "y": 312
-            }
-          ],
-          "supportFoot": {
-            "x": 96.64353011329763,
-            "y": 312
-          },
-          "supportLeg": "near",
-          "posePhase": 0.12823915959477902,
-          "keyPose": "far-passing"
-        },
-        {
-          "filename": "observer-adult-0-step-4",
-          "frame": {
-            "x": 113,
-            "y": 449,
-            "w": 137,
-            "h": 303
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 15,
-            "y": 9,
-            "w": 137,
-            "h": 303
-          },
-          "sourceSize": {
-            "w": 188,
-            "h": 312
-          },
-          "referenceHeight": 303,
-          "feet": [
-            {
-              "x": 92,
-              "y": 312
-            }
-          ],
-          "supportFoot": {
-            "x": 89.6695762175838,
-            "y": 312
-          },
-          "supportLeg": "near",
-          "posePhase": 0.19394062466849937
-        },
-        {
-          "filename": "observer-adult-0-step-5",
-          "frame": {
-            "x": 496,
-            "y": 449,
-            "w": 148,
-            "h": 303
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 14,
-            "y": 9,
-            "w": 148,
-            "h": 303
-          },
-          "sourceSize": {
-            "w": 188,
-            "h": 312
-          },
-          "referenceHeight": 303,
-          "feet": [
-            {
-              "x": 91.5,
-              "y": 312
-            }
-          ],
-          "supportFoot": {
-            "x": 65.19043503313162,
-            "y": 312
-          },
-          "supportLeg": "near",
-          "posePhase": 0.4245580711866699
-        },
-        {
-          "filename": "observer-adult-0-step-6",
-          "frame": {
-            "x": 886,
-            "y": 451,
-            "w": 131,
-            "h": 301
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 20,
-            "y": 11,
-            "w": 131,
-            "h": 301
-          },
-          "sourceSize": {
-            "w": 188,
-            "h": 312
-          },
-          "referenceHeight": 303,
-          "feet": [
-            {
-              "x": 88,
-              "y": 312
-            }
-          ],
-          "supportFoot": {
-            "x": 113.88499686126806,
-            "y": 312
-          },
-          "supportLeg": "far",
-          "posePhase": 0.5063067261144226,
-          "keyPose": "far-contact"
-        },
-        {
-          "filename": "observer-adult-0-step-7",
-          "frame": {
-            "x": 1257,
-            "y": 450,
-            "w": 144,
-            "h": 302
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 7,
-            "y": 10,
-            "w": 144,
-            "h": 302
-          },
-          "sourceSize": {
-            "w": 188,
-            "h": 312
-          },
-          "referenceHeight": 303,
-          "feet": [
-            {
-              "x": 41.5,
-              "y": 312
-            },
-            {
-              "x": 114,
-              "y": 311
-            }
-          ],
-          "supportFoot": {
-            "x": 111.65695391609825,
-            "y": 312
-          },
-          "supportLeg": "far",
-          "posePhase": 0.527297069316259
-        },
-        {
-          "filename": "observer-adult-0-step-8",
-          "frame": {
-            "x": 126,
-            "y": 837,
-            "w": 128,
-            "h": 299
+            "x": 1053,
+            "y": 45,
+            "w": 139,
+            "h": 263
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
             "x": 28,
-            "y": 13,
-            "w": 128,
-            "h": 299
+            "y": 9,
+            "w": 139,
+            "h": 263
           },
           "sourceSize": {
-            "w": 188,
-            "h": 312
+            "w": 190,
+            "h": 272
           },
-          "referenceHeight": 303,
+          "referenceHeight": 262,
           "feet": [
             {
-              "x": 90,
-              "y": 312
+              "x": 58,
+              "y": 262
+            },
+            {
+              "x": 136,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 101.50941743320195,
-            "y": 312
+            "x": 132.28008519841865,
+            "y": 272
           },
-          "supportLeg": "far",
-          "posePhase": 0.6228967856013189,
-          "keyPose": "near-passing"
+          "supportLeg": "near",
+          "posePhase": 0.0625,
+          "nearFoot": {
+            "x": 132.28008519841865,
+            "y": 261.866558130474
+          },
+          "farFoot": {
+            "x": 55.65519223784531,
+            "y": 242.56819455022907
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-4",
+          "frame": {
+            "x": 1388,
+            "y": 45,
+            "w": 115,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 43,
+            "y": 9,
+            "w": 115,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 75,
+              "y": 263
+            },
+            {
+              "x": 129,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 128.02967414289242,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.08333333333333333,
+          "nearFoot": {
+            "x": 128.02967414289242,
+            "y": 262.09866012723796
+          },
+          "farFoot": {
+            "x": 63.59852788663147,
+            "y": 243.2488848649155
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-5",
+          "frame": {
+            "x": 1717,
+            "y": 45,
+            "w": 101,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 52,
+            "y": 9,
+            "w": 101,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 106,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 123.77926308736642,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.10416666666666667,
+          "nearFoot": {
+            "x": 123.77926308736642,
+            "y": 262.7143511076572
+          },
+          "farFoot": {
+            "x": 78.69082729471666,
+            "y": 249.5068868906273
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-6",
+          "frame": {
+            "x": 127,
+            "y": 365,
+            "w": 88,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 62,
+            "y": 9,
+            "w": 88,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 113,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 119.52885203184016,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.125,
+          "nearFoot": {
+            "x": 119.4284925960294,
+            "y": 262.8369370272251
+          },
+          "farFoot": {
+            "x": 84.28795376338027,
+            "y": 243.06897116783102
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-7",
+          "frame": {
+            "x": 448,
+            "y": 365,
+            "w": 78,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 63,
+            "y": 9,
+            "w": 78,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 109,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 115.27844097631396,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.14583333333333334,
+          "nearFoot": {
+            "x": 113.89354100922515,
+            "y": 263.1304176000824
+          },
+          "farFoot": {
+            "x": 81.67911485034551,
+            "y": 242.6379238272142
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-8",
+          "frame": {
+            "x": 768,
+            "y": 366,
+            "w": 76,
+            "h": 262
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 63,
+            "y": 10,
+            "w": 76,
+            "h": 262
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 107.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 111.02802992078784,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.16666666666666666,
+          "nearFoot": {
+            "x": 109.03718989383879,
+            "y": 263.1955366654595
+          },
+          "farFoot": {
+            "x": 83.82249747962851,
+            "y": 243.24113144707997
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
         },
         {
           "filename": "observer-adult-0-step-9",
           "frame": {
-            "x": 506,
-            "y": 837,
-            "w": 114,
-            "h": 299
+            "x": 1089,
+            "y": 366,
+            "w": 77,
+            "h": 262
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 24,
-            "y": 13,
-            "w": 114,
-            "h": 299
+            "x": 64,
+            "y": 10,
+            "w": 77,
+            "h": 262
           },
           "sourceSize": {
-            "w": 188,
-            "h": 312
+            "w": 190,
+            "h": 272
           },
-          "referenceHeight": 303,
+          "referenceHeight": 262,
           "feet": [
             {
-              "x": 75,
-              "y": 312
+              "x": 107.5,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 84.26129878142831,
-            "y": 312
+            "x": 106.77761886526173,
+            "y": 272
           },
-          "supportLeg": "far",
-          "posePhase": 0.785390929114854
+          "supportLeg": "near",
+          "posePhase": 0.1875,
+          "nearFoot": {
+            "x": 105.15240388463394,
+            "y": 262.9337062493555
+          },
+          "farFoot": {
+            "x": 92.76972540791576,
+            "y": 245.32510141949797
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
         },
         {
           "filename": "observer-adult-0-step-10",
           "frame": {
-            "x": 892,
-            "y": 835,
-            "w": 127,
-            "h": 301
+            "x": 1407,
+            "y": 366,
+            "w": 82,
+            "h": 262
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 26,
-            "y": 11,
-            "w": 127,
-            "h": 301
+            "x": 62,
+            "y": 10,
+            "w": 82,
+            "h": 262
           },
           "sourceSize": {
-            "w": 188,
-            "h": 312
+            "w": 190,
+            "h": 272
           },
-          "referenceHeight": 303,
+          "referenceHeight": 262,
           "feet": [
             {
-              "x": 80.5,
-              "y": 312
+              "x": 107.5,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 75.03397849462363,
-            "y": 312
+            "x": 102.5272078097355,
+            "y": 272
           },
-          "supportLeg": "far",
-          "posePhase": 0.8723213090131402
+          "supportLeg": "near",
+          "posePhase": 0.20833333333333334,
+          "nearFoot": {
+            "x": 101.2676178754291,
+            "y": 262.67187583325153
+          },
+          "farFoot": {
+            "x": 101.716953336203,
+            "y": 247.40907139191597
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
         },
         {
           "filename": "observer-adult-0-step-11",
           "frame": {
-            "x": 1277,
-            "y": 832,
-            "w": 153,
-            "h": 304
+            "x": 1719,
+            "y": 366,
+            "w": 107,
+            "h": 262
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 27,
-            "y": 8,
-            "w": 153,
-            "h": 304
+            "x": 54,
+            "y": 10,
+            "w": 107,
+            "h": 262
           },
           "sourceSize": {
-            "w": 188,
-            "h": 312
+            "w": 190,
+            "h": 272
           },
-          "referenceHeight": 303,
+          "referenceHeight": 262,
           "feet": [
             {
-              "x": 73,
-              "y": 312
-            },
-            {
-              "x": 143,
-              "y": 312
+              "x": 113,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 70.62068965517233,
-            "y": 312
+            "x": 98.27679675420927,
+            "y": 272
           },
-          "supportLeg": "far",
-          "posePhase": 0.9138988053489931
+          "supportLeg": "near",
+          "posePhase": 0.22916666666666666,
+          "nearFoot": {
+            "x": 97.38283186622425,
+            "y": 262.41004541714767
+          },
+          "farFoot": {
+            "x": 110.66418126449025,
+            "y": 249.49304136433398
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
         },
         {
           "filename": "observer-adult-0-step-12",
           "frame": {
-            "x": 124,
-            "y": 1218,
-            "w": 158,
-            "h": 302
+            "x": 118,
+            "y": 686,
+            "w": 110,
+            "h": 263
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 26,
-            "y": 10,
-            "w": 158,
-            "h": 302
+            "x": 53,
+            "y": 9,
+            "w": 110,
+            "h": 263
           },
           "sourceSize": {
-            "w": 188,
-            "h": 312
+            "w": 190,
+            "h": 272
           },
-          "referenceHeight": 303,
+          "referenceHeight": 262,
           "feet": [
             {
-              "x": 70.5,
-              "y": 311
-            },
-            {
-              "x": 148,
-              "y": 312
+              "x": 113,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 68.26825396825396,
-            "y": 312
+            "x": 94.02638569868321,
+            "y": 271
+          },
+          "supportLeg": "near",
+          "posePhase": 0.25,
+          "nearFoot": {
+            "x": 93.49804585701929,
+            "y": 261.1482150010438
+          },
+          "farFoot": {
+            "x": 119.61140919277759,
+            "y": 250.5770113367521
+          },
+          "hip": {
+            "x": 95,
+            "y": 156.60000000000002
+          },
+          "keyPose": "far-passing"
+        },
+        {
+          "filename": "observer-adult-0-step-13",
+          "frame": {
+            "x": 438,
+            "y": 686,
+            "w": 111,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 53,
+            "y": 9,
+            "w": 111,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 113.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 89.77597464315704,
+            "y": 271
+          },
+          "supportLeg": "near",
+          "posePhase": 0.2708333333333333,
+          "nearFoot": {
+            "x": 89.61325984781445,
+            "y": 260.88638458493983
+          },
+          "farFoot": {
+            "x": 128.55863712106486,
+            "y": 252.66098130916998
+          },
+          "hip": {
+            "x": 95,
+            "y": 156.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-14",
+          "frame": {
+            "x": 757,
+            "y": 686,
+            "w": 112,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 52,
+            "y": 9,
+            "w": 112,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 113,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 85.52556358763093,
+            "y": 271
+          },
+          "supportLeg": "near",
+          "posePhase": 0.2916666666666667,
+          "nearFoot": {
+            "x": 85.52556358763093,
+            "y": 260.5569601451898
+          },
+          "farFoot": {
+            "x": 137.96247683826095,
+            "y": 255.32715079355125
+          },
+          "hip": {
+            "x": 95,
+            "y": 156.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-15",
+          "frame": {
+            "x": 1076,
+            "y": 687,
+            "w": 134,
+            "h": 261
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 51,
+            "y": 11,
+            "w": 134,
+            "h": 261
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 81.5,
+              "y": 272
+            },
+            {
+              "x": 156,
+              "y": 271
+            }
+          ],
+          "supportFoot": {
+            "x": 81.27515253210481,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.3125,
+          "nearFoot": {
+            "x": 81.27515253210481,
+            "y": 261.1733317030746
+          },
+          "farFoot": {
+            "x": 147.732475945754,
+            "y": 259.4601891225609
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-16",
+          "frame": {
+            "x": 1396,
+            "y": 687,
+            "w": 135,
+            "h": 261
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 51,
+            "y": 11,
+            "w": 135,
+            "h": 261
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 81,
+              "y": 272
+            },
+            {
+              "x": 156,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 77.02474147657858,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.3333333333333333,
+          "nearFoot": {
+            "x": 77.02474147657858,
+            "y": 260.8637104666127
+          },
+          "farFoot": {
+            "x": 153.59784568799432,
+            "y": 261.6033505707711
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-17",
+          "frame": {
+            "x": 1713,
+            "y": 687,
+            "w": 135,
+            "h": 261
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 48,
+            "y": 11,
+            "w": 135,
+            "h": 261
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 80.5,
+              "y": 272
+            },
+            {
+              "x": 153.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 72.77433042105235,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.3541666666666667,
+          "nearFoot": {
+            "x": 72.77433042105235,
+            "y": 260.70937406078417
+          },
+          "farFoot": {
+            "x": 151.27036847273348,
+            "y": 261.6695134020764
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-18",
+          "frame": {
+            "x": 103,
+            "y": 1007,
+            "w": 143,
+            "h": 261
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 38,
+            "y": 11,
+            "w": 143,
+            "h": 261
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 67.5,
+              "y": 272
+            },
+            {
+              "x": 151,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 68.52391936552627,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.375,
+          "nearFoot": {
+            "x": 68.52391936552627,
+            "y": 260.55503765495564
+          },
+          "farFoot": {
+            "x": 148.94289125747287,
+            "y": 261.7356762333818
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-19",
+          "frame": {
+            "x": 421,
+            "y": 1007,
+            "w": 142,
+            "h": 262
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 36,
+            "y": 10,
+            "w": 142,
+            "h": 262
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 65,
+              "y": 272
+            },
+            {
+              "x": 148.5,
+              "y": 271
+            }
+          ],
+          "supportFoot": {
+            "x": 64.27350831000012,
+            "y": 271
+          },
+          "supportLeg": "near",
+          "posePhase": 0.3958333333333333,
+          "nearFoot": {
+            "x": 64.27350831000012,
+            "y": 259.400701249127
+          },
+          "farFoot": {
+            "x": 146.61541404221225,
+            "y": 260.8018390646871
+          },
+          "hip": {
+            "x": 95,
+            "y": 156.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-20",
+          "frame": {
+            "x": 742,
+            "y": 1006,
+            "w": 142,
+            "h": 262
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 37,
+            "y": 10,
+            "w": 142,
+            "h": 262
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 65,
+              "y": 272
+            },
+            {
+              "x": 149,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 60.023097254473896,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.4166666666666667,
+          "nearFoot": {
+            "x": 60.023097254473896,
+            "y": 259.2267193157229
+          },
+          "farFoot": {
+            "x": 147.87431733721849,
+            "y": 261.5169493574713
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-21",
+          "frame": {
+            "x": 1062,
+            "y": 1006,
+            "w": 145,
+            "h": 262
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 37,
+            "y": 10,
+            "w": 145,
+            "h": 262
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 63.5,
+              "y": 272
+            },
+            {
+              "x": 151.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 55.77268619894767,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.4375,
+          "nearFoot": {
+            "x": 55.77268619894767,
+            "y": 257.95626140587456
+          },
+          "farFoot": {
+            "x": 149.47255381446416,
+            "y": 261.1988440517746
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-22",
+          "frame": {
+            "x": 1368,
+            "y": 1005,
+            "w": 160,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 23,
+            "y": 9,
+            "w": 160,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 48.5,
+              "y": 272
+            },
+            {
+              "x": 152.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 51.522275143421666,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.4583333333333333,
+          "nearFoot": {
+            "x": 51.522275143421666,
+            "y": 256.6858034960262
+          },
+          "farFoot": {
+            "x": 151.07079029170973,
+            "y": 260.8807387460779
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-23",
+          "frame": {
+            "x": 1686,
+            "y": 1004,
+            "w": 164,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 21,
+            "y": 8,
+            "w": 164,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 47,
+              "y": 272
+            },
+            {
+              "x": 154,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 47.27186408789544,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.4791666666666667,
+          "nearFoot": {
+            "x": 47.27186408789544,
+            "y": 255.41534558617786
+          },
+          "farFoot": {
+            "x": 152.6690267689553,
+            "y": 260.562633440381
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          },
+          "keyPose": "far-contact"
+        },
+        {
+          "filename": "observer-adult-0-step-24",
+          "frame": {
+            "x": 87,
+            "y": 1324,
+            "w": 163,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 22,
+            "y": 8,
+            "w": 163,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 47.5,
+              "y": 271
+            },
+            {
+              "x": 153,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 149.79306046806175,
+            "y": 272
           },
           "supportLeg": "far",
-          "posePhase": 0.9360610498136775
+          "posePhase": 0.5,
+          "nearFoot": {
+            "x": 49.431159021217894,
+            "y": 254.9288689313389
+          },
+          "farFoot": {
+            "x": 149.79306046806175,
+            "y": 260.8340904795523
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-25",
+          "frame": {
+            "x": 415,
+            "y": 1324,
+            "w": 144,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 30,
+            "y": 8,
+            "w": 144,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 53.5,
+              "y": 271
+            },
+            {
+              "x": 145.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 145.54264941253564,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.5208333333333334,
+          "nearFoot": {
+            "x": 53.55947217118319,
+            "y": 254.68322600199417
+          },
+          "farFoot": {
+            "x": 145.54264941253564,
+            "y": 261.2866570733447
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-26",
+          "frame": {
+            "x": 740,
+            "y": 1325,
+            "w": 135,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 35,
+            "y": 9,
+            "w": 135,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 61,
+              "y": 271
+            },
+            {
+              "x": 140.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 141.2922383570094,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.5416666666666666,
+          "nearFoot": {
+            "x": 57.68778532114845,
+            "y": 254.4375830726499
+          },
+          "farFoot": {
+            "x": 141.2922383570094,
+            "y": 261.7392236671369
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-27",
+          "frame": {
+            "x": 1061,
+            "y": 1325,
+            "w": 134,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 36,
+            "y": 9,
+            "w": 134,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 61,
+              "y": 271
+            },
+            {
+              "x": 140,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 137.0418273014834,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.5625,
+          "nearFoot": {
+            "x": 60.70870478243614,
+            "y": 253.9156555624852
+          },
+          "farFoot": {
+            "x": 137.03684147015883,
+            "y": 262.1303524599102
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-28",
+          "frame": {
+            "x": 1380,
+            "y": 1325,
+            "w": 132,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 35,
+            "y": 9,
+            "w": 132,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 60,
+              "y": 270
+            },
+            {
+              "x": 136.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 132.79141624595718,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.5833333333333334,
+          "nearFoot": {
+            "x": 59.84013672661263,
+            "y": 252.4233365472419
+          },
+          "farFoot": {
+            "x": 132.76393289898442,
+            "y": 262.30569389306174
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-29",
+          "frame": {
+            "x": 1699,
+            "y": 1324,
+            "w": 125,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 34,
+            "y": 8,
+            "w": 125,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 60,
+              "y": 270
+            },
+            {
+              "x": 129,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 128.54100519043095,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.6041666666666666,
+          "nearFoot": {
+            "x": 58.97156867078911,
+            "y": 250.93101753199858
+          },
+          "farFoot": {
+            "x": 128.49102432781,
+            "y": 262.48103532621326
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-30",
+          "frame": {
+            "x": 100,
+            "y": 1645,
+            "w": 123,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 35,
+            "y": 9,
+            "w": 123,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 62,
+              "y": 269
+            },
+            {
+              "x": 127.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 124.29059413490481,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.625,
+          "nearFoot": {
+            "x": 61.015571847656645,
+            "y": 249.65934782058207
+          },
+          "farFoot": {
+            "x": 124.24778544056753,
+            "y": 262.5733626332394
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-31",
+          "frame": {
+            "x": 426,
+            "y": 1646,
+            "w": 108,
+            "h": 262
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 41,
+            "y": 10,
+            "w": 108,
+            "h": 262
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 69.5,
+              "y": 267
+            },
+            {
+              "x": 119.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 120.04018307937861,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.6458333333333334,
+          "nearFoot": {
+            "x": 64.7144077798049,
+            "y": 248.51304420881797
+          },
+          "farFoot": {
+            "x": 120.02140394869411,
+            "y": 262.61852388522743
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-32",
+          "frame": {
+            "x": 766,
+            "y": 1646,
+            "w": 82,
+            "h": 262
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 61,
+            "y": 10,
+            "w": 82,
+            "h": 262
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 103.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 115.78977202385249,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.6666666666666666,
+          "nearFoot": {
+            "x": 81.50455275647028,
+            "y": 248.12181352347056
+          },
+          "farFoot": {
+            "x": 115.78977202385249,
+            "y": 262.5898184178359
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-33",
+          "frame": {
+            "x": 1087,
+            "y": 1646,
+            "w": 82,
+            "h": 262
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 62,
+            "y": 10,
+            "w": 82,
+            "h": 262
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 104,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 111.53936096832626,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.6875,
+          "nearFoot": {
+            "x": 82.56643933192322,
+            "y": 245.88010697924165
+          },
+          "farFoot": {
+            "x": 111.53936096832626,
+            "y": 262.26347676308524
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-34",
+          "frame": {
+            "x": 1408,
+            "y": 1647,
+            "w": 82,
+            "h": 261
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 63,
+            "y": 11,
+            "w": 82,
+            "h": 261
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 104,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 107.28894991280026,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.7083333333333334,
+          "nearFoot": {
+            "x": 82.30003583248208,
+            "y": 243.54175682495452
+          },
+          "farFoot": {
+            "x": 107.28894991280026,
+            "y": 261.9364250415333
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-35",
+          "frame": {
+            "x": 1729,
+            "y": 1648,
+            "w": 83,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 64,
+            "y": 12,
+            "w": 83,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 96.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 103.03853885727403,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.7291666666666666,
+          "nearFoot": {
+            "x": 82.03363233304071,
+            "y": 241.2034066706674
+          },
+          "farFoot": {
+            "x": 103.03853885727403,
+            "y": 261.60937331998116
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-36",
+          "frame": {
+            "x": 128,
+            "y": 1969,
+            "w": 86,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 63,
+            "y": 13,
+            "w": 86,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 95,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 98.78812780174789,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.75,
+          "nearFoot": {
+            "x": 81.7672288335996,
+            "y": 238.86505651638026
+          },
+          "farFoot": {
+            "x": 98.78812780174789,
+            "y": 261.282321598429
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-37",
+          "frame": {
+            "x": 447,
+            "y": 1969,
+            "w": 88,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 62,
+            "y": 13,
+            "w": 88,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 94.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 94.53771674622169,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.7708333333333334,
+          "nearFoot": {
+            "x": 81.50082533415843,
+            "y": 236.52670636209314
+          },
+          "farFoot": {
+            "x": 94.53771674622169,
+            "y": 260.9552698768771
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          },
+          "keyPose": "near-passing"
+        },
+        {
+          "filename": "observer-adult-0-step-38",
+          "frame": {
+            "x": 770,
+            "y": 1969,
+            "w": 86,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 65,
+            "y": 13,
+            "w": 86,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 94,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 90.28730569069558,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.7916666666666666,
+          "nearFoot": {
+            "x": 92.00532615583575,
+            "y": 240.2870448388744
+          },
+          "farFoot": {
+            "x": 90.28730569069558,
+            "y": 260.7205170211296
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-39",
+          "frame": {
+            "x": 1086,
+            "y": 1969,
+            "w": 91,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 61,
+            "y": 12,
+            "w": 91,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 100.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 86.03689463516935,
+            "y": 271
+          },
+          "supportLeg": "far",
+          "posePhase": 0.8125,
+          "nearFoot": {
+            "x": 102.71688090665361,
+            "y": 243.16462114509113
+          },
+          "farFoot": {
+            "x": 86.03689463516935,
+            "y": 259.4875384679149
+          },
+          "hip": {
+            "x": 95,
+            "y": 156.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-40",
+          "frame": {
+            "x": 1405,
+            "y": 1968,
+            "w": 93,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 60,
+            "y": 12,
+            "w": 93,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 100.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 81.78648357964312,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.8333333333333334,
+          "nearFoot": {
+            "x": 112.68781435933442,
+            "y": 247.93841757285418
+          },
+          "farFoot": {
+            "x": 81.78648357964312,
+            "y": 260.33167803997867
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-41",
+          "frame": {
+            "x": 1720,
+            "y": 1968,
+            "w": 97,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 55,
+            "y": 12,
+            "w": 97,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 101.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 77.53607252411712,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.8541666666666666,
+          "nearFoot": {
+            "x": 118.43546981566101,
+            "y": 250.7165843880639
+          },
+          "farFoot": {
+            "x": 77.53607252411712,
+            "y": 260.28740740536705
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-42",
+          "frame": {
+            "x": 111,
+            "y": 2288,
+            "w": 112,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 46,
+            "y": 12,
+            "w": 112,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 74.5,
+              "y": 272
+            },
+            {
+              "x": 129,
+              "y": 265
+            }
+          ],
+          "supportFoot": {
+            "x": 73.28566146859092,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.875,
+          "nearFoot": {
+            "x": 126.34493268993953,
+            "y": 253.3162563296055
+          },
+          "farFoot": {
+            "x": 73.28566146859092,
+            "y": 259.626830925934
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-43",
+          "frame": {
+            "x": 427,
+            "y": 2288,
+            "w": 126,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 42,
+            "y": 12,
+            "w": 126,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 70,
+              "y": 272
+            },
+            {
+              "x": 138.5,
+              "y": 269
+            }
+          ],
+          "supportFoot": {
+            "x": 69.03525041306477,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.8958333333333334,
+          "nearFoot": {
+            "x": 133.6349493117674,
+            "y": 258.2132329060887
+          },
+          "farFoot": {
+            "x": 69.03525041306477,
+            "y": 258.6730587608163
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-44",
+          "frame": {
+            "x": 743,
+            "y": 2288,
+            "w": 136,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 38,
+            "y": 12,
+            "w": 136,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 66,
+              "y": 272
+            },
+            {
+              "x": 144,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 64.78483935753866,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.9166666666666666,
+          "nearFoot": {
+            "x": 141.65118364382545,
+            "y": 261.9827980041582
+          },
+          "farFoot": {
+            "x": 64.78483935753866,
+            "y": 258.52502440516446
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-45",
+          "frame": {
+            "x": 1063,
+            "y": 2288,
+            "w": 137,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 38,
+            "y": 12,
+            "w": 137,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 65.5,
+              "y": 271
+            },
+            {
+              "x": 145.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 60.53442830201243,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.9375,
+          "nearFoot": {
+            "x": 143.43814728485495,
+            "y": 261.8739440698505
+          },
+          "farFoot": {
+            "x": 60.53442830201243,
+            "y": 257.89311784542133
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-46",
+          "frame": {
+            "x": 1383,
+            "y": 2287,
+            "w": 137,
+            "h": 261
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 38,
+            "y": 11,
+            "w": 137,
+            "h": 261
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 63.5,
+              "y": 271
+            },
+            {
+              "x": 145.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 56.2840172464862,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.9583333333333334,
+          "nearFoot": {
+            "x": 143.969204311569,
+            "y": 261.5782156397354
+          },
+          "farFoot": {
+            "x": 56.2840172464862,
+            "y": 256.9236226948101
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-adult-0-step-47",
+          "frame": {
+            "x": 1688,
+            "y": 2286,
+            "w": 153,
+            "h": 262
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 23,
+            "y": 10,
+            "w": 153,
+            "h": 262
+          },
+          "sourceSize": {
+            "w": 190,
+            "h": 272
+          },
+          "referenceHeight": 262,
+          "feet": [
+            {
+              "x": 49.5,
+              "y": 271
+            },
+            {
+              "x": 146.5,
+              "y": 272
+            }
+          ],
+          "supportFoot": {
+            "x": 52.0336061909602,
+            "y": 272
+          },
+          "supportLeg": "far",
+          "posePhase": 0.9791666666666666,
+          "nearFoot": {
+            "x": 144.50026133828305,
+            "y": 261.28248720961983
+          },
+          "farFoot": {
+            "x": 52.0336061909602,
+            "y": 255.95412754419885
+          },
+          "hip": {
+            "x": 95,
+            "y": 157.5999999999999
+          }
         }
       ]
     },
@@ -1851,479 +3713,2353 @@
     {
       "image": "observer-kid-0-walking-smooth.png",
       "size": {
-        "w": 1536,
-        "h": 1536
+        "w": 1920,
+        "h": 2560
       },
       "frames": [
         {
           "filename": "observer-kid-0-step-0",
           "frame": {
-            "x": 118,
-            "y": 67,
-            "w": 148,
-            "h": 301
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 32,
-            "y": 13,
-            "w": 148,
-            "h": 301
-          },
-          "sourceSize": {
-            "w": 212,
-            "h": 314
-          },
-          "referenceHeight": 302,
-          "feet": [
-            {
-              "x": 76.5,
-              "y": 313
-            },
-            {
-              "x": 145.5,
-              "y": 314
-            }
-          ],
-          "supportFoot": {
-            "x": 142.20501039273597,
-            "y": 314
-          },
-          "supportLeg": "near",
-          "posePhase": 0,
-          "keyPose": "near-contact"
-        },
-        {
-          "filename": "observer-kid-0-step-1",
-          "frame": {
-            "x": 496,
-            "y": 67,
-            "w": 151,
-            "h": 301
+            "x": 70,
+            "y": 45,
+            "w": 202,
+            "h": 265
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
             "x": 26,
-            "y": 13,
-            "w": 151,
-            "h": 301
+            "y": 9,
+            "w": 202,
+            "h": 265
           },
           "sourceSize": {
-            "w": 212,
-            "h": 314
+            "w": 232,
+            "h": 274
           },
-          "referenceHeight": 302,
+          "referenceHeight": 264,
           "feet": [
             {
-              "x": 75.5,
-              "y": 303
+              "x": 57,
+              "y": 274
             },
             {
-              "x": 137.5,
-              "y": 314
+              "x": 193.5,
+              "y": 274
             }
           ],
           "supportFoot": {
-            "x": 135.0939645455477,
-            "y": 314
+            "x": 185.18525213399323,
+            "y": 272
           },
           "supportLeg": "near",
-          "posePhase": 0.06819559086189984
+          "posePhase": 0,
+          "nearFoot": {
+            "x": 185.18525213399323,
+            "y": 254.9936016067714
+          },
+          "farFoot": {
+            "x": 56.768970633520894,
+            "y": 255.1026567005403
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          },
+          "keyPose": "near-contact"
+        },
+        {
+          "filename": "observer-kid-0-step-1",
+          "frame": {
+            "x": 411,
+            "y": 46,
+            "w": 166,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 47,
+            "y": 10,
+            "w": 166,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 70,
+              "y": 274
+            },
+            {
+              "x": 181.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 179.8296911162438,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.020833333333333332,
+          "nearFoot": {
+            "x": 179.8296911162438,
+            "y": 257.2631749964937
+          },
+          "farFoot": {
+            "x": 66.73741938183446,
+            "y": 249.2075186706851
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
         },
         {
           "filename": "observer-kid-0-step-2",
           "frame": {
-            "x": 879,
-            "y": 62,
-            "w": 148,
-            "h": 306
+            "x": 734,
+            "y": 46,
+            "w": 163,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 50,
+            "y": 10,
+            "w": 163,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 76,
+              "y": 274
+            },
+            {
+              "x": 180,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 174.47413009849436,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.041666666666666664,
+          "nearFoot": {
+            "x": 174.47413009849436,
+            "y": 259.13855518142026
+          },
+          "farFoot": {
+            "x": 74.59717032093886,
+            "y": 244.7337928615038
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-3",
+          "frame": {
+            "x": 1058,
+            "y": 46,
+            "w": 156,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 54,
+            "y": 10,
+            "w": 156,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 79.5,
+              "y": 272
+            },
+            {
+              "x": 175.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 169.11856908074492,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.0625,
+          "nearFoot": {
+            "x": 169.11856908074492,
+            "y": 260.00565891706935
+          },
+          "farFoot": {
+            "x": 77.06324548430166,
+            "y": 243.89578793585076
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-4",
+          "frame": {
+            "x": 1380,
+            "y": 46,
+            "w": 140,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 56,
+            "y": 10,
+            "w": 140,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 82.5,
+              "y": 271
+            },
+            {
+              "x": 163.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 163.7630080629956,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.08333333333333333,
+          "nearFoot": {
+            "x": 163.7630080629956,
+            "y": 260.8727626527184
+          },
+          "farFoot": {
+            "x": 79.52932064766469,
+            "y": 243.05778301019774
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-5",
+          "frame": {
+            "x": 1701,
+            "y": 46,
+            "w": 138,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 57,
+            "y": 10,
+            "w": 138,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 84,
+              "y": 270
+            },
+            {
+              "x": 163,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 158.40744704524604,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.10416666666666667,
+          "nearFoot": {
+            "x": 158.40744704524604,
+            "y": 261.5677565144162
+          },
+          "farFoot": {
+            "x": 83.53739622849525,
+            "y": 242.3929238148462
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-6",
+          "frame": {
+            "x": 113,
+            "y": 366,
+            "w": 117,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 69,
+            "y": 10,
+            "w": 117,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 91.5,
+              "y": 268
+            },
+            {
+              "x": 154,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 153.05188602749672,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.125,
+          "nearFoot": {
+            "x": 153.05188602749672,
+            "y": 262.08625489011456
+          },
+          "farFoot": {
+            "x": 89.12676465931861,
+            "y": 241.90562235698349
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-7",
+          "frame": {
+            "x": 438,
+            "y": 366,
+            "w": 108,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 74,
+            "y": 10,
+            "w": 108,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 98,
+              "y": 269
+            },
+            {
+              "x": 147.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 147.69632500974728,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.14583333333333334,
+          "nearFoot": {
+            "x": 147.69632500974728,
+            "y": 262.60475326581286
+          },
+          "farFoot": {
+            "x": 94.71613309014197,
+            "y": 241.41832089912089
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-8",
+          "frame": {
+            "x": 759,
+            "y": 366,
+            "w": 106,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 75,
+            "y": 10,
+            "w": 106,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 97.5,
+              "y": 269
+            },
+            {
+              "x": 143.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 142.34076399199785,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.16666666666666666,
+          "nearFoot": {
+            "x": 141.6167252376497,
+            "y": 263.03180282675316
+          },
+          "farFoot": {
+            "x": 96.62818663329972,
+            "y": 241.26468929048076
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-9",
+          "frame": {
+            "x": 1078,
+            "y": 366,
+            "w": 105,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 74,
+            "y": 10,
+            "w": 105,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 126,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 136.98520297424852,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.1875,
+          "nearFoot": {
+            "x": 134.9418778532263,
+            "y": 263.383670378018
+          },
+          "farFoot": {
+            "x": 95.51704163424165,
+            "y": 241.38537473995666
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-10",
+          "frame": {
+            "x": 1396,
+            "y": 366,
+            "w": 109,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 72,
+            "y": 10,
+            "w": 109,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 123,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 131.62964195649897,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.20833333333333334,
+          "nearFoot": {
+            "x": 131.62964195649897,
+            "y": 258.55959693532554
+          },
+          "farFoot": {
+            "x": 95.77547029482457,
+            "y": 244.61913751642646
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-11",
+          "frame": {
+            "x": 1715,
+            "y": 366,
+            "w": 108,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 71,
+            "y": 10,
+            "w": 108,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 107.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 126.27408093874965,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.22916666666666666,
+          "nearFoot": {
+            "x": 126.27408093874965,
+            "y": 248.39545285745817
+          },
+          "farFoot": {
+            "x": 94.30423229609096,
+            "y": 255.70664633456659
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-12",
+          "frame": {
+            "x": 115,
+            "y": 686,
+            "w": 108,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 71,
+            "y": 10,
+            "w": 108,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 108,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 120.91851992100018,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.25,
+          "nearFoot": {
+            "x": 120.91851992100018,
+            "y": 247.53704517386927
+          },
+          "farFoot": {
+            "x": 101.31358491193188,
+            "y": 256.5775278766157
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-13",
+          "frame": {
+            "x": 435,
+            "y": 686,
+            "w": 108,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 71,
+            "y": 10,
+            "w": 108,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 109,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 115.56295890325077,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.2708333333333333,
+          "nearFoot": {
+            "x": 115.56295890325077,
+            "y": 250.85735073866022
+          },
+          "farFoot": {
+            "x": 112.1311215181338,
+            "y": 252.86066332920814
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          },
+          "keyPose": "far-passing"
+        },
+        {
+          "filename": "observer-kid-0-step-14",
+          "frame": {
+            "x": 756,
+            "y": 686,
+            "w": 107,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 72,
+            "y": 10,
+            "w": 107,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 106.5,
+              "y": 274
+            },
+            {
+              "x": 161.5,
+              "y": 256
+            }
+          ],
+          "supportFoot": {
+            "x": 110.20739788550134,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.2916666666666667,
+          "nearFoot": {
+            "x": 110.20739788550134,
+            "y": 254.17765630345127
+          },
+          "farFoot": {
+            "x": 122.94865812433568,
+            "y": 249.1437987818008
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-15",
+          "frame": {
+            "x": 1076,
+            "y": 686,
+            "w": 107,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 72,
+            "y": 10,
+            "w": 107,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 103,
+              "y": 274
+            },
+            {
+              "x": 157,
+              "y": 259
+            }
+          ],
+          "supportFoot": {
+            "x": 104.8518368677519,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.3125,
+          "nearFoot": {
+            "x": 104.8518368677519,
+            "y": 257.4979618682422
+          },
+          "farFoot": {
+            "x": 133.76619473053734,
+            "y": 245.42693423439323
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-16",
+          "frame": {
+            "x": 1396,
+            "y": 686,
+            "w": 107,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 72,
+            "y": 10,
+            "w": 107,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 103,
+              "y": 274
+            },
+            {
+              "x": 155,
+              "y": 260
+            }
+          ],
+          "supportFoot": {
+            "x": 99.49627585000258,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.3333333333333333,
+          "nearFoot": {
+            "x": 99.49627585000258,
+            "y": 260.547369253786
+          },
+          "farFoot": {
+            "x": 143.8961904352027,
+            "y": 242.3730735872624
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-17",
+          "frame": {
+            "x": 1710,
+            "y": 686,
+            "w": 114,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 66,
+            "y": 10,
+            "w": 114,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 121,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 94.14071483225302,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.3541666666666667,
+          "nearFoot": {
+            "x": 94.14071483225302,
+            "y": 260.47797838473844
+          },
+          "farFoot": {
+            "x": 146.1106609427984,
+            "y": 246.9522483954271
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.60000000000002
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-18",
+          "frame": {
+            "x": 104,
+            "y": 1006,
+            "w": 121,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 60,
+            "y": 10,
+            "w": 121,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 91,
+              "y": 274
+            },
+            {
+              "x": 150,
+              "y": 267
+            }
+          ],
+          "supportFoot": {
+            "x": 88.78515381450367,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.375,
+          "nearFoot": {
+            "x": 88.78515381450367,
+            "y": 260.3993776873085
+          },
+          "farFoot": {
+            "x": 148.43054401524358,
+            "y": 251.55649805993403
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-19",
+          "frame": {
+            "x": 418,
+            "y": 1006,
+            "w": 141,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 54,
+            "y": 10,
+            "w": 141,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 84.5,
+              "y": 274
+            },
+            {
+              "x": 164.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 83.42959279675426,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.3958333333333333,
+          "nearFoot": {
+            "x": 83.42959279675426,
+            "y": 259.70100878353674
+          },
+          "farFoot": {
+            "x": 157.8440832916798,
+            "y": 257.8481405936948
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-20",
+          "frame": {
+            "x": 733,
+            "y": 1006,
+            "w": 157,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 49,
+            "y": 10,
+            "w": 157,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 79,
+              "y": 274
+            },
+            {
+              "x": 173.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 78.07403177900483,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.4166666666666667,
+          "nearFoot": {
+            "x": 78.07403177900483,
+            "y": 258.66643158009265
+          },
+          "farFoot": {
+            "x": 169.14275953296487,
+            "y": 259.3353362873952
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-21",
+          "frame": {
+            "x": 1050,
+            "y": 1006,
+            "w": 163,
+            "h": 264
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 46,
+            "y": 10,
+            "w": 163,
+            "h": 264
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 76.5,
+              "y": 274
+            },
+            {
+              "x": 177,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 72.7184707612555,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.4375,
+          "nearFoot": {
+            "x": 72.7184707612555,
+            "y": 256.74713440970004
+          },
+          "farFoot": {
+            "x": 174.75460024110362,
+            "y": 256.7815444077621
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-22",
+          "frame": {
+            "x": 1369,
+            "y": 1005,
+            "w": 164,
+            "h": 265
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 45,
+            "y": 9,
+            "w": 164,
+            "h": 265
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 75,
+              "y": 274
+            },
+            {
+              "x": 178.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 67.36290974350595,
+            "y": 272
+          },
+          "supportLeg": "near",
+          "posePhase": 0.4583333333333333,
+          "nearFoot": {
+            "x": 67.36290974350595,
+            "y": 254.5418997265108
+          },
+          "farFoot": {
+            "x": 176.39488904449672,
+            "y": 254.64537673081395
+          },
+          "hip": {
+            "x": 116,
+            "y": 157.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-23",
+          "frame": {
+            "x": 1669,
+            "y": 1003,
+            "w": 191,
+            "h": 265
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
             "x": 25,
+            "y": 9,
+            "w": 191,
+            "h": 265
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 62.5,
+              "y": 274
+            },
+            {
+              "x": 181.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 62.00734872575663,
+            "y": 274
+          },
+          "supportLeg": "near",
+          "posePhase": 0.4791666666666667,
+          "nearFoot": {
+            "x": 62.00734872575663,
+            "y": 254.33666504332155
+          },
+          "farFoot": {
+            "x": 178.0351778478896,
+            "y": 254.50920905386556
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-24",
+          "frame": {
+            "x": 67,
+            "y": 1322,
+            "w": 196,
+            "h": 266
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 23,
             "y": 8,
-            "w": 148,
-            "h": 306
+            "w": 196,
+            "h": 266
           },
           "sourceSize": {
-            "w": 212,
-            "h": 314
+            "w": 232,
+            "h": 274
           },
-          "referenceHeight": 302,
+          "referenceHeight": 264,
           "feet": [
             {
-              "x": 113,
-              "y": 314
+              "x": 55,
+              "y": 274
+            },
+            {
+              "x": 183.5,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 122.90823970037457,
-            "y": 314
+            "x": 56.651787708007134,
+            "y": 274
           },
           "supportLeg": "near",
-          "posePhase": 0.18505782515978395
+          "posePhase": 0.5,
+          "nearFoot": {
+            "x": 56.651787708007134,
+            "y": 252.1314303601323
+          },
+          "farFoot": {
+            "x": 179.6754666512826,
+            "y": 252.37304137691717
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
         },
         {
-          "filename": "observer-kid-0-step-3",
+          "filename": "observer-kid-0-step-25",
           "frame": {
-            "x": 1274,
-            "y": 66,
-            "w": 140,
-            "h": 302
+            "x": 387,
+            "y": 1322,
+            "w": 197,
+            "h": 266
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 36,
-            "y": 12,
-            "w": 140,
-            "h": 302
+            "x": 23,
+            "y": 8,
+            "w": 197,
+            "h": 266
           },
           "sourceSize": {
-            "w": 212,
-            "h": 314
+            "w": 232,
+            "h": 274
           },
-          "referenceHeight": 302,
+          "referenceHeight": 264,
           "feet": [
             {
-              "x": 115,
-              "y": 314
+              "x": 55,
+              "y": 274
+            },
+            {
+              "x": 184,
+              "y": 272
             }
           ],
           "supportFoot": {
-            "x": 113.44353182751547,
-            "y": 314
-          },
-          "supportLeg": "near",
-          "posePhase": 0.2758252536921303,
-          "keyPose": "far-passing"
-        },
-        {
-          "filename": "observer-kid-0-step-4",
-          "frame": {
-            "x": 115,
-            "y": 449,
-            "w": 147,
-            "h": 303
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 29,
-            "y": 11,
-            "w": 147,
-            "h": 303
-          },
-          "sourceSize": {
-            "w": 212,
-            "h": 314
-          },
-          "referenceHeight": 302,
-          "feet": [
-            {
-              "x": 106,
-              "y": 314
-            }
-          ],
-          "supportFoot": {
-            "x": 102.90460559037103,
-            "y": 314
-          },
-          "supportLeg": "near",
-          "posePhase": 0.3768945362191461
-        },
-        {
-          "filename": "observer-kid-0-step-5",
-          "frame": {
-            "x": 501,
-            "y": 455,
-            "w": 140,
-            "h": 297
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 31,
-            "y": 17,
-            "w": 140,
-            "h": 297
-          },
-          "sourceSize": {
-            "w": 212,
-            "h": 314
-          },
-          "referenceHeight": 302,
-          "feet": [
-            {
-              "x": 120.5,
-              "y": 314
-            }
-          ],
-          "supportFoot": {
-            "x": 137.48790266832577,
-            "y": 314
+            "x": 179.9468740417576,
+            "y": 274
           },
           "supportLeg": "far",
-          "posePhase": 0.4240391100539922,
+          "posePhase": 0.5208333333333334,
+          "nearFoot": {
+            "x": 52.63113299750279,
+            "y": 249.7167329496051
+          },
+          "farFoot": {
+            "x": 179.9468740417576,
+            "y": 251.0143301316284
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          },
           "keyPose": "far-contact"
         },
         {
-          "filename": "observer-kid-0-step-6",
+          "filename": "observer-kid-0-step-26",
           "frame": {
-            "x": 883,
-            "y": 450,
-            "w": 147,
-            "h": 302
+            "x": 714,
+            "y": 1324,
+            "w": 177,
+            "h": 262
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 29,
+            "x": 30,
             "y": 12,
-            "w": 147,
-            "h": 302
+            "w": 177,
+            "h": 262
           },
           "sourceSize": {
-            "w": 212,
-            "h": 314
+            "w": 232,
+            "h": 274
           },
-          "referenceHeight": 302,
+          "referenceHeight": 264,
           "feet": [
             {
-              "x": 122,
-              "y": 314
-            }
-          ],
-          "supportFoot": {
-            "x": 121.18815261044176,
-            "y": 314
-          },
-          "supportLeg": "far",
-          "posePhase": 0.5803552286651801
-        },
-        {
-          "filename": "observer-kid-0-step-7",
-          "frame": {
-            "x": 1273,
-            "y": 450,
-            "w": 139,
-            "h": 302
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 35,
-            "y": 12,
-            "w": 139,
-            "h": 302
-          },
-          "sourceSize": {
-            "w": 212,
-            "h": 314
-          },
-          "referenceHeight": 302,
-          "feet": [
-            {
-              "x": 116,
-              "y": 314
-            }
-          ],
-          "supportFoot": {
-            "x": 112.44910052910063,
-            "y": 314
-          },
-          "supportLeg": "far",
-          "posePhase": 0.6641635506851575,
-          "keyPose": "near-passing"
-        },
-        {
-          "filename": "observer-kid-0-step-8",
-          "frame": {
-            "x": 113,
-            "y": 835,
-            "w": 149,
-            "h": 301
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 27,
-            "y": 13,
-            "w": 149,
-            "h": 301
-          },
-          "sourceSize": {
-            "w": 212,
-            "h": 314
-          },
-          "referenceHeight": 302,
-          "feet": [
-            {
-              "x": 105.5,
-              "y": 314
-            }
-          ],
-          "supportFoot": {
-            "x": 102.75359765051397,
-            "y": 314
-          },
-          "supportLeg": "far",
-          "posePhase": 0.7571443247818248
-        },
-        {
-          "filename": "observer-kid-0-step-9",
-          "frame": {
-            "x": 494,
-            "y": 834,
-            "w": 184,
-            "h": 302
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 24,
-            "y": 12,
-            "w": 184,
-            "h": 302
-          },
-          "sourceSize": {
-            "w": 212,
-            "h": 314
-          },
-          "referenceHeight": 302,
-          "feet": [
-            {
-              "x": 101,
-              "y": 314
+              "x": 57,
+              "y": 273
             },
             {
-              "x": 172,
-              "y": 302
+              "x": 174.5,
+              "y": 274
             }
           ],
           "supportFoot": {
-            "x": 98.93995744287167,
-            "y": 314
+            "x": 174.59131302400817,
+            "y": 276
           },
           "supportLeg": "far",
-          "posePhase": 0.7937174889666256
+          "posePhase": 0.5416666666666666,
+          "nearFoot": {
+            "x": 54.09778752205909,
+            "y": 248.44101124704844
+          },
+          "farFoot": {
+            "x": 174.59131302400817,
+            "y": 254.85145655235965
+          },
+          "hip": {
+            "x": 116,
+            "y": 161.5999999999999
+          }
         },
         {
-          "filename": "observer-kid-0-step-10",
+          "filename": "observer-kid-0-step-27",
           "frame": {
-            "x": 878,
-            "y": 836,
-            "w": 171,
-            "h": 300
+            "x": 1034,
+            "y": 1325,
+            "w": 174,
+            "h": 263
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
-            "x": 24,
-            "y": 14,
-            "w": 171,
-            "h": 300
+            "x": 30,
+            "y": 11,
+            "w": 174,
+            "h": 263
           },
           "sourceSize": {
-            "w": 212,
-            "h": 314
+            "w": 232,
+            "h": 274
           },
-          "referenceHeight": 302,
+          "referenceHeight": 264,
           "feet": [
             {
-              "x": 94,
-              "y": 314
+              "x": 60,
+              "y": 270
             },
             {
-              "x": 152.5,
-              "y": 298
+              "x": 171.5,
+              "y": 274
             }
           ],
           "supportFoot": {
-            "x": 91.98993254807215,
-            "y": 314
+            "x": 169.23575200625874,
+            "y": 274
           },
           "supportLeg": "far",
-          "posePhase": 0.8603688739233368
+          "posePhase": 0.5625,
+          "nearFoot": {
+            "x": 55.56444204661534,
+            "y": 243.16528954449154
+          },
+          "farFoot": {
+            "x": 169.23575200625874,
+            "y": 254.68858297309066
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
         },
         {
-          "filename": "observer-kid-0-step-11",
+          "filename": "observer-kid-0-step-28",
           "frame": {
-            "x": 1265,
-            "y": 831,
-            "w": 166,
-            "h": 305
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 27,
-            "y": 9,
-            "w": 166,
-            "h": 305
-          },
-          "sourceSize": {
-            "w": 212,
-            "h": 314
-          },
-          "referenceHeight": 302,
-          "feet": [
-            {
-              "x": 85,
-              "y": 314
-            },
-            {
-              "x": 155,
-              "y": 306
-            }
-          ],
-          "supportFoot": {
-            "x": 83.55859878932233,
-            "y": 314
-          },
-          "supportLeg": "far",
-          "posePhase": 0.9412261486179129
-        },
-        {
-          "filename": "observer-kid-0-step-12",
-          "frame": {
-            "x": 118,
-            "y": 1218,
-            "w": 154,
-            "h": 302
+            "x": 1356,
+            "y": 1324,
+            "w": 169,
+            "h": 264
           },
           "rotated": false,
           "trimmed": true,
           "spriteSourceSize": {
             "x": 32,
-            "y": 12,
-            "w": 154,
-            "h": 302
+            "y": 10,
+            "w": 169,
+            "h": 264
           },
           "sourceSize": {
-            "w": 212,
-            "h": 314
+            "w": 232,
+            "h": 274
           },
-          "referenceHeight": 302,
+          "referenceHeight": 264,
           "feet": [
             {
-              "x": 80.5,
-              "y": 314
+              "x": 62.5,
+              "y": 269
             },
             {
-              "x": 150.5,
-              "y": 312
+              "x": 168,
+              "y": 274
             }
           ],
           "supportFoot": {
-            "x": 80.13404507710558,
-            "y": 314
+            "x": 163.8801909885094,
+            "y": 274
           },
           "supportLeg": "far",
-          "posePhase": 0.9740679371341924
+          "posePhase": 0.5833333333333334,
+          "nearFoot": {
+            "x": 60.84842664771577,
+            "y": 242.4297123394167
+          },
+          "farFoot": {
+            "x": 163.4907191394882,
+            "y": 256.5990536276754
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-29",
+          "frame": {
+            "x": 1688,
+            "y": 1323,
+            "w": 150,
+            "h": 265
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 44,
+            "y": 9,
+            "w": 150,
+            "h": 265
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 69.5,
+              "y": 268
+            },
+            {
+              "x": 158,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 158.52462997075986,
+            "y": 274
+          },
+          "supportLeg": "far",
+          "posePhase": 0.6041666666666666,
+          "nearFoot": {
+            "x": 66.26295585156231,
+            "y": 241.78100269561946
+          },
+          "farFoot": {
+            "x": 157.73236716046063,
+            "y": 258.5120324997001
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-30",
+          "frame": {
+            "x": 88,
+            "y": 1643,
+            "w": 151,
+            "h": 265
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 44,
+            "y": 9,
+            "w": 151,
+            "h": 265
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 71.5,
+              "y": 268
+            },
+            {
+              "x": 158,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 153.16906895301048,
+            "y": 274
+          },
+          "supportLeg": "far",
+          "posePhase": 0.625,
+          "nearFoot": {
+            "x": 70.52535818690632,
+            "y": 242.59056310855522
+          },
+          "farFoot": {
+            "x": 152.31182536714596,
+            "y": 258.2553219207439
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-31",
+          "frame": {
+            "x": 409,
+            "y": 1644,
+            "w": 149,
+            "h": 263
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 45,
+            "y": 11,
+            "w": 149,
+            "h": 263
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 72,
+              "y": 268
+            },
+            {
+              "x": 157.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 147.813507935261,
+            "y": 275
+          },
+          "supportLeg": "far",
+          "posePhase": 0.6458333333333334,
+          "nearFoot": {
+            "x": 74.0749892781397,
+            "y": 245.30229236331184
+          },
+          "farFoot": {
+            "x": 147.10027217823472,
+            "y": 257.6563179784539
+          },
+          "hip": {
+            "x": 116,
+            "y": 160.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-32",
+          "frame": {
+            "x": 730,
+            "y": 1645,
+            "w": 147,
+            "h": 261
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 46,
+            "y": 13,
+            "w": 147,
+            "h": 261
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 74,
+              "y": 268
+            },
+            {
+              "x": 156,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 142.45794691751166,
+            "y": 276
+          },
+          "supportLeg": "far",
+          "posePhase": 0.6666666666666666,
+          "nearFoot": {
+            "x": 77.62462036937302,
+            "y": 248.01402161806845
+          },
+          "farFoot": {
+            "x": 141.88871898932337,
+            "y": 257.0573140361639
+          },
+          "hip": {
+            "x": 116,
+            "y": 161.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-33",
+          "frame": {
+            "x": 1068,
+            "y": 1645,
+            "w": 116,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 64,
+            "y": 14,
+            "w": 116,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 96,
+              "y": 271
+            },
+            {
+              "x": 134,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 137.10238589976234,
+            "y": 277
+          },
+          "supportLeg": "far",
+          "posePhase": 0.6875,
+          "nearFoot": {
+            "x": 81.17425146060646,
+            "y": 250.72575087282507
+          },
+          "farFoot": {
+            "x": 136.677165800412,
+            "y": 256.45831009387393
+          },
+          "hip": {
+            "x": 116,
+            "y": 162.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-34",
+          "frame": {
+            "x": 1390,
+            "y": 1646,
+            "w": 114,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 66,
+            "y": 15,
+            "w": 114,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 101.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 131.7468248820128,
+            "y": 277
+          },
+          "supportLeg": "far",
+          "posePhase": 0.7083333333333334,
+          "nearFoot": {
+            "x": 84.72388255183978,
+            "y": 252.4374801275817
+          },
+          "farFoot": {
+            "x": 131.46561261150077,
+            "y": 254.85930615158372
+          },
+          "hip": {
+            "x": 116,
+            "y": 162.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-35",
+          "frame": {
+            "x": 1712,
+            "y": 1647,
+            "w": 110,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 68,
+            "y": 14,
+            "w": 110,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 99.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 126.39126386426346,
+            "y": 275
+          },
+          "supportLeg": "far",
+          "posePhase": 0.7291666666666666,
+          "nearFoot": {
+            "x": 88.2735136430731,
+            "y": 252.14920938233809
+          },
+          "farFoot": {
+            "x": 126.25405942258953,
+            "y": 251.26030220929374
+          },
+          "hip": {
+            "x": 116,
+            "y": 160.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-36",
+          "frame": {
+            "x": 114,
+            "y": 1967,
+            "w": 108,
+            "h": 261
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 70,
+            "y": 13,
+            "w": 108,
+            "h": 261
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 100.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 121.03570284651397,
+            "y": 274
+          },
+          "supportLeg": "far",
+          "posePhase": 0.75,
+          "nearFoot": {
+            "x": 91.83980932843659,
+            "y": 252.74540188861693
+          },
+          "farFoot": {
+            "x": 121.03022052726618,
+            "y": 248.79317632762104
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-37",
+          "frame": {
+            "x": 434,
+            "y": 1968,
+            "w": 108,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 70,
+            "y": 14,
+            "w": 108,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 100.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 115.68014182876459,
+            "y": 274
+          },
+          "supportLeg": "far",
+          "posePhase": 0.7708333333333334,
+          "nearFoot": {
+            "x": 95.74218118852787,
+            "y": 252.01155574134145
+          },
+          "farFoot": {
+            "x": 115.55861482871092,
+            "y": 249.98564562101865
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          },
+          "keyPose": "near-passing"
+        },
+        {
+          "filename": "observer-kid-0-step-38",
+          "frame": {
+            "x": 754,
+            "y": 1968,
+            "w": 107,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 70,
+            "y": 14,
+            "w": 107,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 100.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 110.32458081101515,
+            "y": 274
+          },
+          "supportLeg": "far",
+          "posePhase": 0.7916666666666666,
+          "nearFoot": {
+            "x": 99.64455304861906,
+            "y": 251.27770959406598
+          },
+          "farFoot": {
+            "x": 110.0870091301557,
+            "y": 251.17811491441626
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-39",
+          "frame": {
+            "x": 1074,
+            "y": 1968,
+            "w": 107,
+            "h": 260
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 70,
+            "y": 14,
+            "w": 107,
+            "h": 260
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 100,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 104.96901979326572,
+            "y": 274
+          },
+          "supportLeg": "far",
+          "posePhase": 0.8125,
+          "nearFoot": {
+            "x": 103.54692490871025,
+            "y": 250.54386344679097
+          },
+          "farFoot": {
+            "x": 104.6154034316005,
+            "y": 252.37058420781386
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-40",
+          "frame": {
+            "x": 1392,
+            "y": 1969,
+            "w": 110,
+            "h": 258
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 68,
+            "y": 16,
+            "w": 110,
+            "h": 258
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 99,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 99.61345877551616,
+            "y": 275
+          },
+          "supportLeg": "far",
+          "posePhase": 0.8333333333333334,
+          "nearFoot": {
+            "x": 107.44929676880156,
+            "y": 250.8100172995155
+          },
+          "farFoot": {
+            "x": 99.14379773304518,
+            "y": 254.56305350121147
+          },
+          "hip": {
+            "x": 116,
+            "y": 160.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-41",
+          "frame": {
+            "x": 1711,
+            "y": 1969,
+            "w": 112,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 67,
+            "y": 15,
+            "w": 112,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 98,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 94.25789775776684,
+            "y": 274
+          },
+          "supportLeg": "far",
+          "posePhase": 0.8541666666666666,
+          "nearFoot": {
+            "x": 111.35166862889264,
+            "y": 249.07617115224002
+          },
+          "farFoot": {
+            "x": 93.67219203448985,
+            "y": 254.75552279460953
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-42",
+          "frame": {
+            "x": 110,
+            "y": 2289,
+            "w": 114,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 66,
+            "y": 15,
+            "w": 114,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 97.5,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 88.90233674001743,
+            "y": 274
+          },
+          "supportLeg": "far",
+          "posePhase": 0.875,
+          "nearFoot": {
+            "x": 115.25404048898395,
+            "y": 248.34232500496455
+          },
+          "farFoot": {
+            "x": 88.2005863359347,
+            "y": 255.94799208800714
+          },
+          "hip": {
+            "x": 116,
+            "y": 159.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-43",
+          "frame": {
+            "x": 417,
+            "y": 2288,
+            "w": 149,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 53,
+            "y": 15,
+            "w": 149,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 83.5,
+              "y": 274
+            },
+            {
+              "x": 170,
+              "y": 273
+            }
+          ],
+          "supportFoot": {
+            "x": 83.54677572226802,
+            "y": 275
+          },
+          "supportLeg": "far",
+          "posePhase": 0.8958333333333334,
+          "nearFoot": {
+            "x": 160.48178074670852,
+            "y": 256.1418793894841
+          },
+          "farFoot": {
+            "x": 83.44557268308097,
+            "y": 255.3424629520341
+          },
+          "hip": {
+            "x": 116,
+            "y": 160.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-44",
+          "frame": {
+            "x": 736,
+            "y": 2288,
+            "w": 151,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 52,
+            "y": 15,
+            "w": 151,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 82.5,
+              "y": 274
+            },
+            {
+              "x": 171,
+              "y": 273
+            }
+          ],
+          "supportFoot": {
+            "x": 78.19121470451864,
+            "y": 275
+          },
+          "supportLeg": "far",
+          "posePhase": 0.9166666666666666,
+          "nearFoot": {
+            "x": 171.36003642687547,
+            "y": 256.29318895219876
+          },
+          "farFoot": {
+            "x": 78.19121470451864,
+            "y": 254.65204767670275
+          },
+          "hip": {
+            "x": 116,
+            "y": 160.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-45",
+          "frame": {
+            "x": 1044,
+            "y": 2288,
+            "w": 179,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 40,
+            "y": 15,
+            "w": 179,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 74.5,
+              "y": 274
+            },
+            {
+              "x": 181.5,
+              "y": 273
+            }
+          ],
+          "supportFoot": {
+            "x": 72.83565368676909,
+            "y": 275
+          },
+          "supportLeg": "far",
+          "posePhase": 0.9375,
+          "nearFoot": {
+            "x": 175.6345934204919,
+            "y": 255.18726154974865
+          },
+          "farFoot": {
+            "x": 72.83565368676909,
+            "y": 254.21380152856318
+          },
+          "hip": {
+            "x": 116,
+            "y": 160.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-46",
+          "frame": {
+            "x": 1359,
+            "y": 2288,
+            "w": 188,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 35,
+            "y": 15,
+            "w": 188,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 65,
+              "y": 274
+            },
+            {
+              "x": 188,
+              "y": 274
+            }
+          ],
+          "supportFoot": {
+            "x": 67.48009266901977,
+            "y": 275
+          },
+          "supportLeg": "far",
+          "posePhase": 0.9583333333333334,
+          "nearFoot": {
+            "x": 179.90915041410835,
+            "y": 254.08133414729855
+          },
+          "farFoot": {
+            "x": 67.48009266901977,
+            "y": 253.7755553804236
+          },
+          "hip": {
+            "x": 116,
+            "y": 160.5999999999999
+          }
+        },
+        {
+          "filename": "observer-kid-0-step-47",
+          "frame": {
+            "x": 1677,
+            "y": 2290,
+            "w": 191,
+            "h": 259
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 33,
+            "y": 15,
+            "w": 191,
+            "h": 259
+          },
+          "sourceSize": {
+            "w": 232,
+            "h": 274
+          },
+          "referenceHeight": 264,
+          "feet": [
+            {
+              "x": 64,
+              "y": 274
+            },
+            {
+              "x": 187,
+              "y": 271
+            }
+          ],
+          "supportFoot": {
+            "x": 62.124531651270445,
+            "y": 273
+          },
+          "supportLeg": "far",
+          "posePhase": 0.9791666666666666,
+          "nearFoot": {
+            "x": 185.09637709980257,
+            "y": 249.46311043602282
+          },
+          "farFoot": {
+            "x": 62.124531651270445,
+            "y": 252.826819887503
+          },
+          "hip": {
+            "x": 116,
+            "y": 158.5999999999999
+          }
         }
       ]
     },

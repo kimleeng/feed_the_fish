@@ -11,6 +11,9 @@ export interface AnimationFrameData {
   pour?: { x: number; y: number };
   feet?: { x: number; y: number }[];
   supportFoot?: { x: number; y: number };
+  nearFoot?: { x: number; y: number };
+  farFoot?: { x: number; y: number };
+  hip?: { x: number; y: number };
   supportLeg?: 'near' | 'far';
   posePhase?: number;
   keyPose?: 'near-contact' | 'far-passing' | 'far-contact' | 'near-passing';

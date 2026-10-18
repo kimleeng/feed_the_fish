@@ -1,5 +1,5 @@
 import type { Observer } from './observers.ts';
-import { WALK_ATLAS, walkingDistance, walkingFrame, type WalkingDesign } from './walking.ts';
+import { WALK_ATLAS, walkingDistance, walkingFrame, walkingPace, type WalkingDesign } from './walking.ts';
 import { OBSERVER_LOOKS } from './observer-looks.ts';
 import { ORIGINAL_WALK_ATLAS, ORIGINAL_WALKING_GAIT } from './original-walking.ts';
 
@@ -27,4 +27,8 @@ export function observerHeight(person: Observer): number {
 export function walkingCycleDistance(person: Observer): number {
   if (person.walkVersion === 'original') return ORIGINAL_WALKING_GAIT[person.age].distance * observerHeight(person);
   return walkingDistance(`observer-${person.age}-${person.look}` as WalkingDesign, observerHeight(person));
+}
+
+export function observerPace(person: Observer): number | undefined {
+  return walkingPace(`observer-${person.age}-${person.look}` as WalkingDesign, observerHeight(person));
 }

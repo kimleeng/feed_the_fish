@@ -6,7 +6,7 @@ import type { AnimationFrameData } from '../../src/animation-frames.ts';
 import { WALKING_GAIT } from '../../src/walking-gait.ts';
 import { walkingDistance } from '../../src/walking.ts';
 
-test('both illustrated steps keep their supporting shoe in place at each authored pose', async ({ page }, testInfo) => {
+test('both illustrated steps render supporting shoes and rear extension at their authored poses', async ({ page }, testInfo) => {
   await page.addInitScript(() => document.addEventListener('pond:ready', event => {
     (window as Window & { walkingReview: PondScene }).walkingReview = (event as CustomEvent<PondScene>).detail;
   }));
@@ -25,7 +25,7 @@ test('both illustrated steps keep their supporting shoe in place at each authore
     const drawing = sheet.getContext('2d')!; drawing.imageSmoothingEnabled = false;
     drawing.fillStyle = '#e3e9de'; drawing.fillRect(0, 0, sheet.width, sheet.height);
     const groups: number[][] = [], keys: string[][] = [];
-    let painted = 0, samples = 0, maxGroundError = 0;
+    let painted = 0, samples = 0, rearPainted = 0, rearSamples = 0, maxGroundError = 0;
     configurations.forEach((configuration, row) => {
       const keyNames = new Set<string>();
       for (const direction of [1, -1] as const) for (const scale of [.92, 1, 1.08]) {
@@ -53,12 +53,23 @@ test('both illustrated steps keep their supporting shoe in place at each authore
             const canvas = document.createElement('canvas'); canvas.width = source.naturalWidth; canvas.height = source.naturalHeight;
             context = canvas.getContext('2d', { willReadFrequently: true })!; context.drawImage(source, 0, 0); sources.set(source, context);
           }
-          const px = frame.cutX + data.supportFoot.x - frame.x, py = frame.cutY + data.supportFoot.y - frame.y;
-          const ink = context.getImageData(Math.round(px) - 6, Math.round(py) - 13, 13, 13).data;
+          const paintedFoot = (data.supportLeg === 'near' ? data.nearFoot : data.farFoot) ?? data.supportFoot;
+          const px = frame.cutX + paintedFoot.x - frame.x, py = frame.cutY + paintedFoot.y - frame.y;
+          const ink = context.getImageData(Math.round(px) - 6, Math.round(py) - 6, 13, 13).data;
           let brown = 0;
           for (let i = 0; i < ink.length; i += 4) if (ink[i + 3] >= 128 && ink[i] > 15 && ink[i] < 200 && ink[i + 1] < ink[i] * .9 && ink[i + 2] < ink[i + 1]) brown++;
           if (brown >= 8) painted++;
           samples++;
+          if (data.keyPose?.endsWith('contact')) {
+            const back = data.keyPose === 'near-contact' ? data.farFoot : data.nearFoot;
+            if (!back || !data.hip || data.hip.x - back.x < data.referenceHeight * .1) throw new Error('Missing rear-leg extension');
+            const bx = frame.cutX + back.x - frame.x, by = frame.cutY + back.y - frame.y;
+            const ink = context.getImageData(Math.round(bx) - 6, Math.round(by) - 6, 13, 13).data;
+            let brown = 0;
+            for (let i = 0; i < ink.length; i += 4) if (ink[i + 3] >= 128 && ink[i] > 15 && ink[i] < 200 && ink[i + 1] < ink[i] * .9 && ink[i + 2] < ink[i + 1]) brown++;
+            if (brown >= 8) rearPainted++;
+            rearSamples++;
+          }
           if (data.keyPose && direction === 1 && scale === 1) {
             const column = ['near-contact', 'far-passing', 'far-contact', 'near-passing'].indexOf(data.keyPose);
             const baseline = row * 220 + 203, center = column * 200 + 100;
@@ -73,12 +84,14 @@ test('both illustrated steps keep their supporting shoe in place at each authore
       }
       keys.push([...keyNames]);
     });
-    return { drift: groups.map(group => Math.max(...group) - Math.min(...group)), keys, painted, samples, maxGroundError,
+    return { drift: groups.map(group => Math.max(...group) - Math.min(...group)), keys, painted, samples, rearPainted, rearSamples, maxGroundError,
       sheet: sheet.toDataURL().split(',')[1] };
   }, configurations);
   for (const drift of result.drift) expect(drift).toBeLessThan(.8);
   expect(result.maxGroundError).toBeLessThan(1.5);
   expect(result.painted).toBe(result.samples);
+  expect(result.rearSamples).toBe(24);
+  expect(result.rearPainted).toBe(result.rearSamples);
   for (const keys of result.keys) expect(new Set(keys)).toEqual(new Set(['near-contact', 'far-passing', 'far-contact', 'near-passing']));
   await fs.writeFile(testInfo.outputPath('four-key-walking-poses.png'), Buffer.from(result.sheet, 'base64'));
 });
@@ -93,8 +106,10 @@ test('the yellow child swings its painted foot forward without snapping back bef
     const scene = (window as Window & { walkingReview: PondScene }).walkingReview;
     scene.scene.pause();
     const model = scene.world.crowd.people[0], measurements = [];
-    const sheet = document.createElement('canvas'); sheet.width = 800; sheet.height = 440;
-    const drawing = sheet.getContext('2d')!; drawing.fillStyle = '#e3e9de'; drawing.fillRect(0, 0, 800, 440);
+    const passingIndex = phases.findIndex((_, index) =>
+      (scene.textures.getFrame('people-walking', `observer-kid-0-step-${index}`)!.customData as AnimationFrameData).keyPose === 'near-passing');
+    const sheet = document.createElement('canvas'); sheet.width = 800; sheet.height = Math.ceil((phases.length - passingIndex + 1) / 4) * 220;
+    const drawing = sheet.getContext('2d')!; drawing.fillStyle = '#e3e9de'; drawing.fillRect(0, 0, sheet.width, sheet.height);
     const feet = new Map<string, { x: number; y: number }[]>();
     for (const direction of [-1, 1] as const) for (const scale of [.92, 1, 1.1]) {
       const person = { ...model, id: 9001, age: 'kid' as const, look: 0, scale, direction,

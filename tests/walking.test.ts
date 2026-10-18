@@ -17,7 +17,7 @@ test('complete walking cycles wrap in either direction and visit every drawing',
   }
 });
 
-test('drawn supporting shoes stay at the same ground position at authored phases', () => {
+test('supporting-shoe annotations follow ground travel at authored phases', () => {
   const atlas = JSON.parse(readFileSync(new URL('../public/art/people-walking.json', import.meta.url), 'utf8'));
   for (const design of ['observer-adult-0', 'observer-kid-0'] as const) {
     const texture = atlas.textures.find((texture: { image: string }) => texture.image === design + '-walking-smooth.png');
@@ -34,6 +34,25 @@ test('drawn supporting shoes stay at the same ground position at authored phases
     const phases: readonly number[] = WALKING_GAIT[design].phases;
     assert.equal(phases.length, walkingFrames(design));
     for (let i = 0; i < phases.length; i++) assert.ok((phases[i + 1] ?? 1) - phases[i] >= .017);
+  }
+});
+
+test('the full-stride contact poses put each leg behind the hips and use even frame durations', () => {
+  const atlas = JSON.parse(readFileSync(new URL('../public/art/people-walking.json', import.meta.url), 'utf8'));
+  for (const design of ['observer-adult-0', 'observer-kid-0'] as const) {
+    const texture = atlas.textures.find((texture: { image: string }) => texture.image === design + '-walking-smooth.png');
+    const height = texture.frames[0].referenceHeight, phases = WALKING_GAIT[design].phases;
+    assert.equal(phases.length, 48);
+    for (let i = 0; i < phases.length; i++) assert.ok(Math.abs((phases[i + 1] ?? 1) - phases[i] - 1 / phases.length) < 1e-9);
+    const contacts = texture.frames.filter((frame: { keyPose?: string }) => frame.keyPose?.endsWith('contact'));
+    assert.equal(contacts.length, 2);
+    for (const contact of contacts) {
+      const front = contact.keyPose === 'near-contact' ? contact.nearFoot : contact.farFoot;
+      const back = contact.keyPose === 'near-contact' ? contact.farFoot : contact.nearFoot;
+      assert.ok(front && back && contact.hip, `${design}: both feet and the hip must be traced`);
+      assert.ok(front.x - contact.hip.x > height * .1, `${design}: the leading foot must reach forward`);
+      assert.ok(contact.hip.x - back.x > height * .1, `${design}: the trailing leg must extend behind the hips`);
+    }
   }
 });
 

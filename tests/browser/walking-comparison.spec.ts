@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import type Phaser from 'phaser';
 import type { PondScene } from '../../src/game.ts';
 import type { AnimationFrameData } from '../../src/animation-frames.ts';
+import { walkingFrames } from '../../src/walking.ts';
 
 type ReviewWindow = Window & { walkingComparison: PondScene };
 
@@ -46,7 +47,7 @@ test('comparison shows new walkers on the left and originals on the right immedi
     expect(loaded.has(`/art/observer-${age}-0-walking.png`)).toBe(true);
     expect(current.wholeImage).toBe(true);
     expect(original.wholeImage).toBe(true);
-    expect(current.frames).toBe(13);
+    expect(current.frames).toBe(walkingFrames(`observer-${age as 'adult' | 'kid'}-0`));
     expect(original.frames).toBe(8);
     expect(current.label).toBe('NEW →');
     expect(original.label).toBe('← ORIGINAL');
@@ -100,7 +101,7 @@ test('comparison shows new walkers on the left and originals on the right immedi
   });
   for (const person of playback.moved) {
     expect(person.state).toBe('walking');
-    expect(person.poses).toBe(person.version === 'original' ? 8 : 13);
+    expect(person.poses).toBe(person.version === 'original' ? 8 : 48);
   }
   expect(playback.after).toEqual(playback.before);
   expect(playback.restarted).toEqual(initial.people.map(person => ({ version: person.version, x: person.x })));

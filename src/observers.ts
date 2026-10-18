@@ -1,4 +1,4 @@
-import { walkingCycleDistance } from './observer-art.ts';
+import { observerPace, walkingCycleDistance } from './observer-art.ts';
 import { pathBlend, walkingAdvance } from './walking.ts';
 import { OBSERVER_LOOKS } from './observer-looks.ts';
 
@@ -79,10 +79,12 @@ export class ObserverCrowd {
       { age: 'adult', walkVersion: 'original', direction: -1, x: 900, lane: 784 },
     ] as const).map(model => {
       const speed = model.age === 'adult' ? 38 : 44;
-      return { ...model, id: this.nextId++, y: pathY(model.x, model.lane), look: 0, scale: 1,
+      const person: Observer = { ...model, id: this.nextId++, y: pathY(model.x, model.lane), look: 0, scale: 1,
         state: 'walking', speed, velocity: speed, stride: 0, stop: null,
         watchDuration: 0, watchRemaining: 0, interest: 1, quietAfter: Infinity,
         stopRoll: 1, hasWatched: true };
+      person.speed = person.velocity = observerPace(person) ?? speed;
+      return person;
     });
   }
 
@@ -146,6 +148,7 @@ export class ObserverCrowd {
       stride: this.random() * 4, watchDuration: 0, watchRemaining: 0,
       interest: this.sceneInterest, quietAfter: this.between(5, 10), stopRoll: this.random(), hasWatched: false,
     };
+    person.speed = observerPace(person) ?? person.speed;
     this.inviteToWatch(person);
     // Arrive into an already lived-in garden, including someone quietly watching.
     if (progress > 0 && person.stop && this.random() < 0.45) {

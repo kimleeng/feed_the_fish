@@ -4,7 +4,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { OBSERVER_DESIGNS } from '../src/observer-looks.ts';
-import { walkingDistance, walkingFrames } from '../src/walking.ts';
+import { walkingDistance, walkingFrames, walkingPace } from '../src/walking.ts';
 
 const output = process.argv[3] || path.resolve('test-results/walking-review');
 await fs.mkdir(output, { recursive: true });
@@ -88,7 +88,8 @@ try {
     await page.screenshot({ path: path.join(output, `${label}-watching-in-garden.png`), fullPage: true });
   }
   for (const age of ['adult', 'kid']) {
-    const design = `observer-${age}-0`, height = age === 'adult' ? 158 : 109, speed = age === 'adult' ? 38 : 44;
+    const design = `observer-${age}-0`, height = age === 'adult' ? 158 : 109;
+    const speed = walkingPace(design, height) ?? (age === 'adult' ? 38 : 44);
     const distance = walkingDistance(design, height), duration = distance / speed, count = Math.round(duration * 30);
     const images = await page.evaluate(({ age, distance, count, speed }) => {
       const scene = window.pondReview, model = scene.world.crowd.people[0];
@@ -101,7 +102,7 @@ try {
         const phase = sample / count, travel = distance * phase;
         g.fillStyle = '#e3e9de'; g.fillRect(0, 0, c.width, c.height);
         g.fillStyle = '#344d3a'; g.font = '12px sans-serif';
-        g.fillText(`${age} · ${speed} px/s · game size · both directions`, 12, 17);
+        g.fillText(`${age} · ${speed.toFixed(1)} px/s · game size · both directions`, 12, 17);
         for (let column = 0; column < 2; column++) {
           person.direction = column === 0 ? 1 : -1;
           person.x = 450 + person.direction * travel; person.stride = phase * 4;

@@ -3,11 +3,11 @@ import assert from 'node:assert/strict';
 import { ObserverCrowd, WATCH_SPOTS, type ObserverAge } from '../src/observers.ts';
 import { PondSimulation, inPond } from '../src/simulation.ts';
 import { THROW_MOTIONS } from '../src/throws.ts';
-import { observerAtlas, observerFrame, observerHeight, walkingCycleDistance } from '../src/observer-art.ts';
+import { observerAtlas, observerFrame, observerHeight, observerPace, walkingCycleDistance } from '../src/observer-art.ts';
 import { OBSERVER_DESIGNS, OBSERVER_LOOKS } from '../src/observer-looks.ts';
 import { walkingFrames } from '../src/walking.ts';
 import { WALKING_GAIT } from '../src/walking-gait.ts';
-import { ORIGINAL_WALK_ATLAS } from '../src/original-walking.ts';
+import { ORIGINAL_WALK_ATLAS, ORIGINAL_WALKING_GAIT } from '../src/original-walking.ts';
 
 function advance(simulation: { step(seconds: number): void }, seconds: number): void {
   for (let i = 0; i < Math.ceil(seconds / 0.05); i++) simulation.step(0.05);
@@ -38,7 +38,7 @@ test('walking comparison immediately pairs current left arrivals with original r
     assert.equal(current.look, original.look);
     assert.equal(observerAtlas(current), 'people-walking');
     assert.equal(observerAtlas(original), ORIGINAL_WALK_ATLAS);
-    assert.ok(walkingCycleDistance(original) > walkingCycleDistance(current));
+    assert.equal(walkingCycleDistance(original), ORIGINAL_WALKING_GAIT[age].distance * observerHeight(original));
   }
   const frames = new Map(ids.map(id => [id, new Set<string>()]));
   const previousX = new Map(crowd.people.map(person => [person.id, person.x]));
@@ -56,7 +56,8 @@ test('walking comparison immediately pairs current left arrivals with original r
   }
   assert.deepEqual(crowd.people.map(person => person.id), ids);
   assert.equal(wrapped.size, 4);
-  for (const person of crowd.people) assert.equal(frames.get(person.id)!.size, person.walkVersion === 'original' ? 8 : 13);
+  for (const person of crowd.people) assert.equal(frames.get(person.id)!.size,
+    person.walkVersion === 'original' ? 8 : walkingFrames(`observer-${person.age}-0`));
   const frozen = crowd.people.map(person => [person.x, person.y, person.stride]);
   crowd.step(0);
   assert.deepEqual(crowd.people.map(person => [person.x, person.y, person.stride]), frozen);
@@ -83,7 +84,7 @@ test('larger visitors take longer steps and complete drawings follow distance tr
 
 test('the yellow child visits each pose in order at display frame rates across walking speeds and sizes', () => {
   const count = walkingFrames('observer-kid-0');
-  for (const fps of [60, 120]) for (const speed of [37, 44, 51]) for (const scale of [.92, 1, 1.1]) {
+  for (const fps of [30, 60, 120]) for (const speed of [37, 44, 51]) for (const scale of [.92, 1, 1.1]) {
     for (const direction of [-1, 1] as const) {
       const crowd = new ObserverCrowd(42);
       const person = crowd.people[0];
@@ -99,6 +100,28 @@ test('the yellow child visits each pose in order at display frame rates across w
         if (frame !== last) assert.equal(frame, (last + 1) % count,
           `${fps} fps, speed ${speed}, scale ${scale}, direction ${direction}: skipped after frame ${last}`);
         seen.add(frame); last = frame;
+      }
+      assert.equal(seen.size, count);
+    }
+  }
+});
+
+test('both full-stride walkers show every pose at their matched pace at 30, 60 and 120 fps', () => {
+  for (const age of ['adult', 'kid'] as const) for (const fps of [30, 60, 120]) {
+    for (const scale of [.92, 1, 1.1]) for (const direction of [-1, 1] as const) {
+      const crowd = new ObserverCrowd(42), person = crowd.people[0];
+      Object.assign(person, { age, look: 0, scale, direction, walkVersion: 'current',
+        x: 600, y: 753, lane: 760, stride: .173 * 4, state: 'walking', stop: null, hasWatched: true });
+      person.speed = person.velocity = observerPace(person)!;
+      assert.ok(person.speed > 0);
+      crowd.people = [person];
+      const count = walkingFrames(`observer-${age}-0`), seen = new Set<number>();
+      const index = () => Number(observerFrame(person).split('-step-')[1]);
+      let previous = index(); const end = person.stride + 12;
+      while (person.stride < end) {
+        seen.add(previous); crowd.step(1 / fps); const next = index();
+        if (next !== previous) assert.equal(next, (previous + 1) % count, `${age}, ${fps} fps: skipped a pose`);
+        previous = next;
       }
       assert.equal(seen.size, count);
     }
