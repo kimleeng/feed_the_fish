@@ -39,6 +39,30 @@ test('larger visitors take longer steps and complete drawings follow distance tr
   assert.equal(observerFrame({ ...kid, state: 'watching' }), 'observer-kid-0-watch');
 });
 
+test('the yellow child visits each pose in order at display frame rates across walking speeds and sizes', () => {
+  const count = walkingFrames('observer-kid-0');
+  for (const fps of [60, 120]) for (const speed of [37, 44, 51]) for (const scale of [.92, 1, 1.1]) {
+    for (const direction of [-1, 1] as const) {
+      const crowd = new ObserverCrowd(42);
+      const person = crowd.people[0];
+      Object.assign(person, { age: 'kid', look: 0, scale, direction, speed, velocity: speed,
+        x: 600, y: 753, lane: 760, stride: .173 * 4, state: 'walking', stop: null, hasWatched: true });
+      crowd.people = [person];
+      const index = () => Number(observerFrame(person).split('-step-')[1]);
+      let last = index();
+      const seen = new Set([last]), end = person.stride + 12;
+      while (person.stride < end) {
+        crowd.step(1 / fps);
+        const frame = index();
+        if (frame !== last) assert.equal(frame, (last + 1) % count,
+          `${fps} fps, speed ${speed}, scale ${scale}, direction ${direction}: skipped after frame ${last}`);
+        seen.add(frame); last = frame;
+      }
+      assert.equal(seen.size, count);
+    }
+  }
+});
+
 test('footfall progress follows actual travel including approach depth, and stays still when stationary', () => {
   for (const direction of [-1, 1] as const) {
     const crowd = new ObserverCrowd(12);

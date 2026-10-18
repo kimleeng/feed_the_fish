@@ -1,5 +1,30 @@
 # Garden and fish image review
 
+## Yellow child pose order, 18 October 2026
+
+The initial 14-pose yellow-child cycle included a bent-leg drawing after the
+swinging foot had already extended. The planted shoe still progressed backward,
+so the original support-only checks accepted the order. The actual swinging shoe
+jumped backward about 17 game pixels before extending again. This occurred near
+the end of the second step, before the final-to-first loop transition.
+
+That extra drawing and its phase are removed. The remaining 13 complete drawings
+keep their measured phases, cycle distance, character appearance, and walking
+speed. The preceding pose now lasts until the next valid drawing. This also fixes
+a skipped-pose case at 60 fps for a fast, small child, where the preceding pose's
+old duration was shorter than one display frame.
+
+New regression checks step the real crowd at 60 and 120 fps across both travel
+directions, all speed bounds, and three character scales. A browser check measures
+the actual brown shoe pixels from the passing pose through the next contact,
+including the loop boundary. Both checks failed on the previous cycle.
+
+Validation: all 100 unit tests, the TypeScript/production build, and the four
+walking-related production browser scenarios passed. The measured backward shoe
+jump at height 109 fell from 17.4 to 1.65 game pixels. The updated pose sequence,
+loop preview, and desktop/phone scenes were reviewed. Other walking designs and
+the adult's known sparse transition are unchanged.
+
 ## Four-key walking trial, 18 October 2026
 
 The blue-jacket adult and yellow-jumper child now use four distinct whole-person

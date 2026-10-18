@@ -12,6 +12,13 @@ shoe position. Cycle distance is the sum of the two supporting-shoe sweeps betwe
 opposite contact drawings. Do not increase cadence independently of this distance:
 shorter drawn steps produce a quicker rhythm at the same travel speed.
 
+Check the swinging foot as well as the planted shoe when selecting poses. The
+yellow child's cycle now has 13 poses: an extra bent-leg drawing was removed
+because it pulled the foot back under the body after it had already extended.
+Sorting only by the planted shoe had concealed that reversal. Retain the measured
+phases of the valid drawings so the preceding pose receives the removed pose's
+time, instead of shortening the overall cycle.
+
 Run `node scripts/build-walking-atlas.mjs` from the project root to uniformly
 scale each complete cycle to 300 pixels tall, write the shipping PNGs in
 `public/art`, and rebuild the atlas and `src/walking-gait.ts`. This requires the

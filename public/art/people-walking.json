@@ -2214,41 +2214,7 @@
         {
           "filename": "observer-kid-0-step-10",
           "frame": {
-            "x": 887,
-            "y": 830,
-            "w": 146,
-            "h": 306
-          },
-          "rotated": false,
-          "trimmed": true,
-          "spriteSourceSize": {
-            "x": 33,
-            "y": 8,
-            "w": 146,
-            "h": 306
-          },
-          "sourceSize": {
-            "w": 212,
-            "h": 314
-          },
-          "referenceHeight": 302,
-          "feet": [
-            {
-              "x": 100.5,
-              "y": 314
-            }
-          ],
-          "supportFoot": {
-            "x": 96.80072245635165,
-            "y": 314
-          },
-          "supportLeg": "far",
-          "posePhase": 0.8142329513941204
-        },
-        {
-          "filename": "observer-kid-0-step-11",
-          "frame": {
-            "x": 1262,
+            "x": 878,
             "y": 836,
             "w": 171,
             "h": 300
@@ -2284,10 +2250,10 @@
           "posePhase": 0.8603688739233368
         },
         {
-          "filename": "observer-kid-0-step-12",
+          "filename": "observer-kid-0-step-11",
           "frame": {
-            "x": 113,
-            "y": 1215,
+            "x": 1265,
+            "y": 831,
             "w": 166,
             "h": 305
           },
@@ -2315,16 +2281,16 @@
             }
           ],
           "supportFoot": {
-            "x": 83.55859878932222,
+            "x": 83.55859878932233,
             "y": 314
           },
           "supportLeg": "far",
           "posePhase": 0.9412261486179129
         },
         {
-          "filename": "observer-kid-0-step-13",
+          "filename": "observer-kid-0-step-12",
           "frame": {
-            "x": 502,
+            "x": 118,
             "y": 1218,
             "w": 154,
             "h": 302
@@ -2353,7 +2319,7 @@
             }
           ],
           "supportFoot": {
-            "x": 80.13404507710561,
+            "x": 80.13404507710558,
             "y": 314
           },
           "supportLeg": "far",

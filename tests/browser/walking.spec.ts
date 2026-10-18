@@ -82,3 +82,84 @@ test('both illustrated steps keep their supporting shoe in place at each authore
   for (const keys of result.keys) expect(new Set(keys)).toEqual(new Set(['near-contact', 'far-passing', 'far-contact', 'near-passing']));
   await fs.writeFile(testInfo.outputPath('four-key-walking-poses.png'), Buffer.from(result.sheet, 'base64'));
 });
+
+test('the yellow child swings its painted foot forward without snapping back before the loop', async ({ page }, testInfo) => {
+  await page.addInitScript(() => document.addEventListener('pond:ready', event => {
+    (window as Window & { walkingReview: PondScene }).walkingReview = (event as CustomEvent<PondScene>).detail;
+  }));
+  await page.goto('/');
+  await expect(page.locator('#loading')).toBeHidden();
+  const result = await page.evaluate(({ phases, distance }) => {
+    const scene = (window as Window & { walkingReview: PondScene }).walkingReview;
+    scene.scene.pause();
+    const model = scene.world.crowd.people[0], measurements = [];
+    const sheet = document.createElement('canvas'); sheet.width = 800; sheet.height = 440;
+    const drawing = sheet.getContext('2d')!; drawing.fillStyle = '#e3e9de'; drawing.fillRect(0, 0, 800, 440);
+    const feet = new Map<string, { x: number; y: number }[]>();
+    for (const direction of [-1, 1] as const) for (const scale of [.92, 1, 1.1]) {
+      const person = { ...model, id: 9001, age: 'kid' as const, look: 0, scale, direction,
+        x: 400, y: 760, lane: 760, stride: 0, state: 'walking' as const, stop: null, hasWatched: true };
+      scene.world.crowd.people = [person];
+      const trace = []; let passing = false;
+      for (const [index, phase] of [...phases, 1].entries()) {
+        person.stride = phase * 4; person.x = 400 + direction * distance * scale * phase;
+        scene.update(0, 0);
+        const container = scene.children.getByName('observer-9001') as Phaser.GameObjects.Container;
+        const sprite = container.getByName('observer-art') as Phaser.GameObjects.Sprite, f = sprite.frame;
+        const data = f.customData as AnimationFrameData;
+        passing ||= data.keyPose === 'near-passing';
+        if (!passing) continue;
+        if (!data.supportFoot || !data.supportLeg) throw new Error('Missing supporting shoe');
+        let centers = feet.get(String(f.name));
+        if (!centers) {
+          const c = document.createElement('canvas'); c.width = f.cutWidth; c.height = f.cutHeight;
+          const g = c.getContext('2d', { willReadFrequently: true })!;
+          g.drawImage(f.source.image as HTMLImageElement, f.cutX, f.cutY, f.cutWidth, f.cutHeight, 0, 0, c.width, c.height);
+          const pixels = g.getImageData(0, 0, c.width, c.height).data, brown = [];
+          for (let y = Math.max(0, Math.floor(f.realHeight - data.referenceHeight * .27 - f.y)); y < c.height; y++) {
+            for (let x = 0; x < c.width; x++) {
+              const n = (y * c.width + x) * 4, r = pixels[n], green = pixels[n + 1], b = pixels[n + 2];
+              if (pixels[n + 3] >= 128 && r > 25 && r < 195 && green < r * .81 && b < green * .91) brown.push({ x: f.x + x, y: f.y + y });
+            }
+          }
+          if (brown.length < 100) throw new Error('Missing painted brown shoes');
+          brown.sort((a, b) => a.x - b.x);
+          centers = [brown[Math.floor(brown.length * .15)], brown[Math.floor(brown.length * .85)]];
+          for (let iteration = 0; iteration < 24; iteration++) {
+            const groups: { x: number; y: number }[][] = [[], []];
+            for (const p of brown) {
+              const d = centers.map(q => (p.x - q.x) ** 2 + (p.y - q.y) ** 2);
+              groups[d[0] <= d[1] ? 0 : 1].push(p);
+            }
+            centers = groups.map(group => ({ x: group.reduce((sum, p) => sum + p.x, 0) / group.length,
+              y: group.reduce((sum, p) => sum + p.y, 0) / group.length }));
+          }
+          feet.set(String(f.name), centers);
+        }
+        const support = data.supportFoot;
+        const distances = centers.map(p => (p.x - support.x) ** 2 + (p.y - support.y) ** 2);
+        const supportIndex = distances[0] <= distances[1] ? 0 : 1;
+        const near = centers[data.supportLeg === 'near' ? supportIndex : 1 - supportIndex];
+        const worldX = container.x + direction * (near.x - sprite.displayOriginX) * sprite.scaleX;
+        trace.push({ frame: String(f.name), phase, forward: direction * worldX });
+        if (direction === 1 && scale === 1) {
+          const cell = trace.length - 1, x = cell % 4 * 200 + 100, baseline = Math.floor(cell / 4) * 220 + 190;
+          drawing.drawImage(f.source.image as HTMLImageElement, f.cutX, f.cutY, f.cutWidth, f.cutHeight,
+            x + (f.x - sprite.displayOriginX) * sprite.scaleX, baseline + (f.y - sprite.displayOriginY) * sprite.scaleY,
+            f.cutWidth * sprite.scaleX, f.cutHeight * sprite.scaleY);
+          drawing.fillStyle = '#344c3a'; drawing.font = '11px monospace';
+          drawing.fillText(`${index % phases.length} / ${phase.toFixed(3)}`, cell % 4 * 200 + 12, Math.floor(cell / 4) * 220 + 20);
+          drawing.fillStyle = '#ce493d'; drawing.beginPath();
+          drawing.arc(x + (near.x - sprite.displayOriginX) * sprite.scaleX,
+            baseline + (near.y - sprite.displayOriginY) * sprite.scaleY, 2, 0, Math.PI * 2); drawing.fill();
+        }
+      }
+      measurements.push({ direction, scale, trace,
+        backwards: Math.max(0, ...trace.slice(1).map((p, i) => trace[i].forward - p.forward)) });
+    }
+    return { measurements, sheet: sheet.toDataURL().split(',')[1] };
+  }, { phases: WALKING_GAIT['observer-kid-0'].phases, distance: walkingDistance('observer-kid-0', 109) });
+  await fs.writeFile(testInfo.outputPath('yellow-child-swing.png'), Buffer.from(result.sheet, 'base64'));
+  await fs.writeFile(testInfo.outputPath('yellow-child-swing.json'), JSON.stringify(result.measurements, null, 2));
+  for (const measurement of result.measurements) expect(measurement.backwards).toBeLessThan(109 * measurement.scale * .03);
+});
