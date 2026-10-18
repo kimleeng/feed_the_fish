@@ -142,7 +142,10 @@ try {
       return { filename: `${design}-${index === walkingFrames ? 'watch' : `step-${index}`}`, frame, rotated: false, trimmed: true,
         spriteSourceSize: { ...source, w: frame.w, h: frame.h }, sourceSize, referenceHeight,
         feet: box.feet.map(foot => ({ x: source.x + foot.x - frame.x, y: source.y + foot.y - frame.y })),
-        ...(point ? { supportFoot: { x: source.x + point.x - frame.x, y: source.y + point.y - frame.y },
+        // Whole drawings register at their lowest painted sole. Restored source
+        // poses can differ from the guide's ground by a few pixels; the ground
+        // marker must use the same baseline as the sprite's bottom origin.
+        ...(point ? { supportFoot: { x: source.x + point.x - frame.x, y: sourceSize.h },
           supportLeg: measured.supportLeg, posePhase: calibration.phases[index], ...landmarks,
           ...(measured.keyPose ? { keyPose: measured.keyPose } : {}) } : {}),
       };

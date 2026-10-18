@@ -6,6 +6,62 @@ import type { AnimationFrameData } from '../../src/animation-frames.ts';
 import { WALKING_GAIT } from '../../src/walking-gait.ts';
 import { walkingDistance } from '../../src/walking.ts';
 
+test('every authored walking pose survives in row order between the in-betweens', async ({ page }, testInfo) => {
+  const sources = await Promise.all((['adult', 'kid'] as const).map(async age => {
+    const root = `../../art-source/walking/observer-${age}-0`;
+    const source = JSON.parse(await fs.readFile(new URL(root + '-poses.json', import.meta.url), 'utf8'));
+    const calibration = JSON.parse(await fs.readFile(new URL(root + '.json', import.meta.url), 'utf8'));
+    return { age, source, output: calibration.output,
+      png: 'data:image/png;base64,' + (await fs.readFile(new URL(root + '-poses.png', import.meta.url))).toString('base64') };
+  }));
+  await page.addInitScript(() => document.addEventListener('pond:ready', event => {
+    (window as Window & { walkingReview: PondScene }).walkingReview = (event as CustomEvent<PondScene>).detail;
+  }));
+  await page.goto('/');
+  await expect(page.locator('#loading')).toBeHidden();
+  const comparisons = await page.evaluate(async sources => {
+    const scene = (window as Window & { walkingReview: PondScene }).walkingReview;
+    scene.scene.pause();
+    const results = [];
+    for (const { age, source, output, png } of sources) {
+      const image = new Image(); image.src = png; await image.decode();
+      const expected = document.createElement('canvas'), actual = document.createElement('canvas');
+      expected.width = expected.height = actual.width = actual.height = output.cell;
+      const before = expected.getContext('2d', { willReadFrequently: true })!;
+      const after = actual.getContext('2d', { willReadFrequently: true })!;
+      const scale = output.height / source.height;
+      for (let pose = 0; pose < source.frames; pose++) {
+        before.clearRect(0, 0, output.cell, output.cell);
+        before.drawImage(image, pose % source.columns * source.cell, Math.floor(pose / source.columns) * source.cell,
+          source.cell, source.cell, output.cell / 2 - source.cell / 2 * scale,
+          output.ground - source.ground * scale, source.cell * scale, source.cell * scale);
+        const frame = scene.textures.getFrame('people-walking', `observer-${age}-0-step-${pose * 2}`)!;
+        after.clearRect(0, 0, output.cell, output.cell);
+        after.drawImage(frame.source.image as HTMLImageElement,
+          Math.floor(frame.cutX / output.cell) * output.cell, Math.floor(frame.cutY / output.cell) * output.cell,
+          output.cell, output.cell, 0, 0, output.cell, output.cell);
+        const a = before.getImageData(0, 0, output.cell, output.cell).data;
+        const b = after.getImageData(0, 0, output.cell, output.cell).data;
+        let painted = 0, different = 0;
+        for (let p = 0; p < a.length; p += 4) {
+          if (Math.max(a[p + 3], b[p + 3]) < 32) continue;
+          painted++;
+          let delta = Math.abs(a[p + 3] - b[p + 3]);
+          for (let channel = 0; channel < 3; channel++) delta = Math.max(delta,
+            Math.abs(a[p + channel] * a[p + 3] / 255 - b[p + channel] * b[p + 3] / 255));
+          if (delta > 8) different++;
+        }
+        results.push({ age, pose, frame: pose * 2, painted, different, ratio: different / painted });
+      }
+    }
+    return results;
+  }, sources);
+  await fs.writeFile(testInfo.outputPath('authored-pose-order.json'), JSON.stringify(comparisons, null, 2));
+  expect(comparisons).toHaveLength(48);
+  for (const pose of comparisons) expect(pose.ratio,
+    `${pose.age}: source pose ${pose.pose} is missing or altered at output frame ${pose.frame}`).toBeLessThan(.01);
+});
+
 test('trial walkers keep opaque limbs through every in-between frame', async ({ page }, testInfo) => {
   await page.addInitScript(() => document.addEventListener('pond:ready', event => {
     (window as Window & { walkingReview: PondScene }).walkingReview = (event as CustomEvent<PondScene>).detail;

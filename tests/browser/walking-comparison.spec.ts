@@ -82,16 +82,18 @@ test('comparison shows new walkers on the left and originals on the right immedi
   await page.screenshot({ path: testInfo.outputPath('walking-comparison-phone.png'), fullPage: true });
   const playback = await page.evaluate(() => {
     const scene = (window as ReviewWindow).walkingComparison;
-    const frames = new Map(scene.world.crowd.people.map(person => [person.id, new Set<string>()]));
+    const frames = new Map(scene.world.crowd.people.map(person => [person.id, [] as number[]]));
     for (let step = 0; step < 60 * 5; step++) {
       scene.update(step * 1000 / 60, 1000 / 60);
       for (const person of scene.world.crowd.people) {
         const container = scene.children.getByName('observer-' + person.id) as Phaser.GameObjects.Container;
-        frames.get(person.id)!.add((container.getByName('observer-art') as Phaser.GameObjects.Sprite).frame.name);
+        const index = Number(String((container.getByName('observer-art') as Phaser.GameObjects.Sprite).frame.name).split('-step-')[1]);
+        const sequence = frames.get(person.id)!;
+        if (sequence.at(-1) !== index) sequence.push(index);
       }
     }
     const moved = scene.world.crowd.people.map(person => ({ version: person.walkVersion, state: person.state,
-      poses: frames.get(person.id)!.size }));
+      poses: new Set(frames.get(person.id)!).size, sequence: frames.get(person.id)! }));
     scene.world.paused = true;
     const before = scene.world.crowd.people.map(person => [person.x, person.stride]);
     scene.update(6000, 100);
@@ -101,7 +103,9 @@ test('comparison shows new walkers on the left and originals on the right immedi
   });
   for (const person of playback.moved) {
     expect(person.state).toBe('walking');
-    expect(person.poses).toBe(person.version === 'original' ? 8 : 48);
+    const count = person.version === 'original' ? 8 : 48;
+    expect(person.poses).toBe(count);
+    for (let i = 1; i < person.sequence.length; i++) expect(person.sequence[i]).toBe((person.sequence[i - 1] + 1) % count);
   }
   expect(playback.after).toEqual(playback.before);
   expect(playback.restarted).toEqual(initial.people.map(person => ({ version: person.version, x: person.x })));

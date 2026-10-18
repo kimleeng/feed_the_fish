@@ -114,6 +114,7 @@ def main():
     grid = np.dstack((x, y))
     flows = {}
     landmarks = []
+    sequence = []
     with output_path.open("wb") as output:
         for frame in range(count):
             phase = frame / count
@@ -121,10 +122,14 @@ def main():
             after = (before + 1) % len(selected)
             end = selected[after]["phase"] if after else 1
             fraction = (phase - selected[before]["phase"]) / (end - selected[before]["phase"])
+            if abs(fraction - .5) < 1e-7:
+                fraction = .5
             # Always sample one illustration, including its alpha. The closest
             # endpoint needs less deformation and keeps occluded limbs solid.
             start, finish = (before, after) if fraction <= .5 else (after, before)
             amount = min(fraction, 1 - fraction)
+            sequence.append({"from": selected[before]["index"], "to": selected[after]["index"],
+                             "progress": fraction, "drawing": selected[start]["index"], "warp": amount})
             if amount < 1e-8:
                 drawing = drawings[start]
                 landmarks.append(selected[start]["landmarks"])
@@ -134,7 +139,7 @@ def main():
                 drawing = warp_drawing(drawings[start], flows[start, finish], amount, grid)
                 landmarks.append(move_landmarks(selected[start]["landmarks"], flows[start, finish], amount))
             output.write(drawing[:, :, [2, 1, 0, 3]].tobytes())  # BGRA → RGBA
-    output_path.with_suffix(".json").write_text(json.dumps(landmarks))
+    output_path.with_suffix(".json").write_text(json.dumps({"landmarks": landmarks, "sequence": sequence}))
 
 
 if __name__ == "__main__":
