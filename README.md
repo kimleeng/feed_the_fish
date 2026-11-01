@@ -75,11 +75,21 @@ The musk turtle is a quiet homage to a pet: a domed olive-brown shell, short web
 
 The turtle stays hidden underwater between meals. During the feeding peek, its body becomes visible beneath the reflections while its raised head and a small ripple appear above them. Its body and head fade away together as it dips back underwater. Feeding and collisions continue while it is hidden. It stays out of the field guide, and pause and a new visit freeze/reset its peek along with the rest of the pond.
 
+## Quiet habits
+
+Animals occasionally finish a short idle action before chasing more food. There are **18 actions** across the six field-guide species: six shared motions and two signature actions per species. Golden carp fan their fins or make a lazy arc; common carp nose downward or flick their tails; young carp dart and pause or zigzag; mallards preen or dabble; gulls stretch a wing or scratch; coots double-nod or paddle a foot. Each individual keeps a favorite signature action, turning side, tempo, and intensity throughout the visit.
+
+Actions last **1.5–4.5 seconds**, including settling and recovery. The scheduler attempts one every 3–8 seconds across the pond, allows at most two together, and gives each animal a long cooldown. A gesture takes priority over a new chase, while an existing meal, feeding peek, or flight finishes first. Boosts recharge during rests. The secret turtle keeps its existing hidden swimming and meal-driven peeks. Idle scheduling has its own random stream, so it does not consume pellet, lucky-throw, flight-choice, or visitor-arrival rolls.
+
+Fish use their existing directional drawings with small changes in pace, heading, tail stroke, and depth. The six bird signature gestures use full-body drawings registered to the current swimming scale and waterline. Reduced motion retains the short rest without decorative poses; the pond clock freezes all gestures when the page is hidden or the field guide is open.
+
 ## Garden visitors
 
 Kids and adults walk across the near garden path in either direction. Many turn toward the pond for a brief look, while a few linger. Baseline stopping chances are 70% for adults and 90% for kids; of those who stop, 16% of adults and 52% of kids choose a long watch. Brief stops last 4–11 seconds for adults and 6–15 seconds for kids; longer watches last 25–60 seconds and 40–90 seconds respectively.
 
 There are twelve visitor designs: six adults and six kids. The newer Danish autumn set adds a sand coat with a blue scarf, a navy quilted jacket with a sage beanie, a moss raincoat with a burgundy scarf, two children in rain jackets and wellies, and an older child in a brick puffer and corduroys. New arrivals choose an outfit that is not already present in their age group whenever one is available. Each design keeps its own height, clothing, and complete walking frames, with a matching rear-facing pose when watching the pond.
+
+While watching, all twelve designs can make a brief gesture: looking around, shifting weight, adjusting clothes, stretching, pointing, or leaning toward the pond. Each outfit has its own illustrated signature action and a persistent favorite. The shared looking and weight-shifting motions use gentle whole-body movement. Gestures last **1.6–4 seconds**, with at most one visitor gesturing at once and 8–16 seconds between opportunities. Visitors finish an active gesture before walking on. The original walking cycles, arrival behavior, and watching-interest rules remain in use.
 
 Actual pellet releases and food eaten by fish or birds gently increase interest, making a stop a little more likely and slowing the remaining watching time. Interest starts decreasing after each visitor's own 5–10 second threshold without a throw. Nibbles increase interest in proportion to food eaten, and boosts are capped so regular feeding cannot keep anyone indefinitely. Queued clicks, unsuccessful throws, and refills do not count as visible throws. Kids remain more likely to watch for longer in both active and quiet periods.
 
@@ -136,6 +146,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/bird-*-swimming.png` and `bird-swimmers-animation.json`: consistent four-pose cycles in eight directions for mallards, gulls, and coots. Whole-body frames use the species' fixed height across headings and a shared waterline, with no painted water. `node scripts/build-bird-atlas.mjs` rebuilds their registration without changing PNG pixels. The original `bird-swimmers.png`/`.json` remain as archived artwork and field-guide art.
 - `public/art/turtle-swimmer.png` and `turtle-swimmer.json`: musk turtle atlas with sixteen swimming cuts and eight separate raised heads. `turtle-swimmer-pins.json` aligns the heads with the swimming artwork.
 - `public/art/eating-*.png` and `animal-eating-animation.json`: 192 feeding drawings, including the tilted carp poses and their lip reveal rectangles. `node scripts/build-eating-atlas.mjs` rebuilds their registration without modifying the PNGs. `src/eating.ts` derives every pose and surface transition from the current meal.
+- `public/art/bird-idles.png` and `animal-idles.json`: 24 full-body gesture drawings aligned with the current birds' waterline and physical size. `public/art/observer-*-idles.png` and `observer-idles.json` supply 48 matching visitor drawings. `python scripts/build-idle-atlases.py` rebuilds their metadata from the committed PNGs without editing pixels (requires Pillow). The idle browser tests export all 72 cuts beside the original swimming/watching poses for review.
 - `src/appearance.ts` defines shared physical artwork dimensions. `node scripts/build-animation-atlases.mjs` applies these to all animal frames; `scripts/register-swimmer-dimensions.mjs` measures submerged silhouettes along their body axis, preserving their aspect ratios and aligning the surfaced turtle head. Changing direction never changes an animal's profile, size, or tint.
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
 - `public/art/scene-machine.png` and `scene-machine.json`: separate garden machine on an iron pedestal, grounded on the path and clickable without throwing pellets.
@@ -152,6 +163,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `src/restocking.ts`: the 25-serving machine's employee arrival, wait, refill, and departure; `src/employee-art.ts` and `employee-pins.ts` align walking distance, planted work poses, and the pouring sack.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
 - `src/animal-energy.ts`: reusable feeding history, recent-meal checks, and hunger-based boost recharge.
+- `src/idles.ts` and `observer-idles.ts`: short action timings, individual habits, and animation poses; the animal and crowd simulations schedule them independently.
 - `src/debug-metrics.ts`: read-only debug snapshots of animal history, energy, flights, and pellet phases.
 - `src/game.ts`: rendering, dock-character motion, and landing ripples.
 - `src/wind.ts`: shared seeded breeze, current state, per-second visit history, and replay.

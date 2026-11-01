@@ -1,0 +1,781 @@
+{
+  "textures": [
+    {
+      "image": "bird-idles.png",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "frames": [
+        {
+          "filename": "preen-0",
+          "frame": {
+            "x": 25,
+            "y": 61,
+            "w": 201,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 162,
+            "y": 167,
+            "w": 201,
+            "h": 144
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 267.92452830188677,
+          "bodyBounds": {
+            "x": 163,
+            "y": 168,
+            "w": 199,
+            "h": 142
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "preen-1",
+          "frame": {
+            "x": 277,
+            "y": 56,
+            "w": 200,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 151,
+            "y": 162,
+            "w": 200,
+            "h": 149
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 267.92452830188677,
+          "bodyBounds": {
+            "x": 152,
+            "y": 163,
+            "w": 198,
+            "h": 147
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "preen-2",
+          "frame": {
+            "x": 540,
+            "y": 61,
+            "w": 200,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 153,
+            "y": 167,
+            "w": 200,
+            "h": 144
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 267.92452830188677,
+          "bodyBounds": {
+            "x": 154,
+            "y": 168,
+            "w": 198,
+            "h": 142
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "preen-3",
+          "frame": {
+            "x": 795,
+            "y": 60,
+            "w": 201,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 162,
+            "y": 167,
+            "w": 201,
+            "h": 144
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 267.92452830188677,
+          "bodyBounds": {
+            "x": 163,
+            "y": 168,
+            "w": 199,
+            "h": 142
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "dabble-0",
+          "frame": {
+            "x": 25,
+            "y": 316,
+            "w": 201,
+            "h": 144
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 162,
+            "y": 167,
+            "w": 201,
+            "h": 144
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 267.92452830188677,
+          "bodyBounds": {
+            "x": 163,
+            "y": 168,
+            "w": 199,
+            "h": 142
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "dabble-1",
+          "frame": {
+            "x": 279,
+            "y": 336,
+            "w": 228,
+            "h": 123
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 126,
+            "y": 188,
+            "w": 228,
+            "h": 123
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 267.92452830188677,
+          "bodyBounds": {
+            "x": 127,
+            "y": 189,
+            "w": 226,
+            "h": 121
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "dabble-2",
+          "frame": {
+            "x": 550,
+            "y": 333,
+            "w": 213,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 136,
+            "y": 184,
+            "w": 213,
+            "h": 127
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 267.92452830188677,
+          "bodyBounds": {
+            "x": 137,
+            "y": 185,
+            "w": 211,
+            "h": 125
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "dabble-3",
+          "frame": {
+            "x": 793,
+            "y": 312,
+            "w": 207,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 160,
+            "y": 163,
+            "w": 207,
+            "h": 148
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 267.92452830188677,
+          "bodyBounds": {
+            "x": 161,
+            "y": 164,
+            "w": 205,
+            "h": 146
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "wing-stretch-0",
+          "frame": {
+            "x": 25,
+            "y": 581,
+            "w": 202,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 161,
+            "y": 171,
+            "w": 202,
+            "h": 140
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 270.5882352941176,
+          "bodyBounds": {
+            "x": 162,
+            "y": 172,
+            "w": 200,
+            "h": 138
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "wing-stretch-1",
+          "frame": {
+            "x": 290,
+            "y": 584,
+            "w": 231,
+            "h": 154
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 155,
+            "y": 157,
+            "w": 231,
+            "h": 154
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 270.5882352941176,
+          "bodyBounds": {
+            "x": 156,
+            "y": 158,
+            "w": 229,
+            "h": 152
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "wing-stretch-2",
+          "frame": {
+            "x": 549,
+            "y": 507,
+            "w": 218,
+            "h": 230
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 154,
+            "y": 81,
+            "w": 218,
+            "h": 230
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 270.5882352941176,
+          "bodyBounds": {
+            "x": 155,
+            "y": 82,
+            "w": 216,
+            "h": 228
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "wing-stretch-3",
+          "frame": {
+            "x": 804,
+            "y": 595,
+            "w": 199,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 162,
+            "y": 174,
+            "w": 199,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 270.5882352941176,
+          "bodyBounds": {
+            "x": 163,
+            "y": 175,
+            "w": 197,
+            "h": 135
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "scratch-0",
+          "frame": {
+            "x": 25,
+            "y": 837,
+            "w": 202,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 161,
+            "y": 171,
+            "w": 202,
+            "h": 140
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 270.5882352941176,
+          "bodyBounds": {
+            "x": 162,
+            "y": 172,
+            "w": 200,
+            "h": 138
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "scratch-1",
+          "frame": {
+            "x": 274,
+            "y": 828,
+            "w": 221,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 149,
+            "y": 162,
+            "w": 221,
+            "h": 149
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 270.5882352941176,
+          "bodyBounds": {
+            "x": 150,
+            "y": 163,
+            "w": 219,
+            "h": 147
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "scratch-2",
+          "frame": {
+            "x": 527,
+            "y": 826,
+            "w": 220,
+            "h": 151
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 151,
+            "y": 160,
+            "w": 220,
+            "h": 151
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 270.5882352941176,
+          "bodyBounds": {
+            "x": 152,
+            "y": 161,
+            "w": 218,
+            "h": 149
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "scratch-3",
+          "frame": {
+            "x": 794,
+            "y": 837,
+            "w": 205,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 158,
+            "y": 171,
+            "w": 205,
+            "h": 140
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 270.5882352941176,
+          "bodyBounds": {
+            "x": 159,
+            "y": 172,
+            "w": 203,
+            "h": 138
+          },
+          "waterline": {
+            "x": 256,
+            "y": 310
+          }
+        },
+        {
+          "filename": "double-nod-0",
+          "frame": {
+            "x": 25,
+            "y": 1088,
+            "w": 210,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 161,
+            "y": 179,
+            "w": 210,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 293.4782608695652,
+          "bodyBounds": {
+            "x": 162,
+            "y": 180,
+            "w": 208,
+            "h": 135
+          },
+          "waterline": {
+            "x": 256,
+            "y": 315
+          }
+        },
+        {
+          "filename": "double-nod-1",
+          "frame": {
+            "x": 277,
+            "y": 1108,
+            "w": 214,
+            "h": 117
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 161,
+            "y": 199,
+            "w": 214,
+            "h": 117
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 293.4782608695652,
+          "bodyBounds": {
+            "x": 162,
+            "y": 200,
+            "w": 212,
+            "h": 115
+          },
+          "waterline": {
+            "x": 256,
+            "y": 315
+          }
+        },
+        {
+          "filename": "double-nod-2",
+          "frame": {
+            "x": 534,
+            "y": 1113,
+            "w": 208,
+            "h": 110
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 151,
+            "y": 206,
+            "w": 208,
+            "h": 110
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 293.4782608695652,
+          "bodyBounds": {
+            "x": 152,
+            "y": 207,
+            "w": 206,
+            "h": 108
+          },
+          "waterline": {
+            "x": 256,
+            "y": 315
+          }
+        },
+        {
+          "filename": "double-nod-3",
+          "frame": {
+            "x": 794,
+            "y": 1088,
+            "w": 209,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 162,
+            "y": 179,
+            "w": 209,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 293.4782608695652,
+          "bodyBounds": {
+            "x": 163,
+            "y": 180,
+            "w": 207,
+            "h": 135
+          },
+          "waterline": {
+            "x": 256,
+            "y": 315
+          }
+        },
+        {
+          "filename": "foot-paddle-0",
+          "frame": {
+            "x": 25,
+            "y": 1343,
+            "w": 210,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 162,
+            "y": 178,
+            "w": 210,
+            "h": 138
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 295.65217391304344,
+          "bodyBounds": {
+            "x": 163,
+            "y": 179,
+            "w": 208,
+            "h": 136
+          },
+          "waterline": {
+            "x": 256,
+            "y": 315
+          }
+        },
+        {
+          "filename": "foot-paddle-1",
+          "frame": {
+            "x": 262,
+            "y": 1342,
+            "w": 242,
+            "h": 133
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 138,
+            "y": 183,
+            "w": 242,
+            "h": 133
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 295.65217391304344,
+          "bodyBounds": {
+            "x": 139,
+            "y": 184,
+            "w": 240,
+            "h": 131
+          },
+          "waterline": {
+            "x": 256,
+            "y": 315
+          }
+        },
+        {
+          "filename": "foot-paddle-2",
+          "frame": {
+            "x": 504,
+            "y": 1342,
+            "w": 266,
+            "h": 136
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 117,
+            "y": 180,
+            "w": 266,
+            "h": 136
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 295.65217391304344,
+          "bodyBounds": {
+            "x": 118,
+            "y": 181,
+            "w": 264,
+            "h": 134
+          },
+          "waterline": {
+            "x": 256,
+            "y": 315
+          }
+        },
+        {
+          "filename": "foot-paddle-3",
+          "frame": {
+            "x": 793,
+            "y": 1343,
+            "w": 210,
+            "h": 136
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 161,
+            "y": 180,
+            "w": 210,
+            "h": 136
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 295.65217391304344,
+          "bodyBounds": {
+            "x": 162,
+            "y": 181,
+            "w": 208,
+            "h": 134
+          },
+          "waterline": {
+            "x": 256,
+            "y": 315
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { OBSERVER_IDLE_DURATIONS, OBSERVER_SIGNATURES, observerHabits, type ObserverIdleState } from './observer-idles.ts';
 import { walkingCycleDistance } from './observer-art.ts';
 import { pathBlend, walkingAdvance } from './walking.ts';
 import { OBSERVER_LOOKS } from './observer-looks.ts';
@@ -6,7 +7,7 @@ export type ObserverAge = 'adult' | 'kid';
 export type ObserverState = 'walking' | 'approaching' | 'watching' | 'leaving';
 interface Point { x: number; y: number }
 
-export interface Observer extends Point {
+export interface Observer extends Point, ObserverIdleState {
   id: number;
   age: ObserverAge;
   state: ObserverState;
@@ -46,6 +47,8 @@ export class ObserverCrowd {
   people: Observer[] = [];
   elapsed = 0;
   private random: () => number;
+  private idleRandom: () => number;
+  private nextIdleAt = 5;
   private nextId = 0;
   private arrivalIn = 0;
   private lastThrowAt = 0;
@@ -59,6 +62,11 @@ export class ObserverCrowd {
       let t = Math.imul(value ^ value >>> 15, 1 | value);
       t ^= t + Math.imul(t ^ t >>> 7, 61 | t);
       return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+    let idleSeed = (seed ^ 0x35b1a714) >>> 0;
+    this.idleRandom = () => {
+      idleSeed = (Math.imul(idleSeed, 1664525) + 1013904223) >>> 0;
+      return idleSeed / 4294967296;
     };
     const count = 2 + Math.floor(this.random() * 3);
     for (let i = 0; i < count; i++) {
@@ -79,7 +87,7 @@ export class ObserverCrowd {
       { age: 'adult', direction: -1, x: 900, lane: 784 },
     ] as const).map(model => {
       const speed = model.age === 'adult' ? 38 : 44;
-      const person: Observer = { ...model, id: this.nextId++, y: pathY(model.x, model.lane), look: 0, scale: 1,
+      const person: Observer = { ...observerHabits(model.age, 0, this.elapsed, this.idleRandom), ...model, id: this.nextId++, y: pathY(model.x, model.lane), look: 0, scale: 1,
         state: 'walking', speed, velocity: speed, stride: 0, stop: null,
         watchDuration: 0, watchRemaining: 0, interest: 1, quietAfter: Infinity,
         stopRoll: 1, hasWatched: true, walkReview: true };
@@ -139,11 +147,14 @@ export class ObserverCrowd {
     const looks = OBSERVER_LOOKS[age].map((_, index) => index);
     const unusedLooks = looks.filter(look => !this.people.some(person => person.age === age && person.look === look));
     const availableLooks = unusedLooks.length ? unusedLooks : looks;
+    const speed = age === 'kid' ? this.between(37, 51) : this.between(32, 46);
+    const look = availableLooks[Math.floor(this.random() * availableLooks.length)];
     const person: Observer = {
+      ...observerHabits(age, look, this.elapsed, this.idleRandom),
       id: this.nextId++, age, x, y: pathY(x, lane), lane, direction, stop: null,
       state: 'walking',
-      speed: age === 'kid' ? this.between(37, 51) : this.between(32, 46),
-      velocity: 0, look: availableLooks[Math.floor(this.random() * availableLooks.length)], scale: this.between(0.92, 1.1),
+      speed,
+      velocity: 0, look, scale: this.between(0.92, 1.1),
       stride: this.random() * 4, watchDuration: 0, watchRemaining: 0,
       interest: this.sceneInterest, quietAfter: this.between(5, 10), stopRoll: this.random(), hasWatched: false,
     };
@@ -157,25 +168,46 @@ export class ObserverCrowd {
     this.people.push(person);
   }
 
+  private scheduleIdle(): void {
+    if (this.reviewingWalks || this.elapsed < this.nextIdleAt) return;
+    this.nextIdleAt = this.elapsed + 8 + this.idleRandom() * 8;
+    if (this.people.some(p => p.idle)) return;
+    const eligible = this.people.filter(p => p.state === 'watching' && p.watchRemaining > 4.5 && p.nextIdleAt <= this.elapsed);
+    if (!eligible.length) return;
+    const person = eligible[Math.floor(this.idleRandom() * eligible.length)];
+    const roll = this.idleRandom();
+    const habit = roll < 0.7 ? person.favoriteHabit : roll < 0.8 ? OBSERVER_SIGNATURES[person.age][person.look]
+      : roll < 0.9 ? 'look-around' : 'weight-shift';
+    const [min, max] = OBSERVER_IDLE_DURATIONS[habit];
+    person.idle = { habit, elapsed: 0, duration: Math.max(1.6, Math.min(4, (min + this.idleRandom() * (max - min)) * person.habitTempo)) };
+    person.nextIdleAt = this.elapsed + 25 + this.idleRandom() * 20;
+  }
+
   step(seconds: number): void {
     const dt = Math.max(0, Math.min(seconds, 0.1));
     if (dt === 0) return;
     this.elapsed += dt;
+    this.scheduleIdle();
     const quietFor = this.elapsed - this.lastThrowAt;
     if (quietFor > 7.5) this.sceneInterest = Math.max(0.8, this.sceneInterest - dt * 0.018);
     for (const person of this.people) {
       if (quietFor > person.quietAfter) person.interest = Math.max(0.8, person.interest - dt * 0.018);
       if (person.state === 'watching') {
+        if (person.idle) {
+          person.idle.elapsed = Math.min(person.idle.duration, person.idle.elapsed + dt);
+          if (person.idle.elapsed >= person.idle.duration) person.idle = null;
+        }
         person.velocity = 0;
         const watchRate = 1 + (1 - person.interest) * 0.6;
         person.watchRemaining = Math.max(0, person.watchRemaining - dt * watchRate);
-        if (person.watchRemaining === 0) {
+        if (person.watchRemaining === 0 && !person.idle) {
           person.state = 'leaving';
           // Begin with the legs together instead of restarting in a wide stride.
           person.stride = 1;
         }
         continue;
       }
+      person.idle = null;
       const before = { x: person.x, y: person.y };
       if (person.state === 'approaching' && person.stop && Math.abs(person.x - person.stop.x) > 80 &&
         person.stopRoll >= this.stopChance(person)) {

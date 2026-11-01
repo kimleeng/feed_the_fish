@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import { idlePose, usesBirdStrip } from './idles.ts';
+import { observerIdlePose } from './observer-idles.ts';
 import { PondSimulation, POND, BIRD_TAKEOFF_SECONDS, inPond, type Point } from './simulation.ts';
 import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
 import { COIN_PRICE, type VendingPhase } from './vending.ts';
@@ -69,6 +71,8 @@ export class PondScene extends Phaser.Scene {
   constructor() { super('pond'); }
 
   preload(): void {
+    this.load.multiatlas('animal-idles', '/art/animal-idles.json', '/art');
+    this.load.multiatlas('observer-idles', '/art/observer-idles.json', '/art');
     this.load.image('pond-art', '/art/pond.png');
     for (const atlas of ANIMATED_ATLASES) this.load.multiatlas(atlas, `/art/${atlas}-animation.json`, '/art');
     this.load.multiatlas(EATING_ATLAS, `/art/${EATING_ATLAS}-animation.json`, '/art');
@@ -296,8 +300,9 @@ export class PondScene extends Phaser.Scene {
       const watching = person.state === 'watching';
       const sprite = visitor.getByName('observer-art') as Phaser.GameObjects.Sprite;
       const shadow = visitor.getByName('observer-shadow') as Phaser.GameObjects.Ellipse;
-      sprite.setTexture(observerAtlas(person), observerFrame(person)).setFlipX(!watching && person.direction === -1)
-        .setPosition(0, 0);
+      const idle = observerIdlePose(person, this.reducedMotion.matches);
+      sprite.setTexture(idle.frame ? 'observer-idles' : observerAtlas(person), idle.frame ?? observerFrame(person))
+        .setFlipX(!watching && person.direction === -1).setPosition(idle.x, 0).setAngle(idle.angle);
       sprite.setScale(observerHeight(person) / animationFrameData(sprite.frame).referenceHeight);
       shadow.setDisplaySize((person.age === 'adult' ? 44 : 30) * person.scale, person.age === 'adult' ? 8 : 6);
       visitor.setPosition(person.x, person.y).setDepth(40 + person.y / 1000);
@@ -441,12 +446,18 @@ export class PondScene extends Phaser.Scene {
         : animal.moving ? SWIM_CYCLE[Math.floor((this.world.elapsed * rate + animal.phase) * 2) % SWIM_CYCLE.length] : 0;
       const feeding = eatingFrame(animal, direction);
       const feedingBody = feeding && animal.profile.kind !== 'turtle';
-      sprite.setTexture(feedingBody ? EATING_ATLAS : animalAtlas(animal.profile.kind, airborne),
-        feedingBody ? feeding : animalFrame(animal.profile.texture, direction, stroke));
-      sprite.setScale(animal.profile.size / animationFrameData(sprite.frame).referenceHeight);
-      const bob = bird && !airborne ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
-      sprite.setPosition(animal.x, animal.y - animal.altitude + bob)
+      const idle = !airborne && !feedingBody ? animal.idle : null;
+      const pose = idlePose(this.reducedMotion.matches ? null : idle, animal.habitSide, animal.habitIntensity);
+      const strip = idle && usesBirdStrip(idle.habit) && idle.elapsed >= idle.duration * 0.16 ? pose.birdFrame : null;
+      sprite.setTexture(strip ? 'animal-idles' : feedingBody ? EATING_ATLAS : animalAtlas(animal.profile.kind, airborne),
+        strip ?? (feedingBody ? feeding : animalFrame(animal.profile.texture, direction, idle ? pose.stroke : stroke)))
+        .setFlipX(!!strip && Math.cos(idle!.heading) < 0).setRotation(pose.roll);
+      const scale = animal.profile.size / animationFrameData(sprite.frame).referenceHeight;
+      sprite.setScale(scale * pose.scaleX, scale * pose.scaleY);
+      const bob = bird && !airborne && !this.reducedMotion.matches ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
+      sprite.setPosition(animal.x, animal.y - animal.altitude + bob + pose.y)
         .setDepth((airborne ? 46 : bird ? 30 : 10) + animal.y / 1000);
+      if (bird) sprite.setAlpha(pose.alpha);
       if (this.debugMode && animal.profile.kind !== 'turtle') {
         const width = Math.max(10, Math.min(16, animal.profile.size * 0.26));
         const x = animal.x - width / 2;
@@ -459,7 +470,7 @@ export class PondScene extends Phaser.Scene {
         const amount = fishSurfaceAmount(animal);
         const { body, mouth } = this.feedingFish.get(animal.id)!;
         const underwaterAlpha = 0.83 + animal.id % 4 * 0.025;
-        sprite.setAlpha(underwaterAlpha * (1 - amount));
+        sprite.setAlpha(underwaterAlpha * (1 - amount) * pose.alpha);
         body.setVisible(amount > 0); mouth.setVisible(amount > 0);
         if (amount > 0) {
           const frame = fishSurfaceFrame(animal, direction);
