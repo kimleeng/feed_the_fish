@@ -20,7 +20,7 @@ export function observerHabits(age: ObserverAge, look: number, elapsed: number, 
   const roll = random();
   return { favoriteHabit: roll < 0.8 ? signature : roll < 0.9 ? 'look-around' : 'weight-shift',
     habitSide: random() < 0.5 ? -1 : 1, habitTempo: 0.9 + random() * 0.2,
-    nextIdleAt: elapsed + 4 + random() * 8, idle: null };
+    nextIdleAt: elapsed + 2 + random() * 4, idle: null };
 }
 
 export function observerIdlePose(person: Observer, reducedMotion = false): { frame: string | null; x: number; angle: number } {

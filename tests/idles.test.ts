@@ -39,7 +39,7 @@ test('the scheduler interleaves sparse idles, keeps persistent habits and leaves
   const world = new PondSimulation(202);
   const signatures = world.animals.map(a => [a.favoriteHabit, a.habitSide, a.habitTempo, a.habitIntensity]);
   const previous = new Set<number>(), seen = new Set<number>();
-  let lastStart = -Infinity;
+  let starts = 0, lastStart = -Infinity;
   for (let i = 0; i < 1800; i++) {
     world.step(.1);
     const active = world.animals.filter(a => a.idle);
@@ -48,13 +48,15 @@ test('the scheduler interleaves sparse idles, keeps persistent habits and leaves
       assert.ok(animal.profile.kind !== 'turtle');
       assert.ok(animal.idle!.duration >= 1.5 && animal.idle!.duration <= 4.5);
       if (!previous.has(animal.id)) {
-        assert.ok(world.elapsed - lastStart >= 2.999);
+        starts++;
+        assert.ok(world.elapsed - lastStart >= 1.499);
         lastStart = world.elapsed; seen.add(animal.id);
       }
     }
     previous.clear(); active.forEach(a => previous.add(a.id));
     assert.ok(world.animals.every(inPond));
   }
+  assert.ok(starts >= 50 && starts <= 80, `expected roughly 22 starts per minute, got ${starts / 3}`);
   assert.ok(seen.size >= 15);
   assert.deepEqual(world.animals.map(a => [a.favoriteHabit,a.habitSide,a.habitTempo,a.habitIntensity]), signatures);
   assert.deepEqual(new PondSimulation(202).animals.map(a => [a.favoriteHabit,a.habitSide,a.habitTempo,a.habitIntensity]), signatures);
@@ -119,11 +121,11 @@ test('visitor gestures are spaced apart, never run while walking, and do not cha
     assert.ok(active.length <= 1);
     for (const p of active) {
       assert.equal(p.state,'watching'); assert.equal(p.velocity,0);
-      if (!previous.has(p.id)) { starts++; assert.ok(crowd.elapsed-lastStart>=7.999); lastStart=crowd.elapsed; }
+      if (!previous.has(p.id)) { starts++; assert.ok(crowd.elapsed-lastStart>=3.999); lastStart=crowd.elapsed; }
     }
     previous.clear(); active.forEach(p=>previous.add(p.id));
   }
-  assert.ok(starts>=4);
+  assert.ok(starts>=8);
   crowd.startWalkReview(); advance(crowd,30);
   assert.ok(crowd.people.every(p=>p.state==='walking' && !p.idle));
 });

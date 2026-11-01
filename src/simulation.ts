@@ -124,7 +124,7 @@ export class PondSimulation {
   private throwRandom: () => number;
   private behaviorRandom: () => number;
   private idleRandom: () => number;
-  private nextIdleAt = 5;
+  private nextIdleAt = 2.5;
   private throwQueue: ThrowEvent[] = [];
   private nextThrowId = 0;
   private lastObservedThrow = -1;
@@ -164,13 +164,13 @@ export class PondSimulation {
       animal.habitSide = this.idleRandom() < 0.5 ? -1 : 1;
       animal.habitTempo = 0.9 + this.idleRandom() * 0.2;
       animal.habitIntensity = 0.85 + this.idleRandom() * 0.3;
-      animal.nextIdleAt = 5 + this.idleRandom() * 35;
+      animal.nextIdleAt = 2.5 + this.idleRandom() * 17.5;
     }
   }
 
   private scheduleIdle(): void {
     if (this.elapsed < this.nextIdleAt) return;
-    this.nextIdleAt = this.elapsed + 3 + this.idleRandom() * 5;
+    this.nextIdleAt = this.elapsed + 1.5 + this.idleRandom() * 2.5;
     if (this.animals.filter(a => a.idle).length >= 2) return;
     const available = this.animals.filter(a => IDLE_HABITS[a.profile.id] && !a.idle &&
       !a.flight && !a.meal && a.chewLeft <= 0 && a.surfaceLeft <= 0 && a.nextIdleAt <= this.elapsed);
@@ -184,7 +184,7 @@ export class PondSimulation {
       const duration = Math.max(1.5, Math.min(4.5, (min + this.idleRandom() * (max - min)) * animal.habitTempo));
       animal.idle = { habit, elapsed: 0, duration, heading: animal.heading };
       animal.state = 'idle';
-      animal.nextIdleAt = this.elapsed + (animal.profile.kind === 'bird' ? 35 : 50) + this.idleRandom() * 40;
+      animal.nextIdleAt = this.elapsed + (animal.profile.kind === 'bird' ? 17.5 : 25) + this.idleRandom() * 20;
       break;
     }
   }
