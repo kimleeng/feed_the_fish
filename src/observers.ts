@@ -48,7 +48,7 @@ export class ObserverCrowd {
   elapsed = 0;
   private random: () => number;
   private idleRandom: () => number;
-  private nextIdleAt = 5;
+  private nextIdleAt = 2.5;
   private nextId = 0;
   private arrivalIn = 0;
   private lastThrowAt = 0;
@@ -170,7 +170,7 @@ export class ObserverCrowd {
 
   private scheduleIdle(): void {
     if (this.reviewingWalks || this.elapsed < this.nextIdleAt) return;
-    this.nextIdleAt = this.elapsed + 8 + this.idleRandom() * 8;
+    this.nextIdleAt = this.elapsed + 4 + this.idleRandom() * 4;
     if (this.people.some(p => p.idle)) return;
     const eligible = this.people.filter(p => p.state === 'watching' && p.watchRemaining > 4.5 && p.nextIdleAt <= this.elapsed);
     if (!eligible.length) return;
@@ -180,7 +180,7 @@ export class ObserverCrowd {
       : roll < 0.9 ? 'look-around' : 'weight-shift';
     const [min, max] = OBSERVER_IDLE_DURATIONS[habit];
     person.idle = { habit, elapsed: 0, duration: Math.max(1.6, Math.min(4, (min + this.idleRandom() * (max - min)) * person.habitTempo)) };
-    person.nextIdleAt = this.elapsed + 25 + this.idleRandom() * 20;
+    person.nextIdleAt = this.elapsed + 12.5 + this.idleRandom() * 10;
   }
 
   step(seconds: number): void {
