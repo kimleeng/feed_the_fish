@@ -1,5 +1,34 @@
 # Garden and fish image review
 
+## Quiet habits on the current game, 1 November 2026
+
+The idle behavior was adapted onto `main` at `e74c57f`. The existing directional
+swimmers, eating poses, dock thrower, walking visitors, twelve outfits, employee,
+and compact interface remain the starting point. Current bird swimming poses and
+rear-facing visitor poses were used as references for the new gesture sheets.
+
+The three transparent source sheets contain 72 whole-body drawings: four stages
+for each of six bird gestures and each of twelve visitor outfits. Atlas metadata
+uses one scale through each action, the current species' crown-to-waterline
+height, and planted visitor feet. Empty gutters are measured before cutting so
+outstretched wings, hands, and shoes are included. The packaging script checks
+overlap and bounds and copies source PNGs intact.
+
+Contact sheets compare every cut with its original swimming or watching pose.
+Review covered consistent clothing and hair, complete limbs, wing tips, waterline
+and sole placement, resting-to-gesture transitions, and desktop/phone scenes.
+The generated poses have small silhouette differences; they are discrete drawn
+gestures, with longer peak holds and shorter anticipation/recovery stages. Fish
+retain their current swimming artwork for changes in heading, pace, fins, and
+depth. Shared visitor looks and weight shifts use small whole-body transforms.
+
+Run `npx playwright test tests/browser/idles.spec.ts` to export the contact sheets
+and scenes under `test-results`. The checks exercise all 18 animal actions,
+all twelve visitor designs, waterline and foot registration, restoration of the
+existing swimming/walking frames, pause, and reduced motion. Simulation checks
+also cover bounded duration, sparse scheduling, persistent preferences, feeding
+priority, and independent random streams.
+
 ## Yellow child pose order, 18 October 2026
 
 The initial 14-pose yellow-child cycle included a bent-leg drawing after the

@@ -1,0 +1,1654 @@
+{
+  "textures": [
+    {
+      "image": "observer-adult-idles.png",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "frames": [
+        {
+          "filename": "observer-adult-0-idle-0",
+          "frame": {
+            "x": 95,
+            "y": 25,
+            "w": 109,
+            "h": 240
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 201,
+            "y": 272,
+            "w": 109,
+            "h": 240
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 238,
+          "bodyBounds": {
+            "x": 202,
+            "y": 273,
+            "w": 107,
+            "h": 238
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-0-idle-1",
+          "frame": {
+            "x": 330,
+            "y": 24,
+            "w": 119,
+            "h": 241
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 271,
+            "w": 119,
+            "h": 241
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 238,
+          "bodyBounds": {
+            "x": 201,
+            "y": 272,
+            "w": 117,
+            "h": 239
+          },
+          "feet": [
+            {
+              "x": 255.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-0-idle-2",
+          "frame": {
+            "x": 569,
+            "y": 25,
+            "w": 121,
+            "h": 240
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 191,
+            "y": 272,
+            "w": 121,
+            "h": 240
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 238,
+          "bodyBounds": {
+            "x": 192,
+            "y": 273,
+            "w": 119,
+            "h": 238
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-0-idle-3",
+          "frame": {
+            "x": 818,
+            "y": 25,
+            "w": 110,
+            "h": 240
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 201,
+            "y": 272,
+            "w": 110,
+            "h": 240
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 238,
+          "bodyBounds": {
+            "x": 202,
+            "y": 273,
+            "w": 108,
+            "h": 238
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-1-idle-0",
+          "frame": {
+            "x": 95,
+            "y": 278,
+            "w": 109,
+            "h": 237
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 201,
+            "y": 275,
+            "w": 109,
+            "h": 237
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 235,
+          "bodyBounds": {
+            "x": 202,
+            "y": 276,
+            "w": 107,
+            "h": 235
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-1-idle-1",
+          "frame": {
+            "x": 322,
+            "y": 279,
+            "w": 128,
+            "h": 236
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 192,
+            "y": 276,
+            "w": 128,
+            "h": 236
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 235,
+          "bodyBounds": {
+            "x": 193,
+            "y": 277,
+            "w": 126,
+            "h": 234
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-1-idle-2",
+          "frame": {
+            "x": 557,
+            "y": 278,
+            "w": 156,
+            "h": 237
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 178,
+            "y": 275,
+            "w": 156,
+            "h": 237
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 235,
+          "bodyBounds": {
+            "x": 179,
+            "y": 276,
+            "w": 154,
+            "h": 235
+          },
+          "feet": [
+            {
+              "x": 255.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-1-idle-3",
+          "frame": {
+            "x": 821,
+            "y": 278,
+            "w": 106,
+            "h": 237
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 204,
+            "y": 275,
+            "w": 106,
+            "h": 237
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 235,
+          "bodyBounds": {
+            "x": 205,
+            "y": 276,
+            "w": 104,
+            "h": 235
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-2-idle-0",
+          "frame": {
+            "x": 90,
+            "y": 527,
+            "w": 114,
+            "h": 236
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 198,
+            "y": 276,
+            "w": 114,
+            "h": 236
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 234,
+          "bodyBounds": {
+            "x": 199,
+            "y": 277,
+            "w": 112,
+            "h": 234
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-2-idle-1",
+          "frame": {
+            "x": 329,
+            "y": 527,
+            "w": 145,
+            "h": 235
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 277,
+            "w": 145,
+            "h": 235
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 234,
+          "bodyBounds": {
+            "x": 201,
+            "y": 278,
+            "w": 143,
+            "h": 233
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-2-idle-2",
+          "frame": {
+            "x": 575,
+            "y": 527,
+            "w": 157,
+            "h": 235
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 198,
+            "y": 277,
+            "w": 157,
+            "h": 235
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 234,
+          "bodyBounds": {
+            "x": 199,
+            "y": 278,
+            "w": 155,
+            "h": 233
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-2-idle-3",
+          "frame": {
+            "x": 818,
+            "y": 527,
+            "w": 115,
+            "h": 235
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 198,
+            "y": 277,
+            "w": 115,
+            "h": 235
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 234,
+          "bodyBounds": {
+            "x": 199,
+            "y": 278,
+            "w": 113,
+            "h": 233
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-3-idle-0",
+          "frame": {
+            "x": 97,
+            "y": 776,
+            "w": 107,
+            "h": 251
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 202,
+            "y": 261,
+            "w": 107,
+            "h": 251
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 249,
+          "bodyBounds": {
+            "x": 203,
+            "y": 262,
+            "w": 105,
+            "h": 249
+          },
+          "feet": [
+            {
+              "x": 255.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-3-idle-1",
+          "frame": {
+            "x": 330,
+            "y": 776,
+            "w": 117,
+            "h": 250
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 202,
+            "y": 262,
+            "w": 117,
+            "h": 250
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 249,
+          "bodyBounds": {
+            "x": 203,
+            "y": 263,
+            "w": 115,
+            "h": 248
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-3-idle-2",
+          "frame": {
+            "x": 569,
+            "y": 776,
+            "w": 125,
+            "h": 250
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 186,
+            "y": 262,
+            "w": 125,
+            "h": 250
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 249,
+          "bodyBounds": {
+            "x": 187,
+            "y": 263,
+            "w": 123,
+            "h": 248
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-3-idle-3",
+          "frame": {
+            "x": 821,
+            "y": 776,
+            "w": 108,
+            "h": 250
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 202,
+            "y": 262,
+            "w": 108,
+            "h": 250
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 249,
+          "bodyBounds": {
+            "x": 203,
+            "y": 263,
+            "w": 106,
+            "h": 248
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-4-idle-0",
+          "frame": {
+            "x": 89,
+            "y": 1038,
+            "w": 121,
+            "h": 240
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 195,
+            "y": 272,
+            "w": 121,
+            "h": 240
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 238,
+          "bodyBounds": {
+            "x": 196,
+            "y": 273,
+            "w": 119,
+            "h": 238
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-4-idle-1",
+          "frame": {
+            "x": 319,
+            "y": 1039,
+            "w": 139,
+            "h": 238
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 186,
+            "y": 274,
+            "w": 139,
+            "h": 238
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 238,
+          "bodyBounds": {
+            "x": 187,
+            "y": 275,
+            "w": 137,
+            "h": 236
+          },
+          "feet": [
+            {
+              "x": 255.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-4-idle-2",
+          "frame": {
+            "x": 566,
+            "y": 1039,
+            "w": 139,
+            "h": 239
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 187,
+            "y": 273,
+            "w": 139,
+            "h": 239
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 238,
+          "bodyBounds": {
+            "x": 188,
+            "y": 274,
+            "w": 137,
+            "h": 237
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-4-idle-3",
+          "frame": {
+            "x": 813,
+            "y": 1039,
+            "w": 122,
+            "h": 239
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 195,
+            "y": 273,
+            "w": 122,
+            "h": 239
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 238,
+          "bodyBounds": {
+            "x": 196,
+            "y": 274,
+            "w": 120,
+            "h": 237
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-5-idle-0",
+          "frame": {
+            "x": 89,
+            "y": 1286,
+            "w": 122,
+            "h": 231
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 195,
+            "y": 281,
+            "w": 122,
+            "h": 231
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 229,
+          "bodyBounds": {
+            "x": 196,
+            "y": 282,
+            "w": 120,
+            "h": 229
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-5-idle-1",
+          "frame": {
+            "x": 316,
+            "y": 1287,
+            "w": 117,
+            "h": 230
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 197,
+            "y": 282,
+            "w": 117,
+            "h": 230
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 229,
+          "bodyBounds": {
+            "x": 198,
+            "y": 283,
+            "w": 115,
+            "h": 228
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-5-idle-2",
+          "frame": {
+            "x": 563,
+            "y": 1291,
+            "w": 123,
+            "h": 227
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 199,
+            "y": 285,
+            "w": 123,
+            "h": 227
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 229,
+          "bodyBounds": {
+            "x": 200,
+            "y": 286,
+            "w": 121,
+            "h": 225
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-adult-5-idle-3",
+          "frame": {
+            "x": 811,
+            "y": 1286,
+            "w": 123,
+            "h": 231
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 194,
+            "y": 281,
+            "w": 123,
+            "h": 231
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 229,
+          "bodyBounds": {
+            "x": 195,
+            "y": 282,
+            "w": 121,
+            "h": 229
+          },
+          "feet": [
+            {
+              "x": 255.5,
+              "y": 511
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "image": "observer-kid-idles.png",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "frames": [
+        {
+          "filename": "observer-kid-0-idle-0",
+          "frame": {
+            "x": 100,
+            "y": 28,
+            "w": 102,
+            "h": 220
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 206,
+            "y": 292,
+            "w": 102,
+            "h": 220
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 218,
+          "bodyBounds": {
+            "x": 207,
+            "y": 293,
+            "w": 100,
+            "h": 218
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-0-idle-1",
+          "frame": {
+            "x": 335,
+            "y": 32,
+            "w": 110,
+            "h": 216
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 204,
+            "y": 296,
+            "w": 110,
+            "h": 216
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 218,
+          "bodyBounds": {
+            "x": 205,
+            "y": 297,
+            "w": 108,
+            "h": 214
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-0-idle-2",
+          "frame": {
+            "x": 572,
+            "y": 56,
+            "w": 115,
+            "h": 192
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 208,
+            "y": 320,
+            "w": 115,
+            "h": 192
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 218,
+          "bodyBounds": {
+            "x": 209,
+            "y": 321,
+            "w": 113,
+            "h": 190
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-0-idle-3",
+          "frame": {
+            "x": 816,
+            "y": 27,
+            "w": 105,
+            "h": 221
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 204,
+            "y": 291,
+            "w": 105,
+            "h": 221
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 218,
+          "bodyBounds": {
+            "x": 205,
+            "y": 292,
+            "w": 103,
+            "h": 219
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-1-idle-0",
+          "frame": {
+            "x": 93,
+            "y": 269,
+            "w": 115,
+            "h": 236
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 199,
+            "y": 276,
+            "w": 115,
+            "h": 236
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 234,
+          "bodyBounds": {
+            "x": 200,
+            "y": 277,
+            "w": 113,
+            "h": 234
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-1-idle-1",
+          "frame": {
+            "x": 330,
+            "y": 271,
+            "w": 135,
+            "h": 234
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 198,
+            "y": 278,
+            "w": 135,
+            "h": 234
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 234,
+          "bodyBounds": {
+            "x": 199,
+            "y": 279,
+            "w": 133,
+            "h": 232
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-1-idle-2",
+          "frame": {
+            "x": 560,
+            "y": 271,
+            "w": 162,
+            "h": 234
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 197,
+            "y": 278,
+            "w": 162,
+            "h": 234
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 234,
+          "bodyBounds": {
+            "x": 198,
+            "y": 279,
+            "w": 160,
+            "h": 232
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-1-idle-3",
+          "frame": {
+            "x": 812,
+            "y": 269,
+            "w": 116,
+            "h": 236
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 198,
+            "y": 276,
+            "w": 116,
+            "h": 236
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 234,
+          "bodyBounds": {
+            "x": 199,
+            "y": 277,
+            "w": 114,
+            "h": 234
+          },
+          "feet": [
+            {
+              "x": 255.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-2-idle-0",
+          "frame": {
+            "x": 95,
+            "y": 531,
+            "w": 114,
+            "h": 213
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 299,
+            "w": 114,
+            "h": 213
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 211,
+          "bodyBounds": {
+            "x": 201,
+            "y": 300,
+            "w": 112,
+            "h": 211
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-2-idle-1",
+          "frame": {
+            "x": 319,
+            "y": 531,
+            "w": 138,
+            "h": 213
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 186,
+            "y": 299,
+            "w": 138,
+            "h": 213
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 211,
+          "bodyBounds": {
+            "x": 187,
+            "y": 300,
+            "w": 136,
+            "h": 211
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-2-idle-2",
+          "frame": {
+            "x": 536,
+            "y": 530,
+            "w": 182,
+            "h": 214
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 166,
+            "y": 298,
+            "w": 182,
+            "h": 214
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 211,
+          "bodyBounds": {
+            "x": 167,
+            "y": 299,
+            "w": 180,
+            "h": 212
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-2-idle-3",
+          "frame": {
+            "x": 814,
+            "y": 529,
+            "w": 115,
+            "h": 215
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 199,
+            "y": 297,
+            "w": 115,
+            "h": 215
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 211,
+          "bodyBounds": {
+            "x": 200,
+            "y": 298,
+            "w": 113,
+            "h": 213
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-3-idle-0",
+          "frame": {
+            "x": 95,
+            "y": 767,
+            "w": 111,
+            "h": 234
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 278,
+            "w": 111,
+            "h": 234
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 232,
+          "bodyBounds": {
+            "x": 201,
+            "y": 279,
+            "w": 109,
+            "h": 232
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-3-idle-1",
+          "frame": {
+            "x": 334,
+            "y": 767,
+            "w": 115,
+            "h": 233
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 279,
+            "w": 115,
+            "h": 233
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 232,
+          "bodyBounds": {
+            "x": 201,
+            "y": 280,
+            "w": 113,
+            "h": 231
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-3-idle-2",
+          "frame": {
+            "x": 571,
+            "y": 766,
+            "w": 116,
+            "h": 235
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 198,
+            "y": 277,
+            "w": 116,
+            "h": 235
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 232,
+          "bodyBounds": {
+            "x": 199,
+            "y": 278,
+            "w": 114,
+            "h": 233
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-3-idle-3",
+          "frame": {
+            "x": 814,
+            "y": 762,
+            "w": 113,
+            "h": 239
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 273,
+            "w": 113,
+            "h": 239
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 232,
+          "bodyBounds": {
+            "x": 201,
+            "y": 274,
+            "w": 111,
+            "h": 237
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-4-idle-0",
+          "frame": {
+            "x": 96,
+            "y": 1021,
+            "w": 111,
+            "h": 233
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 202,
+            "y": 279,
+            "w": 111,
+            "h": 233
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 231,
+          "bodyBounds": {
+            "x": 203,
+            "y": 280,
+            "w": 109,
+            "h": 231
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-4-idle-1",
+          "frame": {
+            "x": 332,
+            "y": 1021,
+            "w": 122,
+            "h": 233
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 198,
+            "y": 279,
+            "w": 122,
+            "h": 233
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 231,
+          "bodyBounds": {
+            "x": 199,
+            "y": 280,
+            "w": 120,
+            "h": 231
+          },
+          "feet": [
+            {
+              "x": 255.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-4-idle-2",
+          "frame": {
+            "x": 569,
+            "y": 1024,
+            "w": 123,
+            "h": 230
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 194,
+            "y": 282,
+            "w": 123,
+            "h": 230
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 231,
+          "bodyBounds": {
+            "x": 195,
+            "y": 283,
+            "w": 121,
+            "h": 228
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-4-idle-3",
+          "frame": {
+            "x": 814,
+            "y": 1019,
+            "w": 114,
+            "h": 235
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 277,
+            "w": 114,
+            "h": 235
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 231,
+          "bodyBounds": {
+            "x": 201,
+            "y": 278,
+            "w": 112,
+            "h": 233
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-5-idle-0",
+          "frame": {
+            "x": 97,
+            "y": 1271,
+            "w": 109,
+            "h": 237
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 202,
+            "y": 275,
+            "w": 109,
+            "h": 237
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 235,
+          "bodyBounds": {
+            "x": 203,
+            "y": 276,
+            "w": 107,
+            "h": 235
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-5-idle-1",
+          "frame": {
+            "x": 327,
+            "y": 1284,
+            "w": 122,
+            "h": 224
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 196,
+            "y": 288,
+            "w": 122,
+            "h": 224
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 235,
+          "bodyBounds": {
+            "x": 197,
+            "y": 289,
+            "w": 120,
+            "h": 222
+          },
+          "feet": [
+            {
+              "x": 256.5,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-5-idle-2",
+          "frame": {
+            "x": 565,
+            "y": 1304,
+            "w": 126,
+            "h": 204
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 197,
+            "y": 308,
+            "w": 126,
+            "h": 204
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 235,
+          "bodyBounds": {
+            "x": 198,
+            "y": 309,
+            "w": 124,
+            "h": 202
+          },
+          "feet": [
+            {
+              "x": 256.0,
+              "y": 511
+            }
+          ]
+        },
+        {
+          "filename": "observer-kid-5-idle-3",
+          "frame": {
+            "x": 812,
+            "y": 1269,
+            "w": 112,
+            "h": 239
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 273,
+            "w": 112,
+            "h": 239
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 235,
+          "bodyBounds": {
+            "x": 201,
+            "y": 274,
+            "w": 110,
+            "h": 237
+          },
+          "feet": [
+            {
+              "x": 255.5,
+              "y": 511
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

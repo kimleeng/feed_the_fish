@@ -70,6 +70,7 @@ test('a throw rolls separately for each bird and never rolls before release, out
 
 test('seeded takeoff choices stay near half over many throws without extra chances from four pellets', () => {
   const { pond, bird } = pursuit();
+  bird.nextIdleAt = Infinity; // Sample takeoff decisions without scheduled rest breaks.
   let flights = 0;
   for (let throwId = 0; throwId < 2000; throwId++) {
     Object.assign(bird, { x: 300, y: 389, heading: 0, flight: null, altitude: 0 });

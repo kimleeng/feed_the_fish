@@ -1,3 +1,4 @@
+import { IDLE_DURATIONS, IDLE_HABITS, idlePose, usesBirdStrip, type IdleHabit, type IdleAction } from './idles.ts';
 import { PelletMachine } from './vending.ts';
 import { planThrow, THROW_MOTIONS, LUCKY_BONUS_POINTS, releaseOrigin, releaseHeight, type ThrowPlan, type ThrowEvent, type ThrowFacing } from './throws.ts';
 import { DOCK_POSITION } from './thrower-art.ts';
@@ -48,11 +49,13 @@ export interface BirdFlight {
 }
 export interface Animal extends Point, AnimalEnergy {
   id: number; profile: AnimalProfile; destination: Point; heading: number;
-  chewLeft: number; state: 'roaming' | 'approaching' | 'chewing' | 'taking-off' | 'flying' | 'landing'; moving: boolean;
+  chewLeft: number; state: 'roaming' | 'approaching' | 'chewing' | 'taking-off' | 'flying' | 'landing' | 'idle'; moving: boolean;
   meal: Meal | null;
   surfaceLeft: number; surfaceDuration: number;
   school: number; phase: number; altitude: number; flight: BirdFlight | null;
   flightChoices: Record<number, boolean>;
+  favoriteHabit: IdleHabit; habitSide: number; habitTempo: number; habitIntensity: number;
+  nextIdleAt: number; idle: IdleAction | null;
 }
 // Small body cores leave fins, tails, and feathers free to overlap naturally.
 export function animalCollisionRadius(animal: Animal): number {
@@ -120,6 +123,8 @@ export class PondSimulation {
   private random: () => number;
   private throwRandom: () => number;
   private behaviorRandom: () => number;
+  private idleRandom: () => number;
+  private nextIdleAt = 5;
   private throwQueue: ThrowEvent[] = [];
   private nextThrowId = 0;
   private lastObservedThrow = -1;
@@ -127,6 +132,7 @@ export class PondSimulation {
 
   constructor(seed = Date.now(), throwRandom?: () => number, behaviorRandom?: () => number) {
     this.wind = new WindSimulation(seed);
+    this.idleRandom = seededRandom(seed ^ 0x1d1ef173);
     // Independent randomness keeps foot traffic from affecting animals or lucky throws.
     this.crowd = new ObserverCrowd(seed ^ 0xa511e9b3);
     this.random = seededRandom(seed);
@@ -141,11 +147,62 @@ export class PondSimulation {
         const point = school >= 0
           ? { x: schoolCenter.x + (this.random() - 0.5) * 50, y: schoolCenter.y + (this.random() - 0.5) * 30 }
           : this.randomPoint(profile.kind === 'bird' ? 0.65 : 0, 0.92);
-        this.animals.push({ ...point, ...createAnimalEnergy(), id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, meal: null, surfaceLeft: 0, surfaceDuration: TURTLE_SURFACE_SECONDS, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2, altitude: 0, flight: null, flightChoices: {} });
+        this.animals.push({ ...point, ...createAnimalEnergy(), id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, meal: null, surfaceLeft: 0, surfaceDuration: TURTLE_SURFACE_SECONDS, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2, altitude: 0, flight: null, flightChoices: {}, favoriteHabit: 'linger', habitSide: 1, habitTempo: 1, habitIntensity: 1, nextIdleAt: Infinity, idle: null });
         if (school >= 0 && !this.schools.has(school)) this.schools.set(school, this.randomPoint());
       }
     }
+    this.initializeHabits();
     this.separateAnimals();
+  }
+
+  private initializeHabits(): void {
+    for (const animal of this.animals) {
+      const habits = IDLE_HABITS[animal.profile.id];
+      // The secret turtle retains its existing meal-driven surfacing routine.
+      if (!habits) continue;
+      animal.favoriteHabit = habits[3 + Math.floor(this.idleRandom() * 2)];
+      animal.habitSide = this.idleRandom() < 0.5 ? -1 : 1;
+      animal.habitTempo = 0.9 + this.idleRandom() * 0.2;
+      animal.habitIntensity = 0.85 + this.idleRandom() * 0.3;
+      animal.nextIdleAt = 5 + this.idleRandom() * 35;
+    }
+  }
+
+  private scheduleIdle(): void {
+    if (this.elapsed < this.nextIdleAt) return;
+    this.nextIdleAt = this.elapsed + 3 + this.idleRandom() * 5;
+    if (this.animals.filter(a => a.idle).length >= 2) return;
+    const available = this.animals.filter(a => IDLE_HABITS[a.profile.id] && !a.idle &&
+      !a.flight && !a.meal && a.chewLeft <= 0 && a.surfaceLeft <= 0 && a.nextIdleAt <= this.elapsed);
+    let choice = this.idleRandom() * available.reduce((sum, a) => sum + (a.profile.kind === 'bird' ? 3 : 1), 0);
+    for (const animal of available) {
+      choice -= animal.profile.kind === 'bird' ? 3 : 1;
+      if (choice > 0) continue;
+      const habits = IDLE_HABITS[animal.profile.id];
+      const habit = this.idleRandom() < 0.7 ? animal.favoriteHabit : habits[Math.floor(this.idleRandom() * habits.length)];
+      const [min, max] = IDLE_DURATIONS[habit];
+      const duration = Math.max(1.5, Math.min(4.5, (min + this.idleRandom() * (max - min)) * animal.habitTempo));
+      animal.idle = { habit, elapsed: 0, duration, heading: animal.heading };
+      animal.state = 'idle';
+      animal.nextIdleAt = this.elapsed + (animal.profile.kind === 'bird' ? 35 : 50) + this.idleRandom() * 40;
+      break;
+    }
+  }
+
+  private updateIdle(animal: Animal, dt: number): void {
+    const idle = animal.idle!;
+    idle.elapsed = Math.min(idle.duration, idle.elapsed + dt);
+    const pose = idlePose(idle, animal.habitSide, animal.habitIntensity);
+    if (usesBirdStrip(idle.habit)) {
+      const facing = Math.cos(idle.heading) < 0 ? Math.PI : 0;
+      const settle = Math.min(1, idle.elapsed / (idle.duration * 0.16));
+      animal.heading = idle.heading + angleDelta(idle.heading, facing) * settle * settle * (3 - 2 * settle);
+    } else animal.heading = idle.heading + pose.turn;
+    const travel = animal.profile.speed * pose.pace * dt;
+    const next = { x: animal.x + Math.cos(animal.heading) * travel, y: animal.y + Math.sin(animal.heading) * travel };
+    if (inPond(next)) { animal.x = next.x; animal.y = next.y; animal.moving = travel > 0.001; }
+    animal.state = 'idle';
+    if (idle.elapsed >= idle.duration) { animal.idle = null; animal.state = 'roaming'; }
   }
 
   randomPoint(minRadius = 0, maxRadius = 0.9): Point {
@@ -200,7 +257,7 @@ export class PondSimulation {
 
   private updateSchools(): void {
     for (const [school, destination] of this.schools) {
-      const members = this.animals.filter(animal => animal.school === school && animal.state !== 'chewing');
+      const members = this.animals.filter(animal => animal.school === school && animal.state !== 'chewing' && animal.state !== 'idle');
       if (!members.length) continue;
       const center = { x: members.reduce((sum, a) => sum + a.x, 0) / members.length, y: members.reduce((sum, a) => sum + a.y, 0) / members.length };
       if (distance(center, destination) < 45) this.schools.set(school, this.randomPoint(0, 0.8));
@@ -377,6 +434,7 @@ export class PondSimulation {
         if (inPond(drift)) { food.x = drift.x; food.y = drift.y; }
       }
     }
+    this.scheduleIdle();
     this.updateSchools();
     const activeThrows = new Set(this.food.filter(food => food.amount > 0.001 &&
       (food.phase === 'air' || food.age <= FLOAT_SECONDS)).map(food => food.throwId));
@@ -401,6 +459,13 @@ export class PondSimulation {
       }
       if (animal.profile.kind === 'turtle' && animal.surfaceLeft > 0) {
         stepAnimalBoost(animal, this.elapsed, dt, false);
+        continue;
+      }
+      if (animal.idle) {
+        // A short commitment wins over a new chase, without consuming boost
+        // reserve or interrupting a meal, a feeding peek, or a flight.
+        stepAnimalBoost(animal, this.elapsed, dt, false);
+        this.updateIdle(animal, dt);
         continue;
       }
       const profile = animal.profile;
