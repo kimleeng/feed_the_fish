@@ -32,6 +32,21 @@ The pond has 46 fish and 15 birds across six profiles. Every animal inherits a c
 - Gulls swim in wide loops and watch for pellets arriving at the water.
 - Little coots alternate quiet paddle strokes with slower drifts near the edge.
 
+There are **18 animal idle behaviors**: six shared actions (linger, look around, slow turn, dip, bob, shimmy) and two distinctive actions per species:
+
+| Animal | Distinctive actions |
+| --- | --- |
+| Golden carp | Fan fins; swim a lazy arc |
+| Common carp | Nose toward the bottom; flick the tail |
+| Young carp | Dart then pause; weave a short zigzag |
+| Mallard | Preen feathers; dabble |
+| Gull | Stretch a wing; scratch the head |
+| Coot | Double head nod; paddle a foot |
+
+Each animal keeps a favorite species action, preferred turning side, tempo, and movement intensity for the visit. New actions are spaced 3–8 seconds apart across the pond, with at most two active; an individual has a longer cooldown. Actions have their own durations, bounded to **1.5–4.5 seconds**, including settling and recovery. An animal finishes its action before responding to food. Moving idles stay within the pond. Six bird gestures use four-pose strips; fish and shared gestures use swimming frames and continuous motion.
+
+Four quiet visitors stand behind the far garden railing. Each has a signature gesture (adjust a hat, read a map, lean to watch, point), plus shared looking and weight shifts: **six visitor actions** in total. Gestures take 1.8–4 seconds, start 12–22 seconds apart, and never overlap each other. Visitors are decorative and cannot catch pointer/touch input. Pause freezes all actions, a new visit resets them, and reduced motion suppresses decorative visitor and animal pose effects.
+
 Every species has eight directional views and two swimming poses per view. Birds float low in the water, bob gently, and leave little wakes; they watch airborne food but can only catch it near the surface. Fish turn toward their swimming direction beneath a translucent layer of the pond's reflections and moving glints, so their shapes remain visible through the water.
 
 ## Validate
@@ -51,6 +66,10 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/animals.png` and `animals.json`: transparent animal sprite sheet and explicit frame rectangles.
 - `public/art/fish-swimmers.png` and `fish-swimmers.json`: golden, common, and young carp swimming atlas, with eight headings and two tail strokes each. Natural carp snouts, scales, low dorsal fins, and one attached forked tail replace the ornate goldfish shapes. Internal frame IDs remain `koi`, `carp`, and `minnow`.
 - `public/art/bird-swimmers.png` and `bird-swimmers.json`: original floating mallard, gull, and coot atlas, with eight headings and two paddling poses each.
+- `public/art/bird-idles.png` and `bird-idles.json`: six four-pose bird gesture strips, anchored to the swimming waterline.
+- `public/art/visitor-idles.png` and `visitor-idles.json`: four four-pose visitor strips with fixed foot anchors.
+- `src/idles.ts`: animal action pools, durations, motion sequences, and sprite playback.
+- `src/visitors.ts` and `src/visitor-view.ts`: independent visitor scheduling and rendering behind the garden railing.
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
 - `public/art/scene-machine.png` and `scene-machine.json`: separate garden machine on an iron pedestal, grounded on the path and clickable without throwing pellets.
 - `public/art/hand.png`: original hand used for collecting pellets at the machine.
@@ -70,3 +89,12 @@ npm run review:art
 ```
 
 The review command rejects missing directions, out-of-bounds cuts, overlapping rectangles, and PNG/atlas size mismatches before saving images under ignored `test-results/art-review`. When replacing generated source art, `node scripts/build-art-atlas.mjs fish` or `node scripts/build-art-atlas.mjs machine` reads alpha to rebuild frame metadata without altering PNG pixels. Inspect every resulting pose before committing the art; the bounds checks cannot judge anatomy or perspective.
+
+
+To repackage the idle atlas metadata from the supplied sheets (requires Python and Pillow):
+
+```bash
+python scripts/package-idle-art.py public/art/bird-idles.png public/art/visitor-idles.png
+```
+
+The packager leaves PNG pixels intact, applies common scale/anchor metadata, and rejects overlapping or out-of-bounds frames. Browser tests exercise all 18 animal actions through completion, pause/feeding priority, visitor reset, mobile layout, and reduced motion.

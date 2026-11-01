@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { IDLE_DURATIONS, IDLE_HABITS, type IdleHabit } from '../src/idles.ts';
 import { PondSimulation, FLOAT_SECONDS, THROW_ORIGIN, flightPosition, inPond, type Food } from '../src/simulation.ts';
 import { PelletMachine } from '../src/vending.ts';
 import { DIRECTIONS, directionForHeading } from '../src/appearance.ts';
@@ -94,9 +95,10 @@ test('throws share a fixed origin, follow an arc, and splash once at their inten
 test('fish ignore nearby airborne pellets and react when those pellets land', () => {
   const pond = new PondSimulation(4);
   const fish = pond.animals.find(animal => animal.profile.id === 'carp')!;
+  fish.nextIdleAt = Infinity; // Isolate food perception; idle priority has its own tests.
   const food = airFood();
-  Object.assign(fish, flightPosition(food, food.flightTime + 0.05));
-  fish.destination = { x: fish.x, y: fish.y };
+  Object.assign(fish, food.target); // Wait near the landing point rather than depend on a random roaming route.
+  fish.destination = { x: fish.x + 80, y: fish.y };
   pond.animals = [fish]; pond.food = [food];
   pond.step(0.05);
   assert.equal(pond.fishFood, 0);
@@ -345,4 +347,105 @@ test('a bird sharing a lucky pellet leaves its bonus for the first fish to nibbl
   assert.equal(pond.bites[1].kind, 'fish'); assert.equal(pond.bites[1].bonus, LUCKY_BONUS_POINTS);
   assert.equal(pond.luckyBonus, LUCKY_BONUS_POINTS);
   assert.equal(pond.birdFood, 0.45); assert.equal(pond.fishFood, 0.3);
+});
+
+test('an idle animal finishes its action before eating nearby food, and pause freezes the action', () => {
+  const pond = new PondSimulation(104);
+  const fish = pond.animals.find(a => a.profile.id === 'carp')!;
+  pond.animals = [fish];
+  fish.x = 600; fish.y = 389;
+  fish.idle = { habit: 'dip', elapsed: 0, duration: 2.5, heading: fish.heading };
+  fish.state = 'idle';
+  pond.food = [waterFood()];
+  advance(pond, 1);
+  assert.equal(pond.fishFood, 0);
+  assert.equal(fish.state, 'idle');
+  const elapsed = fish.idle!.elapsed;
+  pond.paused = true;
+  advance(pond, 5);
+  assert.equal(fish.idle!.elapsed, elapsed);
+  pond.paused = false;
+  advance(pond, 2);
+  assert.ok(pond.fishFood > 0, 'Feeding resumes after the idle finishes');
+});
+
+test('idle actions stay sparse, recur with stable individual habits, and keep animals in the pond', () => {
+  const pond = new PondSimulation(105);
+  const signatures = pond.animals.map(a => [a.favoriteHabit, a.habitSide]);
+  const actions = new Map<number, number>();
+  const previous = new Set<number>();
+  let lastStart = -Infinity;
+  for (let i = 0; i < 6000; i++) {
+    pond.step(0.05);
+    const active = pond.animals.filter(a => a.idle);
+    assert.ok(active.length <= 2);
+    for (const animal of active) {
+      if (!previous.has(animal.id)) {
+        assert.ok(pond.elapsed - lastStart >= 2.99);
+        lastStart = pond.elapsed;
+        actions.set(animal.id, (actions.get(animal.id) ?? 0) + 1);
+      }
+    }
+    previous.clear();
+    active.forEach(a => previous.add(a.id));
+    assert.ok(pond.animals.every(inPond));
+  }
+  assert.ok(actions.size > 30, 'Habits are distributed across the population');
+  assert.ok([...actions.values()].some(count => count > 1), 'Individuals repeat their idle actions');
+  assert.deepEqual(pond.animals.map(a => [a.favoriteHabit, a.habitSide]), signatures);
+  const matching = new PondSimulation(105);
+  assert.deepEqual(matching.animals.map(a => [a.favoriteHabit, a.habitSide]), signatures);
+});
+
+
+test('every animal idle has a short commitment, ignores food until done, and then releases the animal', () => {
+  for (const habit of Object.keys(IDLE_DURATIONS) as IdleHabit[]) {
+    const pond = new PondSimulation(106);
+    const animal = pond.animals.find(a => IDLE_HABITS[a.profile.id].includes(habit))!;
+    const duration = IDLE_DURATIONS[habit][1];
+    assert.ok(duration >= 1.5 && duration <= 4.5, habit);
+    pond.animals = [animal];
+    animal.x = 600; animal.y = 389; animal.nextIdleAt = Infinity;
+    animal.idle = { habit, elapsed: 0, duration, heading: animal.heading };
+    animal.state = 'idle';
+    pond.food = [waterFood()];
+    advance(pond, duration - 0.1);
+    assert.equal(pond.fishFood + pond.birdFood, 0, `${habit} must finish before feeding`);
+    assert.equal(animal.state, 'idle');
+    pond.food = [];
+    advance(pond, 0.2);
+    assert.equal(animal.idle, null, `${habit} must release promptly`);
+    assert.ok(inPond(animal));
+    pond.food = [waterFood(animal.x, animal.y)];
+    const before = pond.fishFood + pond.birdFood;
+    pond.step(0.05);
+    assert.ok(pond.fishFood + pond.birdFood > before, `${habit} must allow feeding again`);
+  }
+});
+
+test('visitors stay on the path, gesture infrequently, freeze with pause, and reset with a new visit', () => {
+  const pond = new PondSimulation(107);
+  let starts = 0;
+  let lastStart = -Infinity;
+  const previous = new Set<number>();
+  const observed = new Set<number>();
+  for (let i = 0; i < 4000; i++) {
+    pond.step(0.05);
+    const active = pond.visitors.people.filter(p => p.idle);
+    assert.ok(active.length <= 1);
+    assert.ok(pond.visitors.people.every(p => !inPond(p)));
+    for (const person of active) if (!previous.has(person.id)) {
+      assert.ok(pond.elapsed - lastStart >= 11.99);
+      assert.ok(person.idle!.duration <= 4);
+      lastStart = pond.elapsed; starts++; observed.add(person.id);
+    }
+    previous.clear(); active.forEach(p => previous.add(p.id));
+  }
+  assert.ok(starts > 5 && starts < 18);
+  assert.equal(observed.size, 4);
+  pond.visitors.people[0].idle = { habit: 'hat-adjust', elapsed: 0.8, duration: 2.4 };
+  const frozen = JSON.stringify(pond.visitors.people);
+  pond.paused = true; advance(pond, 10);
+  assert.equal(JSON.stringify(pond.visitors.people), frozen);
+  assert.ok(new PondSimulation(107).visitors.people.every(p => p.idle === null));
 });

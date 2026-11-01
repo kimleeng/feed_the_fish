@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import { idlePose, usesBirdStrip } from './idles.ts';
+import { VisitorView } from './visitor-view.ts';
 import { PondSimulation, POND, THROW_ORIGIN, inPond, type Point } from './simulation.ts';
 import { animalAtlas, animalFrame, directionForHeading, type Direction } from './appearance.ts';
 import { COIN_PRICE, type VendingPhase } from './vending.ts';
@@ -13,6 +15,9 @@ export interface PondState {
 
 export class PondScene extends Phaser.Scene {
   world = new PondSimulation();
+  private visitorView!: VisitorView;
+  private birdIdleScales!: Record<string, number>;
+  private motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   private creatures = new Map<number, Phaser.GameObjects.Sprite>();
   private directions = new Map<number, Direction>();
   private pellets = new Map<number, Phaser.GameObjects.Container>();
@@ -35,6 +40,8 @@ export class PondScene extends Phaser.Scene {
   constructor() { super('pond'); }
 
   preload(): void {
+    this.load.atlas('bird-idles', '/art/bird-idles.png', '/art/bird-idles.json');
+    this.load.atlas('visitor-idles', '/art/visitor-idles.png', '/art/visitor-idles.json');
     this.load.image('pond-art', '/art/pond.png');
     this.load.image('throw-hand-art', '/art/throw-hand.png');
     this.load.atlas('scene-machine', '/art/scene-machine.png', '/art/scene-machine.json');
@@ -47,6 +54,8 @@ export class PondScene extends Phaser.Scene {
 
   create(): void {
     this.add.image(600, 400, 'pond-art').setDisplaySize(1200, 800);
+    this.birdIdleScales = (this.textures.get('bird-idles').customData as { meta: { renderScale: Record<string, number> } }).meta.renderScale;
+    this.visitorView = new VisitorView(this);
     this.effects = this.add.group();
     this.createWaterSurface();
     this.spawnCreatures();
@@ -184,6 +193,7 @@ export class PondScene extends Phaser.Scene {
     this.creatures.clear(); this.directions.clear(); this.pellets.clear();
     this.tweens.killAll(); this.effects.clear(true, true);
     this.world = new PondSimulation();
+    this.visitorView.update(this.world.visitors, this.motionPreference.matches);
     this.lastServings = 0;
     this.lastRelease = -1;
     this.spawnCreatures();
@@ -238,6 +248,8 @@ export class PondScene extends Phaser.Scene {
   update(time: number, delta: number): void {
     if (!this.ready) return;
     this.world.step(delta / 1000);
+    const reducedMotion = this.motionPreference.matches;
+    this.visitorView.update(this.world.visitors, reducedMotion);
     this.updateThrowHand();
     this.birdWakes.clear();
     this.waterShimmer.clear();
@@ -256,9 +268,21 @@ export class PondScene extends Phaser.Scene {
       const rate = animal.state === 'chewing' ? 0.6 : bird ? 1.4 : animal.profile.speed / 24;
       const stroke = animal.moving || animal.state === 'chewing'
         ? Math.floor(this.world.elapsed * rate + animal.phase) % 2 : 0;
-      sprite.setFrame(animalFrame(animal.profile.texture, direction, stroke));
-      const bob = bird ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
-      sprite.setPosition(animal.x, animal.y + bob).setDepth((bird ? 30 : 10) + animal.y / 1000);
+      const idle = animal.idle;
+      const pose = idlePose(reducedMotion ? null : idle, animal.habitSide, animal.habitIntensity);
+      // Only use the side-view strip after the settling turn; before then keep
+      // the normal directional frames. Each strip begins and ends at rest.
+      const stripReady = idle && usesBirdStrip(idle.habit) && idle.elapsed >= idle.duration * 0.16;
+      if (stripReady && pose.birdFrame) {
+        sprite.setTexture('bird-idles', pose.birdFrame).setFlipX(Math.cos(idle.heading) < 0);
+      } else {
+        sprite.setTexture(animalAtlas(animal.profile.kind), animalFrame(animal.profile.texture, direction, idle ? pose.stroke : stroke)).setFlipX(false);
+      }
+      const idleScale = stripReady && pose.birdFrame ? this.birdIdleScales[animal.profile.id] : 1;
+      sprite.setDisplaySize(animal.profile.size * idleScale * pose.scaleX, animal.profile.size * idleScale * pose.scaleY).setRotation(pose.roll);
+      sprite.setAlpha((bird ? 1 : 0.83 + animal.id % 4 * 0.025) * pose.alpha);
+      const bob = bird && !reducedMotion ? Math.sin(this.world.elapsed * 1.8 + animal.phase) * 0.65 : 0;
+      sprite.setPosition(animal.x, animal.y + bob + pose.y).setDepth((bird ? 30 : 10) + animal.y / 1000);
       if (bird) {
         const size = animal.profile.size;
         this.birdWakes.lineStyle(1, 0xc5ddc1, 0.2)

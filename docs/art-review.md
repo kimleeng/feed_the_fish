@@ -28,3 +28,11 @@ For a regenerated asset, rebuild metadata with `node scripts/build-art-atlas.mjs
 `npm run test:browser` exercises the garden machine on desktop and touch, verifies a refill preserves unused throws and adds 5 kr, and checks that opening the machine does not throw food. Existing browser checks cover every direction, visible submerged fish, throwing, lucky bonuses, the field guide, and reduced motion. The same suite can run against the production build with `FEED_FISH_TEST_MODE=production npm run test:browser`.
 
 Verified on 13 October 2026: the reusable installation script completed, all 48 atlas cuts passed validation, all 19 unit tests passed, the TypeScript/production build passed, and all seven browser scenarios passed in both development and production. Final desktop, phone, and field-guide screenshots were visually reviewed.
+
+## Animal gestures and garden visitors
+
+The idle pass adds 24 bird frames (six gestures × four poses) and 16 visitor frames (four people × four poses). Bird strips retain the mallard, gull, and coot palettes and side-view silhouettes; each action has anticipation, a readable gesture, and recovery. The gull's raised wing extends above its grid row, so atlas cuts explicitly include that space without borrowing pixels from the dabbling duck above it.
+
+`python scripts/package-idle-art.py public/art/bird-idles.png public/art/visitor-idles.png` rebuilds metadata while preserving the source PNGs. Waterlines and feet anchor the poses; each strip uses one scale. Bounds and overlap checks run during packaging. Both full sheets were inspected, followed by desktop and portrait-phone screenshots of the actual renderer. Visitors sit behind a masked slice of the original far railing and have no input targets. They remain small background details, particularly on a portrait phone.
+
+All 18 animal actions were exercised through completion in Chromium, including returning from an idle atlas to directional swimming with the correct flip and scale. The new browser checks also cover visitor reset and reduced-motion presentation; simulation tests cover interruption priority, pause, bounded duration, pond containment, and the spacing of visitor gestures. The complete ten-scenario development browser suite and the three new scenarios against the production build passed.
