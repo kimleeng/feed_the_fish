@@ -1,0 +1,2848 @@
+{
+  "textures": [
+    {
+      "image": "swan-swimming.png",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "frames": [
+        {
+          "filename": "swan-e-0",
+          "frame": {
+            "x": 53,
+            "y": 40,
+            "w": 154,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 173,
+            "y": 161,
+            "w": 154,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 162.82051282051282,
+          "bodyBounds": {
+            "x": 174,
+            "y": 162,
+            "w": 152,
+            "h": 128
+          },
+          "waterline": {
+            "x": 256,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-e-1",
+          "frame": {
+            "x": 305,
+            "y": 40,
+            "w": 161,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 169,
+            "y": 162,
+            "w": 161,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 162.82051282051282,
+          "bodyBounds": {
+            "x": 170,
+            "y": 163,
+            "w": 159,
+            "h": 128
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-e-2",
+          "frame": {
+            "x": 559,
+            "y": 40,
+            "w": 161,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 170,
+            "y": 162,
+            "w": 161,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 162.82051282051282,
+          "bodyBounds": {
+            "x": 171,
+            "y": 163,
+            "w": 159,
+            "h": 128
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-e-3",
+          "frame": {
+            "x": 815,
+            "y": 40,
+            "w": 162,
+            "h": 130
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 170,
+            "y": 162,
+            "w": 162,
+            "h": 130
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 162.82051282051282,
+          "bodyBounds": {
+            "x": 171,
+            "y": 163,
+            "w": 160,
+            "h": 128
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-se-0",
+          "frame": {
+            "x": 59,
+            "y": 221,
+            "w": 136,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 181,
+            "y": 155,
+            "w": 136,
+            "h": 138
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 173.07692307692307,
+          "bodyBounds": {
+            "x": 182,
+            "y": 156,
+            "w": 134,
+            "h": 136
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-se-1",
+          "frame": {
+            "x": 305,
+            "y": 221,
+            "w": 152,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 168,
+            "y": 155,
+            "w": 152,
+            "h": 138
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 173.07692307692307,
+          "bodyBounds": {
+            "x": 169,
+            "y": 156,
+            "w": 150,
+            "h": 136
+          },
+          "waterline": {
+            "x": 256,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-se-2",
+          "frame": {
+            "x": 560,
+            "y": 221,
+            "w": 152,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 168,
+            "y": 155,
+            "w": 152,
+            "h": 138
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 173.07692307692307,
+          "bodyBounds": {
+            "x": 169,
+            "y": 156,
+            "w": 150,
+            "h": 136
+          },
+          "waterline": {
+            "x": 256,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-se-3",
+          "frame": {
+            "x": 823,
+            "y": 221,
+            "w": 144,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 175,
+            "y": 155,
+            "w": 144,
+            "h": 138
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 173.07692307692307,
+          "bodyBounds": {
+            "x": 176,
+            "y": 156,
+            "w": 142,
+            "h": 136
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-s-0",
+          "frame": {
+            "x": 75,
+            "y": 404,
+            "w": 115,
+            "h": 141
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 152,
+            "w": 115,
+            "h": 141
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 178.2051282051282,
+          "bodyBounds": {
+            "x": 201,
+            "y": 153,
+            "w": 113,
+            "h": 139
+          },
+          "waterline": {
+            "x": 256,
+            "y": 292
+          }
+        },
+        {
+          "filename": "swan-s-1",
+          "frame": {
+            "x": 328,
+            "y": 404,
+            "w": 120,
+            "h": 141
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 197,
+            "y": 152,
+            "w": 120,
+            "h": 141
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 178.2051282051282,
+          "bodyBounds": {
+            "x": 198,
+            "y": 153,
+            "w": 118,
+            "h": 139
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 292
+          }
+        },
+        {
+          "filename": "swan-s-2",
+          "frame": {
+            "x": 582,
+            "y": 404,
+            "w": 121,
+            "h": 141
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 197,
+            "y": 151,
+            "w": 121,
+            "h": 141
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 178.2051282051282,
+          "bodyBounds": {
+            "x": 198,
+            "y": 152,
+            "w": 119,
+            "h": 139
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 292
+          }
+        },
+        {
+          "filename": "swan-s-3",
+          "frame": {
+            "x": 837,
+            "y": 404,
+            "w": 117,
+            "h": 141
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 199,
+            "y": 152,
+            "w": 117,
+            "h": 141
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 178.2051282051282,
+          "bodyBounds": {
+            "x": 200,
+            "y": 153,
+            "w": 115,
+            "h": 139
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 292
+          }
+        },
+        {
+          "filename": "swan-sw-0",
+          "frame": {
+            "x": 63,
+            "y": 587,
+            "w": 148,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 192,
+            "y": 155,
+            "w": 148,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 171.7948717948718,
+          "bodyBounds": {
+            "x": 193,
+            "y": 156,
+            "w": 146,
+            "h": 135
+          },
+          "waterline": {
+            "x": 256,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-sw-1",
+          "frame": {
+            "x": 317,
+            "y": 586,
+            "w": 159,
+            "h": 138
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 189,
+            "y": 155,
+            "w": 159,
+            "h": 138
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 171.7948717948718,
+          "bodyBounds": {
+            "x": 190,
+            "y": 156,
+            "w": 157,
+            "h": 136
+          },
+          "waterline": {
+            "x": 256,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-sw-2",
+          "frame": {
+            "x": 569,
+            "y": 587,
+            "w": 160,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 187,
+            "y": 156,
+            "w": 160,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 171.7948717948718,
+          "bodyBounds": {
+            "x": 188,
+            "y": 157,
+            "w": 158,
+            "h": 135
+          },
+          "waterline": {
+            "x": 256,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-sw-3",
+          "frame": {
+            "x": 823,
+            "y": 585,
+            "w": 148,
+            "h": 139
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 188,
+            "y": 154,
+            "w": 148,
+            "h": 139
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 171.7948717948718,
+          "bodyBounds": {
+            "x": 189,
+            "y": 155,
+            "w": 146,
+            "h": 137
+          },
+          "waterline": {
+            "x": 256,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-w-0",
+          "frame": {
+            "x": 42,
+            "y": 775,
+            "w": 170,
+            "h": 136
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 179,
+            "y": 155,
+            "w": 170,
+            "h": 136
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 171.7948717948718,
+          "bodyBounds": {
+            "x": 180,
+            "y": 156,
+            "w": 168,
+            "h": 134
+          },
+          "waterline": {
+            "x": 256,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-w-1",
+          "frame": {
+            "x": 300,
+            "y": 775,
+            "w": 176,
+            "h": 136
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 178,
+            "y": 154,
+            "w": 176,
+            "h": 136
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 171.7948717948718,
+          "bodyBounds": {
+            "x": 179,
+            "y": 155,
+            "w": 174,
+            "h": 134
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-w-2",
+          "frame": {
+            "x": 559,
+            "y": 775,
+            "w": 168,
+            "h": 136
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 183,
+            "y": 155,
+            "w": 168,
+            "h": 136
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 171.7948717948718,
+          "bodyBounds": {
+            "x": 184,
+            "y": 156,
+            "w": 166,
+            "h": 134
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-w-3",
+          "frame": {
+            "x": 813,
+            "y": 775,
+            "w": 169,
+            "h": 136
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 181,
+            "y": 155,
+            "w": 169,
+            "h": 136
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 171.7948717948718,
+          "bodyBounds": {
+            "x": 182,
+            "y": 156,
+            "w": 167,
+            "h": 134
+          },
+          "waterline": {
+            "x": 256,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-nw-0",
+          "frame": {
+            "x": 76,
+            "y": 951,
+            "w": 124,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 199,
+            "y": 149,
+            "w": 124,
+            "h": 148
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 183.33333333333331,
+          "bodyBounds": {
+            "x": 200,
+            "y": 150,
+            "w": 122,
+            "h": 146
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 293
+          }
+        },
+        {
+          "filename": "swan-nw-1",
+          "frame": {
+            "x": 333,
+            "y": 949,
+            "w": 126,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 197,
+            "y": 147,
+            "w": 126,
+            "h": 149
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 183.33333333333331,
+          "bodyBounds": {
+            "x": 198,
+            "y": 148,
+            "w": 124,
+            "h": 147
+          },
+          "waterline": {
+            "x": 256,
+            "y": 293
+          }
+        },
+        {
+          "filename": "swan-nw-2",
+          "frame": {
+            "x": 589,
+            "y": 950,
+            "w": 126,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 197,
+            "y": 148,
+            "w": 126,
+            "h": 148
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 183.33333333333331,
+          "bodyBounds": {
+            "x": 198,
+            "y": 149,
+            "w": 124,
+            "h": 146
+          },
+          "waterline": {
+            "x": 256,
+            "y": 293
+          }
+        },
+        {
+          "filename": "swan-nw-3",
+          "frame": {
+            "x": 843,
+            "y": 951,
+            "w": 122,
+            "h": 147
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 199,
+            "y": 150,
+            "w": 122,
+            "h": 147
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 183.33333333333331,
+          "bodyBounds": {
+            "x": 200,
+            "y": 151,
+            "w": 120,
+            "h": 145
+          },
+          "waterline": {
+            "x": 256,
+            "y": 293
+          }
+        },
+        {
+          "filename": "swan-n-0",
+          "frame": {
+            "x": 74,
+            "y": 1134,
+            "w": 116,
+            "h": 154
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 144,
+            "w": 116,
+            "h": 154
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 191.02564102564102,
+          "bodyBounds": {
+            "x": 201,
+            "y": 145,
+            "w": 114,
+            "h": 152
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 294
+          }
+        },
+        {
+          "filename": "swan-n-1",
+          "frame": {
+            "x": 331,
+            "y": 1134,
+            "w": 116,
+            "h": 154
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 200,
+            "y": 144,
+            "w": 116,
+            "h": 154
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 191.02564102564102,
+          "bodyBounds": {
+            "x": 201,
+            "y": 145,
+            "w": 114,
+            "h": 152
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 294
+          }
+        },
+        {
+          "filename": "swan-n-2",
+          "frame": {
+            "x": 583,
+            "y": 1134,
+            "w": 120,
+            "h": 154
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 197,
+            "y": 144,
+            "w": 120,
+            "h": 154
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 191.02564102564102,
+          "bodyBounds": {
+            "x": 198,
+            "y": 145,
+            "w": 118,
+            "h": 152
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 294
+          }
+        },
+        {
+          "filename": "swan-n-3",
+          "frame": {
+            "x": 839,
+            "y": 1134,
+            "w": 116,
+            "h": 154
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 199,
+            "y": 144,
+            "w": 116,
+            "h": 154
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 191.02564102564102,
+          "bodyBounds": {
+            "x": 200,
+            "y": 145,
+            "w": 114,
+            "h": 152
+          },
+          "waterline": {
+            "x": 256,
+            "y": 294
+          }
+        },
+        {
+          "filename": "swan-ne-0",
+          "frame": {
+            "x": 51,
+            "y": 1329,
+            "w": 152,
+            "h": 142
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 174,
+            "y": 153,
+            "w": 152,
+            "h": 142
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 175.64102564102564,
+          "bodyBounds": {
+            "x": 175,
+            "y": 154,
+            "w": 150,
+            "h": 140
+          },
+          "waterline": {
+            "x": 256,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-ne-1",
+          "frame": {
+            "x": 307,
+            "y": 1329,
+            "w": 156,
+            "h": 142
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 172,
+            "y": 153,
+            "w": 156,
+            "h": 142
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 175.64102564102564,
+          "bodyBounds": {
+            "x": 173,
+            "y": 154,
+            "w": 154,
+            "h": 140
+          },
+          "waterline": {
+            "x": 256,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-ne-2",
+          "frame": {
+            "x": 565,
+            "y": 1329,
+            "w": 156,
+            "h": 142
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 173,
+            "y": 151,
+            "w": 156,
+            "h": 142
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 175.64102564102564,
+          "bodyBounds": {
+            "x": 174,
+            "y": 152,
+            "w": 154,
+            "h": 140
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-ne-3",
+          "frame": {
+            "x": 819,
+            "y": 1329,
+            "w": 156,
+            "h": 142
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 174,
+            "y": 151,
+            "w": 156,
+            "h": 142
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 175.64102564102564,
+          "bodyBounds": {
+            "x": 175,
+            "y": 152,
+            "w": 154,
+            "h": 140
+          },
+          "waterline": {
+            "x": 256,
+            "y": 291
+          }
+        }
+      ]
+    },
+    {
+      "image": "swan-flight.png",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "frames": [
+        {
+          "filename": "swan-flight-e-0",
+          "frame": {
+            "x": 43,
+            "y": 25,
+            "w": 209,
+            "h": 145
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 173,
+            "y": 136,
+            "w": 209,
+            "h": 145
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 174,
+            "y": 137,
+            "w": 207,
+            "h": 143
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-e-1",
+          "frame": {
+            "x": 280,
+            "y": 75,
+            "w": 231,
+            "h": 135
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 158,
+            "y": 186,
+            "w": 231,
+            "h": 135
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 159,
+            "y": 187,
+            "w": 229,
+            "h": 133
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-e-2",
+          "frame": {
+            "x": 546,
+            "y": 80,
+            "w": 218,
+            "h": 105
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 167,
+            "y": 191,
+            "w": 218,
+            "h": 105
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 168,
+            "y": 192,
+            "w": 216,
+            "h": 103
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-e-3",
+          "frame": {
+            "x": 814,
+            "y": 44,
+            "w": 200,
+            "h": 125
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 172,
+            "y": 155,
+            "w": 200,
+            "h": 125
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 173,
+            "y": 156,
+            "w": 198,
+            "h": 123
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-se-0",
+          "frame": {
+            "x": 44,
+            "y": 207,
+            "w": 194,
+            "h": 157
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 169,
+            "y": 125,
+            "w": 194,
+            "h": 157
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 170,
+            "y": 126,
+            "w": 192,
+            "h": 155
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-se-1",
+          "frame": {
+            "x": 282,
+            "y": 270,
+            "w": 233,
+            "h": 107
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 148,
+            "y": 188,
+            "w": 233,
+            "h": 107
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 149,
+            "y": 189,
+            "w": 231,
+            "h": 105
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-se-2",
+          "frame": {
+            "x": 554,
+            "y": 267,
+            "w": 203,
+            "h": 105
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 161,
+            "y": 185,
+            "w": 203,
+            "h": 105
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 162,
+            "y": 186,
+            "w": 201,
+            "h": 103
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-se-3",
+          "frame": {
+            "x": 813,
+            "y": 221,
+            "w": 192,
+            "h": 139
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 166,
+            "y": 139,
+            "w": 192,
+            "h": 139
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 167,
+            "y": 140,
+            "w": 190,
+            "h": 137
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-s-0",
+          "frame": {
+            "x": 38,
+            "y": 413,
+            "w": 211,
+            "h": 139
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 150,
+            "y": 137,
+            "w": 211,
+            "h": 139
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 151,
+            "y": 138,
+            "w": 209,
+            "h": 137
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-s-1",
+          "frame": {
+            "x": 249,
+            "y": 454,
+            "w": 282,
+            "h": 98
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 114,
+            "y": 178,
+            "w": 282,
+            "h": 98
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 115,
+            "y": 179,
+            "w": 280,
+            "h": 96
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-s-2",
+          "frame": {
+            "x": 542,
+            "y": 452,
+            "w": 229,
+            "h": 98
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 140,
+            "y": 176,
+            "w": 229,
+            "h": 98
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 141,
+            "y": 177,
+            "w": 227,
+            "h": 96
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-s-3",
+          "frame": {
+            "x": 789,
+            "y": 434,
+            "w": 224,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 139,
+            "y": 158,
+            "w": 224,
+            "h": 119
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 140,
+            "y": 159,
+            "w": 222,
+            "h": 117
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-sw-0",
+          "frame": {
+            "x": 53,
+            "y": 584,
+            "w": 186,
+            "h": 171
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 141,
+            "y": 106,
+            "w": 186,
+            "h": 171
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 142,
+            "y": 107,
+            "w": 184,
+            "h": 169
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-sw-1",
+          "frame": {
+            "x": 289,
+            "y": 669,
+            "w": 224,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 126,
+            "y": 191,
+            "w": 224,
+            "h": 121
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 127,
+            "y": 192,
+            "w": 222,
+            "h": 119
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-sw-2",
+          "frame": {
+            "x": 543,
+            "y": 661,
+            "w": 218,
+            "h": 108
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 124,
+            "y": 183,
+            "w": 218,
+            "h": 108
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 125,
+            "y": 184,
+            "w": 216,
+            "h": 106
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-sw-3",
+          "frame": {
+            "x": 786,
+            "y": 602,
+            "w": 199,
+            "h": 147
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 108,
+            "y": 124,
+            "w": 199,
+            "h": 147
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 109,
+            "y": 125,
+            "w": 197,
+            "h": 145
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-w-0",
+          "frame": {
+            "x": 47,
+            "y": 777,
+            "w": 186,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 149,
+            "y": 127,
+            "w": 186,
+            "h": 148
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 150,
+            "y": 128,
+            "w": 184,
+            "h": 146
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-w-1",
+          "frame": {
+            "x": 278,
+            "y": 849,
+            "w": 231,
+            "h": 114
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 118,
+            "y": 199,
+            "w": 231,
+            "h": 114
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 119,
+            "y": 200,
+            "w": 229,
+            "h": 112
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-w-2",
+          "frame": {
+            "x": 543,
+            "y": 842,
+            "w": 224,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 125,
+            "y": 192,
+            "w": 224,
+            "h": 127
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 126,
+            "y": 193,
+            "w": 222,
+            "h": 125
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-w-3",
+          "frame": {
+            "x": 791,
+            "y": 800,
+            "w": 190,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 117,
+            "y": 150,
+            "w": 190,
+            "h": 127
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 118,
+            "y": 151,
+            "w": 188,
+            "h": 125
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-nw-0",
+          "frame": {
+            "x": 40,
+            "y": 961,
+            "w": 163,
+            "h": 200
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 153,
+            "y": 104,
+            "w": 163,
+            "h": 200
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 154,
+            "y": 105,
+            "w": 161,
+            "h": 198
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-nw-1",
+          "frame": {
+            "x": 253,
+            "y": 1024,
+            "w": 266,
+            "h": 123
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 120,
+            "y": 164,
+            "w": 266,
+            "h": 123
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 121,
+            "y": 165,
+            "w": 264,
+            "h": 121
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-nw-2",
+          "frame": {
+            "x": 535,
+            "y": 1023,
+            "w": 240,
+            "h": 127
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 143,
+            "y": 166,
+            "w": 240,
+            "h": 127
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 144,
+            "y": 167,
+            "w": 238,
+            "h": 125
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-nw-3",
+          "frame": {
+            "x": 40,
+            "y": 961,
+            "w": 163,
+            "h": 200
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 153,
+            "y": 104,
+            "w": 163,
+            "h": 200
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 154,
+            "y": 105,
+            "w": 161,
+            "h": 198
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          },
+          "aliasOf": "swan-flight-nw-0"
+        },
+        {
+          "filename": "swan-flight-n-0",
+          "frame": {
+            "x": 34,
+            "y": 1193,
+            "w": 210,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 149,
+            "y": 128,
+            "w": 210,
+            "h": 149
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 150,
+            "y": 129,
+            "w": 208,
+            "h": 147
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-n-1",
+          "frame": {
+            "x": 267,
+            "y": 1238,
+            "w": 263,
+            "h": 106
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 126,
+            "y": 173,
+            "w": 263,
+            "h": 106
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 127,
+            "y": 174,
+            "w": 261,
+            "h": 104
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-n-2",
+          "frame": {
+            "x": 537,
+            "y": 1237,
+            "w": 238,
+            "h": 107
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 139,
+            "y": 172,
+            "w": 238,
+            "h": 107
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 140,
+            "y": 173,
+            "w": 236,
+            "h": 105
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-n-3",
+          "frame": {
+            "x": 809,
+            "y": 1208,
+            "w": 199,
+            "h": 134
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 160,
+            "y": 143,
+            "w": 199,
+            "h": 134
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 161,
+            "y": 144,
+            "w": 197,
+            "h": 132
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-ne-0",
+          "frame": {
+            "x": 54,
+            "y": 1354,
+            "w": 175,
+            "h": 165
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 180,
+            "y": 136,
+            "w": 175,
+            "h": 165
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 181,
+            "y": 137,
+            "w": 173,
+            "h": 163
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-ne-1",
+          "frame": {
+            "x": 293,
+            "y": 1401,
+            "w": 200,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 176,
+            "y": 183,
+            "w": 200,
+            "h": 121
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 177,
+            "y": 184,
+            "w": 198,
+            "h": 119
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-ne-2",
+          "frame": {
+            "x": 556,
+            "y": 1399,
+            "w": 193,
+            "h": 120
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 177,
+            "y": 181,
+            "w": 193,
+            "h": 120
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 178,
+            "y": 182,
+            "w": 191,
+            "h": 118
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        },
+        {
+          "filename": "swan-flight-ne-3",
+          "frame": {
+            "x": 810,
+            "y": 1379,
+            "w": 193,
+            "h": 133
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 169,
+            "y": 161,
+            "w": 193,
+            "h": 133
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 132,
+          "bodyBounds": {
+            "x": 170,
+            "y": 162,
+            "w": 191,
+            "h": 131
+          },
+          "bodyAnchor": {
+            "x": 256,
+            "y": 256
+          }
+        }
+      ]
+    },
+    {
+      "image": "swan-eating.png",
+      "size": {
+        "w": 1024,
+        "h": 1536
+      },
+      "frames": [
+        {
+          "filename": "swan-e-bite",
+          "frame": {
+            "x": 294,
+            "y": 93,
+            "w": 191,
+            "h": 93
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 177,
+            "y": 202,
+            "w": 191,
+            "h": 93
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 164.1025641025641,
+          "bodyBounds": {
+            "x": 178,
+            "y": 203,
+            "w": 189,
+            "h": 91
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-e-chew",
+          "frame": {
+            "x": 544,
+            "y": 71,
+            "w": 167,
+            "h": 111
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 173,
+            "y": 180,
+            "w": 167,
+            "h": 111
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 164.1025641025641,
+          "bodyBounds": {
+            "x": 174,
+            "y": 181,
+            "w": 165,
+            "h": 109
+          },
+          "waterline": {
+            "x": 256,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-e-swallow",
+          "frame": {
+            "x": 810,
+            "y": 45,
+            "w": 145,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 179,
+            "y": 154,
+            "w": 145,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 164.1025641025641,
+          "bodyBounds": {
+            "x": 180,
+            "y": 155,
+            "w": 143,
+            "h": 135
+          },
+          "waterline": {
+            "x": 256,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-se-bite",
+          "frame": {
+            "x": 311,
+            "y": 264,
+            "w": 153,
+            "h": 101
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 183,
+            "y": 194,
+            "w": 153,
+            "h": 101
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 170.5128205128205,
+          "bodyBounds": {
+            "x": 184,
+            "y": 195,
+            "w": 151,
+            "h": 99
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-se-chew",
+          "frame": {
+            "x": 566,
+            "y": 240,
+            "w": 136,
+            "h": 116
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 184,
+            "y": 176,
+            "w": 136,
+            "h": 116
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 170.5128205128205,
+          "bodyBounds": {
+            "x": 185,
+            "y": 177,
+            "w": 134,
+            "h": 114
+          },
+          "waterline": {
+            "x": 256,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-se-swallow",
+          "frame": {
+            "x": 823,
+            "y": 215,
+            "w": 127,
+            "h": 140
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 187,
+            "y": 152,
+            "w": 127,
+            "h": 140
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 170.5128205128205,
+          "bodyBounds": {
+            "x": 188,
+            "y": 153,
+            "w": 125,
+            "h": 138
+          },
+          "waterline": {
+            "x": 256,
+            "y": 290
+          }
+        },
+        {
+          "filename": "swan-s-bite",
+          "frame": {
+            "x": 330,
+            "y": 430,
+            "w": 107,
+            "h": 112
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 214,
+            "y": 185,
+            "w": 107,
+            "h": 112
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 173.07692307692307,
+          "bodyBounds": {
+            "x": 215,
+            "y": 186,
+            "w": 105,
+            "h": 110
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-s-chew",
+          "frame": {
+            "x": 586,
+            "y": 419,
+            "w": 107,
+            "h": 119
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 204,
+            "y": 174,
+            "w": 107,
+            "h": 119
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 173.07692307692307,
+          "bodyBounds": {
+            "x": 205,
+            "y": 175,
+            "w": 105,
+            "h": 117
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-s-swallow",
+          "frame": {
+            "x": 839,
+            "y": 401,
+            "w": 107,
+            "h": 137
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 203,
+            "y": 156,
+            "w": 107,
+            "h": 137
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 173.07692307692307,
+          "bodyBounds": {
+            "x": 204,
+            "y": 157,
+            "w": 105,
+            "h": 135
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-sw-bite",
+          "frame": {
+            "x": 310,
+            "y": 623,
+            "w": 156,
+            "h": 98
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 175,
+            "y": 196,
+            "w": 156,
+            "h": 98
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 174.35897435897436,
+          "bodyBounds": {
+            "x": 176,
+            "y": 197,
+            "w": 154,
+            "h": 96
+          },
+          "waterline": {
+            "x": 256,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-sw-chew",
+          "frame": {
+            "x": 571,
+            "y": 598,
+            "w": 144,
+            "h": 121
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 192,
+            "y": 171,
+            "w": 144,
+            "h": 121
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 174.35897435897436,
+          "bodyBounds": {
+            "x": 193,
+            "y": 172,
+            "w": 142,
+            "h": 119
+          },
+          "waterline": {
+            "x": 256,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-sw-swallow",
+          "frame": {
+            "x": 836,
+            "y": 570,
+            "w": 134,
+            "h": 148
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 196,
+            "y": 146,
+            "w": 134,
+            "h": 148
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 174.35897435897436,
+          "bodyBounds": {
+            "x": 197,
+            "y": 147,
+            "w": 132,
+            "h": 146
+          },
+          "waterline": {
+            "x": 256,
+            "y": 291
+          }
+        },
+        {
+          "filename": "swan-w-bite",
+          "frame": {
+            "x": 296,
+            "y": 810,
+            "w": 195,
+            "h": 92
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 147,
+            "y": 201,
+            "w": 195,
+            "h": 92
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 166.66666666666666,
+          "bodyBounds": {
+            "x": 148,
+            "y": 202,
+            "w": 193,
+            "h": 90
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-w-chew",
+          "frame": {
+            "x": 568,
+            "y": 785,
+            "w": 168,
+            "h": 114
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 175,
+            "y": 177,
+            "w": 168,
+            "h": 114
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 166.66666666666666,
+          "bodyBounds": {
+            "x": 176,
+            "y": 178,
+            "w": 166,
+            "h": 112
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-w-swallow",
+          "frame": {
+            "x": 840,
+            "y": 760,
+            "w": 148,
+            "h": 139
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 188,
+            "y": 152,
+            "w": 148,
+            "h": 139
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 166.66666666666666,
+          "bodyBounds": {
+            "x": 189,
+            "y": 153,
+            "w": 146,
+            "h": 137
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 289
+          }
+        },
+        {
+          "filename": "swan-nw-bite",
+          "frame": {
+            "x": 314,
+            "y": 1000,
+            "w": 153,
+            "h": 92
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 172,
+            "y": 202,
+            "w": 153,
+            "h": 92
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 182.05128205128204,
+          "bodyBounds": {
+            "x": 173,
+            "y": 203,
+            "w": 151,
+            "h": 90
+          },
+          "waterline": {
+            "x": 256,
+            "y": 292
+          }
+        },
+        {
+          "filename": "swan-nw-chew",
+          "frame": {
+            "x": 584,
+            "y": 967,
+            "w": 143,
+            "h": 123
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 185,
+            "y": 171,
+            "w": 143,
+            "h": 123
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 182.05128205128204,
+          "bodyBounds": {
+            "x": 186,
+            "y": 172,
+            "w": 141,
+            "h": 121
+          },
+          "waterline": {
+            "x": 256,
+            "y": 292
+          }
+        },
+        {
+          "filename": "swan-nw-swallow",
+          "frame": {
+            "x": 844,
+            "y": 941,
+            "w": 129,
+            "h": 149
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 195,
+            "y": 144,
+            "w": 129,
+            "h": 149
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 182.05128205128204,
+          "bodyBounds": {
+            "x": 196,
+            "y": 145,
+            "w": 127,
+            "h": 147
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 292
+          }
+        },
+        {
+          "filename": "swan-n-bite",
+          "frame": {
+            "x": 335,
+            "y": 1182,
+            "w": 110,
+            "h": 105
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 202,
+            "y": 191,
+            "w": 110,
+            "h": 105
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 192.3076923076923,
+          "bodyBounds": {
+            "x": 203,
+            "y": 192,
+            "w": 108,
+            "h": 103
+          },
+          "waterline": {
+            "x": 256.0,
+            "y": 294
+          }
+        },
+        {
+          "filename": "swan-n-chew",
+          "frame": {
+            "x": 585,
+            "y": 1158,
+            "w": 110,
+            "h": 129
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 202,
+            "y": 167,
+            "w": 110,
+            "h": 129
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 192.3076923076923,
+          "bodyBounds": {
+            "x": 203,
+            "y": 168,
+            "w": 108,
+            "h": 127
+          },
+          "waterline": {
+            "x": 255.5,
+            "y": 294
+          }
+        },
+        {
+          "filename": "swan-n-swallow",
+          "frame": {
+            "x": 836,
+            "y": 1133,
+            "w": 110,
+            "h": 155
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 202,
+            "y": 142,
+            "w": 110,
+            "h": 155
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 192.3076923076923,
+          "bodyBounds": {
+            "x": 203,
+            "y": 143,
+            "w": 108,
+            "h": 153
+          },
+          "waterline": {
+            "x": 256,
+            "y": 294
+          }
+        },
+        {
+          "filename": "swan-ne-bite",
+          "frame": {
+            "x": 314,
+            "y": 1387,
+            "w": 159,
+            "h": 93
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 181,
+            "y": 203,
+            "w": 159,
+            "h": 93
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 189.74358974358972,
+          "bodyBounds": {
+            "x": 182,
+            "y": 204,
+            "w": 157,
+            "h": 91
+          },
+          "waterline": {
+            "x": 256,
+            "y": 294
+          }
+        },
+        {
+          "filename": "swan-ne-chew",
+          "frame": {
+            "x": 559,
+            "y": 1354,
+            "w": 152,
+            "h": 126
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 180,
+            "y": 170,
+            "w": 152,
+            "h": 126
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 189.74358974358972,
+          "bodyBounds": {
+            "x": 181,
+            "y": 171,
+            "w": 150,
+            "h": 124
+          },
+          "waterline": {
+            "x": 255.5,
+            "y": 294
+          }
+        },
+        {
+          "filename": "swan-ne-swallow",
+          "frame": {
+            "x": 813,
+            "y": 1325,
+            "w": 142,
+            "h": 155
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 183,
+            "y": 141,
+            "w": 142,
+            "h": 155
+          },
+          "sourceSize": {
+            "w": 512,
+            "h": 512
+          },
+          "referenceHeight": 189.74358974358972,
+          "bodyBounds": {
+            "x": 184,
+            "y": 142,
+            "w": 140,
+            "h": 153
+          },
+          "waterline": {
+            "x": 256,
+            "y": 294
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -29,10 +29,12 @@ test('real meals use distinct eating drawings in every direction, keep anchors, 
       Object.assign(animal, { x: 600, y: 389, heading: column * Math.PI / 4, state: 'roaming', chewLeft: 0,
         meal: null, surfaceLeft: 2, moving: false });
       scene.world.animals = [animal]; scene.world.food = [];
+      // Synchronize sprites after replacing the population: visitors now leave
+      // the renderer along with the simulation instead of retaining stale art.
+      scene.update(0, 0);
       const sprite = animal.profile.kind === 'turtle'
         ? scene.children.getByName('turtle-head-' + animal.id) as Phaser.GameObjects.Sprite
         : (animal.profile.kind === 'bird' ? scene.children : layer).getByName('animal-' + animal.id) as Phaser.GameObjects.Sprite;
-      scene.update(0, 0);
       function draw(slot: number) {
         const frame = sprite.frame, scale = sprite.scaleX * 1.7;
         const x = column * 180 + (slot % 2) * 86 + 45, y = row * 120 + Math.floor(slot / 2) * 48 + 35;
@@ -152,6 +154,7 @@ test('feeding carp pitch up with only their lips above reflections in every dire
     for (const [row, animal] of fish.entries()) for (const [column, direction] of directions.entries()) {
       scene.world.animals = [animal];
       Object.assign(animal, { x: 600, y: 389, heading: column * Math.PI / 4, state: 'roaming', meal: null, chewLeft: 0 });
+      scene.update(0, 0);
       const base = layer.getByName('animal-' + animal.id) as Phaser.GameObjects.Sprite;
       const body = layer.getByName('feeding-fish-' + animal.id) as Phaser.GameObjects.Sprite;
       const mouth = mouths.getByName('fish-mouth-' + animal.id) as Phaser.GameObjects.Sprite;

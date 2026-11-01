@@ -7,6 +7,7 @@ import { MachineEmployee } from './restocking.ts';
 import { WindSimulation } from './wind.ts';
 import { eatingDuration, type Meal } from './eating.ts';
 import { createAnimalEnergy, recordFeeding, stepAnimalBoost, type AnimalEnergy } from './animal-energy.ts';
+import { SWAN, SwanVisit, type SwanPassage } from './swan.ts';
 
 export type AnimalKind = 'fish' | 'bird' | 'turtle';
 export type MovementPattern = 'glide' | 'meander' | 'shoal' | 'paddle' | 'sweep' | 'drift' | 'amble';
@@ -46,6 +47,7 @@ const AIRBORNE_WIND_DRIFT = { x: 48, y: 32 };
 export interface Point { x: number; y: number }
 export interface BirdFlight {
   origin: Point; destination: Point; elapsed: number; duration: number;
+  passage?: SwanPassage;
 }
 export interface Animal extends Point, AnimalEnergy {
   id: number; profile: AnimalProfile; destination: Point; heading: number;
@@ -100,6 +102,7 @@ export function flightPosition(food: Food, time = food.flightTime): Point & { he
 
 export class PondSimulation {
   readonly wind: WindSimulation;
+  readonly swan: SwanVisit;
   crowd: ObserverCrowd;
   animals: Animal[] = [];
   food: Food[] = [];
@@ -120,6 +123,7 @@ export class PondSimulation {
   elapsed = 0;
   paused = false;
   private nextFood = 0;
+  private nextAnimalId = 0;
   private random: () => number;
   private throwRandom: () => number;
   private behaviorRandom: () => number;
@@ -132,6 +136,7 @@ export class PondSimulation {
 
   constructor(seed = Date.now(), throwRandom?: () => number, behaviorRandom?: () => number) {
     this.wind = new WindSimulation(seed);
+    this.swan = new SwanVisit(seededRandom(seed ^ 0x5a4a917));
     this.idleRandom = seededRandom(seed ^ 0x1d1ef173);
     // Independent randomness keeps foot traffic from affecting animals or lucky throws.
     this.crowd = new ObserverCrowd(seed ^ 0xa511e9b3);
@@ -147,7 +152,7 @@ export class PondSimulation {
         const point = school >= 0
           ? { x: schoolCenter.x + (this.random() - 0.5) * 50, y: schoolCenter.y + (this.random() - 0.5) * 30 }
           : this.randomPoint(profile.kind === 'bird' ? 0.65 : 0, 0.92);
-        this.animals.push({ ...point, ...createAnimalEnergy(), id: this.animals.length, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, meal: null, surfaceLeft: 0, surfaceDuration: TURTLE_SURFACE_SECONDS, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2, altitude: 0, flight: null, flightChoices: {}, favoriteHabit: 'linger', habitSide: 1, habitTempo: 1, habitIntensity: 1, nextIdleAt: Infinity, idle: null });
+        this.animals.push({ ...point, ...createAnimalEnergy(), id: this.nextAnimalId++, profile, destination: this.randomPoint(), heading: this.random() * Math.PI * 2, chewLeft: 0, meal: null, surfaceLeft: 0, surfaceDuration: TURTLE_SURFACE_SECONDS, state: 'roaming', moving: false, school, phase: this.random() * Math.PI * 2, altitude: 0, flight: null, flightChoices: {}, favoriteHabit: 'linger', habitSide: 1, habitTempo: 1, habitIntensity: 1, nextIdleAt: Infinity, idle: null });
         if (school >= 0 && !this.schools.has(school)) this.schools.set(school, this.randomPoint());
       }
     }
@@ -155,8 +160,8 @@ export class PondSimulation {
     this.separateAnimals();
   }
 
-  private initializeHabits(): void {
-    for (const animal of this.animals) {
+  private initializeHabits(animals = this.animals): void {
+    for (const animal of animals) {
       const habits = IDLE_HABITS[animal.profile.id];
       // The secret turtle retains its existing meal-driven surfacing routine.
       if (!habits) continue;
@@ -164,7 +169,7 @@ export class PondSimulation {
       animal.habitSide = this.idleRandom() < 0.5 ? -1 : 1;
       animal.habitTempo = 0.9 + this.idleRandom() * 0.2;
       animal.habitIntensity = 0.85 + this.idleRandom() * 0.3;
-      animal.nextIdleAt = 2.5 + this.idleRandom() * 17.5;
+      animal.nextIdleAt = this.elapsed + 2.5 + this.idleRandom() * 17.5;
     }
   }
 
@@ -173,7 +178,7 @@ export class PondSimulation {
     this.nextIdleAt = this.elapsed + 1.5 + this.idleRandom() * 2.5;
     if (this.animals.filter(a => a.idle).length >= 2) return;
     const available = this.animals.filter(a => IDLE_HABITS[a.profile.id] && !a.idle &&
-      !a.flight && !a.meal && a.chewLeft <= 0 && a.surfaceLeft <= 0 && a.nextIdleAt <= this.elapsed);
+      !a.flight && !a.meal && !this.swan.readyToLeave(a.id) && a.chewLeft <= 0 && a.surfaceLeft <= 0 && a.nextIdleAt <= this.elapsed);
     let choice = this.idleRandom() * available.reduce((sum, a) => sum + (a.profile.kind === 'bird' ? 3 : 1), 0);
     for (const animal of available) {
       choice -= animal.profile.kind === 'bird' ? 3 : 1;
@@ -357,15 +362,29 @@ export class PondSimulation {
     }
   }
 
-  private startFlight(animal: Animal, destination: Point): void {
+  private arriveSwan(): void {
+    const arrival = this.swan.beginArrival(this.elapsed, POND);
+    if (!arrival) return;
+    const animal: Animal = { ...arrival.origin, ...createAnimalEnergy(), id: this.nextAnimalId++, profile: SWAN,
+      destination: { ...arrival.destination }, heading: 0, chewLeft: 0, meal: null,
+      surfaceLeft: 0, surfaceDuration: 0, state: 'flying', moving: true, school: -1,
+      phase: 0, altitude: SWAN.flight!.height, flight: null, flightChoices: {},
+      favoriteHabit: 'linger', habitSide: 1, habitTempo: 1, habitIntensity: 1, nextIdleAt: Infinity, idle: null };
+    this.initializeHabits([animal]);
+    this.swan.animalId = animal.id;
+    this.animals.push(animal);
+    this.startFlight(animal, arrival.destination, 'arrival');
+  }
+
+  private startFlight(animal: Animal, destination: Point, passage?: SwanPassage): void {
     const profile = animal.profile.flight!;
     animal.flight = {
-      origin: { x: animal.x, y: animal.y }, destination: { ...destination }, elapsed: 0,
+      origin: { x: animal.x, y: animal.y }, destination: { ...destination }, elapsed: 0, passage,
       duration: BIRD_TAKEOFF_SECONDS + distance(animal, destination) / profile.speed + BIRD_LANDING_SECONDS,
     };
     animal.heading = Math.atan2(destination.y - animal.y, destination.x - animal.x);
-    animal.state = 'taking-off';
-    this.birdSplashes.push({ x: animal.x, y: animal.y, animal: animal.id, phase: 'takeoff' });
+    animal.state = passage === 'arrival' ? 'flying' : 'taking-off';
+    if (passage !== 'arrival') this.birdSplashes.push({ x: animal.x, y: animal.y, animal: animal.id, phase: 'takeoff' });
   }
 
   private updateFlight(animal: Animal, dt: number): void {
@@ -380,8 +399,20 @@ export class PondSimulation {
     animal.moving = true;
     animal.state = flight.elapsed < BIRD_TAKEOFF_SECONDS ? 'taking-off'
       : flight.elapsed < flight.duration - BIRD_LANDING_SECONDS ? 'flying' : 'landing';
+    if (flight.passage === 'arrival') {
+      // Enter already aloft and descend onto the pond, without a phantom takeoff.
+      animal.altitude = animal.profile.flight!.height * (1 - t * t * (3 - 2 * t));
+      animal.state = flight.elapsed < flight.duration - BIRD_LANDING_SECONDS ? 'flying' : 'landing';
+    } else if (flight.passage === 'departure') {
+      // Climb and remain airborne until beyond the garden; never land on the bank.
+      const climb = Math.min(1, t / .55);
+      animal.altitude = animal.profile.flight!.height * climb * climb * (3 - 2 * climb);
+      animal.state = flight.elapsed < BIRD_TAKEOFF_SECONDS ? 'taking-off' : 'flying';
+      if (flight.elapsed >= flight.duration) return; // Removed after the animal loop.
+    }
     if (flight.elapsed >= flight.duration) {
       animal.flight = null; animal.altitude = 0; animal.state = 'approaching'; animal.moving = false;
+      if (flight.passage === 'arrival') this.swan.land();
       this.birdSplashes.push({ x: animal.x, y: animal.y, animal: animal.id, phase: 'landing' });
     }
   }
@@ -434,6 +465,7 @@ export class PondSimulation {
         if (inPond(drift)) { food.x = drift.x; food.y = drift.y; }
       }
     }
+    this.arriveSwan();
     this.scheduleIdle();
     this.updateSchools();
     const activeThrows = new Set(this.food.filter(food => food.amount > 0.001 &&
@@ -459,6 +491,13 @@ export class PondSimulation {
       }
       if (animal.profile.kind === 'turtle' && animal.surfaceLeft > 0) {
         stepAnimalBoost(animal, this.elapsed, dt, false);
+        continue;
+      }
+      if (this.swan.readyToLeave(animal.id)) {
+        animal.idle = null;
+        stepAnimalBoost(animal, this.elapsed, dt, false);
+        this.startFlight(animal, this.swan.beginDeparture(POND), 'departure');
+        this.updateFlight(animal, dt);
         continue;
       }
       if (animal.idle) {
@@ -517,10 +556,12 @@ export class PondSimulation {
           animal.state = 'chewing';
           stepAnimalBoost(animal, this.elapsed, dt, false);
           recordFeeding(animal, amount, this.elapsed);
+          this.swan.noticeMeal(animal.id);
           let bonus = 0;
           if (profile.kind === 'fish') { this.fishFood += amount; this.fedFish.add(animal.id); }
           else if (profile.kind === 'turtle') {
             this.turtleFood += amount;
+            this.swan.noticeTurtleMeal(this.elapsed);
             // Stay visible through the entire meal, then gently dip underwater.
             animal.surfaceDuration = Math.max(TURTLE_SURFACE_SECONDS, animal.chewLeft + 0.75);
             animal.surfaceLeft = animal.surfaceDuration;
@@ -549,6 +590,11 @@ export class PondSimulation {
       const next = { x: animal.x + Math.cos(animal.heading) * travel, y: animal.y + Math.sin(animal.heading) * travel };
       if (inPond(next)) { animal.x = next.x; animal.y = next.y; animal.moving = travel > 0.001; }
       else { animal.heading = Math.atan2(POND.y - animal.y, POND.x - animal.x); animal.destination = this.randomPoint(0, 0.7); }
+    }
+    const departed = this.animals.find(a => a.flight?.passage === 'departure' && a.flight.elapsed >= a.flight.duration);
+    if (departed) {
+      this.animals = this.animals.filter(a => a !== departed);
+      this.swan.finishDeparture();
     }
     this.separateAnimals();
     this.food = this.food.filter(food => food.amount > 0.001 && (food.phase === 'air' || food.age < 13));

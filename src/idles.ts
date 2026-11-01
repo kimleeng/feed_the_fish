@@ -18,6 +18,7 @@ export const IDLE_HABITS: Record<string, readonly IdleHabit[]> = {
   duck: ['look-around', 'dip', 'bob', 'preen', 'dabble'],
   gull: ['look-around', 'slow-turn', 'shimmy', 'wing-stretch', 'scratch'],
   coot: ['look-around', 'bob', 'dip', 'double-nod', 'foot-paddle'],
+  swan: ['look-around', 'bob', 'dip', 'slow-turn', 'linger'],
 };
 export const BIRD_IDLE_STRIPS = ['preen', 'dabble', 'wing-stretch', 'scratch', 'double-nod', 'foot-paddle'] as const;
 export interface IdleAction { habit: IdleHabit; elapsed: number; duration: number; heading: number }

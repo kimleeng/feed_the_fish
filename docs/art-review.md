@@ -1,5 +1,31 @@
 # Garden and fish image review
 
+## Visiting mute swan, 1 November 2026
+
+The swan uses the current birds' shaded sprite style, with ivory-white feathers,
+an orange-and-black bill, and a long curved neck. A directional reference was
+used to generate complete swimming, flight, and feeding sheets. At game scale it
+is visibly larger than a mallard, with a low floating body and a clear waterline.
+
+The atlas registers 32 swimming frames, 32 flight entries, and 24 feeding frames
+across eight headings. Swimming and feeding use a fixed scale per cycle and a
+shared body waterline. Flight has one scale and annotated torso centers, so
+changing wing shapes does not shift the bird around its travel path. Metadata
+packaging finds connected silhouettes to retain wing tips that cross nominal
+grid boundaries and checks all cuts for bounds and overlap.
+
+One northwest flight recovery drawing faced the wrong direction. That entry
+deliberately holds the valid raised-wing pose; the other three keys provide the
+wingbeat. Its exact shared rectangle is the only permitted atlas overlap. The
+source PNGs remain intact, and the incorrect drawing is not selected at runtime.
+
+All 88 rendered frame entries were reviewed beside their anchors, including
+lowered-head feeding and extended-neck flight. Desktop and phone scenes cover
+arrival, swimming, the second bite, and departure. Browser checks exercise the
+full repeatable visit, dynamic sprite removal, reset, pause, and reduced motion.
+Run `npx playwright test tests/browser/swan.spec.ts` to regenerate contact sheets
+and scene captures under `test-results`.
+
 ## Quiet habits on the current game, 1 November 2026
 
 The idle behavior was adapted onto `main` at `e74c57f`. The existing directional

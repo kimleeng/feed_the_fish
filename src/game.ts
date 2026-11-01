@@ -18,6 +18,7 @@ import type { WindState } from './wind.ts';
 import { EATING_ATLAS, eatingFrame, fishSurfaceAmount, fishSurfaceFrame } from './eating.ts';
 import { BOOST_SPEED_MULTIPLIER, hasEatenRecently } from './animal-energy.ts';
 import { debugMetrics, type DebugMetrics } from './debug-metrics.ts';
+import { SWAN, SWAN_ATLAS } from './swan.ts';
 
 export interface PondState {
   handfuls: number; fish: number; fishFood: number; birdFood: number; turtleFood: number; share: number;
@@ -71,6 +72,7 @@ export class PondScene extends Phaser.Scene {
   constructor() { super('pond'); }
 
   preload(): void {
+    this.load.multiatlas(SWAN_ATLAS, '/art/swan.json', '/art');
     this.load.multiatlas('animal-idles', '/art/animal-idles.json', '/art');
     this.load.multiatlas('observer-idles', '/art/observer-idles.json', '/art');
     this.load.image('pond-art', '/art/pond.png');
@@ -244,11 +246,20 @@ export class PondScene extends Phaser.Scene {
   }
 
   private spawnCreatures(): void {
+    const present = new Set(this.world.animals.map(animal => animal.id));
+    for (const [id, sprite] of this.creatures) {
+      if (present.has(id)) continue;
+      sprite.destroy(); this.creatures.delete(id); this.directions.delete(id);
+      this.turtleHeads.get(id)?.destroy(); this.turtleHeads.delete(id);
+      const feeding = this.feedingFish.get(id);
+      if (feeding) { feeding.body.destroy(); feeding.mouth.destroy(); this.feedingFish.delete(id); }
+    }
     for (const animal of this.world.animals) {
+      if (this.creatures.has(animal.id)) continue;
       const profile = animal.profile;
       const direction = directionForHeading(animal.heading);
       const underwater = profile.kind !== 'bird';
-      const sprite = this.add.sprite(animal.x, animal.y, animalAtlas(profile.kind), animalFrame(profile.texture, direction))
+      const sprite = this.add.sprite(animal.x, animal.y, profile.id === SWAN.id ? SWAN_ATLAS : animalAtlas(profile.kind), animalFrame(profile.texture, direction))
         .setName('animal-' + animal.id)
         .setTint(profile.tint)
         .setDepth(underwater ? 10 : 30).setAlpha(underwater ? 0.83 + animal.id % 4 * 0.025 : 1);
@@ -423,6 +434,7 @@ export class PondScene extends Phaser.Scene {
     if (!this.ready) return;
     const elapsedBefore = this.world.elapsed;
     this.world.step(delta / 1000);
+    this.spawnCreatures();
     this.updateObservers();
     this.updateThrower();
     this.updateMachine();
@@ -435,6 +447,7 @@ export class PondScene extends Phaser.Scene {
     for (const animal of this.world.animals) {
       const sprite = this.creatures.get(animal.id)!;
       const bird = animal.profile.kind === 'bird';
+      const swan = animal.profile.id === SWAN.id;
       const airborne = bird && !!animal.flight;
       const direction = directionForHeading(animal.heading, this.directions.get(animal.id));
       this.directions.set(animal.id, direction);
@@ -442,15 +455,16 @@ export class PondScene extends Phaser.Scene {
         : (bird ? 1.4 : animal.profile.speed / 24) * (animal.boosting ? BOOST_SPEED_MULTIPLIER : 1);
       // Accumulate the faster takeoff beats without resetting their phase at cruise.
       const wingTime = animal.flight ? animal.flight.elapsed + Math.min(animal.flight.elapsed, BIRD_TAKEOFF_SECONDS) * 0.5 : 0;
-      const stroke = airborne ? animal.state === 'landing' ? 0 : Math.floor(wingTime * rate + animal.phase) % 2
+      const wingCycle: readonly number[] = swan ? SWIM_CYCLE : [0, 1];
+      const stroke = airborne ? animal.state === 'landing' ? 0 : wingCycle[Math.floor(wingTime * rate + animal.phase) % wingCycle.length]
         : animal.moving ? SWIM_CYCLE[Math.floor((this.world.elapsed * rate + animal.phase) * 2) % SWIM_CYCLE.length] : 0;
       const feeding = eatingFrame(animal, direction);
       const feedingBody = feeding && animal.profile.kind !== 'turtle';
       const idle = !airborne && !feedingBody ? animal.idle : null;
       const pose = idlePose(this.reducedMotion.matches ? null : idle, animal.habitSide, animal.habitIntensity);
       const strip = idle && usesBirdStrip(idle.habit) && idle.elapsed >= idle.duration * 0.16 ? pose.birdFrame : null;
-      sprite.setTexture(strip ? 'animal-idles' : feedingBody ? EATING_ATLAS : animalAtlas(animal.profile.kind, airborne),
-        strip ?? (feedingBody ? feeding : animalFrame(animal.profile.texture, direction, idle ? pose.stroke : stroke)))
+      sprite.setTexture(swan ? SWAN_ATLAS : strip ? 'animal-idles' : feedingBody ? EATING_ATLAS : animalAtlas(animal.profile.kind, airborne),
+        strip ?? (feedingBody ? feeding : animalFrame(swan && airborne ? 'swan-flight' : animal.profile.texture, direction, idle ? pose.stroke : stroke)))
         .setFlipX(!!strip && Math.cos(idle!.heading) < 0).setRotation(pose.roll);
       const scale = animal.profile.size / animationFrameData(sprite.frame).referenceHeight;
       sprite.setScale(scale * pose.scaleX, scale * pose.scaleY);

@@ -75,6 +75,12 @@ The musk turtle is a quiet homage to a pet: a domed olive-brown shell, short web
 
 The turtle stays hidden underwater between meals. During the feeding peek, its body becomes visible beneath the reflections while its raised head and a small ripple appear above them. Its body and head fade away together as it dips back underwater. Feeding and collisions continue while it is hidden. It stays out of the field guide, and pause and a new visit freeze/reset its peek along with the rest of the pond.
 
+## Visiting swan
+
+A real turtle bite invites a white mute swan. After **10–15 seconds** of pond time, it flies in from beyond the garden and lands on the water. It paddles toward food, uses gentle idle habits between meals, and leaves after **two actual bites**, finishing the second feeding animation before taking off. Partial mouthfuls count as bites; throwing food nearby does not.
+
+Once the swan has flown out of view, another turtle feeding can invite it back. Feedings during the wait, arrival, visit, or departure do not postpone or queue another swan. There is at most one visitor swan, and it stays out of the field guide. The delay, flights, and meals pause with the pond; a new garden visit resets the invitation. Its food follows the ordinary bird rules, including floating pellets and no fish-only lucky bonus.
+
 ## Quiet habits
 
 Animals occasionally finish a short idle action before chasing more food. There are **18 actions** across the six field-guide species: six shared motions and two signature actions per species. Golden carp fan their fins or make a lazy arc; common carp nose downward or flick their tails; young carp dart and pause or zigzag; mallards preen or dabble; gulls stretch a wing or scratch; coots double-nod or paddle a foot. Each individual keeps a favorite signature action, turning side, tempo, and intensity throughout the visit.
@@ -146,6 +152,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `public/art/bird-*-swimming.png` and `bird-swimmers-animation.json`: consistent four-pose cycles in eight directions for mallards, gulls, and coots. Whole-body frames use the species' fixed height across headings and a shared waterline, with no painted water. `node scripts/build-bird-atlas.mjs` rebuilds their registration without changing PNG pixels. The original `bird-swimmers.png`/`.json` remain as archived artwork and field-guide art.
 - `public/art/turtle-swimmer.png` and `turtle-swimmer.json`: musk turtle atlas with sixteen swimming cuts and eight separate raised heads. `turtle-swimmer-pins.json` aligns the heads with the swimming artwork.
 - `public/art/eating-*.png` and `animal-eating-animation.json`: 192 feeding drawings, including the tilted carp poses and their lip reveal rectangles. `node scripts/build-eating-atlas.mjs` rebuilds their registration without modifying the PNGs. `src/eating.ts` derives every pose and surface transition from the current meal.
+- `public/art/swan-*.png` and `swan.json`: 88 directional swimming, flying, and feeding frame entries for the visiting swan. `swan-flight-pins.json` anchors the torso through wingbeats; `python scripts/build-swan-atlas.py` rebuilds metadata without editing source PNGs (requires Pillow). The swan browser checks export every frame and desktop/phone visits for review.
 - `public/art/bird-idles.png` and `animal-idles.json`: 24 full-body gesture drawings aligned with the current birds' waterline and physical size. `public/art/observer-*-idles.png` and `observer-idles.json` supply 48 matching visitor drawings. `python scripts/build-idle-atlases.py` rebuilds their metadata from the committed PNGs without editing pixels (requires Pillow). The idle browser tests export all 72 cuts beside the original swimming/watching poses for review.
 - `src/appearance.ts` defines shared physical artwork dimensions. `node scripts/build-animation-atlases.mjs` applies these to all animal frames; `scripts/register-swimmer-dimensions.mjs` measures submerged silhouettes along their body axis, preserving their aspect ratios and aligning the surfaced turtle head. Changing direction never changes an animal's profile, size, or tint.
 - `public/art/machine.png`: original round-globe, red-body pellet dispenser, with an animated chrome crank overlaid in the UI.
@@ -163,6 +170,7 @@ Browser tests use system Chromium in the cloud. Elsewhere, set `CHROMIUM_EXECUTA
 - `src/restocking.ts`: the 25-serving machine's employee arrival, wait, refill, and departure; `src/employee-art.ts` and `employee-pins.ts` align walking distance, planted work poses, and the pouring sack.
 - `src/simulation.ts`: arcing flights, air/water reactions, movement patterns, food competition, and chewing.
 - `src/animal-energy.ts`: reusable feeding history, recent-meal checks, and hunger-based boost recharge.
+- `src/swan.ts`: the repeatable turtle-triggered invitation, 10–15-second delay, two-bite count, and arrival/departure routes. Its random stream is independent of throw and flight-choice rolls. The scene creates and removes visitor sprites as the animal population changes.
 - `src/idles.ts` and `observer-idles.ts`: short action timings, individual habits, and animation poses; the animal and crowd simulations schedule them independently.
 - `src/debug-metrics.ts`: read-only debug snapshots of animal history, energy, flights, and pellet phases.
 - `src/game.ts`: rendering, dock-character motion, and landing ripples.
