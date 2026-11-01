@@ -6,6 +6,7 @@ import type { AnimationFrameData } from '../../src/animation-frames.ts';
 import { IDLE_HABITS, BIRD_IDLE_STRIPS } from '../../src/idles.ts';
 import { OBSERVER_DESIGNS } from '../../src/observer-looks.ts';
 import { OBSERVER_SIGNATURES } from '../../src/observer-idles.ts';
+import { SPECIES } from '../../src/simulation.ts';
 
 type InspectedWindow = Window & { inspectedPond: PondScene };
 async function arrive(page: Page): Promise<void> {
@@ -50,7 +51,7 @@ test('all animal idles render, bird poses stay registered, and completion restor
       }
     }
     return samples;
-  }, { habits: IDLE_HABITS, strips: BIRD_IDLE_STRIPS });
+  }, { habits: Object.fromEntries(SPECIES.map(species => [species.id, IDLE_HABITS[species.id]])), strips: BIRD_IDLE_STRIPS });
   expect(new Set(result.map(s => s.habit)).size).toBe(18);
   for (const sample of result) {
     expect(sample.reset).toBe(true);

@@ -13,7 +13,7 @@ export function eatingDuration(profile: Pick<AnimalProfile, 'chew' | 'bite'>, am
 }
 
 const BITE_CADENCE: Record<string, number> = {
-  koi: 0.7, carp: 0.48, minnow: 0.24, duck: 0.6, gull: 0.3, coot: 0.55, 'musk-turtle': 0.9,
+  koi: 0.7, carp: 0.48, minnow: 0.24, duck: 0.6, gull: 0.3, coot: 0.55, swan: 0.7, 'musk-turtle': 0.9,
 };
 
 export function eatingStage(animal: Animal): EatingStage | null {
