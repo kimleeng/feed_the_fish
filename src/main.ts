@@ -60,6 +60,7 @@ function updateDebugMetrics(state: PondState): void {
   if (!debugMode || !metrics) return;
   const amount = (value: number) => Number(value.toFixed(2)).toString();
   element('debug-clock').textContent = `${state.paused ? 'Paused' : 'Live'} · ${metrics.elapsed.toFixed(1)}s`;
+  element('debug-fps').textContent = `${Math.round(metrics.fps)} FPS`;
   element('debug-energy').textContent = `${metrics.hungry} hungry · ${metrics.recentlyFed} fed · ${metrics.boosting} boosting`;
   element('debug-flights').textContent = String(metrics.airborneBirds);
   const pellets = metrics.pellets;
