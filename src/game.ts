@@ -28,7 +28,7 @@ export interface PondState {
   luckyBonus: number; luckyInHand: boolean;
   handPreviewId: number; nextHandLucky: boolean;
   wind: WindState;
-  debug: DebugMetrics | null;
+  debug: (DebugMetrics & { fps: number }) | null;
 }
 
 export class PondScene extends Phaser.Scene {
@@ -425,7 +425,7 @@ export class PondScene extends Phaser.Scene {
       handPreviewId: (this.world.lastThrow?.id ?? -1) + 1,
       nextHandLucky: this.world.handfuls > 0 && !!this.world.nextThrow?.lucky,
       wind: this.world.wind.current,
-      debug: this.debugMode ? debugMetrics(this.world) : null,
+      debug: this.debugMode ? { ...debugMetrics(this.world), fps: this.game.loop.actualFps } : null,
     };
     document.dispatchEvent(new CustomEvent('pond:state', { detail }));
   }
