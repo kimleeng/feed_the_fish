@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PondSpecies" format=3]
+
+[ext_resource type="Script" path="res://pond/species.gd" id="profile"]
+[ext_resource type="SpriteFrames" path="res://art/swimmers/carp.tres" id="frames"]
+
+[resource]
+script = ExtResource("profile")
+display_name = "Common carp"
+field_note = "Olive scales flash as it meanders. It feels the splash, turns in, and takes a generous bite."
+bird = false
+gait = 1
+count = 14
+speed = 22
+vision = 77
+turning = 2.4
+bite_units = 65
+chew_seconds = 1.5
+snout = 7.0
+stroke_rate = 1.04
+frames = ExtResource("frames")

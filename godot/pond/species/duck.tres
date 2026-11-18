@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PondSpecies" format=3]
+
+[ext_resource type="Script" path="res://pond/species.gd" id="profile"]
+[ext_resource type="SpriteFrames" path="res://art/swimmers/duck.tres" id="frames"]
+
+[resource]
+script = ExtResource("profile")
+display_name = "Mallard"
+field_note = "The green-headed ducks paddle in pairs and loose groups. Watch them turn toward a throw before it lands."
+bird = true
+gait = 3
+count = 6
+speed = 20
+vision = 94
+turning = 2.3
+bite_units = 100
+chew_seconds = 2.2
+snout = 9.0
+stroke_rate = 0.86
+frames = ExtResource("frames")

@@ -1,0 +1,170 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/guide.gd" id="guide"]
+
+[node name="Guide" type="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -181.0
+offset_top = -101.5
+offset_right = 181.0
+offset_bottom = 101.5
+script = ExtResource("guide")
+
+[node name="Title" type="Label" parent="."]
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 215.0
+offset_bottom = 36.0
+mouse_filter = 2
+text = "Field guide"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Title"
+
+[node name="Close" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 305.0
+offset_top = 12.0
+offset_right = 348.0
+offset_bottom = 32.0
+text = "Close"
+mouse_default_cursor_shape = 2
+
+[node name="TopLine" type="ColorRect" parent="."]
+offset_left = 14.0
+offset_top = 40.0
+offset_right = 348.0
+offset_bottom = 41.0
+mouse_filter = 2
+color = Color(0.7725, 0.7176, 0.5490, 1.0000)
+
+[node name="Plate" type="ColorRect" parent="."]
+offset_left = 14.0
+offset_top = 52.0
+offset_right = 129.0
+offset_bottom = 144.0
+mouse_filter = 2
+color = Color(0.2863, 0.4275, 0.3608, 1.0000)
+
+[node name="PlateLine" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 58.0
+offset_right = 123.0
+offset_bottom = 59.0
+mouse_filter = 2
+color = Color(0.5294, 0.6000, 0.4627, 1.0000)
+
+[node name="PlateBottom" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 138.0
+offset_right = 123.0
+offset_bottom = 139.0
+mouse_filter = 2
+color = Color(0.5294, 0.6000, 0.4627, 1.0000)
+
+[node name="Portrait" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(72,97)
+
+[node name="Category" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 144.0
+offset_top = 48.0
+offset_right = 351.0
+offset_bottom = 65.0
+mouse_filter = 2
+text = "FISH"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Micro"
+
+[node name="Name" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 144.0
+offset_top = 64.0
+offset_right = 351.0
+offset_bottom = 90.0
+mouse_filter = 2
+text = "Golden carp"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Heading"
+
+[node name="Notes" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 144.0
+offset_top = 94.0
+offset_right = 349.0
+offset_bottom = 146.0
+mouse_filter = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 0
+theme_type_variation = &"Small"
+autowrap_mode = 3
+
+[node name="Feeding" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 145.0
+offset_right = 133.0
+offset_bottom = 163.0
+mouse_filter = 2
+text = "Listens for the splash"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_type_variation = &"Micro"
+
+[node name="Chew" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 144.0
+offset_top = 147.0
+offset_right = 349.0
+offset_bottom = 165.0
+mouse_filter = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Micro"
+
+[node name="BottomLine" type="ColorRect" parent="."]
+offset_left = 14.0
+offset_top = 167.0
+offset_right = 348.0
+offset_bottom = 168.0
+mouse_filter = 2
+color = Color(0.7725, 0.7176, 0.5490, 1.0000)
+
+[node name="Previous" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 14.0
+offset_top = 175.0
+offset_right = 92.0
+offset_bottom = 194.0
+text = "‹  Previous"
+mouse_default_cursor_shape = 2
+
+[node name="Page" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 142.0
+offset_top = 175.0
+offset_right = 220.0
+offset_bottom = 194.0
+mouse_filter = 2
+text = "1 / 6"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_type_variation = &"Micro"
+
+[node name="Next" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 270.0
+offset_top = 175.0
+offset_right = 348.0
+offset_bottom = 194.0
+text = "Next  ›"
+mouse_default_cursor_shape = 2
+

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PondSpecies" format=3]
+
+[ext_resource type="Script" path="res://pond/species.gd" id="profile"]
+[ext_resource type="SpriteFrames" path="res://art/swimmers/gull.tres" id="frames"]
+
+[resource]
+script = ExtResource("profile")
+display_name = "Cheeky gull"
+field_note = "A pale bird making wide circuits of the pond. It spots food from far away and can catch a low throw."
+bird = true
+gait = 4
+count = 4
+speed = 28
+vision = 124
+turning = 3.1
+bite_units = 100
+chew_seconds = 0.9
+snout = 8.0
+stroke_rate = 1.12
+frames = ExtResource("frames")

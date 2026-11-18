@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://pond/swimmer.gd" id="script"]
+
+[node name="Swimmer" type="Node2D"]
+script = ExtResource("script")
+
+[node name="Body" type="AnimatedSprite2D" parent="."]

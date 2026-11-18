@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PondSpecies" format=3]
+
+[ext_resource type="Script" path="res://pond/species.gd" id="profile"]
+[ext_resource type="SpriteFrames" path="res://art/swimmers/coot.tres" id="frames"]
+
+[resource]
+script = ExtResource("profile")
+display_name = "Little coot"
+field_note = "A dark body and a white bill near the lilies. Short paddle strokes give way to a long, quiet drift."
+bird = true
+gait = 5
+count = 5
+speed = 16
+vision = 62
+turning = 2.3
+bite_units = 45
+chew_seconds = 1.8
+snout = 6.0
+stroke_rate = 0.77
+frames = ExtResource("frames")

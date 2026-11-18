@@ -1,0 +1,247 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/journal.gd" id="journal"]
+[ext_resource type="Script" path="res://ui/meter.gd" id="meter"]
+
+[node name="Journal" type="ColorRect"]
+offset_left = 480.0
+offset_top = 40.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.9529, 0.9294, 0.8431, 1.0000)
+script = ExtResource("journal")
+
+[node name="Rule" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1.0
+offset_bottom = 320.0
+mouse_filter = 2
+color = Color(0.7294, 0.6824, 0.5059, 1.0000)
+
+[node name="Heading" type="Label" parent="."]
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 149.0
+offset_bottom = 31.0
+mouse_filter = 2
+text = "Visit journal"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Heading"
+
+[node name="Stock" type="Control" parent="."]
+offset_left = 13.0
+offset_top = 34.0
+offset_right = 147.0
+offset_bottom = 85.0
+mouse_filter = 2
+
+[node name="Throws" type="Label" parent="Stock"]
+unique_name_in_owner = true
+offset_left = 0.0
+offset_top = -3.0
+offset_right = 50.0
+offset_bottom = 32.0
+mouse_filter = 2
+text = "0"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Number"
+
+[node name="StockLabel" type="Label" parent="Stock"]
+offset_left = 51.0
+offset_top = 7.0
+offset_right = 134.0
+offset_bottom = 27.0
+mouse_filter = 2
+text = "throws left"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Small"
+
+[node name="Supply" type="Control" parent="Stock"]
+unique_name_in_owner = true
+offset_left = 0.0
+offset_top = 35.0
+offset_right = 134.0
+offset_bottom = 39.0
+mouse_filter = 2
+script = ExtResource("meter")
+segments = 10
+
+[node name="Ledger" type="Control" parent="."]
+offset_left = 13.0
+offset_top = 90.0
+offset_right = 147.0
+offset_bottom = 203.0
+mouse_filter = 2
+
+[node name="ScoreLabel" type="Label" parent="Ledger"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 76.0
+offset_bottom = 15.0
+mouse_filter = 2
+text = "Kindness"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Small"
+
+[node name="Score" type="Label" parent="Ledger"]
+unique_name_in_owner = true
+offset_left = 72.0
+offset_top = 0.0
+offset_right = 134.0
+offset_bottom = 15.0
+mouse_filter = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="FedLabel" type="Label" parent="Ledger"]
+offset_left = 0.0
+offset_top = 20.0
+offset_right = 76.0
+offset_bottom = 35.0
+mouse_filter = 2
+text = "Fish fed"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Small"
+
+[node name="Fed" type="Label" parent="Ledger"]
+unique_name_in_owner = true
+offset_left = 72.0
+offset_top = 20.0
+offset_right = 134.0
+offset_bottom = 35.0
+mouse_filter = 2
+text = "0 / 46"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="BestLabel" type="Label" parent="Ledger"]
+offset_left = 0.0
+offset_top = 40.0
+offset_right = 76.0
+offset_bottom = 55.0
+mouse_filter = 2
+text = "Best visit"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Small"
+
+[node name="Best" type="Label" parent="Ledger"]
+unique_name_in_owner = true
+offset_left = 72.0
+offset_top = 40.0
+offset_right = 134.0
+offset_bottom = 55.0
+mouse_filter = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SpentLabel" type="Label" parent="Ledger"]
+offset_left = 0.0
+offset_top = 60.0
+offset_right = 76.0
+offset_bottom = 75.0
+mouse_filter = 2
+text = "Spent"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Small"
+
+[node name="Spent" type="Label" parent="Ledger"]
+unique_name_in_owner = true
+offset_left = 72.0
+offset_top = 60.0
+offset_right = 134.0
+offset_bottom = 75.0
+mouse_filter = 2
+text = "0 kr"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="FishShareLabel" type="Label" parent="Ledger"]
+offset_left = 0.0
+offset_top = 87.0
+offset_right = 76.0
+offset_bottom = 102.0
+mouse_filter = 2
+text = "Fish share"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Small"
+
+[node name="FishShare" type="Label" parent="Ledger"]
+unique_name_in_owner = true
+offset_left = 72.0
+offset_top = 87.0
+offset_right = 134.0
+offset_bottom = 102.0
+mouse_filter = 2
+text = "—"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Divider" type="ColorRect" parent="Ledger"]
+offset_left = 0.0
+offset_top = 81.0
+offset_right = 134.0
+offset_bottom = 82.0
+mouse_filter = 2
+color = Color(0.7843, 0.7412, 0.5961, 1.0000)
+
+[node name="Share" type="Control" parent="Ledger"]
+unique_name_in_owner = true
+offset_left = 0.0
+offset_top = 106.0
+offset_right = 134.0
+offset_bottom = 110.0
+mouse_filter = 2
+script = ExtResource("meter")
+
+[node name="Actions" type="Control" parent="."]
+offset_left = 13.0
+offset_top = 212.0
+offset_right = 147.0
+offset_bottom = 268.0
+mouse_filter = 2
+
+[node name="Throw" type="Button" parent="Actions"]
+unique_name_in_owner = true
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 134.0
+offset_bottom = 24.0
+text = "Throw pellets"
+mouse_default_cursor_shape = 2
+theme_type_variation = &"Primary"
+tooltip_text = "Throw at your aim point (Space)"
+
+[node name="Machine" type="Button" parent="Actions"]
+unique_name_in_owner = true
+offset_left = 0.0
+offset_top = 29.0
+offset_right = 134.0
+offset_bottom = 53.0
+text = "Pellet machine"
+mouse_default_cursor_shape = 2
+tooltip_text = "Visit the dispenser (M)"
+
+[node name="Hint" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 13.0
+offset_top = 271.0
+offset_right = 147.0
+offset_bottom = 315.0
+mouse_filter = 2
+text = "Click the water to feed.\nArrows aim. Space throws."
+horizontal_alignment = 0
+vertical_alignment = 0
+theme_type_variation = &"Micro"
+autowrap_mode = 3
+

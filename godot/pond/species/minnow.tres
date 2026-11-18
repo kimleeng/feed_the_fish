@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PondSpecies" format=3]
+
+[ext_resource type="Script" path="res://pond/species.gd" id="profile"]
+[ext_resource type="SpriteFrames" path="res://art/swimmers/minnow.tres" id="frames"]
+
+[resource]
+script = ExtResource("profile")
+display_name = "Young carp"
+field_note = "Follow the little shoals through open water. The youngsters dart together and take several small bites."
+bird = false
+gait = 2
+count = 20
+speed = 32
+vision = 49
+turning = 6.5
+bite_units = 30
+chew_seconds = 0.65
+snout = 4.0
+stroke_rate = 1.5
+frames = ExtResource("frames")

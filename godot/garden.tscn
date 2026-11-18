@@ -1,0 +1,213 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://garden.gd" id="game"]
+[ext_resource type="Theme" path="res://ui/garden_theme.tres" id="theme"]
+[ext_resource type="PackedScene" path="res://pond/pond.tscn" id="pond"]
+[ext_resource type="PackedScene" path="res://ui/journal.tscn" id="journal"]
+[ext_resource type="PackedScene" path="res://dock/machine.tscn" id="machine"]
+[ext_resource type="PackedScene" path="res://ui/guide.tscn" id="guide"]
+[ext_resource type="Script" path="res://dock/sound.gd" id="sound"]
+[ext_resource type="Texture2D" path="res://art/swimmers/koi.png" id="koi"]
+
+[sub_resource type="AtlasTexture" id="emblem"]
+atlas = ExtResource("koi")
+region = Rect2(0,0,34,34)
+
+[node name="Garden" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+process_mode = 3
+theme = ExtResource("theme")
+script = ExtResource("game")
+
+[node name="PondWindow" type="Control" parent="."]
+offset_left = 0.0
+offset_top = 40.0
+offset_right = 480.0
+offset_bottom = 360.0
+clip_contents = true
+focus_mode = 2
+mouse_filter = 0
+
+[node name="Pond" parent="PondWindow" instance=ExtResource("pond")]
+
+[node name="Journal" parent="." instance=ExtResource("journal")]
+z_index = 20
+
+[node name="Header" type="ColorRect" parent="."]
+anchor_right = 1.0
+offset_bottom = 40.0
+mouse_filter = 2
+color = Color(0.1176, 0.2549, 0.2078, 1.0000)
+z_index = 20
+
+[node name="Emblem" type="Sprite2D" parent="Header"]
+position = Vector2(25,19)
+texture = SubResource("emblem")
+
+[node name="Brand" type="Label" parent="Header"]
+offset_left = 46.0
+offset_top = -1.0
+offset_right = 216.0
+offset_bottom = 27.0
+mouse_filter = 2
+text = "Feed the fish"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Brand"
+
+[node name="Location" type="Label" parent="Header"]
+offset_left = 47.0
+offset_top = 23.0
+offset_right = 253.0
+offset_bottom = 36.0
+mouse_filter = 2
+text = "Tivoli Gardens  /  Copenhagen"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_type_variation = &"Caption"
+theme_override_font_sizes/font_size = 9
+
+[node name="Edge" type="ColorRect" parent="Header"]
+anchor_right = 1
+offset_top = 39
+offset_bottom = 40
+color = Color(0.6471, 0.6157, 0.4314, 1.0000)
+mouse_filter = 2
+
+[node name="Tools" type="Control" parent="Header"]
+anchor_left = 1
+anchor_right = 1
+offset_left = -201
+offset_right = -9
+offset_top = 8
+offset_bottom = 31
+mouse_filter = 2
+
+[node name="GuideButton" type="Button" parent="Header/Tools"]
+unique_name_in_owner = true
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 70.0
+offset_bottom = 23.0
+text = "Field guide"
+mouse_default_cursor_shape = 2
+theme_type_variation = &"Navigation"
+tooltip_text = "Field guide (G)"
+
+[node name="SoundButton" type="Button" parent="Header/Tools"]
+unique_name_in_owner = true
+offset_left = 75.0
+offset_top = 0.0
+offset_right = 140.0
+offset_bottom = 23.0
+text = "Sound off"
+mouse_default_cursor_shape = 2
+theme_type_variation = &"Navigation"
+tooltip_text = "Toggle sound (S)"
+
+[node name="PauseButton" type="Button" parent="Header/Tools"]
+unique_name_in_owner = true
+offset_left = 145.0
+offset_top = 0.0
+offset_right = 192.0
+offset_bottom = 23.0
+text = "Pause"
+mouse_default_cursor_shape = 2
+theme_type_variation = &"Navigation"
+tooltip_text = "Pause the visit (P)"
+
+[node name="Modal" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+z_index = 30
+mouse_filter = 0
+
+[node name="Shade" type="ColorRect" parent="Modal"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0706, 0.1765, 0.1451, 0.6500)
+mouse_filter = 0
+
+[node name="Counter" parent="Modal" instance=ExtResource("machine")]
+
+[node name="Guide" parent="Modal" instance=ExtResource("guide")]
+visible = false
+
+[node name="PauseCard" type="Panel" parent="Modal"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -123.0
+offset_top = -79.5
+offset_right = 123.0
+offset_bottom = 79.5
+visible = false
+
+[node name="PauseTitle" type="Label" parent="Modal/PauseCard"]
+offset_left = 14.0
+offset_top = 10.0
+offset_right = 232.0
+offset_bottom = 38.0
+mouse_filter = 2
+text = "Visit paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_type_variation = &"Title"
+
+[node name="VisitTotal" type="Label" parent="Modal/PauseCard"]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 236.0
+offset_bottom = 61.0
+mouse_filter = 2
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_type_variation = &"Small"
+
+[node name="Divider" type="ColorRect" parent="Modal/PauseCard"]
+offset_left = 18.0
+offset_top = 65.0
+offset_right = 228.0
+offset_bottom = 66.0
+mouse_filter = 2
+color = Color(0.7843, 0.7333, 0.5725, 1.0000)
+
+[node name="Resume" type="Button" parent="Modal/PauseCard"]
+unique_name_in_owner = true
+offset_left = 26.0
+offset_top = 76.0
+offset_right = 220.0
+offset_bottom = 100.0
+text = "Back to the pond"
+mouse_default_cursor_shape = 2
+theme_type_variation = &"Primary"
+
+[node name="PauseGuide" type="Button" parent="Modal/PauseCard"]
+unique_name_in_owner = true
+offset_left = 26.0
+offset_top = 110.0
+offset_right = 120.0
+offset_bottom = 133.0
+text = "Field guide"
+mouse_default_cursor_shape = 2
+
+[node name="NewVisit" type="Button" parent="Modal/PauseCard"]
+unique_name_in_owner = true
+offset_left = 126.0
+offset_top = 110.0
+offset_right = 220.0
+offset_bottom = 133.0
+text = "New visit"
+mouse_default_cursor_shape = 2
+
+[node name="Sound" type="Node" parent="."]
+script = ExtResource("sound")
+
+[node name="SaveTimer" type="Timer" parent="."]
+wait_time = 1.0
+one_shot = true
+

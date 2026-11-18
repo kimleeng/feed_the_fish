@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PondSpecies" format=3]
+
+[ext_resource type="Script" path="res://pond/species.gd" id="profile"]
+[ext_resource type="SpriteFrames" path="res://art/swimmers/koi.tres" id="frames"]
+
+[resource]
+script = ExtResource("profile")
+display_name = "Golden carp"
+field_note = "Look for the broad golden back. This carp glides in long arcs and lingers over a whole pellet."
+bird = false
+gait = 0
+count = 12
+speed = 13.5
+vision = 65
+turning = 1.35
+bite_units = 100
+chew_seconds = 2.6
+snout = 8.0
+stroke_rate = 0.85
+frames = ExtResource("frames")

@@ -1,0 +1,65 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://pond/pond.gd" id="pond"]
+[ext_resource type="Texture2D" path="res://art/garden.png" id="garden"]
+[ext_resource type="Shader" path="res://pond/water.gdshader" id="water"]
+[ext_resource type="Texture2D" path="res://art/dispenser-post.png" id="machine"]
+[ext_resource type="Script" path="res://pond/water_marks.gd" id="marks"]
+[ext_resource type="Script" path="res://pond/aim.gd" id="aim"]
+[ext_resource type="PackedScene" path="res://dock/throw_hand.tscn" id="hand"]
+
+[sub_resource type="ShaderMaterial" id="surface"]
+resource_local_to_scene = true
+shader = ExtResource("water")
+
+[node name="Pond" type="Node2D"]
+process_mode = 1
+script = ExtResource("pond")
+
+[node name="PaintedGarden" type="Sprite2D" parent="."]
+texture = ExtResource("garden")
+centered = false
+
+[node name="Fish" type="Node2D" parent="."]
+z_index = 1
+y_sort_enabled = true
+
+[node name="Reflections" type="Sprite2D" parent="."]
+z_index = 3
+texture = ExtResource("garden")
+centered = false
+material = SubResource("surface")
+
+[node name="WaterMarks" type="Node2D" parent="."]
+z_index = 5
+script = ExtResource("marks")
+
+[node name="Birds" type="Node2D" parent="."]
+z_index = 6
+y_sort_enabled = true
+
+[node name="Pellets" type="Node2D" parent="."]
+
+[node name="DispenserPost" type="Sprite2D" parent="."]
+z_index = 9
+position = Vector2(163, 267)
+texture = ExtResource("machine")
+
+[node name="OpenCounter" type="TextureButton" parent="DispenserPost"]
+offset_left = -16.0
+offset_top = -35.0
+offset_right = 16.0
+offset_bottom = 35.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+tooltip_text = "Pellet machine"
+
+[node name="Hand" parent="." instance=ExtResource("hand")]
+z_index = 10
+position = Vector2(240, 284)
+
+[node name="Aim" type="Node2D" parent="."]
+visible = false
+z_index = 11
+position = Vector2(240, 157)
+script = ExtResource("aim")
